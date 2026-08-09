@@ -36,9 +36,13 @@ overrides: {
     topics: ['esp32', 'sdr'],               // replaces the topic list
     links: [{ label: 'Docs', href: '…' }],  // extra buttons in the detail panel
     hidden: true,                           // same as listing it in `hidden`
+    show: true,                             // keeps a fork on the page anyway
   },
 }
 ```
+
+`show` is the exception to the filters, not to `hidden`: it is what keeps `Project_Nova` listed
+while `showForks` is false, because that repo is a fork of my own game.
 
 Categories are inferred from topics and language via the `categories` array — first match wins,
 `fallbackCategory` catches the rest. The Stack tab needs no maintenance at all: it counts

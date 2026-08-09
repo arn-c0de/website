@@ -192,6 +192,7 @@ export function LanguageIcon({ language, size = 20 }: { language: string; size?:
   const specs: Record<string, { label: string; bg: string; fg: string; fontSize?: number }> = {
     c: { label: 'C', bg: '#659ad2', fg: '#fff' },
     'c++': { label: 'C++', bg: '#00599c', fg: '#fff', fontSize: 7.2 },
+    'c#': { label: 'C#', bg: '#68217a', fg: '#fff', fontSize: 8.5 },
     java: { label: 'J', bg: '#e76f00', fg: '#fff' },
     javascript: { label: 'JS', bg: '#f7df1e', fg: '#171717', fontSize: 8.5 },
     kotlin: { label: 'K', bg: '#7f52ff', fg: '#fff' },

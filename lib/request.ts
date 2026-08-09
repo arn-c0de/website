@@ -48,6 +48,9 @@ export const SERVICE_AREAS = [
   { id: 'desktop', title: 'Desktop applications', keywords: 'qt qt6 pyside gui cross-platform windows linux tkinter' },
   { id: 'android', title: 'Android apps', keywords: 'kotlin jetpack compose mobile mvvm offline sqlcipher room' },
   { id: 'geo', title: 'Maps & geolocation', keywords: 'gps routing markers navigation offline tiles coordinates' },
+  { id: 'npcai', title: 'Game AI & NPC goal systems', keywords: 'npc goal system utility ai behaviour tree goap decision making steering pathfinding unity csharp enemy' },
+  { id: 'rpgcombat', title: 'Round-based RPG combat systems', keywords: 'turn based fight battle initiative order abilities skills damage formulas stats loot balancing rpg' },
+  { id: 'gamesim', title: 'Deterministic simulation & replays', keywords: 'lockstep fixed point tick simulation core replay determinism headless testing rts game' },
 ] as const
 
 export type ServiceAreaId = (typeof SERVICE_AREAS)[number]['id']

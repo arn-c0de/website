@@ -45,6 +45,7 @@ function toProject(repo: GitHubRepo): Project {
 function isVisible(repo: GitHubRepo): boolean {
   if (config.hidden.includes(repo.name)) return false
   if (config.overrides[repo.name]?.hidden) return false
+  if (config.overrides[repo.name]?.show) return true
   if (repo.fork && !config.showForks) return false
   if (repo.archived && !config.showArchived) return false
   return true

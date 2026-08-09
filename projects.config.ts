@@ -20,6 +20,11 @@ export interface ProjectOverride {
   links?: { label: string; href: string }[]
   /** Hides this repo everywhere, same as listing it in `hidden`. */
   hidden?: boolean
+  /**
+   * Shows the repo even when the filters below would drop it — the case being
+   * a fork of my own project while `showForks` is false. Loses to `hidden`.
+   */
+  show?: boolean
 }
 
 export interface SiteConfig {
@@ -52,7 +57,8 @@ export interface SiteConfig {
 const config: SiteConfig = {
   username: 'arn-c0de',
 
-  // Top 8 by stars. Reorder freely — this array is the display order.
+  // The strongest by stars, then what is being built right now. Reorder
+  // freely — this array is the display order.
   featured: [
     'Crawllama',
     'InteractiveChecklists',
@@ -60,6 +66,8 @@ const config: SiteConfig = {
     'Geograbber',
     'seclog-linux',
     'GPG-Meister',
+    'Nova.AiLab',
+    'Project_Nova',
     'AD8232-EMG',
     'ZombieEscape-Preview',
   ],
@@ -92,6 +100,23 @@ const config: SiteConfig = {
     'seclog-linux': { category: 'Security & Networking' },
     'GPG-Meister': { category: 'Security & Networking' },
     'AD8232-EMG': { category: 'Embedded' },
+    'Nova.AiLab': {
+      title: 'Nova AI Lab',
+      description:
+        'Deterministic simulation and diagnostics lab for the AI behind Project Nova / Hashkrieg: NPC goal systems, round-based RPG fights and movement run headless, so a change can be replayed, measured and compared against the branch before it.',
+      category: 'Games & Simulation',
+      links: [{ label: 'The game', href: 'https://github.com/arn-c0de/Project_Nova' }],
+    },
+    // A fork of my own repository, so `show` is what keeps it on the page.
+    Project_Nova: {
+      title: 'Hashkrieg',
+      description:
+        'Real-time strategy game in the Command & Conquer tradition. Unity 6 and C#, with a deterministic simulation core that runs without Unity, developed in the open. Working title moving from Project Nova to Hashkrieg.',
+      category: 'Games & Simulation',
+      topics: ['unity', 'csharp', 'rts', 'game-ai', 'npc-goals', 'deterministic-simulation'],
+      show: true,
+      links: [{ label: 'AI lab', href: 'https://github.com/arn-c0de/Nova.AiLab' }],
+    },
     'ZombieEscape-Preview': {
       title: 'ZombieEscape',
       description:
@@ -127,6 +152,14 @@ const config: SiteConfig = {
     {
       name: 'AI & Agents',
       match: ['rag', 'llm', 'local-llm', 'knowledge-retrieval', 'multi-hop-reasoning', 'news-analysis', 'market-prediction'],
+    },
+    {
+      name: 'Games & Simulation',
+      match: [
+        'game-ai', 'npc-goals', 'game-development', 'unity', 'rts', 'turn-based-combat',
+        'simulation', 'deterministic-simulation', 'ai-simulation', 'combat-simulation',
+        'replay-system', 'C#',
+      ],
     },
     {
       name: 'Security & Networking',
