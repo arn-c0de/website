@@ -61,8 +61,8 @@ export default function OverviewPane({
         <div className="hero__text">
           <h1 className="hero__name">arn-c0de</h1>
           <p className="hero__role">
-            Embedded firmware · local AI · game AI &amp; simulation · network &amp; security tooling
-            · backends · web apps · Android
+            Embedded firmware · local LLMs &amp; RAG · game AI &amp; simulation · network &amp;
+            security tooling · backends &amp; databases · web apps · Android
           </p>
           <p className="hero__lede">
             I build things close to the hardware, and tools that make complicated systems easier to
@@ -134,8 +134,9 @@ export default function OverviewPane({
             onAction={() => onNavigate('about')}
           >
             <span className="tag">embedded</span>
-            <span className="tag">local AI</span>
+            <span className="tag">LLM &amp; RAG</span>
             <span className="tag">game AI</span>
+            <span className="tag">databases</span>
             <span className="tag">security</span>
             <span className="tag">android</span>
           </Slab>

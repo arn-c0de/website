@@ -29,10 +29,14 @@ const FOCUS = [
   'server integration',
   'android',
   'web apps',
+  'llm & rag systems',
+  'databases & vector search',
   'npc goal systems',
   'round-based rpg combat',
 ]
 const WORKING = ['Kotlin', 'Python', 'C', 'C#']
+/** Where the data ends up — the layer under every backend on this site. */
+const STORAGE = ['PostgreSQL', 'MongoDB', 'SQLite', 'vector stores', 'plain files']
 const LEARNING = ['Rust', 'C++']
 const SPOKEN = [
   ['German', 'native'],
@@ -67,8 +71,9 @@ export default function AboutPane({
             Electronics technician apprentice for devices and systems
           </p>
           <p className="profile__lede">
-            Besides that I build embedded systems, the backends behind them, the apps that use them
-            — and game AI: NPC goal systems and round-based RPG fight systems.
+            Besides that I build embedded systems, the backends and databases behind them, the apps
+            that use them, local LLM and RAG systems — and game AI: NPC goal systems and
+            round-based RPG fight systems.
           </p>
           <div className="profile__meta">
             <span className="tag">{projects.length} public repositories</span>
@@ -100,13 +105,15 @@ export default function AboutPane({
 
           <article className="role role--lead" data-reveal style={{ '--i': 1 } as React.CSSProperties}>
             <span className="role__tag role__tag--lead">Freelance &amp; personal</span>
-            <h3 className="role__title">Embedded, backends, apps, game AI</h3>
+            <h3 className="role__title">Embedded, backends, apps, AI</h3>
             <p className="role__text">
               The software half, and everything on this site: firmware, the backends and servers it
-              talks to, the Android and web apps on the other end, and the AI inside a game — NPC
-              goal systems and round-based RPG fight systems, written against a deterministic
-              simulation so a change can be replayed and measured. Open for collaboration and
-              contributions.
+              talks to, and the Android and web apps on the other end. Local LLM and RAG systems on
+              top of that, with the storage they need underneath — PostgreSQL, MongoDB, SQLite, a
+              vector store or plain files, whichever the job actually calls for. And the AI inside a
+              game: NPC goal systems and round-based RPG fight systems, written against a
+              deterministic simulation so a change can be replayed and measured. Open for
+              collaboration and contributions.
             </p>
           </article>
         </div>
@@ -207,8 +214,20 @@ export default function AboutPane({
             <p className="fact__note">C++ on Windows.</p>
           </div>
 
-          {/* Counted from the live repository data rather than listed by hand. */}
           <div className="fact" data-reveal style={{ '--i': 3 } as React.CSSProperties}>
+            <h3 className="section__title">Stores data in</h3>
+            <div className="tagrow">
+              {STORAGE.map((s) => (
+                <span key={s} className="tag">
+                  {s}
+                </span>
+              ))}
+            </div>
+            <p className="fact__note">Vector stores for RAG, SQLite when a file is enough.</p>
+          </div>
+
+          {/* Counted from the live repository data rather than listed by hand. */}
+          <div className="fact" data-reveal style={{ '--i': 4 } as React.CSSProperties}>
             <h3 className="section__title">In the repositories</h3>
             <div className="tagrow">
               {languages.map((l) => (
@@ -220,7 +239,7 @@ export default function AboutPane({
             </div>
           </div>
 
-          <div className="fact" data-reveal style={{ '--i': 4 } as React.CSSProperties}>
+          <div className="fact" data-reveal style={{ '--i': 5 } as React.CSSProperties}>
             <h3 className="section__title">Speaks</h3>
             <div className="tagrow">
               {SPOKEN.map(([lang, level]) => (
