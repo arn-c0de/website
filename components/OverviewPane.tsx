@@ -11,8 +11,9 @@ import { ArrowIcon, ChevronIcon, GitHubIcon, LanguageIcon, RequestIcon } from '.
 
 /** Languages named in the stack tile — a taste, not the full list. */
 const TOP_LANGUAGES = 4
-/** Cards in the gallery; the projects tab holds the rest. */
-const GALLERY_SIZE = 10
+/** Cards in the gallery; the projects tab holds the rest. Keep it above the
+ *  length of `featured`, or the top-up below never runs. */
+const GALLERY_SIZE = 12
 
 export default function OverviewPane({
   projects,

@@ -1,0 +1,56 @@
+name: Refresh repo snapshot
+
+# data/repos.json is the fallback the site shows when api.github.com is
+# rate-limited or unreachable. Left alone it drifts: new repositories are
+# missing and star counts are whatever they were on the last commit. This
+# refetches it weekly and commits only when something actually changed —
+# which then triggers the deploy workflow through the push.
+on:
+  schedule:
+    # Sunday, 04:17 UTC. Off the hour on purpose: GitHub delays cron jobs
+    # that land on the minute every other repository picked as well.
+    - cron: '17 4 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-snapshot
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Same query and field list as the README documents for doing it by hand.
+      - name: Fetch the repository list
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api 'users/arn-c0de/repos?per_page=100&sort=updated' \
+            | jq '[.[] | {name, full_name, description, html_url, homepage, language,
+                          stargazers_count, forks_count, topics, fork, archived,
+                          pushed_at, created_at, license: .license.spdx_id}]' \
+            > data/repos.json
+
+      # An empty or truncated response would otherwise be committed as the
+      # fallback and quietly empty the grid.
+      - name: Check it looks like a repo list
+        run: |
+          count=$(jq 'length' data/repos.json)
+          echo "$count repositories"
+          [ "$count" -ge 10 ]
+
+      - name: Commit if it changed
+        run: |
+          if git diff --quiet -- data/repos.json; then
+            echo "snapshot already current"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Refresh the repository snapshot' -- data/repos.json
+          git push

@@ -113,7 +113,6 @@ const config: SiteConfig = {
       description:
         'Real-time strategy game in the Command & Conquer tradition. Unity 6 and C#, with a deterministic simulation core that runs without Unity, developed in the open. Working title moving from Project Nova to Hashkrieg.',
       category: 'Games & Simulation',
-      topics: ['unity', 'csharp', 'rts', 'game-ai', 'npc-goals', 'deterministic-simulation'],
       show: true,
       links: [{ label: 'AI lab', href: 'https://github.com/arn-c0de/Nova.AiLab' }],
     },
@@ -124,11 +123,7 @@ const config: SiteConfig = {
       category: 'Mobile',
     },
 
-    // Repos with thin or missing GitHub descriptions.
-    'ESP-SATDUMP': {
-      description: 'ESP32 satellite signal capture and dump tooling.',
-      category: 'Embedded',
-    },
+    // Repos with thin GitHub descriptions.
     'ATMEGA-ButtonPanel': {
       description:
         'ATmega32U4 flight panel with 16-channel multiplexer, rotary encoder and 19+ inputs.',

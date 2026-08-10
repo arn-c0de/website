@@ -104,8 +104,9 @@ label table — so the prerendered HTML and the first client render agree exactl
 
 ### Refreshing the offline snapshot
 
-`data/repos.json` is the fallback shown when the API is unavailable. Regenerate it whenever the
-repositories change meaningfully:
+`data/repos.json` is the fallback shown when the API is unavailable.
+`.github/workflows/refresh-snapshot.yml` refetches it every Sunday and commits only when something
+changed — that push then deploys. Run it by hand from the Actions tab, or regenerate it locally:
 
 ```bash
 curl -s "https://api.github.com/users/arn-c0de/repos?per_page=100&sort=updated" \
@@ -124,6 +125,14 @@ npm run typecheck
 npm run build      # static output in out/
 npm run preview    # build without the sub-path and serve it at localhost root
 ```
+
+### The social preview
+
+`public/og.png` is the card a link to the site unfurls into, written by `node scripts/generate-og.mjs`
+and committed. Edit the script and rerun it to change the wording; `app/layout.tsx` points at the
+file by absolute URL. It is a plain file in `public/` rather than an `app/opengraph-image.tsx`
+metadata route on purpose — that route exports as an *extensionless* file, which GitHub Pages
+serves as `application/octet-stream`, and every unfurler refuses it.
 
 There is no service worker and nothing is cached offline. `public/sw.js` is only a tombstone that
 clears the caches of the worker this site used to register and then unregisters itself; it can go
