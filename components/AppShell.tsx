@@ -113,7 +113,12 @@ export default function AppShell() {
     const measure = () => {
       const active = nav.querySelector<HTMLElement>('[aria-selected="true"]')
       if (!active) return
-      setIndicator({ left: active.offsetLeft, width: active.offsetWidth })
+      const { offsetLeft: left, offsetWidth: width } = active
+      // Only when it actually moved: this runs on every resize, and a phone
+      // fires one of those each time the on-screen keyboard opens or closes.
+      setIndicator((current) =>
+        current && current.left === left && current.width === width ? current : { left, width },
+      )
     }
     measure()
     // Font loading and viewport changes both shift tab widths — and on a
@@ -147,6 +152,11 @@ export default function AppShell() {
   // overview gallery and the topbar search both slide it out in place.
   const openDetail = useCallback((name: string) => navigate({ project: name }), [navigate])
   const closeDetail = useCallback(() => navigate({ project: null }), [navigate])
+  const closeRequest = useCallback(() => navigate({ request: false }), [navigate])
+  const setRequestFor = useCallback(
+    (names: string[]) => navigate({ requestFor: names }),
+    [navigate],
+  )
 
   // From the detail panel: close it, open the request modal over the page and
   // keep the project attached (without adding it twice).
@@ -455,8 +465,8 @@ export default function AppShell() {
         <RequestModal
           projects={projects}
           selected={requestFor}
-          onSelectedChange={(names) => navigate({ requestFor: names })}
-          onClose={() => navigate({ request: false })}
+          onSelectedChange={setRequestFor}
+          onClose={closeRequest}
         />
       )}
     </div>

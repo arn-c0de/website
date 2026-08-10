@@ -83,12 +83,22 @@ export default function RequestModal({
   if (!message.trim()) missing.push('message')
   const ready = missing.length === 0
 
+  // Read through a ref rather than depended on: the parent hands this down as
+  // a fresh arrow on every one of its renders, and re-running the effect below
+  // would move focus again. On a phone that is fatal — opening the keyboard
+  // resizes the window, which re-renders the shell, which would pull focus out
+  // of the field that was just tapped and shut the keyboard again.
+  const closeLatest = useRef(onClose)
+  closeLatest.current = onClose
+
+  // Opening the dialog: focus lands inside it, Escape closes it, and the page
+  // behind holds still. All of it happens once, for as long as it is open.
   useEffect(() => {
     closeRef.current?.focus()
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.stopPropagation()
-        onClose()
+        closeLatest.current()
       }
     }
     document.addEventListener('keydown', onKey)
@@ -98,7 +108,7 @@ export default function RequestModal({
       document.removeEventListener('keydown', onKey)
       document.body.style.overflow = previous
     }
-  }, [onClose])
+  }, [])
 
   function toggleArea(id: ServiceAreaId) {
     setAreas((current) => {
