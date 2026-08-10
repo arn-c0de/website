@@ -14,6 +14,9 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    // The tests run straight through Node, which resolves an import exactly as
+    // written — so they name the .ts file they mean.
+    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,

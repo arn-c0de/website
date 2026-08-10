@@ -123,9 +123,26 @@ curl -s "https://api.github.com/users/arn-c0de/repos?per_page=100&sort=updated" 
 npm install
 npm run dev        # http://localhost:3000
 npm run typecheck
+npm test           # node --test over the pure logic in lib/
 npm run build      # static output in out/
 npm run preview    # build without the sub-path and serve it at localhost root
 ```
+
+### Tests
+
+`npm test` runs `node --test` over `test/` — no framework and no dev dependency. It covers the
+parts that are pure functions and easy to get subtly wrong: the visibility and override rules in
+`lib/github.ts`, the month bucketing and spans in `lib/stats.ts`, the mail builder in
+`lib/request.ts`, and `lib/format.ts`. Components are not tested; the value would be small next to
+the machinery a DOM runner needs.
+
+The config assertions restate the *rule* rather than naming repositories, so editing `featured`,
+`hidden` or an override never breaks a test — only changing what the rule means does.
+
+`scripts/test-hooks.mjs` is what lets the tests import app files unchanged: it resolves the `@/…`
+alias, fills in the extension a TypeScript import leaves off, and supplies the `with { type: 'json' }`
+attribute Node wants and the bundler does not. Node runs the `.ts` files directly by stripping the
+types, which is why the workflow is pinned to Node 24.
 
 ### The social preview
 
@@ -225,6 +242,14 @@ file and update the matching constants in `components/ContactPane.tsx` and `lib/
 
 No cookies, no tracking, no analytics, no external fonts. The only automatic outbound request is
 to `api.github.com`; opening a project additionally fetches that repository's readme.
+
+A content security policy in `app/layout.tsx` makes the browser enforce that rather than take the
+claim on trust: `connect-src` allows nothing but this origin and `api.github.com`, and `img-src`
+nothing but this origin, `data:` and where GitHub serves readme images from. Two limits worth
+knowing, both from it being a `<meta>` tag — GitHub Pages cannot send headers: `frame-ancestors`
+is header-only and therefore absent, and without a nonce `script-src` has to allow inline, because
+Next's hydration payload and the theme bootstrap are both inline scripts. If a readme image ever
+appears broken after pressing *Load images*, that policy is the first thing to check.
 
 Readme HTML is passed through a sanitising step in `components/ProjectPanel.tsx` that strips
 scripts, event handlers and `javascript:` URLs, rewrites relative paths to `raw.githubusercontent`,

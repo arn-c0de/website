@@ -53,6 +53,36 @@ export const viewport: Viewport = {
 }
 
 /**
+ * The site claims in its own footer that the only host it ever talks to is
+ * api.github.com. This is that claim written as something the browser
+ * enforces instead of something a visitor has to believe.
+ *
+ * GitHub Pages cannot send headers, so it goes in a meta tag — which means no
+ * `frame-ancestors` (header-only) and no nonces, and `script-src` therefore
+ * has to allow inline: Next's hydration payload and the theme bootstrap below
+ * are both inline scripts. The teeth are in `connect-src` and `img-src`: no
+ * fetch, socket or beacon can reach anywhere else, and readme images can only
+ * come from where GitHub serves them.
+ */
+// The dev server compiles modules through eval(); the exported site never
+// does, and this folds to a constant at build time.
+const SCRIPT_SRC =
+  process.env.NODE_ENV === 'development' ? "'self' 'unsafe-inline' 'unsafe-eval'" : "'self' 'unsafe-inline'"
+
+const CSP = [
+  "default-src 'self'",
+  "connect-src 'self' https://api.github.com",
+  "img-src 'self' data: https://*.githubusercontent.com https://github.com",
+  `script-src ${SCRIPT_SRC}`,
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self'",
+  "manifest-src 'self'",
+  "form-action 'none'",
+  "object-src 'none'",
+  "base-uri 'none'",
+].join('; ')
+
+/**
  * Applies the stored theme before first paint. Without this the app flashes
  * the system theme for a frame when the visitor has picked the other one.
  */
@@ -67,6 +97,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta httpEquiv="Content-Security-Policy" content={CSP} />
         <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
       </head>
       <body>{children}</body>
