@@ -106,7 +106,8 @@ label table — so the prerendered HTML and the first client render agree exactl
 
 `data/repos.json` is the fallback shown when the API is unavailable.
 `.github/workflows/refresh-snapshot.yml` refetches it every Sunday and commits only when something
-changed — that push then deploys. Run it by hand from the Actions tab, or regenerate it locally:
+changed, then starts the deploy itself — a push made with the workflow's own token does not trigger
+other workflows. Run it by hand from the Actions tab, or regenerate it locally:
 
 ```bash
 curl -s "https://api.github.com/users/arn-c0de/repos?per_page=100&sort=updated" \

@@ -3,8 +3,11 @@ name: Refresh repo snapshot
 # data/repos.json is the fallback the site shows when api.github.com is
 # rate-limited or unreachable. Left alone it drifts: new repositories are
 # missing and star counts are whatever they were on the last commit. This
-# refetches it weekly and commits only when something actually changed —
-# which then triggers the deploy workflow through the push.
+# refetches it weekly and commits only when something actually changed.
+#
+# A push made with the default GITHUB_TOKEN deliberately does not trigger
+# other workflows, so the commit alone would sit unpublished. The last step
+# starts the deploy itself.
 on:
   schedule:
     # Sunday, 04:17 UTC. Off the hour on purpose: GitHub delays cron jobs
@@ -14,6 +17,8 @@ on:
 
 permissions:
   contents: write
+  # Only to start the deploy workflow at the end.
+  actions: write
 
 concurrency:
   group: refresh-snapshot
@@ -45,6 +50,7 @@ jobs:
           [ "$count" -ge 10 ]
 
       - name: Commit if it changed
+        id: commit
         run: |
           if git diff --quiet -- data/repos.json; then
             echo "snapshot already current"
@@ -54,3 +60,10 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -m 'Refresh the repository snapshot' -- data/repos.json
           git push
+          echo 'changed=true' >> "$GITHUB_OUTPUT"
+
+      - name: Publish the new snapshot
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main
