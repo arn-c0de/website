@@ -218,6 +218,31 @@ export default function AppShell() {
     [navigate, reduced, tab],
   )
 
+  /**
+   * Arrow keys walk the tab row and Home/End jump to its ends — what a
+   * `role="tablist"` promises a screen-reader user it will do. Selection
+   * follows focus, which is the right call here: every pane is already
+   * rendered from data in memory, so stepping through them costs nothing.
+   */
+  const onTabKeys = useCallback(
+    (e: React.KeyboardEvent<HTMLElement>) => {
+      const current = TABS.indexOf(tab)
+      const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0
+      let next = -1
+      if (step !== 0) next = (current + step + TABS.length) % TABS.length
+      else if (e.key === 'Home') next = 0
+      else if (e.key === 'End') next = TABS.length - 1
+      else return
+
+      e.preventDefault()
+      selectTab(TABS[next])
+      // The tab that lost the focusable index would otherwise drop focus to
+      // the body; move it along with the selection.
+      tabsRef.current?.querySelectorAll<HTMLElement>('[role="tab"]')[next]?.focus()
+    },
+    [selectTab, tab],
+  )
+
   const showTopic = useCallback(
     (topic: string) => {
       setQuery(topic)
@@ -280,7 +305,13 @@ export default function AppShell() {
           <ThemeToggle />
         </div>
 
-        <nav className="tabs" role="tablist" aria-label="Sections" ref={tabsRef}>
+        <nav
+          className="tabs"
+          role="tablist"
+          aria-label="Sections"
+          ref={tabsRef}
+          onKeyDown={onTabKeys}
+        >
           {/* The pill is a sibling of the tabs rather than a border on the
               active one: one element that travels, instead of five that
               light up. Position comes from the layout effect above. */}
@@ -299,7 +330,13 @@ export default function AppShell() {
                 type="button"
                 className="tab"
                 role="tab"
+                id={`tab-${t}`}
                 aria-selected={tab === t}
+                aria-controls="pane"
+                // A tablist is one stop in the tab order; the arrow keys move
+                // inside it. Tab therefore steps from the row to the pane
+                // rather than through five buttons.
+                tabIndex={tab === t ? 0 : -1}
                 onClick={() => selectTab(t)}
               >
                 <span className="tab__icon">
@@ -322,7 +359,15 @@ export default function AppShell() {
         <span className="topbar__progress" aria-hidden />
       </header>
 
-      <main className="main" data-dir={direction.current > 0 ? 'forward' : 'back'}>
+      {/* One panel whose contents swap, so it is labelled by whichever tab is
+          selected rather than by five panels' worth of markup. */}
+      <main
+        className="main"
+        id="pane"
+        role="tabpanel"
+        aria-labelledby={`tab-${tab}`}
+        data-dir={direction.current > 0 ? 'forward' : 'back'}
+      >
         {tab === 'overview' && (
           <OverviewPane
             projects={projects}

@@ -1,0 +1,27 @@
+version: 2
+
+# The deploy actions sat on a runtime GitHub had already deprecated before
+# anyone noticed. This opens the update as a pull request instead, monthly and
+# grouped, so it is one review rather than a stream of them.
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ['*']
+    commit-message:
+      prefix: 'Bump'
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      # Next, React and the types move together; splitting them into separate
+      # pull requests only produces ones that cannot be merged on their own.
+      app:
+        patterns: ['*']
+    commit-message:
+      prefix: 'Bump'

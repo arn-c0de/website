@@ -10,7 +10,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'arn-c0de — project console',
     short_name: 'arn-c0de',
     description:
-      'Embedded systems, AI agents and network security. Open source projects by arn-c0de.',
+      'Embedded firmware, local LLM and RAG systems, game AI, network security tooling, backends and Android apps. Open source projects by arn-c0de.',
     start_url: asset('/'),
     scope: asset('/'),
     display: 'standalone',
