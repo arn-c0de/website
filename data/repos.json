@@ -1,5 +1,21 @@
 [
   {
+    "name": "website",
+    "full_name": "arn-c0de/website",
+    "description": null,
+    "html_url": "https://github.com/arn-c0de/website",
+    "homepage": "https://arn-c0de.github.io/website/",
+    "language": "TypeScript",
+    "stargazers_count": 2,
+    "forks_count": 0,
+    "topics": [],
+    "fork": false,
+    "archived": false,
+    "pushed_at": "2026-08-10T03:36:11Z",
+    "created_at": "2026-08-04T16:02:40Z",
+    "license": null
+  },
+  {
     "name": "ESP-SATDUMP",
     "full_name": "arn-c0de/ESP-SATDUMP",
     "description": "ESP32 satellite signal capture and dump tooling.",
@@ -241,22 +257,6 @@
     "license": "MIT"
   },
   {
-    "name": "website",
-    "full_name": "arn-c0de/website",
-    "description": null,
-    "html_url": "https://github.com/arn-c0de/website",
-    "homepage": "https://arn-c0de.github.io/website/",
-    "language": "TypeScript",
-    "stargazers_count": 2,
-    "forks_count": 0,
-    "topics": [],
-    "fork": false,
-    "archived": false,
-    "pushed_at": "2026-08-09T21:12:04Z",
-    "created_at": "2026-08-04T16:02:40Z",
-    "license": null
-  },
-  {
     "name": "GPG-Meister",
     "full_name": "arn-c0de/GPG-Meister",
     "description": "GPG Meister is a local app built around GnuPG. It helps with common tasks like creating and importing keys, encrypting or signing messages, and exporting protected backups.",
@@ -320,35 +320,6 @@
     "license": "NOASSERTION"
   },
   {
-    "name": "Crawllama",
-    "full_name": "arn-c0de/Crawllama",
-    "description": "CrawlLama 🦙 is an  local AI agent that answers questions via Ollama and integrates web- and RAG-based research.",
-    "html_url": "https://github.com/arn-c0de/Crawllama",
-    "homepage": "",
-    "language": "Python",
-    "stargazers_count": 96,
-    "forks_count": 5,
-    "topics": [
-      "automation",
-      "contribute",
-      "ethical-scraping",
-      "fastapi",
-      "help-wanted",
-      "knowledge-retrieval",
-      "local-llm",
-      "multi-hop-reasoning",
-      "osint",
-      "plugin-system",
-      "python",
-      "rag"
-    ],
-    "fork": false,
-    "archived": false,
-    "pushed_at": "2026-08-07T16:35:48Z",
-    "created_at": "2025-10-22T12:19:19Z",
-    "license": "NOASSERTION"
-  },
-  {
     "name": "InteractiveChecklists",
     "full_name": "arn-c0de/InteractiveChecklists",
     "description": "Companion and standalone Android app for DCS-World Flightsimulator with map-based route planning and navigation, marker management, interactive Markdown/PDF checklists, annotations, notes, tab support, and live telemetry display (DataPad). Implemented using Jetpack Compose.",
@@ -382,6 +353,35 @@
     "archived": false,
     "pushed_at": "2026-07-26T10:45:28Z",
     "created_at": "2025-12-11T14:04:16Z",
+    "license": "NOASSERTION"
+  },
+  {
+    "name": "Crawllama",
+    "full_name": "arn-c0de/Crawllama",
+    "description": "CrawlLama 🦙 is an  local AI agent that answers questions via Ollama and integrates web- and RAG-based research.",
+    "html_url": "https://github.com/arn-c0de/Crawllama",
+    "homepage": "",
+    "language": "Python",
+    "stargazers_count": 96,
+    "forks_count": 5,
+    "topics": [
+      "automation",
+      "contribute",
+      "ethical-scraping",
+      "fastapi",
+      "help-wanted",
+      "knowledge-retrieval",
+      "local-llm",
+      "multi-hop-reasoning",
+      "osint",
+      "plugin-system",
+      "python",
+      "rag"
+    ],
+    "fork": false,
+    "archived": false,
+    "pushed_at": "2026-08-07T16:35:48Z",
+    "created_at": "2025-10-22T12:19:19Z",
     "license": "NOASSERTION"
   },
   {
@@ -598,6 +598,22 @@
     "license": "MIT"
   },
   {
+    "name": "Alpaca",
+    "full_name": "arn-c0de/Alpaca",
+    "description": "🦙 Local and online AI hub",
+    "html_url": "https://github.com/arn-c0de/Alpaca",
+    "homepage": "https://jeffser.com/alpaca",
+    "language": "Python",
+    "stargazers_count": 1,
+    "forks_count": 0,
+    "topics": [],
+    "fork": true,
+    "archived": false,
+    "pushed_at": "2026-05-31T09:07:04Z",
+    "created_at": "2026-05-31T07:34:04Z",
+    "license": "GPL-3.0"
+  },
+  {
     "name": "AD8232-EMG",
     "full_name": "arn-c0de/AD8232-EMG",
     "description": "Wireless ESP32 + AD8232 surface EMG system with real-time WiFi streaming, OTA updates, automatic calibration, and a lightweight Python GUI for live signal monitoring.",
@@ -629,22 +645,6 @@
     "pushed_at": "2026-05-15T15:25:51Z",
     "created_at": "2026-05-09T13:20:04Z",
     "license": "MIT"
-  },
-  {
-    "name": "Alpaca",
-    "full_name": "arn-c0de/Alpaca",
-    "description": "🦙 Local and online AI hub",
-    "html_url": "https://github.com/arn-c0de/Alpaca",
-    "homepage": "https://jeffser.com/alpaca",
-    "language": "Python",
-    "stargazers_count": 1,
-    "forks_count": 0,
-    "topics": [],
-    "fork": true,
-    "archived": false,
-    "pushed_at": "2026-05-31T09:07:04Z",
-    "created_at": "2026-05-31T07:34:04Z",
-    "license": "GPL-3.0"
   },
   {
     "name": "GDEF-L1NK",
