@@ -27,6 +27,7 @@ const FOCUS = [
   'industrial traceability',
   'web applications',
   'ARIS agent',
+  'FLUID UI systems',
   'embedded systems',
   'backend deployment',
   'server integration',
