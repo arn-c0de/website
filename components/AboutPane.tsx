@@ -26,6 +26,7 @@ export const PRINCIPLES = [
 const FOCUS = [
   'industrial traceability',
   'web applications',
+  'ARIS agent',
   'embedded systems',
   'backend deployment',
   'server integration',
@@ -108,11 +109,10 @@ export default function AboutPane({
             <span className="role__tag role__tag--lead">Freelance &amp; personal</span>
             <h3 className="role__title">Embedded, backends, apps, AI</h3>
             <p className="role__text">
-              I develop firmware, backends and servers, as well as the Android and web apps connected
-              to them. Depending on the project, I work with PostgreSQL, MongoDB, SQLite, vector
-              stores or plain files. My broader toolkit includes local LLM and RAG systems, plus game
-              AI such as NPC goal systems and round-based RPG combat. Open for collaboration and
-              contributions.
+              I develop a traceability web app for industrial environments and ARIS, a self-hosted
+              agent with fluid synthetic voice, multi-model support and a harness for tools and file
+              edits. Firmware, backends, databases, local LLM/RAG systems and game AI are part of
+              the wider toolkit. Open for collaboration and contributions.
             </p>
           </article>
         </div>
