@@ -24,6 +24,8 @@ export const PRINCIPLES = [
 ]
 
 const FOCUS = [
+  'industrial traceability',
+  'web applications',
   'embedded systems',
   'backend deployment',
   'server integration',
@@ -67,13 +69,13 @@ export default function AboutPane({
         <div className="profile__text">
           <h1 className="profile__name">arn-c0de</h1>
           <p className="profile__role">
-            <span className="profile__now">Currently</span>
-            Electronics technician apprentice for devices and systems
+            <span className="profile__now">Freelance</span>
+            Embedded systems, backends, apps and AI
           </p>
           <p className="profile__lede">
-            Besides that I build embedded systems, the backends and databases behind them, the apps
-            that use them, local LLM and RAG systems — and game AI: NPC goal systems and
-            round-based RPG fight systems.
+            I build complete systems from firmware and hardware to the backends, databases and apps
+            people use. I also work on local LLM and RAG systems, and on game AI for deterministic,
+            replayable simulations.
           </p>
           <div className="profile__meta">
             <span className="tag">{projects.length} public repositories</span>
@@ -89,7 +91,7 @@ export default function AboutPane({
         <div className="band__head">
           <div>
             <h2 className="band__title">What I do</h2>
-            <p className="band__hint">One half pays for the tools, the other writes the code.</p>
+            <p className="band__hint">Freelance software development, backed by hands-on electronics.</p>
           </div>
         </div>
 
@@ -98,8 +100,7 @@ export default function AboutPane({
             <span className="role__tag">Training</span>
             <h3 className="role__title">Electronics technician for devices and systems</h3>
             <p className="role__text">
-              The hardware side: building and measuring devices, and finding the fault when one
-              misbehaves.
+              Practical training in building, measuring and troubleshooting electronic devices.
             </p>
           </article>
 
@@ -107,13 +108,11 @@ export default function AboutPane({
             <span className="role__tag role__tag--lead">Freelance &amp; personal</span>
             <h3 className="role__title">Embedded, backends, apps, AI</h3>
             <p className="role__text">
-              The software half, and everything on this site: firmware, the backends and servers it
-              talks to, and the Android and web apps on the other end. Local LLM and RAG systems on
-              top of that, with the storage they need underneath — PostgreSQL, MongoDB, SQLite, a
-              vector store or plain files, whichever the job actually calls for. And the AI inside a
-              game: NPC goal systems and round-based RPG fight systems, written against a
-              deterministic simulation so a change can be replayed and measured. Open for
-              collaboration and contributions.
+              I develop firmware, backends and servers, as well as the Android and web apps connected
+              to them. Depending on the project, I work with PostgreSQL, MongoDB, SQLite, vector
+              stores or plain files. My broader toolkit includes local LLM and RAG systems, plus game
+              AI such as NPC goal systems and round-based RPG combat. Open for collaboration and
+              contributions.
             </p>
           </article>
         </div>

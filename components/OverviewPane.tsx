@@ -62,13 +62,14 @@ export default function OverviewPane({
         <div className="hero__text">
           <h1 className="hero__name">arn-c0de</h1>
           <p className="hero__role">
-            Embedded firmware · local LLMs &amp; RAG · game AI &amp; simulation · network &amp;
-            security tooling · backends &amp; databases · web apps · Android
+            Industrial traceability · embedded systems · backends &amp; databases · web apps · local
+            AI · security
           </p>
           <p className="hero__lede">
-            I build things close to the hardware, and tools that make complicated systems easier to
-            understand. Every one of them is a public repository with the setup written down — pick
-            one below, or tell me what you are trying to build.
+            I am currently building a web application for end-to-end traceability in industrial
+            environments, connecting products, processes, quality data and events in one auditable
+            history. I also build things close to the hardware and tools that make complicated
+            systems easier to understand.
           </p>
 
           <div className="hero__actions">
@@ -134,6 +135,8 @@ export default function OverviewPane({
             action="Read about me"
             onAction={() => onNavigate('about')}
           >
+            <span className="tag">traceability</span>
+            <span className="tag">industrial web apps</span>
             <span className="tag">embedded</span>
             <span className="tag">LLM &amp; RAG</span>
             <span className="tag">game AI</span>
