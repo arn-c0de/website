@@ -2219,7 +2219,7 @@ a:hover {
    the one a visitor can act on. */
 .roles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: minmax(190px, 0.62fr) minmax(0, 1.38fr);
   gap: 10px;
   margin-bottom: 22px;
 }
@@ -2235,7 +2235,13 @@ a:hover {
   box-shadow: var(--shadow-sm);
 }
 
+.role:not(.role--lead) {
+  padding: 11px 13px;
+  opacity: 0.86;
+}
+
 .role--lead {
+  padding: 18px 20px;
   border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
   background: linear-gradient(
       135deg,
@@ -2243,6 +2249,15 @@ a:hover {
       transparent 60%
     ),
     var(--bg-panel);
+}
+
+.role--lead .role__title {
+  font-size: 18px;
+}
+
+.role--lead .role__text {
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 .role__tag {
@@ -2279,6 +2294,12 @@ a:hover {
 .role__actions {
   margin-top: auto;
   padding-top: 8px;
+}
+
+@media (max-width: 560px) {
+  .roles {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* The text keeps its column; the facts sit alongside instead of pushing the
