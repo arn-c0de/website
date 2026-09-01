@@ -11,16 +11,16 @@
     "test": "node --import ./scripts/test-setup.mjs --test test/*.test.ts"
   },
   "dependencies": {
-    "next": "^16.3.0",
+    "next": "^16.3.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@fontsource-variable/jetbrains-mono": "^5.2.0",
     "@fontsource-variable/manrope": "^5.2.0",
-    "@types/node": "^26.1.2",
+    "@types/node": "^26.4.0",
     "@types/react": "^19.1.0",
-    "@types/react-dom": "^19.1.0",
+    "@types/react-dom": "^19.2.5",
     "typescript": "^5.9.3"
   }
 }
