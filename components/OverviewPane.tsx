@@ -68,8 +68,10 @@ export default function OverviewPane({
           <p className="hero__lede">
             I am currently building a web application for end-to-end traceability in industrial
             environments, plus ARIS and FLUID: actively tested agent systems with multi-model
-            support, fluid interfaces and practical tool harnesses. I also build things close to
-            the hardware and tools that make complicated systems easier to understand.
+            support, fluid interfaces and practical tool harnesses. DeepVision-Web is a private
+            mobile PCB pilot that combines on-device WebAssembly tracking, camera calibration and
+            a read-only trace adapter. I also build things close to the hardware and tools that
+            make complicated systems easier to understand.
           </p>
 
           <div className="hero__actions">
@@ -139,6 +141,7 @@ export default function OverviewPane({
             <span className="tag">industrial web apps</span>
             <span className="tag">ARIS agent</span>
             <span className="tag">FLUID UI</span>
+            <span className="tag">on-device PCB vision</span>
             <span className="tag">embedded</span>
             <span className="tag">LLM &amp; RAG</span>
             <span className="tag">game AI</span>

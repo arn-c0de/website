@@ -28,6 +28,7 @@ const FOCUS = [
   'web applications',
   'ARIS agent',
   'FLUID UI systems',
+  'on-device PCB vision',
   'embedded systems',
   'backend deployment',
   'server integration',
@@ -112,8 +113,10 @@ export default function AboutPane({
             <p className="role__text">
               I develop a traceability web app for industrial environments and ARIS, a self-hosted
               agent with fluid synthetic voice, multi-model support and a harness for tools and file
-              edits. Firmware, backends, databases, local LLM/RAG systems and game AI are part of
-              the wider toolkit. Open for collaboration and contributions.
+              edits. I also build DeepVision-Web, a private mobile PCB pilot that keeps camera
+              frames on-device while pairing WebAssembly tracking, reference calibration and a
+              read-only trace adapter. Firmware, backends, databases, local LLM/RAG systems and
+              game AI are part of the wider toolkit. Open for collaboration and contributions.
             </p>
           </article>
         </div>
