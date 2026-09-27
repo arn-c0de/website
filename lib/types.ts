@@ -31,6 +31,9 @@ export interface Project extends GitHubRepo {
    * `data/repo-icons.json`, which `scripts/generate-repo-icons.mjs` writes.
    */
   icon: string | null
+  /** Public delivery state or a private research/access project. */
+  status: 'active' | 'research' | 'private' | 'preview' | 'archived'
+  isPrivate: boolean
 }
 
 export type SortKey = 'featured' | 'stars' | 'updated' | 'name'

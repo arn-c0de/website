@@ -25,6 +25,7 @@ export interface ProjectOverride {
    * a fork of my own project while `showForks` is false. Loses to `hidden`.
    */
   show?: boolean
+  status?: 'active' | 'research' | 'private' | 'preview' | 'archived'
 }
 
 export interface SiteConfig {
@@ -60,6 +61,9 @@ const config: SiteConfig = {
   // The strongest by stars, then what is being built right now. Reorder
   // freely — this array is the display order.
   featured: [
+    'QuestLink-Linux',
+    'JobFinder-private',
+    'anon-WebMirror-private',
     'Crawllama',
     'InteractiveChecklists',
     'ANPS-TradeMeUp',
@@ -121,6 +125,7 @@ const config: SiteConfig = {
       description:
         'Open-world, location-based zombie survival game for Android. Development preview with screenshots, test builds and contribution info.',
       category: 'Mobile',
+      status: 'preview',
     },
 
     // Repos with thin GitHub descriptions.
@@ -144,6 +149,7 @@ const config: SiteConfig = {
   },
 
   categories: [
+    { name: 'Private research', match: ['private-access', 'pcvr'] },
     {
       name: 'AI & Agents',
       match: ['rag', 'llm', 'local-llm', 'knowledge-retrieval', 'multi-hop-reasoning', 'news-analysis', 'market-prediction'],

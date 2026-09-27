@@ -111,6 +111,12 @@ export default function RequestModal({
     }
   }, [])
 
+  useEffect(() => {
+    if (type !== 'access') return
+    setAreas((current) => (current.includes('privateaccess') ? current : [...current, 'privateaccess']))
+    setShowDetails(true)
+  }, [type])
+
   function toggleArea(id: ServiceAreaId) {
     setAreas((current) => {
       if (id === 'unsure') return current.includes(id) ? [] : [id]

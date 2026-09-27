@@ -1027,6 +1027,11 @@ a:hover {
   background: var(--accent-soft);
 }
 
+.card__flag--private { color: var(--request); background: var(--request-soft); }
+.card__flag--research { color: #8a5a00; background: color-mix(in srgb, var(--star) 14%, var(--bg-panel)); }
+.card__flag--preview { color: var(--accent); background: var(--accent-soft); }
+.card__flag--archived { color: var(--text-faint); background: var(--bg-inset); }
+
 /* Two lines, always — reserved even when the repo has no description, so the
    tags and the foot start at the same height on every card. */
 .card__desc {

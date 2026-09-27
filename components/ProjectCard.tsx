@@ -51,7 +51,7 @@ export default function ProjectCard({
           </span>
         ) : null}
         <h3 className="card__title">{project.title}</h3>
-        {badge && <span className="card__flag">featured</span>}
+        <span className={`card__flag card__flag--${project.status}`}>{project.status}</span>
       </div>
 
       {/* Kept in the tree even when empty: the reserved two lines are what

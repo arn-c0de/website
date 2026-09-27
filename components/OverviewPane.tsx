@@ -74,7 +74,7 @@ export default function OverviewPane({
           <div className="hero__actions">
             <button type="button" className="btn btn--request" onClick={onStartRequest}>
               <RequestIcon />
-              Start a request
+              Private access & requests
             </button>
             <button type="button" className="btn" onClick={() => onNavigate('projects')}>
               Browse projects

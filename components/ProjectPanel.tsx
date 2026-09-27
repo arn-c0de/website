@@ -174,6 +174,11 @@ export default function ProjectPanel({
   }
 
   useEffect(() => {
+    if (project.isPrivate) {
+      setReadmeState('missing')
+      setReadme(null)
+      return
+    }
     const controller = new AbortController()
     setReadmeState('loading')
     setReadme(null)
@@ -231,7 +236,7 @@ export default function ProjectPanel({
   }, [onClose, onOpen, previous, next])
 
   const links = [
-    { label: 'Repository', href: project.html_url, icon: <GitHubIcon size={14} /> },
+    ...(project.html_url ? [{ label: 'Repository', href: project.html_url, icon: <GitHubIcon size={14} /> }] : []),
     ...(project.homepage
       ? [{ label: 'Homepage', href: project.homepage, icon: <LinkIcon /> }]
       : []),
@@ -406,7 +411,9 @@ export default function ProjectPanel({
             )}
             {readmeState === 'missing' && (
               <p style={{ color: 'var(--text-faint)', fontSize: 13.5, margin: 0 }}>
-                Readme could not be loaded — open the repository on GitHub instead.
+                {project.isPrivate
+                  ? 'This is a private project. Use “Ask about this” to request access, an early build or further details.'
+                  : 'Readme could not be loaded — open the repository on GitHub instead.'}
               </p>
             )}
             {readmeState === 'ready' && readme && (

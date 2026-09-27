@@ -2,6 +2,7 @@ import config from '@/projects.config'
 import snapshot from '@/data/repos.json'
 import repoIcons from '@/data/repo-icons.json'
 import { asset } from './basePath'
+import { PRIVATE_PROJECTS } from './privateProjects'
 import type { DataSource, GitHubRepo, Project, SortKey } from './types'
 
 const API = 'https://api.github.com'
@@ -39,6 +40,8 @@ function toProject(repo: GitHubRepo): Project {
     featured: featuredIndex !== -1,
     links: override.links ?? [],
     icon: iconFor(repo.name),
+    status: override.status ?? (repo.archived ? 'archived' : 'active'),
+    isPrivate: false,
   }
 }
 
@@ -110,7 +113,7 @@ export async function loadProjects(signal?: AbortSignal): Promise<ProjectsResult
 }
 
 function build(repos: GitHubRepo[]): Project[] {
-  return repos.filter(isVisible).map(toProject)
+  return [...repos.filter(isVisible).map(toProject), ...PRIVATE_PROJECTS]
 }
 
 /** README of a single repo, rendered to HTML by GitHub. Null when unavailable. */

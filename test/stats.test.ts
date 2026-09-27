@@ -31,6 +31,8 @@ function project(name: string, language: string | null, created: string, pushed:
     featured: false,
     links: [],
     icon: null,
+    status: 'active',
+    isPrivate: false,
   }
 }
 

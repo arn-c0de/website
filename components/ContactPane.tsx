@@ -138,6 +138,7 @@ export default function ContactPane({ onStartRequest }: { onStartRequest: () => 
             </span>
           ))}
         </div>
+        <p className="section__hint">For private projects and test access, send a short use case and the project you are interested in. Access is reviewed and granted manually.</p>
       </section>
 
       <section className="band">

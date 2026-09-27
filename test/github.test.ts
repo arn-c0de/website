@@ -76,7 +76,7 @@ test('every project lands in a category', () => {
 
 test('category inference takes the first match, and falls back', () => {
   for (const p of projects) {
-    if (config.overrides[p.name]?.category) continue
+    if (p.isPrivate || config.overrides[p.name]?.category) continue
 
     const signals = [...p.topics, p.language ?? '']
     const first = config.categories.find((c) => c.match.some((m) => signals.includes(m)))
@@ -138,6 +138,8 @@ function fake(partial: Partial<Project> & { name: string }): Project {
     featured: false,
     links: [],
     icon: null,
+    status: 'active',
+    isPrivate: false,
     ...partial,
   }
 }
