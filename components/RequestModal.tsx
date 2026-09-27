@@ -10,7 +10,6 @@ import {
   buildBody,
   buildMailto,
   buildSubject,
-  looksLikeEmail,
   type InquiryTypeId,
   type RequestDraft,
   type ServiceAreaId,
@@ -48,6 +47,7 @@ export default function RequestModal({
   const [message, setMessage] = useState('')
   const [touched, setTouched] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [showDetails, setShowDetails] = useState(selected.length > 0)
   const closeRef = useRef<HTMLButtonElement>(null)
 
   const chosen = useMemo(
@@ -78,8 +78,6 @@ export default function RequestModal({
   const mailto = buildMailto(draft)
 
   const missing: string[] = []
-  if (!name.trim()) missing.push('name')
-  if (!looksLikeEmail(email)) missing.push('email')
   if (!message.trim()) missing.push('message')
   const ready = missing.length === 0
 
@@ -140,7 +138,7 @@ export default function RequestModal({
           <div className="modal__heading">
             <h2 className="modal__title">Start a request</h2>
             <p className="modal__sub">
-              Pick what it is about — you get a finished email to send yourself.
+              Describe what you need. Add details only when they are useful.
             </p>
           </div>
           <button ref={closeRef} type="button" className="iconbtn" onClick={onClose} aria-label="Close">
@@ -150,6 +148,18 @@ export default function RequestModal({
 
         <div className="modal__cols">
           <div className="modal__form">
+            <label className="request-field request-field--message request-field--primary">
+              <span>What can I help with?</span>
+              <textarea
+                className="input input--area input--sm"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onBlur={() => setTouched(true)}
+                rows={4}
+                placeholder="Tell me what you need and any useful context."
+              />
+            </label>
+
             <Row label="Request type">
               <select
                 className="select select--wide select--sm"
@@ -165,79 +175,81 @@ export default function RequestModal({
               </select>
             </Row>
 
-            <Row label={areas.length ? `Focus (${areas.length})` : 'Focus'}>
-              <SearchPicker
-                items={areaItems}
-                selected={areas}
-                onToggle={(id) => toggleArea(id as ServiceAreaId)}
-                placeholder="Search topics — PCVR, access, Rust…"
-                label="Search focus areas"
-              />
-            </Row>
+            <details
+              className="request-more"
+              open={showDetails}
+              onToggle={(event) => setShowDetails(event.currentTarget.open)}
+            >
+              <summary>
+                <span>Optional details</span>
+                <span className="request-more__hint">
+                  {chosen.length || areas.length
+                    ? `${chosen.length + areas.length} selected`
+                    : 'Project, focus, timing or contact'}
+                </span>
+              </summary>
+              <div className="request-more__body">
+                <Row label={areas.length ? `Focus (${areas.length})` : 'Focus'}>
+                  <SearchPicker
+                    items={areaItems}
+                    selected={areas}
+                    onToggle={(id) => toggleArea(id as ServiceAreaId)}
+                    placeholder="Search topics — PCVR, access, Rust…"
+                    label="Search focus areas"
+                  />
+                </Row>
 
-            <Row label={chosen.length ? `Projects (${chosen.length})` : 'Projects'}>
-              <SearchPicker
-                items={projectItems}
-                selected={selected}
-                onToggle={(id) =>
-                  onSelectedChange(
-                    selected.includes(id) ? selected.filter((n) => n !== id) : [...selected, id],
-                  )
-                }
-                placeholder="Search projects — esp32, python, rag…"
-                label="Search projects"
-              />
-            </Row>
+                <Row label={chosen.length ? `Projects (${chosen.length})` : 'Projects'}>
+                  <SearchPicker
+                    items={projectItems}
+                    selected={selected}
+                    onToggle={(id) =>
+                      onSelectedChange(
+                        selected.includes(id) ? selected.filter((n) => n !== id) : [...selected, id],
+                      )
+                    }
+                    placeholder="Search projects — esp32, python, rag…"
+                    label="Search projects"
+                  />
+                </Row>
 
-            <div className="request-contact">
-              <label className="request-field">
-                <span>Name</span>
-                <input
-                  className="input input--sm"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  onBlur={() => setTouched(true)}
-                  placeholder="Jane Doe"
-                  autoComplete="name"
-                />
-              </label>
-              <label className="request-field">
-                <span>Email</span>
-                <input
-                  className="input input--sm"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  onBlur={() => setTouched(true)}
-                  placeholder="jane@example.com"
-                  autoComplete="email"
-                />
-              </label>
-              <label className="request-field request-field--timeline">
-                <span>Timing</span>
-                <select
-                  className="select select--wide select--sm"
-                  value={timeline}
-                  onChange={(e) => setTimeline(e.target.value as RequestDraft['timeline'])}
-                >
-                  {TIMELINES.map((t) => (
-                    <option key={t}>{t}</option>
-                  ))}
-                </select>
-              </label>
-            </div>
-
-            <label className="request-field request-field--message">
-              <span>Message</span>
-              <textarea
-                className="input input--area input--sm"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onBlur={() => setTouched(true)}
-                rows={4}
-                placeholder="Tell me what you need and any useful context."
-              />
-            </label>
+                <div className="request-contact">
+                  <label className="request-field">
+                    <span>Name</span>
+                    <input
+                      className="input input--sm"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Jane Doe"
+                      autoComplete="name"
+                    />
+                  </label>
+                  <label className="request-field">
+                    <span>Email</span>
+                    <input
+                      className="input input--sm"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="jane@example.com"
+                      autoComplete="email"
+                    />
+                  </label>
+                  <label className="request-field request-field--timeline">
+                    <span>Timing</span>
+                    <select
+                      className="select select--wide select--sm"
+                      value={timeline}
+                      onChange={(e) => setTimeline(e.target.value as RequestDraft['timeline'])}
+                    >
+                      {TIMELINES.map((t) => (
+                        <option key={t}>{t}</option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+              </div>
+            </details>
           </div>
 
           <aside className="modal__preview">

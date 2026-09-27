@@ -4267,6 +4267,63 @@ body::after {
   min-height: 76px;
 }
 
+.request-field--primary {
+  padding-bottom: 2px;
+}
+
+.request-field--primary .input--area {
+  min-height: 96px;
+}
+
+.request-more {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-inset);
+}
+
+.request-more summary {
+  min-height: 38px;
+  padding: 0 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--text-muted);
+}
+
+.request-more summary::marker {
+  color: var(--accent);
+}
+
+.request-more__hint {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-faint);
+}
+
+.request-more[open] summary {
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.request-more__body {
+  padding: 2px 10px 8px;
+}
+
+.request-more__body .frow:first-child {
+  border-top: 0;
+}
+
+.request-more .request-contact {
+  margin-top: 2px;
+}
+
 .modal__preview {
   gap: 7px;
 }
@@ -4318,5 +4375,27 @@ body::after {
 
   .request-field--timeline {
     grid-column: auto;
+  }
+}
+
+/* The automatic theme must resolve to exactly the same palette as the
+   manually selected dark theme. This follows the compact token overrides
+   above, which otherwise win over the earlier system-theme declaration. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #10141d;
+    --bg-panel: #171c27;
+    --bg-inset: #1d2431;
+    --bg-hover: #242d3b;
+    --border: #2a3444;
+    --border-strong: #414e62;
+    --text: #edf1f8;
+    --text-muted: #adb7c9;
+    --text-faint: #7e899d;
+    --accent: #84adff;
+    --accent-2: #6095e5;
+    --accent-soft: #1b2b48;
+    --request: #386b9f;
+    --request-hover: #477bad;
   }
 }
