@@ -7,6 +7,8 @@ const DAY = 86_400_000
 test('a missing timestamp renders as a dash, not as "Invalid Date"', () => {
   assert.equal(formatMonth(''), '—')
   assert.equal(formatRelative(''), '—')
+  assert.equal(formatMonth('not a date'), '—')
+  assert.equal(formatRelative('not a date'), '—')
 })
 
 test('month precision, in English regardless of the machine', () => {

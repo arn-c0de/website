@@ -430,8 +430,9 @@ function AppShellContent() {
             <p>
               This site sets no cookies and runs no analytics or tracking of any kind. Fonts,
               icons and styles are served from this domain — there is no CDN and no third-party
-              script, and nothing is stored offline. The only thing kept in your browser is your
-              chosen colour theme, which clearing site data removes. The page carries a content
+              script, and nothing is stored offline. The only things kept in your browser are your
+              chosen colour theme and language, which clearing site data removes. The page carries
+              a content
               security policy that says all of this to your browser, so it is enforced rather
               than promised.
             </p>

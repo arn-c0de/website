@@ -84,6 +84,13 @@ test('a far-past date cannot grow the axis without limit', () => {
     project('ancient', 'C', '1998-01-01T00:00:00Z', '2026-01-01T00:00:00Z'),
   ])
   assert.equal(months.length, 72)
+  assert.deepEqual(months.at(-1), {
+    at: Date.UTC(2026, 0, 1),
+    label: 'Jan',
+    year: '26',
+    started: 0,
+    active: 1,
+  })
 })
 
 test('no repositories means no months and a usable domain', () => {

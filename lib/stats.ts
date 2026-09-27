@@ -75,6 +75,12 @@ function nextMonth(ms: number): number {
   return Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1)
 }
 
+/** The same month one step earlier — used to retain the recent end of a long history. */
+function previousMonth(ms: number): number {
+  const d = new Date(ms)
+  return Date.UTC(d.getUTCFullYear(), d.getUTCMonth() - 1, 1)
+}
+
 /**
  * One bucket per month between the oldest repository and the most recent push.
  * `started` counts first appearances, `active` counts repositories whose window
@@ -85,8 +91,14 @@ export function monthlyActivity(projects: Project[]): ActivityMonth[] {
   const spans = projectSpans(projects)
   if (spans.length === 0) return []
 
-  const first = monthStart(Math.min(...spans.map((s) => s.from)))
+  const oldest = monthStart(Math.min(...spans.map((s) => s.from)))
   const last = monthStart(Math.max(...spans.map((s) => s.to)))
+  // Keep the useful end of a long history. Starting at the oldest date would
+  // make a repository from 1998 hide all activity after 2003.
+  let first = last
+  for (let count = 1; count < MAX_MONTHS && previousMonth(first) >= oldest; count++) {
+    first = previousMonth(first)
+  }
 
   const months: ActivityMonth[] = []
   for (let at = first; at <= last && months.length < MAX_MONTHS; at = nextMonth(at)) {

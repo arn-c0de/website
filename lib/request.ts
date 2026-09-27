@@ -1,10 +1,7 @@
 import type { Project } from './types'
 
-/**
- * Where inquiries go. Deliberately separate from the secure-contact address on
- * the Contact tab, so ordinary mail never lands in the disclosure channel.
- */
-export const INQUIRY_EMAIL = 'info.arn-c0de@protonmail.com'
+/** Where inquiries go; shared with the address shown on the Contact tab. */
+export const INQUIRY_EMAIL = 'arn-c0de@protonmail.com'
 
 /** Most mail clients choke on very long mailto URLs; Outlook is the strictest. */
 export const MAILTO_LIMIT = 1900

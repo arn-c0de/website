@@ -17,6 +17,10 @@ const nextConfig = {
   trailingSlash: true,
   images: { unoptimized: true },
   reactStrictMode: true,
+  // TypeScript 5.9's CLI can terminate without writing --showConfig when
+  // launched by Node 24. Next's API checker is compatible here and keeps the
+  // production build independent of that process-level behaviour.
+  experimental: { useTypeScriptCli: false },
 
   basePath,
   // Exposed to the client so raw href/src strings can be prefixed too —

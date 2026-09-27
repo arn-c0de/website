@@ -9,7 +9,7 @@ runtime; a committed snapshot keeps the site working when the API is rate-limite
 
 ## Stack
 
-Next.js 15 with the App Router, statically exported (`output: 'export'`) to plain files. No CSS
+Next.js 16 with the App Router, statically exported (`output: 'export'`) to plain files. No CSS
 framework, no icon package, no analytics. Fonts are bundled from `@fontsource`, so the only
 outbound request a visitor's browser makes is to `api.github.com`.
 
@@ -241,7 +241,8 @@ file and update the matching constants in `components/ContactPane.tsx` and `lib/
 ## Privacy
 
 No cookies, no tracking, no analytics, no external fonts. The only automatic outbound request is
-to `api.github.com`; opening a project additionally fetches that repository's readme.
+to `api.github.com`; opening a project additionally fetches that repository's readme. The chosen
+theme and language are stored locally in the browser and are removed with site data.
 
 A content security policy in `app/layout.tsx` makes the browser enforce that rather than take the
 claim on trust: `connect-src` allows nothing but this origin and `api.github.com`, and `img-src`
