@@ -4245,3 +4245,132 @@ body::after {
     padding: 12px;
   }
 }
+
+/* Request dialog: form choices are grouped by intent, and contact details
+   share one compact grid instead of repeating the same labelled row. */
+.modal__cols {
+  grid-template-columns: minmax(0, 1.2fr) minmax(310px, 0.8fr);
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal__form .frow {
+  grid-template-columns: 88px minmax(0, 1fr);
+  padding: 6px 0;
+}
+
+.modal__form .frow__label {
+  padding-top: 9px;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.modal__form .picker:not(.picker--searching) .arealist {
+  padding-right: 32px;
+}
+
+.modal__form .arealist {
+  grid-template-columns: repeat(auto-fill, minmax(154px, 1fr));
+  max-height: 86px;
+  padding: 3px;
+}
+
+.modal__form .areaitem {
+  padding: 4px 6px;
+  font-size: 12px;
+}
+
+.request-contact {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+}
+
+.request-field {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.request-field > span {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.request-field--timeline,
+.request-field--message {
+  grid-column: 1 / -1;
+}
+
+.request-field--message {
+  padding-top: 1px;
+}
+
+.request-field--message .input--area {
+  min-height: 76px;
+}
+
+.modal__preview {
+  gap: 7px;
+}
+
+.modal__preview .fset__label {
+  margin: 0;
+}
+
+.draft--tight .draft__head {
+  padding: 10px 11px;
+}
+
+.draft--tight .draft__body {
+  padding: 11px;
+  font-size: 11.5px;
+}
+
+.modal__foot {
+  padding: 10px 14px;
+}
+
+@media (max-width: 800px) {
+  .modal__form {
+    gap: 6px;
+  }
+
+  .modal__cols {
+    grid-template-columns: 1fr;
+  }
+
+  .modal__preview {
+    min-height: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal__form .frow {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .modal__form .frow__label {
+    padding-top: 0;
+  }
+
+  .request-contact {
+    grid-template-columns: 1fr;
+  }
+
+  .request-field--timeline {
+    grid-column: auto;
+  }
+}

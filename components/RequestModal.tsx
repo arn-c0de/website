@@ -150,29 +150,28 @@ export default function RequestModal({
 
         <div className="modal__cols">
           <div className="modal__form">
-            <Row label="Type">
-              <div className="chips chips--tight">
+            <Row label="Request type">
+              <select
+                className="select select--wide select--sm"
+                value={type}
+                onChange={(e) => setType(e.target.value as InquiryTypeId)}
+                aria-label="Request type"
+              >
                 {INQUIRY_TYPES.map((t) => (
-                  <button
-                    key={t.id}
-                    type="button"
-                    className="chip chip--sm"
-                    aria-pressed={type === t.id}
-                    onClick={() => setType(t.id)}
-                  >
+                  <option key={t.id} value={t.id}>
                     {t.label}
-                  </button>
+                  </option>
                 ))}
-              </div>
+              </select>
             </Row>
 
-            <Row label={areas.length ? `Areas (${areas.length})` : 'Areas'}>
+            <Row label={areas.length ? `Focus (${areas.length})` : 'Focus'}>
               <SearchPicker
                 items={areaItems}
                 selected={areas}
                 onToggle={(id) => toggleArea(id as ServiceAreaId)}
-                placeholder="Search areas — lora, pcap, kotlin…"
-                label="Search areas"
+                placeholder="Search topics — PCVR, access, Rust…"
+                label="Search focus areas"
               />
             </Row>
 
@@ -190,52 +189,55 @@ export default function RequestModal({
               />
             </Row>
 
-            <Row label="Name">
-              <input
-                className="input input--sm"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                onBlur={() => setTouched(true)}
-                placeholder="Jane Doe"
-                autoComplete="name"
-              />
-            </Row>
+            <div className="request-contact">
+              <label className="request-field">
+                <span>Name</span>
+                <input
+                  className="input input--sm"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  onBlur={() => setTouched(true)}
+                  placeholder="Jane Doe"
+                  autoComplete="name"
+                />
+              </label>
+              <label className="request-field">
+                <span>Email</span>
+                <input
+                  className="input input--sm"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onBlur={() => setTouched(true)}
+                  placeholder="jane@example.com"
+                  autoComplete="email"
+                />
+              </label>
+              <label className="request-field request-field--timeline">
+                <span>Timing</span>
+                <select
+                  className="select select--wide select--sm"
+                  value={timeline}
+                  onChange={(e) => setTimeline(e.target.value as RequestDraft['timeline'])}
+                >
+                  {TIMELINES.map((t) => (
+                    <option key={t}>{t}</option>
+                  ))}
+                </select>
+              </label>
+            </div>
 
-            <Row label="Email">
-              <input
-                className="input input--sm"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onBlur={() => setTouched(true)}
-                placeholder="jane@example.com"
-                autoComplete="email"
-              />
-            </Row>
-
-            <Row label="When">
-              <select
-                className="select select--wide select--sm"
-                value={timeline}
-                onChange={(e) => setTimeline(e.target.value as RequestDraft['timeline'])}
-                aria-label="Timeline"
-              >
-                {TIMELINES.map((t) => (
-                  <option key={t}>{t}</option>
-                ))}
-              </select>
-            </Row>
-
-            <Row label="Message">
+            <label className="request-field request-field--message">
+              <span>Message</span>
               <textarea
                 className="input input--area input--sm"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onBlur={() => setTouched(true)}
                 rows={4}
-                placeholder="What are you trying to build, and where do you need help?"
+                placeholder="Tell me what you need and any useful context."
               />
-            </Row>
+            </label>
           </div>
 
           <aside className="modal__preview">
