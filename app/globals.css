@@ -3874,3 +3874,374 @@ textarea.input--sm {
     transform: scale(1.2);
   }
 }
+
+/* ── Compact product-system refinement ─────────────────────────────────── */
+
+/* One restrained surface system carries every pane: content stays dense and
+   legible, while borders and a single low shadow define hierarchy. */
+:root {
+  --radius: 10px;
+  --radius-sm: 7px;
+  --shell-max: 1140px;
+  --header-h: 96px;
+  --bg: #f7f8fb;
+  --bg-panel: #ffffff;
+  --bg-inset: #f2f4f8;
+  --bg-hover: #edf1f7;
+  --border: #e1e6ee;
+  --border-strong: #c8d0dd;
+  --text: #172033;
+  --text-muted: #5d687b;
+  --text-faint: #8490a3;
+  --accent: #2563d9;
+  --accent-2: #1d4eae;
+  --accent-soft: #eaf1ff;
+  --request: #193c66;
+  --request-hover: #122f52;
+  --shadow-sm: 0 1px 2px rgba(20, 31, 54, 0.04);
+  --shadow-md: 0 5px 18px rgba(20, 31, 54, 0.08);
+  --shadow-lg: 0 20px 52px rgba(20, 31, 54, 0.17);
+  --spring: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root[data-theme='dark'] {
+  --bg: #10141d;
+  --bg-panel: #171c27;
+  --bg-inset: #1d2431;
+  --bg-hover: #242d3b;
+  --border: #2a3444;
+  --border-strong: #414e62;
+  --text: #edf1f8;
+  --text-muted: #adb7c9;
+  --text-faint: #7e899d;
+  --accent: #84adff;
+  --accent-2: #6095e5;
+  --accent-soft: #1b2b48;
+  --request: #386b9f;
+  --request-hover: #477bad;
+}
+
+body {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+body::before {
+  background: radial-gradient(900px 430px at 50% -18%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 68%);
+}
+
+body::after {
+  display: none;
+}
+
+.topbar {
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+}
+
+.topbar__row {
+  height: 48px;
+  gap: 10px;
+}
+
+.tabs {
+  padding: 4px 12px 6px;
+  gap: 3px;
+}
+
+.tab {
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+}
+
+.tabs__pill {
+  top: 4px;
+  bottom: 6px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--border));
+}
+
+.main {
+  padding: 18px 20px 36px;
+}
+
+.pane__head {
+  margin-bottom: 12px;
+}
+
+.pane__title {
+  margin-bottom: 3px;
+  font-size: 20px;
+}
+
+.pane__lede {
+  font-size: 13.5px;
+}
+
+.over,
+.about {
+  gap: 20px;
+}
+
+.hero {
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  background: linear-gradient(120deg, color-mix(in srgb, var(--accent) 6%, transparent), transparent 46%), var(--bg-panel);
+}
+
+.hero__avatar {
+  width: 52px;
+  height: 52px;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.hero__name {
+  font-size: 24px;
+}
+
+.hero__role,
+.hero__lede {
+  font-size: 13px;
+}
+
+.hero__lede {
+  margin: 8px 0 12px;
+  max-width: 72ch;
+}
+
+.metrics {
+  padding: 2px;
+  margin-bottom: 12px;
+  border-radius: var(--radius-sm);
+}
+
+.metric {
+  padding: 7px 11px;
+}
+
+.metric__v {
+  font-size: 18px;
+}
+
+.metric__k {
+  font-size: 10.5px;
+}
+
+.band__head {
+  margin-bottom: 8px;
+}
+
+.band__title {
+  font-size: 14px;
+}
+
+.band__hint {
+  font-size: 12px;
+}
+
+.gallery__track {
+  gap: 8px;
+}
+
+.gallery__slide {
+  flex-basis: clamp(250px, 31%, 294px);
+}
+
+.slabs,
+.channels,
+.roles {
+  gap: 8px;
+}
+
+.slab,
+.channel,
+.role,
+.key,
+.chart,
+.langs__ring {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.slab {
+  gap: 14px;
+  padding: 12px 14px;
+}
+
+.slab__side {
+  padding-left: 14px;
+}
+
+.toolbar {
+  gap: 6px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.search input,
+.select {
+  height: 34px;
+  font-size: 13px;
+}
+
+.chips {
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.chip {
+  height: 26px;
+  padding: 0 9px;
+  font-size: 12px;
+}
+
+.grid {
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 8px;
+}
+
+.card {
+  gap: 8px;
+  padding: 12px 13px 11px;
+  border-radius: var(--radius);
+  box-shadow: none;
+  animation: none;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.card__title {
+  font-size: 14.5px;
+}
+
+.card__desc,
+.slab__text,
+.channel__text,
+.role__text {
+  font-size: 12.5px;
+}
+
+.card__foot {
+  padding-top: 9px;
+  font-size: 11.5px;
+}
+
+.tag {
+  font-size: 10.5px;
+  padding: 2px 6px;
+}
+
+.btn {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+}
+
+.iconbtn {
+  height: 30px;
+  min-width: 30px;
+  border-radius: var(--radius-sm);
+}
+
+.profile {
+  gap: 16px;
+  padding-bottom: 18px;
+}
+
+.profile__avatar {
+  width: 96px;
+  height: 96px;
+}
+
+.profile__name {
+  font-size: 27px;
+}
+
+.profile__lede {
+  font-size: 13.5px;
+}
+
+.facts {
+  border-radius: var(--radius);
+}
+
+.fact {
+  padding: 11px 12px;
+}
+
+.section {
+  margin-bottom: 18px;
+}
+
+.panel__head,
+.modal__head {
+  padding: 12px 14px;
+}
+
+.panel__body,
+.modal__form,
+.modal__preview {
+  padding: 12px 14px;
+}
+
+.modal {
+  width: min(880px, calc(100vw - 32px));
+  border-radius: var(--radius);
+}
+
+.frow {
+  padding: 6px 0;
+}
+
+.footer {
+  padding: 12px 20px 16px;
+}
+
+/* Replace broad staged entrances with one short, predictable transition. */
+:root[data-reveal='on'] [data-reveal].is-in,
+:root[data-reveal='on'] .card.is-in,
+.hero__avatar,
+.hero__text > *,
+.panel__body > * {
+  animation-duration: 0.24s;
+  animation-delay: 0s;
+}
+
+@media (max-width: 560px) {
+  .main {
+    padding: 14px 12px 30px;
+  }
+
+  .topbar__row {
+    height: 46px;
+    padding: 0 12px;
+  }
+
+  .tabs {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .hero {
+    padding: 14px;
+  }
+
+  .hero__avatar {
+    width: 46px;
+    height: 46px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 12px;
+  }
+}

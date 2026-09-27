@@ -62,16 +62,13 @@ export default function OverviewPane({
         <div className="hero__text">
           <h1 className="hero__name">arn-c0de</h1>
           <p className="hero__role">
-            Industrial traceability · embedded systems · backends &amp; databases · web apps · local
-            AI · security
+            Industrial software · embedded systems · local AI · VR simulation research
           </p>
           <p className="hero__lede">
-            I am currently building a web application for end-to-end traceability in industrial
-            environments, plus ARIS and FLUID: actively tested agent systems with multi-model
-            support, fluid interfaces and practical tool harnesses. DeepVision-Web is a private
-            mobile PCB pilot that combines on-device WebAssembly tracking, camera calibration and
-            a read-only trace adapter. I also build things close to the hardware and tools that
-            make complicated systems easier to understand.
+            I build practical systems from industrial traceability to embedded tooling. Current
+            private research includes QuestLink Linux: the first phase of an independent Rust VR
+            simulation world for shared PC and VR multiplayer sessions. ARIS, FLUID and
+            DeepVision-Web round out the work in local AI, interfaces and on-device vision.
           </p>
 
           <div className="hero__actions">
