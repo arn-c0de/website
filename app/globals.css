@@ -2459,60 +2459,6 @@ a:hover {
   color: var(--text-faint);
 }
 
-/* Numbered rows in one panel rather than four boxes: same two-column rhythm
-   as the overview slabs, and it reads in half the height. */
-.principles {
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  padding: 2px 15px;
-}
-
-.principle {
-  display: grid;
-  grid-template-columns: minmax(0, 210px) minmax(0, 1fr);
-  align-items: baseline;
-  gap: 4px 18px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.principle:last-child {
-  border-bottom: 0;
-}
-
-.principle__title {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin: 0;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-.principle__n {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 650;
-  letter-spacing: 0.04em;
-  color: var(--accent);
-}
-
-.principle__body {
-  margin: 0;
-  font-size: 13.5px;
-  color: var(--text-muted);
-}
-
-@media (max-width: 760px) {
-  .principle {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 4px;
-  }
-}
-
 /* ── Contact pane ───────────────────────────────────────────────────────── */
 
 .channels {

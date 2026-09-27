@@ -4,25 +4,6 @@ import { asset } from '@/lib/basePath'
 import type { Project } from '@/lib/types'
 import { GitHubIcon, LanguageIcon, RequestIcon } from './Icons'
 
-export const PRINCIPLES = [
-  {
-    title: 'Local by default',
-    body: 'If something can run on your machine, it should. Fewer accounts, fewer uploads, less data leaving your hands.',
-  },
-  {
-    title: 'Security that stays honest',
-    body: 'When a security check cannot do its job, the tool stops and tells you. Quietly pretending everything is fine is never the fallback.',
-  },
-  {
-    title: 'The whole path',
-    body: 'From firmware on a microcontroller to the connection in between and the app that makes it useful — I like building things end to end.',
-  },
-  {
-    title: 'Clear beats clever',
-    body: 'Readable code, a short dependency list, setup notes that actually help. If you need to trust a tool, you should be able to understand it.',
-  },
-]
-
 const FOCUS = [
   'industrial traceability',
   'web applications',
@@ -256,31 +237,6 @@ export default function AboutPane({
         </div>
       </section>
 
-      <section className="band">
-        <div className="band__head">
-          <div>
-            <h2 className="band__title">A few things I care about</h2>
-            <p className="band__hint">The rules of thumb every project here follows.</p>
-          </div>
-        </div>
-
-        <div className="principles">
-          {PRINCIPLES.map((p, i) => (
-            <article
-              key={p.title}
-              className="principle"
-              data-reveal
-              style={{ '--i': i } as React.CSSProperties}
-            >
-              <h3 className="principle__title">
-                <span className="principle__n">{String(i + 1).padStart(2, '0')}</span>
-                {p.title}
-              </h3>
-              <p className="principle__body">{p.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
     </div>
   )
 }
