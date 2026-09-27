@@ -15,6 +15,8 @@ import ProjectsPane from './ProjectsPane'
 import RequestModal from './RequestModal'
 import StackPane from './StackPane'
 import ThemeToggle from './ThemeToggle'
+import LanguageToggle from './LanguageToggle'
+import { I18nProvider, useI18n } from '@/lib/i18n'
 import TopSearch from './TopSearch'
 import {
   AboutIcon,
@@ -25,14 +27,6 @@ import {
   RequestIcon,
   StackIcon,
 } from './Icons'
-
-const TAB_LABELS: Record<Tab, string> = {
-  overview: 'Overview',
-  projects: 'Projects',
-  stack: 'Stack',
-  about: 'About',
-  contact: 'Contact',
-}
 
 /** Each tab carries its mark, so a narrow screen can drop the words. */
 const TAB_ICONS: Record<Tab, () => React.ReactNode> = {
@@ -55,6 +49,11 @@ function tick() {
 }
 
 export default function AppShell() {
+  return <I18nProvider><AppShellContent /></I18nProvider>
+}
+
+function AppShellContent() {
+  const { labels } = useI18n()
   const [{ tab, project: openProject, request, requestFor }, navigate] = useAppState()
   // Start from the committed snapshot so the first paint already has content,
   // then swap in live data when the API answers.
@@ -312,6 +311,7 @@ export default function AppShell() {
             <GitHubIcon size={15} />
           </a>
 
+          <LanguageToggle />
           <ThemeToggle />
         </div>
 
@@ -352,7 +352,7 @@ export default function AppShell() {
                 <span className="tab__icon">
                   <Icon />
                 </span>
-                <span className="tab__label">{TAB_LABELS[t]}</span>
+                <span className="tab__label">{labels[t]}</span>
                 {/* Keyed on the number so the badge remounts — and replays its
                     pop — when the live list lands on a different count. */}
                 {t === 'projects' && (
