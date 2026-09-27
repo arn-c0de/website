@@ -10,6 +10,7 @@ import {
   buildBody,
   buildMailto,
   buildSubject,
+  looksLikeEmail,
   type InquiryTypeId,
   type RequestDraft,
   type ServiceAreaId,
@@ -78,6 +79,8 @@ export default function RequestModal({
   const mailto = buildMailto(draft)
 
   const missing: string[] = []
+  if (!name.trim()) missing.push('name')
+  if (!looksLikeEmail(email)) missing.push('email')
   if (!message.trim()) missing.push('message')
   const ready = missing.length === 0
 
@@ -175,6 +178,44 @@ export default function RequestModal({
               </select>
             </Row>
 
+            <div className="request-contact">
+              <label className="request-field">
+                <span>Name</span>
+                <input
+                  className="input input--sm"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  onBlur={() => setTouched(true)}
+                  placeholder="Jane Doe"
+                  autoComplete="name"
+                />
+              </label>
+              <label className="request-field">
+                <span>Email</span>
+                <input
+                  className="input input--sm"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onBlur={() => setTouched(true)}
+                  placeholder="jane@example.com"
+                  autoComplete="email"
+                />
+              </label>
+              <label className="request-field request-field--timeline">
+                <span>Timing</span>
+                <select
+                  className="select select--wide select--sm"
+                  value={timeline}
+                  onChange={(e) => setTimeline(e.target.value as RequestDraft['timeline'])}
+                >
+                  {TIMELINES.map((t) => (
+                    <option key={t}>{t}</option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
             <details
               className="request-more"
               open={showDetails}
@@ -185,7 +226,7 @@ export default function RequestModal({
                 <span className="request-more__hint">
                   {chosen.length || areas.length
                     ? `${chosen.length + areas.length} selected`
-                    : 'Project, focus, timing or contact'}
+                    : 'Project or focus'}
                 </span>
               </summary>
               <div className="request-more__body">
@@ -213,41 +254,6 @@ export default function RequestModal({
                   />
                 </Row>
 
-                <div className="request-contact">
-                  <label className="request-field">
-                    <span>Name</span>
-                    <input
-                      className="input input--sm"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Jane Doe"
-                      autoComplete="name"
-                    />
-                  </label>
-                  <label className="request-field">
-                    <span>Email</span>
-                    <input
-                      className="input input--sm"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="jane@example.com"
-                      autoComplete="email"
-                    />
-                  </label>
-                  <label className="request-field request-field--timeline">
-                    <span>Timing</span>
-                    <select
-                      className="select select--wide select--sm"
-                      value={timeline}
-                      onChange={(e) => setTimeline(e.target.value as RequestDraft['timeline'])}
-                    >
-                      {TIMELINES.map((t) => (
-                        <option key={t}>{t}</option>
-                      ))}
-                    </select>
-                  </label>
-                </div>
               </div>
             </details>
           </div>
