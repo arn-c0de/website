@@ -15,6 +15,7 @@ export const MAILTO_LIMIT = 1900
  */
 export const INQUIRY_TYPES = [
   { id: 'question', label: 'Question about a project' },
+  { id: 'access', label: 'Test access or early build' },
   { id: 'build', label: 'Something you would like built' },
   { id: 'collaboration', label: 'Collaboration' },
   { id: 'issue', label: 'Bug or feature request' },
@@ -53,6 +54,9 @@ export const SERVICE_AREAS = [
   { id: 'npcai', title: 'Game AI & NPC goal systems', keywords: 'npc goal system utility ai behaviour tree goap decision making steering pathfinding unity csharp enemy' },
   { id: 'rpgcombat', title: 'Round-based RPG combat systems', keywords: 'turn based fight battle initiative order abilities skills damage formulas stats loot balancing rpg' },
   { id: 'gamesim', title: 'Deterministic simulation & replays', keywords: 'lockstep fixed point tick simulation core replay determinism headless testing rts game' },
+  { id: 'questlink', title: 'QuestLink Linux & PCVR research', keywords: 'questlink quest 3 pcvr linux usb vr headset stock link rust' },
+  { id: 'vrsimulation', title: 'VR simulation world & multiplayer', keywords: 'vr virtual reality simulation multiplayer sessions pc headset shared world rust' },
+  { id: 'privateaccess', title: 'Private project access & test builds', keywords: 'private access early tester test build preview jobfinder anon-webmirror zombieescape questlink' },
 ] as const
 
 export type ServiceAreaId = (typeof SERVICE_AREAS)[number]['id']

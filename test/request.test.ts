@@ -61,6 +61,13 @@ test('the catalogue has no duplicate ids', () => {
   assert.equal(new Set(types).size, types.length)
 })
 
+test('test access and VR inquiry options are available', () => {
+  assert.ok(INQUIRY_TYPES.some((type) => type.id === 'access'))
+  for (const id of ['questlink', 'vrsimulation', 'privateaccess']) {
+    assert.ok(SERVICE_AREAS.some((area) => area.id === id), id)
+  }
+})
+
 test('every area carries a title and something to search on', () => {
   for (const area of SERVICE_AREAS) {
     assert.ok(area.title.trim().length > 0, area.id)
