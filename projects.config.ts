@@ -61,7 +61,7 @@ const config: SiteConfig = {
   // The strongest by stars, then what is being built right now. Reorder
   // freely — this array is the display order.
   featured: [
-    'QuestLink-Linux',
+    'QLink-preview',
     'JobFinder-private',
     'anon-WebMirror-private',
     'Crawllama',
@@ -88,6 +88,19 @@ const config: SiteConfig = {
   showAllByDefault: true,
 
   overrides: {
+    'QLink-preview': {
+      title: 'QLink',
+      description:
+        'Custom game and simulation engine for Linux, written in Rust. The same worlds run at the same time in VR on Meta Quest 3 (wired, stock Link) and in 2D on the PC desktop. Very early development version under active work; renders are updated regularly. Test versions and collaboration by invitation.',
+      category: 'Games & Simulation',
+      status: 'preview',
+      links: [
+        { label: 'Request a test version', href: 'https://github.com/arn-c0de/QLink-preview/issues/new?template=tester-interest.yml' },
+        { label: 'Offer to help', href: 'https://github.com/arn-c0de/QLink-preview/issues/new?template=offer-help.yml' },
+        { label: 'Share an idea', href: 'https://github.com/arn-c0de/QLink-preview/issues/new?template=idea.yml' },
+        { label: 'Discussions', href: 'https://github.com/arn-c0de/QLink-preview/discussions' },
+      ],
+    },
     Crawllama: {
       category: 'AI & Agents',
       links: [{ label: 'Contributing', href: 'https://github.com/arn-c0de/Crawllama#contributing' }],

@@ -66,8 +66,9 @@ export default function OverviewPane({
           </p>
           <p className="hero__lede">
             I build practical systems from industrial traceability to embedded tooling. Current
-            private research includes QuestLink Linux: the first phase of an independent Rust VR
-            simulation world for shared PC and VR multiplayer sessions. ARIS, FLUID and
+            work includes QLink: my own Rust game and simulation engine, where the same worlds run
+            at the same time in VR on Quest 3 and in 2D on the PC desktop. It is a very early
+            version; test versions are available by invitation on request. ARIS, FLUID and
             DeepVision-Web round out the work in local AI, interfaces and on-device vision.
           </p>
 
