@@ -66,8 +66,10 @@ export default function OverviewPane({
           </p>
           <p className="hero__lede">
             I build practical systems from industrial traceability to embedded tooling. Current
-            work includes QLink: my own Rust game and simulation engine, where the same worlds run
-            at the same time in VR on Quest 3 and in 2D on the PC desktop. It is a very early
+            work includes QLink: my own Rust game and simulation engine for Linux. It runs without
+            the Quest Link PC app and shows the simulation directly as the Link home on Quest 3,
+            while the same world runs in 2D on the desktop. It is meant to replace the Link app
+            completely, so Steam and other games can be started through it. It is a very early
             version; test versions are available by invitation on request. ARIS, FLUID and
             DeepVision-Web round out the work in local AI, interfaces and on-device vision.
           </p>

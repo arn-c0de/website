@@ -91,7 +91,7 @@ const config: SiteConfig = {
     'QLink-preview': {
       title: 'QLink',
       description:
-        'Custom game and simulation engine for Linux, written in Rust. The same worlds run at the same time in VR on Meta Quest 3 (wired, stock Link) and in 2D on the PC desktop. Very early development version under active work; renders are updated regularly. Test versions and collaboration by invitation.',
+        'Custom game and simulation engine for Linux, written in Rust. Runs on Linux without the Meta Quest Link PC app: the simulation is shown directly as the Link home on Quest 3 over USB, while the same world runs in 2D on the PC desktop. Planned to fully replace the Link app, so Steam and other VR games can be launched through it. Very early development version; renders are updated regularly. Test versions by invitation.',
       category: 'Games & Simulation',
       status: 'preview',
       links: [
