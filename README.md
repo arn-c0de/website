@@ -4,7 +4,7 @@ Project console for [github.com/arn-c0de](https://github.com/arn-c0de) — a sin
 tabs for an overview, projects, stack, about and secure contact. The overview is the landing tab:
 an introduction, a swipeable gallery of featured repositories and a tile per section, each linking
 into the tab it summarises.
-Live at **https://arn-c0de.github.io/website/**. Repository data comes from the GitHub API at
+Live at **https://arn-c0de.de/**. Repository data comes from the GitHub API at
 runtime; a committed snapshot keeps the site working when the API is rate-limited or unreachable.
 
 ## Stack
