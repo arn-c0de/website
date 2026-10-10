@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { asset } from '@/lib/basePath'
+import { useI18n } from '@/lib/i18n'
 import { PGP_PUBLIC_KEY } from '@/lib/pgpKey'
 import { CheckIcon, CopyIcon, RequestIcon } from './Icons'
 
@@ -28,6 +29,7 @@ const KEY_FACTS = [
 ]
 
 function CopyButton({ value, label }: { value: string; label: string }) {
+  const { t } = useI18n()
   const [copied, setCopied] = useState(false)
 
   async function copy() {
@@ -46,21 +48,18 @@ function CopyButton({ value, label }: { value: string; label: string }) {
       <span className="btn__icon" key={copied ? 'done' : 'idle'}>
         {copied ? <CheckIcon /> : <CopyIcon />}
       </span>
-      {copied ? 'Copied' : label}
+      {copied ? t('Copied') : label}
     </button>
   )
 }
 
 export default function ContactPane({ onStartRequest }: { onStartRequest: () => void }) {
+  const { t } = useI18n()
   return (
     <div className="pane contact">
       <div className="pane__head">
-        <h1 className="pane__title">Get in touch</h1>
-        <p className="pane__lede">
-          Questions about my projects, something you would like built, or a bug you ran into — all
-          welcome here. Pick whichever channel suits, and encrypt it if what you are sending should
-          stay private.
-        </p>
+        <h1 className="pane__title">{t('Get in touch')}</h1>
+        <p className="pane__lede">{t('CONTACT_LEDE')}</p>
       </div>
 
       {/* The two channels that actually work lead; Matrix is a footnote until
@@ -69,12 +68,9 @@ export default function ContactPane({ onStartRequest }: { onStartRequest: () => 
         <article className="channel" data-reveal>
           <div className="channel__head">
             <h2 className="channel__name">SimpleX Chat</h2>
-            <span className="pill">preferred</span>
+            <span className="pill">{t('preferred')}</span>
           </div>
-          <p className="channel__text">
-            No phone number, no account, no identifier on a server — the easiest option for a
-            private first message or a quick back-and-forth.
-          </p>
+          <p className="channel__text">{t('CONTACT_SIMPLEX')}</p>
           <div className="channel__actions">
             <a
               className="btn btn--primary"
@@ -82,57 +78,51 @@ export default function ContactPane({ onStartRequest }: { onStartRequest: () => 
               target="_blank"
               rel="noopener noreferrer"
             >
-              Open SimpleX invite
+              {t('Open SimpleX invite')}
             </a>
-            <CopyButton value={SIMPLEX_LINK} label="Copy link" />
+            <CopyButton value={SIMPLEX_LINK} label={t('Copy link')} />
           </div>
         </article>
 
         <article className="channel" data-reveal style={{ '--i': 1 } as React.CSSProperties}>
           <div className="channel__head">
-            <h2 className="channel__name">Email</h2>
+            <h2 className="channel__name">{t('Email')}</h2>
             <span className="pill pill--quiet mono">{EMAIL}</span>
           </div>
-          <p className="channel__text">
-            Fine for anything ordinary. For sensitive technical detail, encrypt your message with
-            the PGP key below before sending it.
-          </p>
+          <p className="channel__text">{t('CONTACT_EMAIL')}</p>
           <div className="channel__actions">
             <a className="btn btn--primary" href={`mailto:${EMAIL}`}>
-              Write email
+              {t('Write email')}
             </a>
-            <CopyButton value={EMAIL} label="Copy address" />
+            <CopyButton value={EMAIL} label={t('Copy address')} />
           </div>
         </article>
 
       </div>
 
       <p className="channels__note">
-        <strong>Matrix</strong> is not set up at the moment — use SimpleX or email instead.
+        <strong>Matrix</strong> {t('is not set up at the moment — use SimpleX or email instead.')}
       </p>
 
       <section className="band">
         <div className="reasons" data-reveal>
           <div className="reasons__text">
-            <h2 className="band__title">Not sure it is worth a message?</h2>
-            <p className="band__hint">All of these are.</p>
+            <h2 className="band__title">{t('Not sure it is worth a message?')}</h2>
+            <p className="band__hint">{t('All of these are.')}</p>
             <ul className="checklist">
               {SUITABLE_FOR.map((item) => (
                 <li key={item}>
                   <CheckIcon />
-                  {item}
+                  {t(item)}
                 </li>
               ))}
             </ul>
           </div>
           <div className="reasons__side">
-            <p>
-              For private projects and test access, send a short use case and the project you are
-              interested in. Access is reviewed and granted manually.
-            </p>
+            <p>{t('CONTACT_ACCESS')}</p>
             <button type="button" className="btn btn--request" onClick={onStartRequest}>
               <RequestIcon />
-              Start a request
+              {t('Start a request')}
             </button>
           </div>
         </div>
@@ -141,42 +131,41 @@ export default function ContactPane({ onStartRequest }: { onStartRequest: () => 
       <section className="band">
         <div className="band__head">
           <div>
-            <h2 className="band__title">PGP public key</h2>
-            <p className="band__hint">For anything that should not travel as plain text.</p>
+            <h2 className="band__title">{t('PGP public key')}</h2>
+            <p className="band__hint">{t('For anything that should not travel as plain text.')}</p>
           </div>
         </div>
 
         <div className="callout callout--warn">
-          <strong>Check before you trust.</strong> Confirm the fingerprint through a second,
-          independent channel before sending anything sensitive. This page alone is not enough.
+          <strong>{t('Check before you trust.')}</strong> {t('CONTACT_TRUST')}
         </div>
 
         <div className="key">
           <div className="key__print">
-            <span className="key__label">Fingerprint</span>
+            <span className="key__label">{t('Fingerprint')}</span>
             <span className="key__value mono">{FINGERPRINT}</span>
           </div>
 
           <dl className="deflist">
             {KEY_FACTS.map(([k, v]) => (
               <div key={k} style={{ display: 'contents' }}>
-                <dt>{k}</dt>
-                <dd>{v}</dd>
+                <dt>{t(k)}</dt>
+                <dd>{t(v)}</dd>
               </div>
             ))}
           </dl>
 
           <div className="channel__actions">
             <a className="btn" href={asset('/arn-c0de.asc')} download="arn-c0de.asc">
-              Download .asc
+              {t('Download .asc')}
             </a>
-            <CopyButton value={PGP_PUBLIC_KEY} label="Copy key block" />
+            <CopyButton value={PGP_PUBLIC_KEY} label={t('Copy key block')} />
           </div>
 
           {/* The armoured block is long and rarely read on screen — folded away
               rather than dominating the page. */}
           <details className="keyfold">
-            <summary>Show the key block</summary>
+            <summary>{t('Show the key block')}</summary>
             <pre className="keyblock">{PGP_PUBLIC_KEY}</pre>
           </details>
         </div>

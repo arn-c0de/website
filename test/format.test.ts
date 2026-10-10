@@ -43,3 +43,12 @@ test('two languages that differ get different hues', () => {
   const hues = ['Python', 'Kotlin', 'C', 'C#', 'C++', 'Java', 'Shell', 'JavaScript'].map(languageHue)
   assert.equal(new Set(hues).size, hues.length)
 })
+
+test('German relative dates read naturally', () => {
+  const ago = (days: number) => new Date(Date.now() - days * DAY).toISOString()
+  assert.equal(formatRelative(ago(0), 'de'), 'heute')
+  assert.equal(formatRelative(ago(1), 'de'), 'vor 1 Tag')
+  assert.equal(formatRelative(ago(5), 'de'), 'vor 5 Tagen')
+  assert.equal(formatRelative(ago(65), 'de'), 'vor 2 Monaten')
+  assert.equal(formatRelative(ago(800), 'de'), 'vor 2 Jahren')
+})

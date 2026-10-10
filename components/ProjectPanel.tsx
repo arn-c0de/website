@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { loadReadme } from '@/lib/github'
 import { formatMonth, formatRelative, languageHue } from '@/lib/format'
+import { useI18n } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
 import {
   CheckIcon,
@@ -83,6 +84,7 @@ function sanitise(html: string, repo: string): { withImages: string; withoutImag
  * project is just handing over the current URL.
  */
 function CopyLinkButton({ project }: { project: string }) {
+  const { t } = useI18n()
   const [copied, setCopied] = useState(false)
 
   async function copy() {
@@ -106,7 +108,7 @@ function CopyLinkButton({ project }: { project: string }) {
       <span className="btn__icon" key={copied ? 'done' : 'idle'}>
         {copied ? <CheckIcon /> : <CopyIcon />}
       </span>
-      {copied ? 'Copied' : 'Copy link'}
+      {copied ? t('Copied') : t('Copy link')}
     </button>
   )
 }
@@ -126,6 +128,7 @@ export default function ProjectPanel({
   /** Opens the request tab with this project already attached. */
   onRequest: (name: string) => void
 }) {
+  const { t, locale } = useI18n()
   const position = projects.findIndex((p) => p.name === project.name)
   const previous = position > 0 ? projects[position - 1] : null
   const next = position !== -1 && position < projects.length - 1 ? projects[position + 1] : null
@@ -241,9 +244,9 @@ export default function ProjectPanel({
   }, [onClose, onOpen, previous, next])
 
   const links = [
-    ...(project.html_url ? [{ label: 'Repository', href: project.html_url, icon: <GitHubIcon size={14} /> }] : []),
+    ...(project.html_url ? [{ label: t('Repository'), href: project.html_url, icon: <GitHubIcon size={14} /> }] : []),
     ...(project.homepage
-      ? [{ label: 'Homepage', href: project.homepage, icon: <LinkIcon /> }]
+      ? [{ label: t('Homepage'), href: project.homepage, icon: <LinkIcon /> }]
       : []),
     ...project.links.map((l) => ({ ...l, icon: <LinkIcon /> })),
   ]
@@ -256,13 +259,13 @@ export default function ProjectPanel({
         style={width ? { width: `min(${width}px, 100vw)` } : undefined}
         role="dialog"
         aria-modal="true"
-        aria-label={`${project.title} details`}
+        aria-label={t('{name} details', { name: project.title })}
       >
         <div
           className="panel__grip"
           role="separator"
           aria-orientation="vertical"
-          aria-label="Resize panel"
+          aria-label={t('Resize panel')}
           tabIndex={0}
           data-dragging={dragging}
           onPointerDown={onGripPointerDown}
@@ -272,15 +275,19 @@ export default function ProjectPanel({
           onKeyDown={onGripKeyDown}
         />
         <header className="panel__head">
-          {project.icon && (
-            <img className="panel__icon" src={project.icon} alt="" width={36} height={36} />
+          {project.icon ? (
+            <img className="panel__icon" src={project.icon} alt="" width={44} height={44} />
+          ) : (
+            <span className="panel__icon panel__icon--mono" aria-hidden>
+              {project.title.charAt(0)}
+            </span>
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
             <h2 className="panel__title">{project.title}</h2>
             <p className="panel__sub">
               <span className="mono">{project.full_name || `arn-c0de/${project.name}`}</span>
               {' · '}
-              {project.category}
+              {t(project.category)}
             </p>
           </div>
           {/* Stepping through the list without going back to the grid every
@@ -292,7 +299,7 @@ export default function ProjectPanel({
               className="iconbtn"
               onClick={() => previous && onOpen(previous.name)}
               disabled={!previous}
-              aria-label={previous ? `Previous project: ${previous.title}` : 'No previous project'}
+              aria-label={previous ? t('Previous project: {name}', { name: previous.title }) : t('No previous project')}
               title={previous ? `${previous.title}  [` : undefined}
             >
               <ChevronIcon dir="left" />
@@ -302,30 +309,28 @@ export default function ProjectPanel({
               className="iconbtn"
               onClick={() => next && onOpen(next.name)}
               disabled={!next}
-              aria-label={next ? `Next project: ${next.title}` : 'No next project'}
+              aria-label={next ? t('Next project: {name}', { name: next.title }) : t('No next project')}
               title={next ? `${next.title}  ]` : undefined}
             >
               <ChevronIcon dir="right" />
             </button>
           </div>
 
-          <button ref={closeRef} type="button" className="iconbtn" onClick={onClose} aria-label="Close panel">
+          <button ref={closeRef} type="button" className="iconbtn" onClick={onClose} aria-label={t('Close panel')}>
             <CloseIcon />
           </button>
         </header>
 
         <div className="panel__body">
           {project.description && (
-            <p style={{ marginTop: 0, marginBottom: 20, color: 'var(--text-muted)' }}>
-              {project.description}
-            </p>
+            <p className="panel__desc">{project.description}</p>
           )}
 
           <section className="panel__section">
             <div className="panel__actions">
               <button type="button" className="btn btn--request" onClick={() => onRequest(project.name)}>
                 <RequestIcon />
-                Ask about this
+                {t('Ask about this')}
               </button>
               {links.map((link) => (
                 <a
@@ -347,33 +352,33 @@ export default function ProjectPanel({
             <div className="stats">
               <div className="stat">
                 <div className="stat__v">{project.stargazers_count}</div>
-                <div className="stat__k">stars</div>
+                <div className="stat__k">{t('Stars')}</div>
               </div>
               <div className="stat">
                 <div className="stat__v">{project.forks_count}</div>
-                <div className="stat__k">forks</div>
+                <div className="stat__k">{t('Forks')}</div>
               </div>
               <div className="stat">
-                <div className="stat__v" style={{ fontSize: 14 }}>
-                  {formatMonth(project.created_at)}
+                <div className="stat__v stat__v--text">
+                  {formatMonth(project.created_at, locale)}
                 </div>
-                <div className="stat__k">created</div>
+                <div className="stat__k">{t('Created')}</div>
               </div>
               <div className="stat">
-                <div className="stat__v" style={{ fontSize: 14 }}>
-                  {formatRelative(project.pushed_at)}
+                <div className="stat__v stat__v--text">
+                  {formatRelative(project.pushed_at, locale)}
                 </div>
-                <div className="stat__k">last push</div>
+                <div className="stat__k">{t('Last push')}</div>
               </div>
             </div>
           </section>
 
           <section className="panel__section">
-            <p className="panel__label">Details</p>
+            <p className="panel__label">{t('Details')}</p>
             <dl className="deflist">
               {project.language && (
                 <>
-                  <dt>Language</dt>
+                  <dt>{t('Language')}</dt>
                   <dd>
                     <span
                       className="lang"
@@ -385,16 +390,16 @@ export default function ProjectPanel({
                   </dd>
                 </>
               )}
-              <dt>License</dt>
+              <dt>{t('License')}</dt>
               {/* GitHub reports NOASSERTION for licences it cannot identify. */}
               <dd>
                 {!project.license || project.license === 'NOASSERTION'
-                  ? 'see repository'
+                  ? t('see repository')
                   : project.license}
               </dd>
               {project.topics.length > 0 && (
                 <>
-                  <dt>Topics</dt>
+                  <dt>{t('Topics')}</dt>
                   <dd>
                     <span className="tagrow">
                       {project.topics.map((t) => (
@@ -410,30 +415,29 @@ export default function ProjectPanel({
           </section>
 
           <section className="panel__section">
-            <p className="panel__label">Readme</p>
+            <p className="panel__label">{t('Readme')}</p>
             {readmeState === 'loading' && (
-              <div className="skeleton" style={{ height: 160 }} aria-label="Loading readme" />
+              <div className="skeleton" style={{ height: 160 }} aria-label={t('Loading readme')} />
             )}
             {readmeState === 'missing' && (
               <p style={{ color: 'var(--text-faint)', fontSize: 13.5, margin: 0 }}>
                 {project.isPrivate
-                  ? 'This is a private project. Use “Ask about this” to request access, an early build or further details.'
-                  : 'Readme could not be loaded — open the repository on GitHub instead.'}
+                  ? t('PANEL_PRIVATE')
+                  : t('Readme could not be loaded — open the repository on GitHub instead.')}
               </p>
             )}
             {readmeState === 'ready' && readme && (
               <>
                 {readme.images > 0 && !imagesShown && (
                   <div className="callout" style={{ marginBottom: 14 }}>
-                    This readme embeds{' '}
+                    {t('This readme embeds')}{' '}
                     <strong>
-                      {readme.images} image{readme.images === 1 ? '' : 's'}
+                      {t(readme.images === 1 ? '{n} image' : '{n} images', { n: readme.images })}
                     </strong>{' '}
-                    hosted by GitHub. They stay blocked until you ask for them, so nothing is
-                    requested from a third party without your say-so.
+                    {t('README_IMAGES')}
                     <div style={{ marginTop: 10 }}>
                       <button type="button" className="btn" onClick={() => setImagesShown(true)}>
-                        Load images
+                        {t('Load images')}
                       </button>
                     </div>
                   </div>

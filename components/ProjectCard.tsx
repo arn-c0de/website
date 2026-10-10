@@ -2,6 +2,7 @@
 
 import type { Project } from '@/lib/types'
 import { formatRelative } from '@/lib/format'
+import { useI18n } from '@/lib/i18n'
 import { ArrowIcon, ForkIcon, LanguageIcon, StarIcon } from './Icons'
 
 const MAX_TAGS = 3
@@ -35,6 +36,7 @@ export default function ProjectCard({
   /** Position in the grid; drives the staggered entrance animation. */
   index?: number
 }) {
+  const { t, locale } = useI18n()
   const topics = visibleTopics(project.topics)
   const extra = project.topics.length - topics.length
   const badge = showFeaturedBadge && project.featured
@@ -57,7 +59,7 @@ export default function ProjectCard({
       data-reveal
       onPointerMove={trackPointer}
       onClick={() => onOpen(project.name)}
-      aria-label={`Open details for ${project.title}`}
+      aria-label={t('Open details for {name}', { name: project.title })}
     >
       <div className="card__head">
         {project.icon ? (
@@ -74,7 +76,7 @@ export default function ProjectCard({
         <h3 className="card__title">{project.title}</h3>
         {/* Active is the normal state; only the exceptions earn a badge. */}
         {project.status !== 'active' && (
-          <span className={`card__flag card__flag--${project.status}`}>{project.status}</span>
+          <span className={`card__flag card__flag--${project.status}`}>{t(project.status)}</span>
         )}
       </div>
 
@@ -103,7 +105,7 @@ export default function ProjectCard({
           </span>
         )}
         {project.language && <span className="card__stat">{project.language}</span>}
-        <span className="card__when">{formatRelative(project.pushed_at)}</span>
+        <span className="card__when">{formatRelative(project.pushed_at, locale)}</span>
         <span className="card__go" aria-hidden>
           <ArrowIcon />
         </span>

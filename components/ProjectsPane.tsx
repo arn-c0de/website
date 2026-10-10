@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import config from '@/projects.config'
 import { searchProjects, sortProjects } from '@/lib/github'
 import type { Project, SortKey } from '@/lib/types'
+import { useI18n } from '@/lib/i18n'
 import ProjectCard from './ProjectCard'
 import { CloseIcon, SearchIcon } from './Icons'
 
@@ -30,6 +31,7 @@ export default function ProjectsPane({
   onLanguageChange: (language: string) => void
   onOpen: (name: string) => void
 }) {
+  const { t, labels } = useI18n()
   const [category, setCategory] = useState<string>('all')
   const [sort, setSort] = useState<SortKey>('featured')
   const [showAll, setShowAll] = useState(config.showAllByDefault)
@@ -68,11 +70,8 @@ export default function ProjectsPane({
   return (
     <div className="pane">
       <div className="pane__head">
-        <h1 className="pane__title">Projects</h1>
-        <p className="pane__lede">
-          Things I have built around embedded systems, local AI and network security. The list
-          comes straight from GitHub — pick a project to see the details, readme and links.
-        </p>
+        <h1 className="pane__title">{labels.projects}</h1>
+        <p className="pane__lede">{t('PROJECTS_LEDE')}</p>
       </div>
 
       <div className="toolbar">
@@ -84,11 +83,11 @@ export default function ProjectsPane({
             type="search"
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
-            placeholder="Search projects, topics, languages…"
-            aria-label="Search projects"
+            placeholder={t('Search projects, topics, languages…')}
+            aria-label={t('Search projects')}
           />
           {query && (
-            <button type="button" className="search__clear" onClick={() => onQueryChange('')} aria-label="Clear search">
+            <button type="button" className="search__clear" onClick={() => onQueryChange('')} aria-label={t('Clear search')}>
               <CloseIcon />
             </button>
           )}
@@ -98,9 +97,9 @@ export default function ProjectsPane({
           className="select"
           value={language}
           onChange={(e) => onLanguageChange(e.target.value)}
-          aria-label="Filter by language"
+          aria-label={t('Filter by language')}
         >
-          <option value="all">All languages</option>
+          <option value="all">{t('All languages')}</option>
           {languages.map((l) => (
             <option key={l} value={l}>
               {l}
@@ -112,11 +111,11 @@ export default function ProjectsPane({
           className="select"
           value={sort}
           onChange={(e) => setSort(e.target.value as SortKey)}
-          aria-label="Sort projects"
+          aria-label={t('Sort projects')}
         >
           {SORTS.map((s) => (
             <option key={s.key} value={s.key}>
-              {s.label}
+              {t(s.label)}
             </option>
           ))}
         </select>
@@ -129,7 +128,7 @@ export default function ProjectsPane({
           aria-pressed={category === 'all'}
           onClick={() => setCategory('all')}
         >
-          All
+          {t('All')}
           <span className="chip__n">{projects.length}</span>
         </button>
         {categories.map(([name, count]) => (
@@ -140,7 +139,7 @@ export default function ProjectsPane({
             aria-pressed={category === name}
             onClick={() => setCategory(category === name ? 'all' : name)}
           >
-            {name}
+            {t(name)}
             <span className="chip__n">{count}</span>
           </button>
         ))}
@@ -148,9 +147,9 @@ export default function ProjectsPane({
 
       {visible.length === 0 ? (
         <div className="empty">
-          <p>No project matches those filters.</p>
+          <p>{t('No project matches those filters.')}</p>
           <button type="button" className="btn" onClick={reset}>
-            Reset filters
+            {t('Reset filters')}
           </button>
         </div>
       ) : (
@@ -170,7 +169,7 @@ export default function ProjectsPane({
       {!showAll && !filtersActive && hiddenCount > 0 && (
         <div className="showall">
           <button type="button" className="btn" onClick={() => setShowAll(true)}>
-            Show all {projects.length} projects
+            {t('Show all {n} projects', { n: projects.length })}
             <span className="chip__n">+{hiddenCount}</span>
           </button>
         </div>
