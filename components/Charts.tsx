@@ -67,7 +67,7 @@ export function LanguageRing({
               cx="60"
               cy="60"
               r={RING_R}
-              stroke={`hsl(${slice.hue} 65% 55%)`}
+              stroke={`hsl(${slice.hue} 62% 58%)`}
               strokeDasharray={`${length} ${RING_C - length}`}
               strokeDashoffset={-offset}
               data-dim={active !== null && active !== slice.name}
@@ -258,7 +258,7 @@ export function SpanChart({
             const start = x(span.from)
             // A repository pushed the day it was created still needs a mark.
             const width = Math.max(6, x(span.to) - start)
-            const colour = `hsl(${span.hue} 65% 55%)`
+            const colour = `hsl(${span.hue} 62% 58%)`
             const name =
               span.title.length > S_NAME_MAX ? `${span.title.slice(0, S_NAME_MAX - 1)}…` : span.title
 

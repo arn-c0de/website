@@ -20,9 +20,35 @@ export function formatRelative(iso: string): string {
   return `${years} year${years === 1 ? '' : 's'} ago`
 }
 
+/**
+ * Hues for the languages these repositories actually use, picked to sit
+ * together as one palette — cool blues and violets for the bulk, a few warm
+ * accents spaced well apart. A hash of the name would scatter them around
+ * the wheel and land neighbours on clashing oranges and limes.
+ */
+const LANGUAGE_HUES: Record<string, number> = {
+  Python: 214,
+  'C++': 238,
+  C: 192,
+  'C#': 274,
+  Rust: 18,
+  Java: 32,
+  JavaScript: 46,
+  TypeScript: 204,
+  Kotlin: 300,
+  Shell: 152,
+  Go: 182,
+  HTML: 10,
+  CSS: 258,
+  Dart: 196,
+  Swift: 8,
+}
+
 /** Stable colour per language, so the same tech always reads the same. */
 export function languageHue(language: string | null): number {
   if (!language) return 220
+  const known = LANGUAGE_HUES[language]
+  if (known !== undefined) return known
   let hash = 0
   for (let i = 0; i < language.length; i++) hash = (hash * 31 + language.charCodeAt(i)) % 360
   return hash

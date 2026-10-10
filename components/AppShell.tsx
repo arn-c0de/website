@@ -278,9 +278,59 @@ function AppShellContent() {
         <div className="topbar__row">
           <button type="button" className="brand" onClick={() => selectTab('overview')}>
             {/* Served from this domain, not from GitHub's avatar CDN. */}
-            <img className="brand__mark" src={asset('/avatar.jpg')} alt="" width={26} height={26} />
-            arn-c0de
+            <img className="brand__mark" src={asset('/avatar.jpg')} alt="" width={28} height={28} />
+            <span className="brand__name">arn-c0de</span>
           </button>
+
+          <nav
+            className="tabs"
+            role="tablist"
+            aria-label="Sections"
+            ref={tabsRef}
+            onKeyDown={onTabKeys}
+          >
+            {/* The pill is a sibling of the tabs rather than a border on the
+                active one: one element that travels, instead of five that
+                light up. Position comes from the layout effect above. */}
+            {indicator && (
+              <span
+                className="tabs__pill"
+                aria-hidden
+                style={{ left: indicator.left, width: indicator.width }}
+              />
+            )}
+            {TABS.map((t) => {
+              const Icon = TAB_ICONS[t]
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  className="tab"
+                  role="tab"
+                  id={`tab-${t}`}
+                  aria-selected={tab === t}
+                  aria-controls="pane"
+                  // A tablist is one stop in the tab order; the arrow keys move
+                  // inside it. Tab therefore steps from the row to the pane
+                  // rather than through five buttons.
+                  tabIndex={tab === t ? 0 : -1}
+                  onClick={() => selectTab(t)}
+                >
+                  <span className="tab__icon">
+                    <Icon />
+                  </span>
+                  <span className="tab__label">{labels[t]}</span>
+                  {/* Keyed on the number so the badge remounts — and replays its
+                      pop — when the live list lands on a different count. */}
+                  {t === 'projects' && (
+                    <span className="tab__count" key={projects.length}>
+                      {projects.length}
+                    </span>
+                  )}
+                </button>
+              )
+            })}
+          </nav>
 
           <span className="topbar__spacer" />
 
@@ -314,56 +364,6 @@ function AppShellContent() {
           <LanguageToggle />
           <ThemeToggle />
         </div>
-
-        <nav
-          className="tabs"
-          role="tablist"
-          aria-label="Sections"
-          ref={tabsRef}
-          onKeyDown={onTabKeys}
-        >
-          {/* The pill is a sibling of the tabs rather than a border on the
-              active one: one element that travels, instead of five that
-              light up. Position comes from the layout effect above. */}
-          {indicator && (
-            <span
-              className="tabs__pill"
-              aria-hidden
-              style={{ left: indicator.left, width: indicator.width }}
-            />
-          )}
-          {TABS.map((t) => {
-            const Icon = TAB_ICONS[t]
-            return (
-              <button
-                key={t}
-                type="button"
-                className="tab"
-                role="tab"
-                id={`tab-${t}`}
-                aria-selected={tab === t}
-                aria-controls="pane"
-                // A tablist is one stop in the tab order; the arrow keys move
-                // inside it. Tab therefore steps from the row to the pane
-                // rather than through five buttons.
-                tabIndex={tab === t ? 0 : -1}
-                onClick={() => selectTab(t)}
-              >
-                <span className="tab__icon">
-                  <Icon />
-                </span>
-                <span className="tab__label">{labels[t]}</span>
-                {/* Keyed on the number so the badge remounts — and replays its
-                    pop — when the live list lands on a different count. */}
-                {t === 'projects' && (
-                  <span className="tab__count" key={projects.length}>
-                    {projects.length}
-                  </span>
-                )}
-              </button>
-            )
-          })}
-        </nav>
 
         {/* Reading progress; width comes from --scroll-progress. */}
         <span className="topbar__progress" aria-hidden />
@@ -411,45 +411,58 @@ function AppShellContent() {
       </main>
 
       <footer className="footer">
-        <div className="footer__row">
-          <span>
-            <span className={`dot dot--${source}`} />
-            {source === 'live' ? 'Live from the GitHub API' : 'Showing committed snapshot'}
-          </span>
-          <span>No tracking, no cookies, no analytics.</span>
-          <span style={{ marginLeft: 'auto' }}>
-            <a href="https://github.com/arn-c0de" target="_blank" rel="noopener noreferrer">
+        <div className="footer__inner">
+          <div className="footer__brand">
+            <img src={asset('/avatar.jpg')} alt="" width={22} height={22} />
+            <span>arn-c0de</span>
+            <span className="footer__sep" aria-hidden>·</span>
+            <span className="footer__muted">Embedded systems, security tooling and local AI</span>
+          </div>
+
+          <div className="footer__row">
+            <span className="footer__status">
+              <span className={`dot dot--${source}`} />
+              {source === 'live' ? 'Live from the GitHub API' : 'Showing committed snapshot'}
+            </span>
+            <span>No tracking, no cookies, no analytics.</span>
+            <a
+              className="footer__link"
+              href="https://github.com/arn-c0de"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GitHubIcon size={13} />
               github.com/arn-c0de
             </a>
-          </span>
-        </div>
-
-        <details className="privacy">
-          <summary>Privacy</summary>
-          <div className="privacy__body">
-            <p>
-              This site sets no cookies and runs no analytics or tracking of any kind. Fonts,
-              icons and styles are served from this domain — there is no CDN and no third-party
-              script, and nothing is stored offline. The only things kept in your browser are your
-              chosen colour theme and language, which clearing site data removes. The page carries
-              a content
-              security policy that says all of this to your browser, so it is enforced rather
-              than promised.
-            </p>
-            <p>
-              The one request made automatically is to <span className="mono">api.github.com</span>{' '}
-              to read the public repository list. Opening a project additionally requests that
-              repository&apos;s readme. Images embedded in readmes are hosted by GitHub and stay
-              blocked until you press <em>Load images</em>.
-            </p>
-            <p>
-              Hosting is GitHub Pages. Like any web server, GitHub receives your IP address and
-              request metadata when the page is delivered; that happens on their infrastructure
-              under their privacy policy and is outside my control. I neither receive nor keep
-              those logs.
-            </p>
           </div>
-        </details>
+
+          <details className="privacy">
+            <summary>Privacy</summary>
+            <div className="privacy__body">
+              <p>
+                This site sets no cookies and runs no analytics or tracking of any kind. Fonts,
+                icons and styles are served from this domain — there is no CDN and no third-party
+                script, and nothing is stored offline. The only things kept in your browser are
+                your chosen colour theme and language, which clearing site data removes. The page
+                carries a content security policy that says all of this to your browser, so it is
+                enforced rather than promised.
+              </p>
+              <p>
+                The one request made automatically is to{' '}
+                <span className="mono">api.github.com</span> to read the public repository list.
+                Opening a project additionally requests that repository&apos;s readme. Images
+                embedded in readmes are hosted by GitHub and stay blocked until you press{' '}
+                <em>Load images</em>.
+              </p>
+              <p>
+                Hosting is GitHub Pages. Like any web server, GitHub receives your IP address and
+                request metadata when the page is delivered; that happens on their infrastructure
+                under their privacy policy and is outside my control. I neither receive nor keep
+                those logs.
+              </p>
+            </div>
+          </details>
+        </div>
       </footer>
 
       {selected && (
