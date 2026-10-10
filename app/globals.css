@@ -5272,3 +5272,138 @@ p {
     word-spacing: 2px;
   }
 }
+
+/* Detail panel — the same stat tiles and type ramp as the rest of the site. */
+
+.panel__head {
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+}
+
+.panel__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  border: 1px solid var(--border);
+}
+
+.panel__icon--mono {
+  display: grid;
+  place-items: center;
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 18%, transparent);
+  font-size: 18px;
+  font-weight: 780;
+  color: var(--accent);
+}
+
+.panel__title {
+  font-size: 21px;
+  font-weight: 760;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.panel__sub {
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+.panel__body {
+  padding: 20px;
+}
+
+.panel__desc {
+  margin: 0 0 18px;
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.panel__label {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.09em;
+}
+
+.stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.stat {
+  padding: 12px 14px;
+  background: var(--bg-panel);
+  border-radius: 0;
+}
+
+.stat + .stat {
+  border-left: 1px solid var(--border);
+}
+
+.stat__v {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 760;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat__v--text {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.stat__k {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-muted);
+}
+
+@media (max-width: 520px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stat:nth-child(3) {
+    border-left: 0;
+  }
+
+  .stat:nth-child(n + 3) {
+    border-top: 1px solid var(--border);
+  }
+
+  .panel__head {
+    padding: 14px 16px;
+  }
+
+  .panel__body {
+    padding: 16px;
+  }
+}
+
+.panel__section {
+  margin-bottom: 24px;
+}
+
+.modal__form .frow {
+  grid-template-columns: 112px minmax(0, 1fr);
+}
+
+/* The tags follow the text; the card may run taller than its content when
+   its neighbour is long, and empty space reads better at the bottom. */
+.role__tags {
+  margin-top: 4px;
+}
+
+@media (max-width: 480px) {
+  .modal__form .frow {
+    grid-template-columns: 1fr;
+  }
+}

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { asset } from '@/lib/basePath'
 import { formatRelative } from '@/lib/format'
+import { useI18n } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
 import type { Tab } from '@/lib/useAppState'
 import Metric from './Metric'
@@ -35,6 +36,7 @@ export default function OverviewPane({
   onOpenProject: (name: string) => void
   onStartRequest: () => void
 }) {
+  const { t, locale } = useI18n()
   const stats = useMemo(() => {
     const languages = new Map<string, number>()
     let stars = 0
@@ -79,26 +81,21 @@ export default function OverviewPane({
               <p className="hero__handle">arn-c0de</p>
               <p className="hero__status">
                 <span className="hero__pulse" aria-hidden />
-                Open for freelance work
+                {t('Open for freelance work')}
               </p>
             </div>
           </div>
 
-          <h1 className="hero__name">
-            Practical systems, from firmware to the apps people use.
-          </h1>
-          <p className="hero__lede">
-            Industrial traceability, embedded tooling, local AI and VR simulation research — built
-            to run where your data lives, and published on GitHub wherever it can be.
-          </p>
+          <h1 className="hero__name">{t('Practical systems, from firmware to the apps people use.')}</h1>
+          <p className="hero__lede">{t('HERO_LEDE')}</p>
 
           <div className="hero__actions">
             <button type="button" className="btn btn--request btn--lg" onClick={onStartRequest}>
               <RequestIcon />
-              Private access & requests
+              {t('Private access & requests')}
             </button>
             <button type="button" className="btn btn--lg" onClick={() => onNavigate('projects')}>
-              Browse projects
+              {t('Browse projects')}
               <ArrowIcon />
             </button>
             <a
@@ -116,18 +113,14 @@ export default function OverviewPane({
         {/* What is on the bench right now — the detail the introduction used
             to carry in one long paragraph. */}
         <aside className="now" aria-labelledby="now-title">
-          <p className="now__label">Currently building</p>
+          <p className="now__label">{t('Currently building')}</p>
           <h2 className="now__title" id="now-title">
             QLink
           </h2>
-          <p className="now__text">
-            My own Rust game and simulation engine for Linux. It shows the simulation directly as
-            the Link home on Quest 3 — no Quest Link PC app — while the same world runs in 2D on
-            the desktop, and is meant to start Steam and other games from there.
-          </p>
-          <p className="now__note">Very early version · test builds by invitation</p>
+          <p className="now__text">{t('QLINK_TEXT')}</p>
+          <p className="now__note">{t('Very early version · test builds by invitation')}</p>
           <div className="now__also">
-            <span className="now__also-label">Also in progress</span>
+            <span className="now__also-label">{t('Also in progress')}</span>
             <span className="tag">ARIS</span>
             <span className="tag">FLUID</span>
             <span className="tag">DeepVision-Web</span>
@@ -136,10 +129,10 @@ export default function OverviewPane({
       </section>
 
       <div className="metrics metrics--hero" data-reveal>
-        <Metric value={projects.length} label="Public projects" />
-        <Metric value={stats.stars} label="GitHub stars" />
-        <Metric value={stats.languages.length} label="Languages" />
-        <Metric value={formatRelative(stats.lastPush)} label="Last push" />
+        <Metric value={projects.length} label={t('Public projects')} />
+        <Metric value={stats.stars} label={t('GitHub stars')} />
+        <Metric value={stats.languages.length} label={t('Languages')} />
+        <Metric value={formatRelative(stats.lastPush, locale)} label={t('Last push')} />
       </div>
 
       <Gallery projects={gallery} onOpen={onOpenProject} onAll={() => onNavigate('projects')} />
@@ -147,8 +140,8 @@ export default function OverviewPane({
       <section className="band">
         <div className="band__head" data-reveal>
           <div>
-            <h2 className="band__title">Explore</h2>
-            <p className="band__hint">The rest of the site, one step away.</p>
+            <h2 className="band__title">{t('Explore')}</h2>
+            <p className="band__hint">{t('The rest of the site, one step away.')}</p>
           </div>
         </div>
 
@@ -156,9 +149,9 @@ export default function OverviewPane({
           <Tile
             index={0}
             icon={<StackIcon />}
-            title="Stack"
-            text="Languages, domains and shared topics — counted from the repositories themselves, so it never drifts out of date."
-            action="Open the stack"
+            title={t('Stack')}
+            text={t('TILE_STACK')}
+            action={t('Open the stack')}
             onAction={() => onNavigate('stack')}
           >
             {stats.languages.slice(0, TOP_LANGUAGES).map(([name, count]) => (
@@ -173,9 +166,9 @@ export default function OverviewPane({
           <Tile
             index={1}
             icon={<AboutIcon />}
-            title="About"
-            text="What I focus on, and the principles the projects are built on: local by default, security that stays honest, readable over clever."
-            action="Read about me"
+            title={t('About')}
+            text={t('TILE_ABOUT')}
+            action={t('Read about me')}
             onAction={() => onNavigate('about')}
           >
             <span className="tag">embedded</span>
@@ -187,9 +180,9 @@ export default function OverviewPane({
           <Tile
             index={2}
             icon={<MailIcon />}
-            title="Contact"
-            text="Questions about a project, help getting something running, a bug or security finding, or an idea you would like built."
-            action="Get in touch"
+            title={t('Contact')}
+            text={t('TILE_CONTACT')}
+            action={t('Get in touch')}
             onAction={() => onNavigate('contact')}
           >
             <span className="tag">SimpleX</span>
@@ -260,6 +253,7 @@ function Gallery({
   onOpen: (name: string) => void
   onAll: () => void
 }) {
+  const { t } = useI18n()
   const trackRef = useRef<HTMLDivElement>(null)
   const [edges, setEdges] = useState({ start: true, end: true })
   const [dragging, setDragging] = useState(false)
@@ -352,8 +346,8 @@ function Gallery({
     <section className="band">
       <div className="band__head" data-reveal>
         <div>
-          <h2 className="band__title">Featured projects</h2>
-          <p className="band__hint">Hand-picked work — open one for its readme and links.</p>
+          <h2 className="band__title">{t('Featured projects')}</h2>
+          <p className="band__hint">{t('Hand-picked work — open one for its readme and links.')}</p>
         </div>
         {/* aria-disabled rather than disabled: the state is measured from the
             DOM after mount, and a real `disabled` attribute would both differ
@@ -365,7 +359,7 @@ function Gallery({
             className="iconbtn"
             onClick={() => page(-1)}
             aria-disabled={edges.start}
-            aria-label="Previous projects"
+            aria-label={t('Previous projects')}
           >
             <ChevronIcon dir="left" />
           </button>
@@ -374,12 +368,12 @@ function Gallery({
             className="iconbtn"
             onClick={() => page(1)}
             aria-disabled={edges.end}
-            aria-label="More projects"
+            aria-label={t('More projects')}
           >
             <ChevronIcon dir="right" />
           </button>
           <button type="button" className="btn btn--sm" onClick={onAll}>
-            All projects
+            {t('All projects')}
             <ArrowIcon />
           </button>
         </div>

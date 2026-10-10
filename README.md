@@ -48,6 +48,19 @@ Categories are inferred from topics and language via the `categories` array — 
 `fallbackCategory` catches the rest. The Stack tab needs no maintenance at all: it counts
 languages, domains and topics from whatever the API returns.
 
+## English and German
+
+The whole interface comes in both languages. A visitor whose browser asks for German gets German
+on the first visit; the DE/EN button switches and remembers the choice. Repository names,
+descriptions and readmes come from GitHub and stay as written, and the request email draft stays
+English because it is addressed to me.
+
+Components write their text in English and pass it through `t()` from `lib/i18n.tsx`; the English
+string is the key into the German table in `lib/i18n-de.ts`. Whole paragraphs use a short
+upper-case key in `LONG` instead, with both languages side by side. A missing entry falls back to
+English rather than showing a key, and `test/i18n.test.ts` fails the build if any `t('…')` in
+`components/` has no German entry or a translation drops a `{placeholder}`.
+
 ## Moving between tabs
 
 The tab bar is a segmented control: every section carries its own mark, and one

@@ -15,6 +15,7 @@ import {
   type RequestDraft,
   type ServiceAreaId,
 } from '@/lib/request'
+import { useI18n } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
 import SearchPicker, { type PickerItem } from './SearchPicker'
 import { CheckIcon, CloseIcon, CopyIcon, RequestIcon, SendIcon } from './Icons'
@@ -40,6 +41,7 @@ export default function RequestModal({
   onSelectedChange: (names: string[]) => void
   onClose: () => void
 }) {
+  const { t: tr } = useI18n()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [type, setType] = useState<InquiryTypeId>('question')
@@ -57,8 +59,13 @@ export default function RequestModal({
   )
 
   const areaItems: PickerItem[] = useMemo(
-    () => SERVICE_AREAS.map((a) => ({ id: a.id, title: a.title, keywords: a.keywords })),
-    [],
+    () =>
+      SERVICE_AREAS.map((a) => ({
+        id: a.id,
+        title: tr(a.title),
+        keywords: `${a.title} ${a.keywords}`,
+      })),
+    [tr],
   )
 
   /** Searching projects by language, topic or blurb beats scrolling a list. */
@@ -79,9 +86,9 @@ export default function RequestModal({
   const mailto = buildMailto(draft)
 
   const missing: string[] = []
-  if (!name.trim()) missing.push('name')
-  if (!looksLikeEmail(email)) missing.push('email')
-  if (!message.trim()) missing.push('message')
+  if (!name.trim()) missing.push(tr('name'))
+  if (!looksLikeEmail(email)) missing.push(tr('email'))
+  if (!message.trim()) missing.push(tr('message'))
   const ready = missing.length === 0
 
   // Read through a ref rather than depended on: the parent hands this down as
@@ -139,18 +146,16 @@ export default function RequestModal({
   return (
     <>
       <div className="scrim" style={{ zIndex: 55 }} onClick={onClose} />
-      <div className="modal" role="dialog" aria-modal="true" aria-label="Start a request">
+      <div className="modal" role="dialog" aria-modal="true" aria-label={tr('Start a request')}>
         <header className="modal__head">
           <span className="modal__mark" aria-hidden>
             <RequestIcon />
           </span>
           <div className="modal__heading">
-            <h2 className="modal__title">Start a request</h2>
-            <p className="modal__sub">
-              Describe what you need. Add details only when they are useful.
-            </p>
+            <h2 className="modal__title">{tr('Start a request')}</h2>
+            <p className="modal__sub">{tr('Describe what you need. Add details only when they are useful.')}</p>
           </div>
-          <button ref={closeRef} type="button" className="iconbtn" onClick={onClose} aria-label="Close">
+          <button ref={closeRef} type="button" className="iconbtn" onClick={onClose} aria-label={tr('Close')}>
             <CloseIcon />
           </button>
         </header>
@@ -158,27 +163,27 @@ export default function RequestModal({
         <div className="modal__cols">
           <div className="modal__form">
             <label className="request-field request-field--message request-field--primary">
-              <span>What can I help with?</span>
+              <span>{tr('What can I help with?')}</span>
               <textarea
                 className="input input--area input--sm"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onBlur={() => setTouched(true)}
                 rows={4}
-                placeholder="Tell me what you need and any useful context."
+                placeholder={tr('Tell me what you need and any useful context.')}
               />
             </label>
 
-            <Row label="Request type">
+            <Row label={tr('Request type')}>
               <select
                 className="select select--wide select--sm"
                 value={type}
                 onChange={(e) => setType(e.target.value as InquiryTypeId)}
-                aria-label="Request type"
+                aria-label={tr('Request type')}
               >
                 {INQUIRY_TYPES.map((t) => (
                   <option key={t.id} value={t.id}>
-                    {t.label}
+                    {tr(t.label)}
                   </option>
                 ))}
               </select>
@@ -186,37 +191,39 @@ export default function RequestModal({
 
             <div className="request-contact">
               <label className="request-field">
-                <span>Name</span>
+                <span>{tr('Name')}</span>
                 <input
                   className="input input--sm"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   onBlur={() => setTouched(true)}
-                  placeholder="Jane Doe"
+                  placeholder={tr('Jane Doe')}
                   autoComplete="name"
                 />
               </label>
               <label className="request-field">
-                <span>Email</span>
+                <span>{tr('Email')}</span>
                 <input
                   className="input input--sm"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onBlur={() => setTouched(true)}
-                  placeholder="jane@example.com"
+                  placeholder={tr('jane@example.com')}
                   autoComplete="email"
                 />
               </label>
               <label className="request-field request-field--timeline">
-                <span>Timing</span>
+                <span>{tr('Timing')}</span>
                 <select
                   className="select select--wide select--sm"
                   value={timeline}
                   onChange={(e) => setTimeline(e.target.value as RequestDraft['timeline'])}
                 >
                   {TIMELINES.map((t) => (
-                    <option key={t}>{t}</option>
+                    <option key={t} value={t}>
+                      {tr(t)}
+                    </option>
                   ))}
                 </select>
               </label>
@@ -228,25 +235,25 @@ export default function RequestModal({
               onToggle={(event) => setShowDetails(event.currentTarget.open)}
             >
               <summary>
-                <span>Optional details</span>
+                <span>{tr('Optional details')}</span>
                 <span className="request-more__hint">
                   {chosen.length || areas.length
-                    ? `${chosen.length + areas.length} selected`
-                    : 'Project or focus'}
+                    ? tr('{n} selected', { n: chosen.length + areas.length })
+                    : tr('Project or focus')}
                 </span>
               </summary>
               <div className="request-more__body">
-                <Row label={areas.length ? `Focus (${areas.length})` : 'Focus'}>
+                <Row label={areas.length ? `${tr('Focus')} (${areas.length})` : tr('Focus')}>
                   <SearchPicker
                     items={areaItems}
                     selected={areas}
                     onToggle={(id) => toggleArea(id as ServiceAreaId)}
-                    placeholder="Search topics — PCVR, access, Rust…"
-                    label="Search focus areas"
+                    placeholder={tr('Search topics — PCVR, access, Rust…')}
+                    label={tr('Search focus areas')}
                   />
                 </Row>
 
-                <Row label={chosen.length ? `Projects (${chosen.length})` : 'Projects'}>
+                <Row label={chosen.length ? `${tr('Projects')} (${chosen.length})` : tr('Projects')}>
                   <SearchPicker
                     items={projectItems}
                     selected={selected}
@@ -255,8 +262,8 @@ export default function RequestModal({
                         selected.includes(id) ? selected.filter((n) => n !== id) : [...selected, id],
                       )
                     }
-                    placeholder="Search projects — esp32, python, rag…"
-                    label="Search projects"
+                    placeholder={tr('Search projects — esp32, python, rag…')}
+                    label={tr('Search projects')}
                   />
                 </Row>
 
@@ -265,15 +272,15 @@ export default function RequestModal({
           </div>
 
           <aside className="modal__preview">
-            <span className="fset__label">Preview</span>
+            <span className="fset__label">{tr('Preview')}</span>
             <div className="draft draft--tight">
               <div className="draft__head">
                 <span>
-                  <span className="draft__key">To</span>
+                  <span className="draft__key">{tr('To')}</span>
                   <span className="mono">{INQUIRY_EMAIL}</span>
                 </span>
                 <span>
-                  <span className="draft__key">Subject</span>
+                  <span className="draft__key">{tr('Subject')}</span>
                   {subject}
                 </span>
               </div>
@@ -285,11 +292,13 @@ export default function RequestModal({
         <footer className="modal__foot">
           <span className="modal__hint">
             {touched && !ready ? (
-              <span className="modal__hint--warn">Still needed: {missing.join(', ')}</span>
+              <span className="modal__hint--warn">
+                {tr('Still needed: {list}', { list: missing.join(', ') })}
+              </span>
             ) : mailto.length > MAILTO_LIMIT ? (
-              'Long message — use Copy draft, some mail apps truncate links.'
+              tr('Long message — use Copy draft, some mail apps truncate links.')
             ) : (
-              'Nothing is sent from here. You send it from your own mail app.'
+              tr('Nothing is sent from here. You send it from your own mail app.')
             )}
           </span>
           <div className="modal__actions">
@@ -301,7 +310,7 @@ export default function RequestModal({
               <span className="btn__icon" key={copied ? 'done' : 'idle'}>
                 {copied ? <CheckIcon /> : <CopyIcon />}
               </span>
-              {copied ? 'Copied' : 'Copy draft'}
+              {copied ? tr('Copied') : tr('Copy draft')}
             </button>
             <a
               className={`btn btn--request${ready ? '' : ' btn--disabled'}`}
@@ -315,7 +324,7 @@ export default function RequestModal({
               }}
             >
               <SendIcon />
-              Open in email app
+              {tr('Open in email app')}
             </a>
           </div>
         </footer>

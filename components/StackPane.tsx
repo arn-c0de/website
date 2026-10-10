@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react'
 import { languageShare, monthlyActivity, projectSpans } from '@/lib/stats'
 import type { Project } from '@/lib/types'
+import { useI18n } from '@/lib/i18n'
 import Metric from './Metric'
 import { ActivityChart, LanguageRing, SpanChart } from './Charts'
 import { LanguageIcon } from './Icons'
@@ -27,6 +28,7 @@ export default function StackPane({
   onLanguageSelect: (language: string) => void
   onOpenProject: (name: string) => void
 }) {
+  const { t } = useI18n()
   const [activeLanguage, setActiveLanguage] = useState<string | null>(null)
 
   const stats = useMemo(() => {
@@ -62,25 +64,19 @@ export default function StackPane({
     <div className="pane stack-pane">
       <div className="pane__head">
         <h1 className="pane__title">Stack</h1>
-        <p className="pane__lede">
-          A quick look at what I actually use — pulled from the repositories instead of a list I
-          wrote once and forgot to update.
-        </p>
+        <p className="pane__lede">{t('STACK_LEDE')}</p>
       </div>
 
       <div className="metrics" data-reveal>
-        <Metric value={projects.length} label="Projects" />
-        <Metric value={stats.stars} label="Stars" />
-        <Metric value={stats.languages.length} label="Languages" />
-        <Metric value={stats.peak} label="Peak at once" />
+        <Metric value={projects.length} label={t('Projects')} />
+        <Metric value={stats.stars} label={t('Stars')} />
+        <Metric value={stats.languages.length} label={t('Languages')} />
+        <Metric value={stats.peak} label={t('Peak at once')} />
       </div>
 
       <section className="section">
-        <h2 className="section__title">Languages</h2>
-        <p className="section__hint">
-          Share of the repositories that name each language. Pick one to open the projects filtered
-          to it.
-        </p>
+        <h2 className="section__title">{t('Languages')}</h2>
+        <p className="section__hint">{t('STACK_LANG_HINT')}</p>
 
         <div className="langs">
           <div className="langs__ring" data-reveal>
@@ -108,7 +104,7 @@ export default function StackPane({
                 onFocus={() => setActiveLanguage(slice.name)}
                 onBlur={() => setActiveLanguage(null)}
                 onClick={() => onLanguageSelect(slice.name)}
-                title={`Show ${slice.name} projects`}
+                title={t('Show {name} projects', { name: slice.name })}
                 style={
                   {
                     '--hue': slice.hue,
@@ -123,7 +119,8 @@ export default function StackPane({
                     {slice.name}
                   </span>
                   <span className="bar__n">
-                    {slice.count} repo{slice.count === 1 ? '' : 's'} · {Math.round(slice.share * 100)}%
+                    {t(slice.count === 1 ? '{n} repo' : '{n} repos', { n: slice.count })} ·{' '}
+                    {Math.round(slice.share * 100)}%
                   </span>
                 </span>
                 <span className="bar__track">
@@ -136,25 +133,19 @@ export default function StackPane({
       </section>
 
       <section className="section">
-        <h2 className="section__title">Activity</h2>
-        <p className="section__hint">
-          How many projects were between their first commit and their last push in a given month,
-          and how many started in it.
-        </p>
+        <h2 className="section__title">{t('Activity')}</h2>
+        <p className="section__hint">{t('STACK_ACTIVITY_HINT')}</p>
         <ActivityChart months={stats.months} />
       </section>
 
       <section className="section">
-        <h2 className="section__title">Project timeline</h2>
-        <p className="section__hint">
-          Every repository from its first commit to its most recent push, coloured by language —
-          pick a lane to open it.
-        </p>
+        <h2 className="section__title">{t('Project timeline')}</h2>
+        <p className="section__hint">{t('STACK_TIMELINE_HINT')}</p>
         <SpanChart spans={stats.spans} months={stats.months} onOpen={onOpenProject} />
       </section>
 
       <section className="section">
-        <h2 className="section__title">Domains</h2>
+        <h2 className="section__title">{t('Domains')}</h2>
         <div className="domain-grid">
           {stats.categories.map(([name, count], i) => (
             <div
@@ -163,8 +154,8 @@ export default function StackPane({
               data-reveal
               style={{ '--i': i } as React.CSSProperties}
             >
-              <span className="domain-card__name">{name}</span>
-              <span className="domain-card__count" title={`${count} project${count === 1 ? '' : 's'}`}>
+              <span className="domain-card__name">{t(name)}</span>
+              <span className="domain-card__count" title={t(count === 1 ? '{n} project' : '{n} projects', { n: count })}>
                 {count}
               </span>
             </div>
@@ -173,7 +164,7 @@ export default function StackPane({
       </section>
 
       <section className="section">
-        <h2 className="section__title">Topics used more than once</h2>
+        <h2 className="section__title">{t('Topics used more than once')}</h2>
         <div className="cloud">
           {stats.topics.map(([topic, count], i) => (
             <button
@@ -183,7 +174,7 @@ export default function StackPane({
               data-reveal
               style={{ '--i': i } as React.CSSProperties}
               onClick={() => onTopicSelect(topic)}
-              title={`Show projects tagged ${topic}`}
+              title={t('Show projects tagged {topic}', { topic })}
             >
               {topic}
               <b>{count}</b>

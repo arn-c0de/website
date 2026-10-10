@@ -1,5 +1,6 @@
 'use client'
 
+import { useI18n } from '@/lib/i18n'
 import { useId, useMemo, useRef, useState } from 'react'
 import { CheckIcon, SearchIcon } from './Icons'
 
@@ -34,6 +35,7 @@ export default function SearchPicker({
   /** Used for the accessible name of the search field. */
   label: string
 }) {
+  const { t } = useI18n()
   const [query, setQuery] = useState('')
   const [searchOpen, setSearchOpen] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -95,10 +97,10 @@ export default function SearchPicker({
             ref={toggleRef}
             type="button"
             className="picker__search-toggle"
-            aria-label={searchOpen ? `Close ${label.toLowerCase()}` : label}
+            aria-label={searchOpen ? t('Close search') : label}
             aria-expanded={searchOpen}
             aria-controls={searchId}
-            title={searchOpen ? 'Close search' : label}
+            title={searchOpen ? t('Close search') : label}
             onClick={toggleSearch}
           >
             <SearchIcon />

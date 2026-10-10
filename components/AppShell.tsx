@@ -53,7 +53,7 @@ export default function AppShell() {
 }
 
 function AppShellContent() {
-  const { labels } = useI18n()
+  const { labels, t } = useI18n()
   const [{ tab, project: openProject, request, requestFor }, navigate] = useAppState()
   // Start from the committed snapshot so the first paint already has content,
   // then swap in live data when the API answers.
@@ -285,7 +285,7 @@ function AppShellContent() {
           <nav
             className="tabs"
             role="tablist"
-            aria-label="Sections"
+            aria-label={t('Sections')}
             ref={tabsRef}
             onKeyDown={onTabKeys}
           >
@@ -345,10 +345,10 @@ function AppShellContent() {
             type="button"
             className="btn btn--request btn--sm"
             onClick={() => startRequest()}
-            aria-label="Start a request"
+            aria-label={t('Start a request')}
           >
             <RequestIcon />
-            <span className="btn__label">Request</span>
+            <span className="btn__label">{labels.request}</span>
           </button>
 
           <a
@@ -356,7 +356,7 @@ function AppShellContent() {
             href="https://github.com/arn-c0de"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="GitHub profile"
+            aria-label={t('GitHub profile')}
           >
             <GitHubIcon size={15} />
           </a>
@@ -416,15 +416,15 @@ function AppShellContent() {
             <img src={asset('/avatar.jpg')} alt="" width={22} height={22} />
             <span>arn-c0de</span>
             <span className="footer__sep" aria-hidden>·</span>
-            <span className="footer__muted">Embedded systems, security tooling and local AI</span>
+            <span className="footer__muted">{t('Embedded systems, security tooling and local AI')}</span>
           </div>
 
           <div className="footer__row">
             <span className="footer__status">
               <span className={`dot dot--${source}`} />
-              {source === 'live' ? 'Live from the GitHub API' : 'Showing committed snapshot'}
+              {source === 'live' ? t('Live from the GitHub API') : t('Showing committed snapshot')}
             </span>
-            <span>No tracking, no cookies, no analytics.</span>
+            <span>{t('No tracking, no cookies, no analytics.')}</span>
             <a
               className="footer__link"
               href="https://github.com/arn-c0de"
@@ -437,29 +437,14 @@ function AppShellContent() {
           </div>
 
           <details className="privacy">
-            <summary>Privacy</summary>
+            <summary>{t('Privacy')}</summary>
             <div className="privacy__body">
+              <p>{t('PRIVACY_1')}</p>
               <p>
-                This site sets no cookies and runs no analytics or tracking of any kind. Fonts,
-                icons and styles are served from this domain — there is no CDN and no third-party
-                script, and nothing is stored offline. The only things kept in your browser are
-                your chosen colour theme and language, which clearing site data removes. The page
-                carries a content security policy that says all of this to your browser, so it is
-                enforced rather than promised.
+                {t('PRIVACY_2_PRE')} <span className="mono">api.github.com</span>{' '}
+                {t('PRIVACY_2_POST')}
               </p>
-              <p>
-                The one request made automatically is to{' '}
-                <span className="mono">api.github.com</span> to read the public repository list.
-                Opening a project additionally requests that repository&apos;s readme. Images
-                embedded in readmes are hosted by GitHub and stay blocked until you press{' '}
-                <em>Load images</em>.
-              </p>
-              <p>
-                Hosting is GitHub Pages. Like any web server, GitHub receives your IP address and
-                request metadata when the page is delivered; that happens on their infrastructure
-                under their privacy policy and is outside my control. I neither receive nor keep
-                those logs.
-              </p>
+              <p>{t('PRIVACY_3')}</p>
             </div>
           </details>
         </div>

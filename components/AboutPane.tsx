@@ -1,6 +1,7 @@
 'use client'
 
 import { asset } from '@/lib/basePath'
+import { useI18n } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
 import { GitHubIcon, LanguageIcon, RequestIcon } from './Icons'
 
@@ -36,6 +37,7 @@ export default function AboutPane({
   projects: Project[]
   onStartRequest: () => void
 }) {
+  const { t } = useI18n()
   const languages = [...new Set(projects.map((p) => p.language).filter(Boolean))] as string[]
 
   return (
@@ -53,18 +55,14 @@ export default function AboutPane({
         <div className="profile__text">
           <h1 className="profile__name">arn-c0de</h1>
           <p className="profile__role">
-            <span className="profile__now">Freelance</span>
-            Embedded systems, backends, apps and AI
+            <span className="profile__now">{t('Freelance')}</span>
+            {t('Embedded systems, backends, apps and AI')}
           </p>
-          <p className="profile__lede">
-            I build complete systems from firmware and hardware to the backends, databases and apps
-            people use. I also work on local LLM and RAG systems, and on game AI for deterministic,
-            replayable simulations.
-          </p>
+          <p className="profile__lede">{t('ABOUT_LEDE')}</p>
           <div className="profile__meta">
-            <span className="tag">{projects.length} public repositories</span>
-            <span className="tag">German · English</span>
-            <span className="tag">open for work</span>
+            <span className="tag">{t('{n} public repositories', { n: projects.length })}</span>
+            <span className="tag">{t('German · English')}</span>
+            <span className="tag">{t('open for work')}</span>
           </div>
         </div>
       </header>
@@ -74,46 +72,37 @@ export default function AboutPane({
       <section className="band">
         <div className="band__head">
           <div>
-            <h2 className="band__title">What I do</h2>
-            <p className="band__hint">Freelance software development, backed by hands-on electronics.</p>
+            <h2 className="band__title">{t('What I do')}</h2>
+            <p className="band__hint">{t('Freelance software development, backed by hands-on electronics.')}</p>
           </div>
         </div>
 
         <div className="roles">
           <article className="role role--lead" data-reveal>
-            <span className="role__tag role__tag--lead">Freelance &amp; personal</span>
-            <h3 className="role__title">Embedded, backends, apps, AI</h3>
+            <span className="role__tag role__tag--lead">{t('Freelance & personal')}</span>
+            <h3 className="role__title">{t('Embedded, backends, apps, AI')}</h3>
             <ul className="role__list">
               <li>
-                <strong>Traceability web app</strong> for industrial environments.
+                <strong>{t('Traceability web app')}</strong> {t('for industrial environments.')}
               </li>
               <li>
-                <strong>ARIS</strong> — a self-hosted agent with fluid synthetic voice, multi-model
-                support and a harness for tools and file edits.
+                <strong>ARIS</strong> — {t('ABOUT_ARIS')}
               </li>
               <li>
-                <strong>DeepVision-Web</strong> — a private mobile PCB pilot that keeps camera
-                frames on-device, pairing WebAssembly tracking, reference calibration and a
-                read-only trace adapter.
+                <strong>DeepVision-Web</strong> — {t('ABOUT_DEEPVISION')}
               </li>
             </ul>
-            <p className="role__text">
-              Firmware, backends, databases, local LLM/RAG systems and game AI are part of the
-              wider toolkit. Open for collaboration and contributions.
-            </p>
+            <p className="role__text">{t('ABOUT_TOOLKIT')}</p>
           </article>
 
           <article className="role" data-reveal style={{ '--i': 1 } as React.CSSProperties}>
-            <span className="role__tag">Training</span>
-            <h3 className="role__title">Electronics technician for devices and systems</h3>
-            <p className="role__text">
-              Practical training in building, measuring and troubleshooting electronic devices —
-              the hardware side every firmware project here leans on.
-            </p>
+            <span className="role__tag">{t('Training')}</span>
+            <h3 className="role__title">{t('Electronics technician for devices and systems')}</h3>
+            <p className="role__text">{t('ABOUT_TRAINING')}</p>
             <div className="tagrow role__tags">
-              <span className="tag">building</span>
-              <span className="tag">measuring</span>
-              <span className="tag">troubleshooting</span>
+              <span className="tag">{t('building')}</span>
+              <span className="tag">{t('measuring')}</span>
+              <span className="tag">{t('troubleshooting')}</span>
             </div>
           </article>
         </div>
@@ -122,35 +111,23 @@ export default function AboutPane({
       <section className="band">
         <div className="band__head">
           <div>
-            <h2 className="band__title">Why any of this exists</h2>
-            <p className="band__hint">Scratching my own itch, then cleaning it up.</p>
+            <h2 className="band__title">{t('Why any of this exists')}</h2>
+            <p className="band__hint">{t('Scratching my own itch, then cleaning it up.')}</p>
           </div>
         </div>
 
         <div className="slab slab--prose" data-reveal>
           <div className="prose">
-            <p>
-              Most of what you find here started as something I wanted for myself — an encrypted
-              mesh link, a better way to dig through research, a live view of SSH attempts on a
-              server. If the result might save someone else a few evenings, I clean it up and put it
-              on GitHub.
-            </p>
-            <p>
-              The code is public, the setup is documented, and sensitive data stays where it
-              belongs: on your device. No account or cloud detour unless a project genuinely needs
-              one.
-            </p>
+            <p>{t('ABOUT_WHY_1')}</p>
+            <p>{t('ABOUT_WHY_2')}</p>
           </div>
 
           <div className="slab__side">
-            <p className="slab__note">
-              Need a hand with something, want to work on it together, or would like to contribute?
-              Write to me, or open an issue in the repository itself.
-            </p>
+            <p className="slab__note">{t('ABOUT_NOTE')}</p>
             <div className="slab__actions">
               <button type="button" className="btn btn--request btn--sm" onClick={onStartRequest}>
                 <RequestIcon />
-                Start a request
+                {t('Start a request')}
               </button>
               <a
                 className="btn btn--sm"
@@ -169,27 +146,25 @@ export default function AboutPane({
       <section className="band">
         <div className="band__head">
           <div>
-            <h2 className="band__title">Toolbox</h2>
-            <p className="band__hint">
-              What I reach for, and what the repositories are actually written in.
-            </p>
+            <h2 className="band__title">{t('Toolbox')}</h2>
+            <p className="band__hint">{t('What I reach for, and what the repositories are actually written in.')}</p>
           </div>
         </div>
 
         <div className="facts">
           <div className="fact fact--focus" data-reveal>
-            <h3 className="section__title">Focus</h3>
+            <h3 className="section__title">{t('Focus')}</h3>
             <div className="tagrow">
               {FOCUS.map((f) => (
                 <span key={f} className="tag">
-                  {f}
+                  {t(f)}
                 </span>
               ))}
             </div>
           </div>
 
           <div className="fact" data-reveal style={{ '--i': 1 } as React.CSSProperties}>
-            <h3 className="section__title">Works in</h3>
+            <h3 className="section__title">{t('Works in')}</h3>
             <div className="tagrow">
               {WORKING.map((l) => (
                 <span key={l} className="tag tag--language">
@@ -198,11 +173,11 @@ export default function AboutPane({
                 </span>
               ))}
             </div>
-            <p className="fact__note">C mostly on ESP32, SDR and Wi-Fi.</p>
+            <p className="fact__note">{t('C mostly on ESP32, SDR and Wi-Fi.')}</p>
           </div>
 
           <div className="fact" data-reveal style={{ '--i': 2 } as React.CSSProperties}>
-            <h3 className="section__title">Learning</h3>
+            <h3 className="section__title">{t('Learning')}</h3>
             <div className="tagrow">
               {LEARNING.map((l) => (
                 <span key={l} className="tag tag--language">
@@ -211,28 +186,28 @@ export default function AboutPane({
                 </span>
               ))}
             </div>
-            <p className="fact__note">C++ on Windows.</p>
+            <p className="fact__note">{t('C++ on Windows.')}</p>
           </div>
 
           <div className="fact" data-reveal style={{ '--i': 3 } as React.CSSProperties}>
-            <h3 className="section__title">Stores data in</h3>
+            <h3 className="section__title">{t('Stores data in')}</h3>
             <div className="tagrow">
               {STORAGE.map((s) => (
                 <span key={s} className="tag">
-                  {s}
+                  {t(s)}
                 </span>
               ))}
             </div>
-            <p className="fact__note">Vector stores for RAG, SQLite when a file is enough.</p>
+            <p className="fact__note">{t('Vector stores for RAG, SQLite when a file is enough.')}</p>
           </div>
 
           <div className="fact" data-reveal style={{ '--i': 4 } as React.CSSProperties}>
-            <h3 className="section__title">Speaks</h3>
+            <h3 className="section__title">{t('Speaks')}</h3>
             <div className="tagrow">
               {SPOKEN.map(([lang, level]) => (
                 <span key={lang} className="tag">
-                  {lang}
-                  <span className="tag__n">{level}</span>
+                  {t(lang)}
+                  <span className="tag__n">{t(level)}</span>
                 </span>
               ))}
             </div>
@@ -244,7 +219,7 @@ export default function AboutPane({
             data-reveal
             style={{ '--i': 5 } as React.CSSProperties}
           >
-            <h3 className="section__title">In the repositories</h3>
+            <h3 className="section__title">{t('In the repositories')}</h3>
             <div className="tagrow">
               {languages.map((l) => (
                 <span key={l} className="tag tag--language">

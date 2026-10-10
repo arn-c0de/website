@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { usePrefersReducedMotion } from '@/lib/useMotion'
+import { useI18n } from '@/lib/i18n'
 import { MoonIcon, SunIcon } from './Icons'
 
 type Theme = 'light' | 'dark' | 'system'
@@ -16,6 +17,7 @@ export default function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>('system')
   const buttonRef = useRef<HTMLButtonElement>(null)
   const reduced = usePrefersReducedMotion()
+  const { t } = useI18n()
 
   useEffect(() => {
     const stored = localStorage.getItem('theme')
@@ -74,7 +76,9 @@ export default function ThemeToggle() {
   }
 
   const label =
-    theme === 'system' ? 'Theme: follows system' : `Theme: ${theme} (click to change)`
+    theme === 'system'
+      ? t('Theme: follows system')
+      : t(theme === 'dark' ? 'Theme: dark (click to change)' : 'Theme: light (click to change)')
 
   return (
     <button

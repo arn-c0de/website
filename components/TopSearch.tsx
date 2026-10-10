@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { searchProjects } from '@/lib/github'
 import type { Project } from '@/lib/types'
+import { useI18n } from '@/lib/i18n'
 import type { Tab } from '@/lib/useAppState'
 import { SearchIcon, StarIcon } from './Icons'
 
@@ -77,13 +78,14 @@ export default function TopSearch({
     return () => document.removeEventListener('pointerdown', onDown)
   }, [open, close])
 
+  const { t: tr, labels } = useI18n()
   const commands = useMemo<Command[]>(() => {
     const tabs: { tab: Tab; label: string; hint: string }[] = [
-      { tab: 'overview', label: 'Overview', hint: 'A bit of everything on one page' },
-      { tab: 'projects', label: 'Projects', hint: 'Browse the repository grid' },
-      { tab: 'stack', label: 'Stack', hint: 'Languages, domains and topics' },
-      { tab: 'about', label: 'About', hint: 'Focus areas and working principles' },
-      { tab: 'contact', label: 'Contact', hint: 'SimpleX, email and PGP key' },
+      { tab: 'overview', label: labels.overview, hint: tr('A bit of everything on one page') },
+      { tab: 'projects', label: labels.projects, hint: tr('Browse the repository grid') },
+      { tab: 'stack', label: labels.stack, hint: tr('Languages, domains and topics') },
+      { tab: 'about', label: labels.about, hint: tr('Focus areas and working principles') },
+      { tab: 'contact', label: labels.contact, hint: tr('SimpleX, email and PGP key') },
     ]
 
     const matched = searchProjects(projects, query).slice(0, 8)
@@ -113,8 +115,8 @@ export default function TopSearch({
       {
         id: 'action:request',
         group: 'Navigate',
-        name: 'Start a request',
-        hint: 'Build an inquiry email to send',
+        name: tr('Start a request'),
+        hint: tr('Build an inquiry email to send'),
         run: () => {
           onStartRequest()
           close()
@@ -123,7 +125,7 @@ export default function TopSearch({
       {
         id: 'link:github',
         group: 'Links',
-        name: 'Open GitHub profile',
+        name: tr('Open GitHub profile'),
         hint: 'github.com/arn-c0de',
         run: () => {
           window.open('https://github.com/arn-c0de', '_blank', 'noopener,noreferrer')
@@ -131,7 +133,7 @@ export default function TopSearch({
         },
       },
     ]
-  }, [projects, query, onNavigate, onOpenProject, onStartRequest, close])
+  }, [projects, query, onNavigate, onOpenProject, onStartRequest, close, tr, labels])
 
   // Tab entries are filtered by name, project entries are pre-filtered above.
   const results = useMemo(() => {
@@ -179,8 +181,8 @@ export default function TopSearch({
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={onInputKey}
-        placeholder="Search projects or jump to a section…"
-        aria-label="Search projects and sections"
+        placeholder={tr('Search projects or jump to a section…')}
+        aria-label={tr('Search projects and sections')}
         role="combobox"
         aria-expanded={open}
         aria-controls="tsearch-list"
@@ -191,7 +193,7 @@ export default function TopSearch({
         type="button"
         className="iconbtn tsearch__toggle"
         onClick={() => (open ? close() : openSearch())}
-        aria-label={open ? 'Close search' : 'Open search'}
+        aria-label={open ? tr('Close search') : tr('Open search')}
         aria-expanded={open}
       >
         <SearchIcon />
@@ -206,9 +208,9 @@ export default function TopSearch({
       </button>
 
       {open && (
-        <div className="tsearch__drop" role="dialog" aria-label="Search results">
+        <div className="tsearch__drop" role="dialog" aria-label={tr('Search results')}>
           {results.length === 0 ? (
-            <div className="palette__empty">No matches for “{query}”</div>
+            <div className="palette__empty">{tr('No matches for “{query}”', { query })}</div>
           ) : (
             <ul className="palette__list" id="tsearch-list" ref={listRef} role="listbox">
               {results.map((cmd, i) => {
@@ -216,7 +218,7 @@ export default function TopSearch({
                 lastGroup = cmd.group
                 return (
                   <li key={cmd.id}>
-                    {showGroup && <div className="palette__group">{cmd.group}</div>}
+                    {showGroup && <div className="palette__group">{tr(cmd.group)}</div>}
                     <button
                       type="button"
                       className="palette__item"
@@ -244,13 +246,13 @@ export default function TopSearch({
 
           <div className="palette__foot">
             <span>
-              <span className="kbd">↑↓</span> navigate
+              <span className="kbd">↑↓</span> {tr('navigate')}
             </span>
             <span>
-              <span className="kbd">↵</span> open
+              <span className="kbd">↵</span> {tr('open')}
             </span>
             <span>
-              <span className="kbd">esc</span> close
+              <span className="kbd">esc</span> {tr('close')}
             </span>
           </div>
         </div>

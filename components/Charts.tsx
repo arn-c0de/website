@@ -1,5 +1,6 @@
 'use client'
 
+import { useI18n } from '@/lib/i18n'
 import { activityDomain, formatSpan, type ActivityMonth, type LanguageSlice, type ProjectSpan } from '@/lib/stats'
 
 /**
@@ -38,6 +39,7 @@ export function LanguageRing({
   onActive: (language: string | null) => void
   onSelect: (language: string) => void
 }) {
+  const { t: tr } = useI18n()
   if (slices.length === 0) return null
 
   const total = slices.reduce((sum, s) => sum + s.count, 0)
@@ -89,7 +91,7 @@ export function LanguageRing({
         {shown ? shown.count : total}
       </text>
       <text className="ring__label" x="60" y="72" textAnchor="middle">
-        {shown ? shown.name : 'repos'}
+        {shown ? shown.name : tr('repos')}
       </text>
     </svg>
   )
@@ -107,6 +109,7 @@ const A_PLOT_H = A.h - A.top - A.bottom
  * explain where it steps up.
  */
 export function ActivityChart({ months }: { months: ActivityMonth[] }) {
+  const { t: tr } = useI18n()
   if (months.length === 0) return null
 
   const max = Math.max(1, ...months.map((m) => m.active))
@@ -188,7 +191,7 @@ export function ActivityChart({ months }: { months: ActivityMonth[] }) {
                 y={A.h - 10}
                 textAnchor="middle"
               >
-                {m.label === 'Jan' || i === 0 ? `${m.label} ${m.year}` : m.label}
+                {m.label === 'Jan' || i === 0 ? `${tr(m.label)} ${m.year}` : tr(m.label)}
               </text>
             ) : null,
           )}
@@ -196,8 +199,8 @@ export function ActivityChart({ months }: { months: ActivityMonth[] }) {
       </div>
 
       <figcaption className="chart__legend">
-        <span className="chart__key chart__key--area">Projects running</span>
-        <span className="chart__key chart__key--bar">Started that month</span>
+        <span className="chart__key chart__key--area">{tr('Projects running')}</span>
+        <span className="chart__key chart__key--bar">{tr('Started that month')}</span>
       </figcaption>
     </figure>
   )
@@ -224,6 +227,7 @@ export function SpanChart({
   months: ActivityMonth[]
   onOpen: (name: string) => void
 }) {
+  const { t: tr } = useI18n()
   if (spans.length === 0 || months.length === 0) return null
 
   const [from, to] = activityDomain(months)
@@ -234,7 +238,7 @@ export function SpanChart({
   return (
     <figure className="chart chart--lanes" data-reveal>
       <div className="chart__scroll">
-        <svg viewBox={`0 0 ${S.w} ${height}`} role="group" aria-label="Project timeline">
+        <svg viewBox={`0 0 ${S.w} ${height}`} role="group" aria-label={tr('Project timeline')}>
           {months.map((m, i) => (
             <g key={m.at}>
               <line
@@ -246,7 +250,7 @@ export function SpanChart({
               />
               {i % tick === 0 && (
                 <text className="chart__tick" x={x(m.at) + 4} y={S.head - 12}>
-                  {m.label === 'Jan' || i === 0 ? `${m.label} ${m.year}` : m.label}
+                  {m.label === 'Jan' || i === 0 ? `${tr(m.label)} ${m.year}` : tr(m.label)}
                 </text>
               )}
             </g>
