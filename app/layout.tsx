@@ -21,13 +21,26 @@ const OG_IMAGE = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'arn-c0de — project console',
+  title: 'arn-c0de (arn-code) — project console',
   description: DESCRIPTION,
+  keywords: [
+    'arn-c0de',
+    'arn-code',
+    'arn code',
+    'embedded systems',
+    'network security',
+    'ESP32',
+    'firmware',
+    'AI agents',
+    'Python',
+    'Rust',
+  ],
+  authors: [{ name: 'arn-c0de', url: 'https://github.com/arn-c0de' }],
   manifest: asset('/manifest.webmanifest'),
   // Favicon and apple-touch icon come from app/icon.png and app/apple-icon.png
   // via Next's file convention, which handles the base path itself.
   openGraph: {
-    title: 'arn-c0de — project console',
+    title: 'arn-c0de (arn-code) — project console',
     description: DESCRIPTION,
     url: `${SITE_URL}/`,
     siteName: 'arn-c0de',
@@ -36,7 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'arn-c0de — project console',
+    title: 'arn-c0de (arn-code) — project console',
     description: DESCRIPTION,
     images: [OG_IMAGE],
   },
@@ -93,12 +106,31 @@ try {
 } catch (e) {}
 `
 
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'arn-c0de',
+  alternateName: ['arn-code', 'arn_c0de', 'arn code'],
+  url: `${SITE_URL}/`,
+  sameAs: [
+    'https://github.com/arn-c0de',
+    'https://x.com/arn_c0de',
+    'https://www.youtube.com/@git-arn-c0de',
+  ],
+  jobTitle: 'Embedded Systems & Security Software Developer',
+  knowsAbout: ['Embedded Systems', 'Network Security', 'Python', 'Rust', 'Kotlin', 'ESP32', 'AI Systems'],
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta httpEquiv="Content-Security-Policy" content={CSP} />
         <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
       </head>
       <body>{children}</body>
     </html>
