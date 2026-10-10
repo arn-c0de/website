@@ -7,7 +7,16 @@ import type { Project } from '@/lib/types'
 import type { Tab } from '@/lib/useAppState'
 import Metric from './Metric'
 import ProjectCard from './ProjectCard'
-import { ArrowIcon, ChevronIcon, GitHubIcon, LanguageIcon, RequestIcon } from './Icons'
+import {
+  AboutIcon,
+  ArrowIcon,
+  ChevronIcon,
+  GitHubIcon,
+  LanguageIcon,
+  MailIcon,
+  RequestIcon,
+  StackIcon,
+} from './Icons'
 
 /** Languages named in the stack tile — a taste, not the full list. */
 const TOP_LANGUAGES = 4
@@ -57,48 +66,78 @@ export default function OverviewPane({
   return (
     <div className="pane over">
       <section className="hero">
-        <img className="hero__avatar" src={asset('/avatar.jpg')} alt="" width={60} height={60} />
-
         <div className="hero__text">
-          <h1 className="hero__name">arn-c0de</h1>
-          <p className="hero__role">
-            Industrial software · embedded systems · local AI · VR simulation research
-          </p>
+          <div className="hero__id">
+            <img
+              className="hero__avatar"
+              src={asset('/avatar-large.jpg')}
+              alt=""
+              width={56}
+              height={56}
+            />
+            <div>
+              <p className="hero__handle">arn-c0de</p>
+              <p className="hero__status">
+                <span className="hero__pulse" aria-hidden />
+                Open for freelance work
+              </p>
+            </div>
+          </div>
+
+          <h1 className="hero__name">
+            Practical systems, from firmware to the apps people use.
+          </h1>
           <p className="hero__lede">
-            I build practical systems from industrial traceability to embedded tooling. Current
-            work includes QLink: my own Rust game and simulation engine for Linux. It runs without
-            the Quest Link PC app and shows the simulation directly as the Link home on Quest 3,
-            while the same world runs in 2D on the desktop. It is meant to replace the Link app
-            completely, so Steam and other games can be started through it. It is a very early
-            version; test versions are available by invitation on request. ARIS, FLUID and
-            DeepVision-Web round out the work in local AI, interfaces and on-device vision.
+            Industrial traceability, embedded tooling, local AI and VR simulation research — built
+            to run where your data lives, and published on GitHub wherever it can be.
           </p>
 
           <div className="hero__actions">
-            <button type="button" className="btn btn--request" onClick={onStartRequest}>
+            <button type="button" className="btn btn--request btn--lg" onClick={onStartRequest}>
               <RequestIcon />
               Private access & requests
             </button>
-            <button type="button" className="btn" onClick={() => onNavigate('projects')}>
+            <button type="button" className="btn btn--lg" onClick={() => onNavigate('projects')}>
               Browse projects
               <ArrowIcon />
             </button>
             <a
-              className="btn"
+              className="btn btn--lg btn--ghost"
               href="https://github.com/arn-c0de"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <GitHubIcon size={14} />
+              <GitHubIcon size={15} />
               GitHub
             </a>
           </div>
         </div>
+
+        {/* What is on the bench right now — the detail the introduction used
+            to carry in one long paragraph. */}
+        <aside className="now" aria-labelledby="now-title">
+          <p className="now__label">Currently building</p>
+          <h2 className="now__title" id="now-title">
+            QLink
+          </h2>
+          <p className="now__text">
+            My own Rust game and simulation engine for Linux. It shows the simulation directly as
+            the Link home on Quest 3 — no Quest Link PC app — while the same world runs in 2D on
+            the desktop, and is meant to start Steam and other games from there.
+          </p>
+          <p className="now__note">Very early version · test builds by invitation</p>
+          <div className="now__also">
+            <span className="now__also-label">Also in progress</span>
+            <span className="tag">ARIS</span>
+            <span className="tag">FLUID</span>
+            <span className="tag">DeepVision-Web</span>
+          </div>
+        </aside>
       </section>
 
-      <div className="metrics" data-reveal>
-        <Metric value={projects.length} label="Projects" />
-        <Metric value={stats.stars} label="Stars" />
+      <div className="metrics metrics--hero" data-reveal>
+        <Metric value={projects.length} label="Public projects" />
+        <Metric value={stats.stars} label="GitHub stars" />
         <Metric value={stats.languages.length} label="Languages" />
         <Metric value={formatRelative(stats.lastPush)} label="Last push" />
       </div>
@@ -108,16 +147,17 @@ export default function OverviewPane({
       <section className="band">
         <div className="band__head" data-reveal>
           <div>
-            <h2 className="band__title">Everything else</h2>
-            <p className="band__hint">Three sections, one line each.</p>
+            <h2 className="band__title">Explore</h2>
+            <p className="band__hint">The rest of the site, one step away.</p>
           </div>
         </div>
 
-        <div className="slabs">
-          <Slab
+        <div className="tiles">
+          <Tile
             index={0}
+            icon={<StackIcon />}
             title="Stack"
-            text="Languages, domains and shared topics — counted from the repositories themselves, so it can never drift out of date."
+            text="Languages, domains and shared topics — counted from the repositories themselves, so it never drifts out of date."
             action="Open the stack"
             onAction={() => onNavigate('stack')}
           >
@@ -128,30 +168,25 @@ export default function OverviewPane({
                 <span className="tag__n">{count}</span>
               </span>
             ))}
-          </Slab>
+          </Tile>
 
-          <Slab
+          <Tile
             index={1}
+            icon={<AboutIcon />}
             title="About"
-            text="What I focus on, and the handful of principles the projects are built on: local by default, security that stays honest, readable over clever."
+            text="What I focus on, and the principles the projects are built on: local by default, security that stays honest, readable over clever."
             action="Read about me"
             onAction={() => onNavigate('about')}
           >
-            <span className="tag">traceability</span>
-            <span className="tag">industrial web apps</span>
-            <span className="tag">ARIS agent</span>
-            <span className="tag">FLUID UI</span>
-            <span className="tag">on-device PCB vision</span>
             <span className="tag">embedded</span>
             <span className="tag">LLM &amp; RAG</span>
-            <span className="tag">game AI</span>
-            <span className="tag">databases</span>
             <span className="tag">security</span>
-            <span className="tag">android</span>
-          </Slab>
+            <span className="tag">game AI</span>
+          </Tile>
 
-          <Slab
+          <Tile
             index={2}
+            icon={<MailIcon />}
             title="Contact"
             text="Questions about a project, help getting something running, a bug or security finding, or an idea you would like built."
             action="Get in touch"
@@ -160,7 +195,7 @@ export default function OverviewPane({
             <span className="tag">SimpleX</span>
             <span className="tag">email</span>
             <span className="tag">PGP</span>
-          </Slab>
+          </Tile>
         </div>
       </section>
     </div>
@@ -169,9 +204,10 @@ export default function OverviewPane({
 
 /* ── Pieces ───────────────────────────────────────────────────────────────── */
 
-/** A section in one row: what it is on the left, what it holds and the way in
- *  on the right third. */
-function Slab({
+/** One way into another tab: what it is, a taste of what it holds, and the
+ *  link. The whole tile is the button. */
+function Tile({
+  icon,
   title,
   text,
   action,
@@ -179,28 +215,34 @@ function Slab({
   index,
   children,
 }: {
+  icon: React.ReactNode
   title: string
   text: string
   action: string
   onAction: () => void
-  /** Position in the column; drives the staggered reveal. */
+  /** Position in the row; drives the staggered reveal. */
   index: number
   children: React.ReactNode
 }) {
   return (
-    <div className="slab" data-reveal style={{ '--i': index } as React.CSSProperties}>
-      <div>
-        <h3 className="slab__title">{title}</h3>
-        <p className="slab__text">{text}</p>
-      </div>
-      <div className="slab__side">
-        <div className="tagrow">{children}</div>
-        <button type="button" className="slab__link" onClick={onAction}>
-          {action}
-          <ArrowIcon />
-        </button>
-      </div>
-    </div>
+    <button
+      type="button"
+      className="tile"
+      data-reveal
+      style={{ '--i': index } as React.CSSProperties}
+      onClick={onAction}
+    >
+      <span className="tile__icon" aria-hidden>
+        {icon}
+      </span>
+      <span className="tile__title">{title}</span>
+      <span className="tile__text">{text}</span>
+      <span className="tagrow tile__tags">{children}</span>
+      <span className="tile__link">
+        {action}
+        <ArrowIcon />
+      </span>
+    </button>
   )
 }
 
@@ -311,7 +353,7 @@ function Gallery({
       <div className="band__head" data-reveal>
         <div>
           <h2 className="band__title">Featured projects</h2>
-          <p className="band__hint">Swipe or use the arrows — pick one for readme and links.</p>
+          <p className="band__hint">Hand-picked work — open one for its readme and links.</p>
         </div>
         {/* aria-disabled rather than disabled: the state is measured from the
             DOM after mount, and a real `disabled` attribute would both differ

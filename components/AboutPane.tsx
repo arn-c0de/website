@@ -80,25 +80,41 @@ export default function AboutPane({
         </div>
 
         <div className="roles">
-          <article className="role" data-reveal>
-            <span className="role__tag">Training</span>
-            <h3 className="role__title">Electronics technician for devices and systems</h3>
+          <article className="role role--lead" data-reveal>
+            <span className="role__tag role__tag--lead">Freelance &amp; personal</span>
+            <h3 className="role__title">Embedded, backends, apps, AI</h3>
+            <ul className="role__list">
+              <li>
+                <strong>Traceability web app</strong> for industrial environments.
+              </li>
+              <li>
+                <strong>ARIS</strong> — a self-hosted agent with fluid synthetic voice, multi-model
+                support and a harness for tools and file edits.
+              </li>
+              <li>
+                <strong>DeepVision-Web</strong> — a private mobile PCB pilot that keeps camera
+                frames on-device, pairing WebAssembly tracking, reference calibration and a
+                read-only trace adapter.
+              </li>
+            </ul>
             <p className="role__text">
-              Practical training in building, measuring and troubleshooting electronic devices.
+              Firmware, backends, databases, local LLM/RAG systems and game AI are part of the
+              wider toolkit. Open for collaboration and contributions.
             </p>
           </article>
 
-          <article className="role role--lead" data-reveal style={{ '--i': 1 } as React.CSSProperties}>
-            <span className="role__tag role__tag--lead">Freelance &amp; personal</span>
-            <h3 className="role__title">Embedded, backends, apps, AI</h3>
+          <article className="role" data-reveal style={{ '--i': 1 } as React.CSSProperties}>
+            <span className="role__tag">Training</span>
+            <h3 className="role__title">Electronics technician for devices and systems</h3>
             <p className="role__text">
-              I develop a traceability web app for industrial environments and ARIS, a self-hosted
-              agent with fluid synthetic voice, multi-model support and a harness for tools and file
-              edits. I also build DeepVision-Web, a private mobile PCB pilot that keeps camera
-              frames on-device while pairing WebAssembly tracking, reference calibration and a
-              read-only trace adapter. Firmware, backends, databases, local LLM/RAG systems and
-              game AI are part of the wider toolkit. Open for collaboration and contributions.
+              Practical training in building, measuring and troubleshooting electronic devices —
+              the hardware side every firmware project here leans on.
             </p>
+            <div className="tagrow role__tags">
+              <span className="tag">building</span>
+              <span className="tag">measuring</span>
+              <span className="tag">troubleshooting</span>
+            </div>
           </article>
         </div>
       </section>
@@ -161,7 +177,7 @@ export default function AboutPane({
         </div>
 
         <div className="facts">
-          <div className="fact" data-reveal>
+          <div className="fact fact--focus" data-reveal>
             <h3 className="section__title">Focus</h3>
             <div className="tagrow">
               {FOCUS.map((f) => (
@@ -210,8 +226,24 @@ export default function AboutPane({
             <p className="fact__note">Vector stores for RAG, SQLite when a file is enough.</p>
           </div>
 
-          {/* Counted from the live repository data rather than listed by hand. */}
           <div className="fact" data-reveal style={{ '--i': 4 } as React.CSSProperties}>
+            <h3 className="section__title">Speaks</h3>
+            <div className="tagrow">
+              {SPOKEN.map(([lang, level]) => (
+                <span key={lang} className="tag">
+                  {lang}
+                  <span className="tag__n">{level}</span>
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Counted from the live repository data rather than listed by hand. */}
+          <div
+            className="fact fact--wide"
+            data-reveal
+            style={{ '--i': 5 } as React.CSSProperties}
+          >
             <h3 className="section__title">In the repositories</h3>
             <div className="tagrow">
               {languages.map((l) => (
@@ -223,17 +255,6 @@ export default function AboutPane({
             </div>
           </div>
 
-          <div className="fact" data-reveal style={{ '--i': 5 } as React.CSSProperties}>
-            <h3 className="section__title">Speaks</h3>
-            <div className="tagrow">
-              {SPOKEN.map(([lang, level]) => (
-                <span key={lang} className="tag">
-                  {lang}
-                  <span className="tag__n">{level}</span>
-                </span>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 

@@ -53,7 +53,7 @@ function CopyButton({ value, label }: { value: string; label: string }) {
 
 export default function ContactPane({ onStartRequest }: { onStartRequest: () => void }) {
   return (
-    <div className="pane">
+    <div className="pane contact">
       <div className="pane__head">
         <h1 className="pane__title">Get in touch</h1>
         <p className="pane__lede">
@@ -105,40 +105,37 @@ export default function ContactPane({ onStartRequest }: { onStartRequest: () => 
           </div>
         </article>
 
-        <article
-          className="channel channel--muted"
-          data-reveal
-          style={{ '--i': 2 } as React.CSSProperties}
-        >
-          <div className="channel__head">
-            <h2 className="channel__name">Matrix</h2>
-            <span className="pill pill--quiet">unavailable</span>
-          </div>
-          <p className="channel__text">Not set up at the moment — use SimpleX or email instead.</p>
-        </article>
       </div>
 
+      <p className="channels__note">
+        <strong>Matrix</strong> is not set up at the moment — use SimpleX or email instead.
+      </p>
+
       <section className="band">
-        <div className="band__head">
-          <div>
+        <div className="reasons" data-reveal>
+          <div className="reasons__text">
             <h2 className="band__title">Not sure it is worth a message?</h2>
             <p className="band__hint">All of these are.</p>
+            <ul className="checklist">
+              {SUITABLE_FOR.map((item) => (
+                <li key={item}>
+                  <CheckIcon />
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="band__nav">
-            <button type="button" className="btn btn--sm btn--request" onClick={onStartRequest}>
+          <div className="reasons__side">
+            <p>
+              For private projects and test access, send a short use case and the project you are
+              interested in. Access is reviewed and granted manually.
+            </p>
+            <button type="button" className="btn btn--request" onClick={onStartRequest}>
               <RequestIcon />
               Start a request
             </button>
           </div>
         </div>
-        <div className="tagrow">
-          {SUITABLE_FOR.map((item) => (
-            <span key={item} className="tag">
-              {item}
-            </span>
-          ))}
-        </div>
-        <p className="section__hint">For private projects and test access, send a short use case and the project you are interested in. Access is reviewed and granted manually.</p>
       </section>
 
       <section className="band">
