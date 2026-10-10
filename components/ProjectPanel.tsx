@@ -43,8 +43,13 @@ function sanitise(html: string, repo: string): { withImages: string; withoutImag
     for (const attr of [...el.attributes]) {
       const name = attr.name.toLowerCase()
       if (name.startsWith('on')) el.removeAttribute(attr.name)
-      if ((name === 'href' || name === 'src') && attr.value.trim().toLowerCase().startsWith('javascript:')) {
-        el.removeAttribute(attr.name)
+      if (name === 'href' || name === 'src') {
+        // Browsers strip whitespace and control characters out of a scheme
+        // before acting on it, so `java\tscript:` runs just like `javascript:`.
+        // Collapse those out before checking, and block every scheme that can
+        // execute or smuggle markup — not just `javascript:`.
+        const scheme = attr.value.replace(/[\u0000- ]+/g, '').toLowerCase()
+        if (/^(javascript|vbscript|data):/.test(scheme)) el.removeAttribute(attr.name)
       }
     }
     if (el.tagName === 'A') {
