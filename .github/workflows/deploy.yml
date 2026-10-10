@@ -20,8 +20,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # This is a project Pages site, published below the repository name.
-      PAGES_BASE_PATH: /website
+      # Served from the custom domain arn-c0de.de at the root, so assets must
+      # not carry a project-name prefix. (Was "/website" while the site lived
+      # under arn-c0de.github.io/website/.)
+      PAGES_BASE_PATH: ""
     steps:
       - uses: actions/checkout@v7
 
