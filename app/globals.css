@@ -29,9 +29,9 @@
   --sp-7: 48px;
   --sp-8: 64px;
 
-  --radius-lg: 16px;
-  --radius: 12px;
-  --radius-sm: 9px;
+  --radius-lg: 12px;
+  --radius: 10px;
+  --radius-sm: 7px;
   --shell-max: 1160px;
   --gutter: 24px;
 
@@ -41,38 +41,42 @@
      rather than bouncy. */
   --spring: cubic-bezier(0.34, 1.3, 0.64, 1);
 
-  --bg: light-dark(#f7f8fa, #0b0e14);
-  --bg-panel: light-dark(#ffffff, #12161f);
-  --bg-inset: light-dark(#f2f4f7, #171c26);
-  --bg-hover: light-dark(#eceff3, #1d2330);
-  --border: light-dark(#e3e6eb, #222936);
-  --border-strong: light-dark(#cdd2da, #333c4c);
-  --text: light-dark(#0e1422, #eef1f6);
-  --text-muted: light-dark(#4a5466, #a6afc0);
-  --text-faint: light-dark(#687285, #7f899b);
-  --accent: light-dark(#2d55d8, #86a3ff);
-  --accent-2: light-dark(#1f3fa8, #5f80ea);
-  --accent-soft: light-dark(#edf1fd, #182037);
-  --accent-text: light-dark(#ffffff, #0b0e14);
+  /* Warm paper in the light theme, neutral graphite in the dark one — no
+     blue tint in the greys. The one accent is the blue of the QLink mark,
+     deepened in light mode to stay readable on white. */
+  --bg: light-dark(#f6f5f1, #0e0f11);
+  --bg-panel: light-dark(#ffffff, #16181b);
+  --bg-inset: light-dark(#f0eee9, #1c1e22);
+  --bg-hover: light-dark(#e9e6df, #222428);
+  --border: light-dark(#e2dfd7, #26282d);
+  --border-strong: light-dark(#cbc6bb, #383b42);
+  --text: light-dark(#17181c, #ececec);
+  --text-muted: light-dark(#4c4f57, #a5a8af);
+  --text-faint: light-dark(#66696f, #878a91);
+  --accent: light-dark(#0a6aab, #5cb5ec);
+  --accent-2: light-dark(#08578d, #3f9fdb);
+  --accent-soft: light-dark(#e7f0f6, #13212b);
+  --accent-text: light-dark(#ffffff, #0e0f11);
   /* The primary action is ink, not a second blue: one strong button style,
      with the accent left to links, selection and active states. */
-  --ink: light-dark(#0e1422, #eef1f6);
-  --ink-hover: light-dark(#262e40, #ffffff);
-  --ink-text: light-dark(#ffffff, #0b0e14);
+  --ink: light-dark(#17181c, #ececec);
+  --ink-hover: light-dark(#2c2e34, #ffffff);
+  --ink-text: light-dark(#ffffff, #0e0f11);
   --request: var(--ink);
   --request-hover: var(--ink-hover);
   --request-soft: var(--accent-soft);
   --request-text: var(--ink-text);
-  --success: light-dark(#1a8a4a, #4cc38a);
-  --star: light-dark(#b7791f, #e3b341);
-  --warn: light-dark(#a16207, #e3b341);
+  --success: light-dark(#2b7a4b, #5cc28e);
+  --star: light-dark(#b0761b, #e0a84a);
+  --warn: light-dark(#9a5800, #e0a84a);
   --grid-line: light-dark(rgba(14, 20, 34, 0.045), rgba(160, 175, 255, 0.05));
-  --shadow-color: light-dark(rgba(14, 20, 34, 0.07), rgba(0, 0, 0, 0.45));
-  --shadow-color-strong: light-dark(rgba(14, 20, 34, 0.16), rgba(0, 0, 0, 0.6));
-  --shadow-sm: 0 1px 2px var(--shadow-color);
-  --shadow-md: 0 1px 2px var(--shadow-color), 0 6px 20px var(--shadow-color);
+  --shadow-color: light-dark(rgba(23, 24, 28, 0.06), rgba(0, 0, 0, 0.4));
+  --shadow-color-strong: light-dark(rgba(23, 24, 28, 0.14), rgba(0, 0, 0, 0.6));
+  /* Edges do the separating; shadows only for what floats (menus, dialogs). */
+  --shadow-sm: 0 0 0 transparent;
+  --shadow-md: 0 2px 10px var(--shadow-color);
   --shadow-lg: 0 2px 6px var(--shadow-color), 0 24px 64px var(--shadow-color-strong);
-  --scrim: light-dark(rgba(14, 20, 34, 0.36), rgba(3, 4, 10, 0.66));
+  --scrim: light-dark(rgba(23, 24, 28, 0.4), rgba(0, 0, 0, 0.66));
 }
 
 :root[data-theme='light'] {
@@ -3452,35 +3456,6 @@ a:hover {
   height: 22px;
 }
 
-/* A light that follows the cursor across a card. The coordinates come from
-   the pointer handler in ProjectCard; the layer sits under the text. */
-
-.card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  opacity: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    190px circle at var(--mx, 50%) var(--my, 50%),
-    color-mix(in srgb, var(--accent) 13%, transparent),
-    transparent 72%
-  );
-  transition: opacity 0.3s var(--ease);
-}
-
-.card > * {
-  position: relative;
-  z-index: 1;
-}
-
-@media (hover: hover) {
-  .card:hover::after {
-    opacity: 1;
-  }
-}
-
 /* Theme toggle: the icon spins in, and the new palette is wiped over the old
    one from the button outwards (see ThemeToggle). */
 
@@ -6763,4 +6738,191 @@ p {
   width: 28px;
   height: 28px;
   border-radius: 7px;
+}
+
+/* ── Restraint ──────────────────────────────────────────────────────────── */
+
+/* The last word on decoration. Edges separate, colour marks only what is
+   active or clickable, and nothing jumps when the pointer passes over it:
+   no glows behind the page, no grid, no gradients on panels, no lifting
+   cards. The hero stands on the page itself instead of in another box. */
+
+body::before,
+body::after {
+  display: none;
+}
+
+.topbar {
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+}
+
+.topbar__progress {
+  background: var(--accent);
+  height: 2px;
+}
+
+/* Tabs: a quiet segmented control; the selected tab is set in ink, not blue. */
+.tabs {
+  background: transparent;
+  border-color: var(--border);
+}
+
+.tabs__pill {
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.tab[aria-selected='true'] .tab__icon {
+  color: var(--text);
+  transform: none;
+}
+
+/* Hero: no card, no gradient. */
+.hero {
+  padding: 28px 0 8px;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  gap: 56px;
+}
+
+.hero__name {
+  font-weight: 720;
+  letter-spacing: -0.035em;
+}
+
+.hero__avatar {
+  box-shadow: none;
+  border: 1px solid var(--border);
+}
+
+.now {
+  background: var(--bg-panel);
+}
+
+.now__label,
+.tl-entry--now .tl-when {
+  color: var(--text-muted);
+}
+
+.now__label::before {
+  background: var(--accent);
+}
+
+/* Panels: a hairline edge, no shadow at rest. */
+.card,
+.tile,
+.latest__item,
+.metrics,
+.channel,
+.fact,
+.key,
+.reasons,
+.slab,
+.tl-card,
+.worklist,
+.bar__row,
+.domain-card,
+.chart,
+.langs__ring {
+  box-shadow: none;
+}
+
+/* Hover says "clickable" with the edge alone. */
+.card:hover,
+.tile:hover,
+.latest__item:hover,
+.channel:hover,
+.bar__row:hover,
+.domain-card:hover,
+.cloud__tag:hover,
+.chip:hover,
+.btn:hover,
+.iconbtn:hover,
+.rq-type:hover,
+.socials--pills .socials__link:hover,
+.help__cta:hover {
+  transform: none;
+}
+
+.card:hover,
+.tile:hover,
+.latest__item:hover {
+  border-color: var(--border-strong);
+  box-shadow: none;
+}
+
+.latest__item:hover .latest__media img,
+.tl-figure__zoom:hover img {
+  transform: none;
+}
+
+.card--featured,
+.tl-entry--now .tl-card {
+  border-color: var(--border);
+}
+
+.tl-entry--now .tl-card {
+  border-left: 2px solid var(--accent);
+}
+
+/* Icons sit plain, not in tinted squares. */
+.tile__icon {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.card__icon--mono,
+.panel__icon--mono {
+  background: var(--bg-inset);
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+/* Buttons: flat. */
+.btn,
+.iconbtn,
+.search input,
+.select,
+.modal .input,
+.rq-type,
+.socials--pills .socials__link,
+.modal .request-more {
+  box-shadow: none;
+}
+
+.btn--primary,
+.btn--request,
+.btn--primary:hover,
+.btn--request:hover {
+  box-shadow: none;
+}
+
+.chip[aria-pressed='true'] {
+  box-shadow: none;
+}
+
+/* Media placeholders: neutral, not a blue glow. */
+.latest__media,
+.tl-video__facade {
+  background: var(--bg-inset);
+}
+
+.tl-video__facade {
+  background: linear-gradient(160deg, #1d2025, #0e0f11);
+}
+
+.footer {
+  background: none;
+}
+
+/* Text links and accents read as one blue. */
+.slab__link,
+.tile__link,
+.tl-link,
+.keyfold summary {
+  color: var(--accent);
 }

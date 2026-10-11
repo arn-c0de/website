@@ -37,33 +37,24 @@ const html = /* html */ `<!doctype html>
   * { box-sizing: border-box; margin: 0; }
   body {
     width: 1200px; height: 630px; overflow: hidden;
-    font-family: Manrope, sans-serif; color: #eef1f6;
+    font-family: Manrope, sans-serif; color: #ececec;
     background:
-      radial-gradient(700px 420px at 8% -10%, rgba(134, 163, 255, 0.22), transparent 70%),
-      radial-gradient(600px 380px at 100% 0%, rgba(95, 128, 234, 0.16), transparent 70%),
-      #0b0e14;
-  }
-  .grid {
-    position: absolute; inset: 0;
-    background-image: linear-gradient(rgba(160,175,255,.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(160,175,255,.06) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse 80% 90% at 30% 0%, #000 10%, transparent 75%);
+      #0e0f11;
   }
   .card { position: relative; height: 100%; padding: 72px 80px; display: flex; flex-direction: column; }
   .id { display: flex; align-items: center; gap: 20px; }
   .id img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover;
-    box-shadow: 0 0 0 4px #0b0e14, 0 0 0 5px #333c4c; }
+    box-shadow: 0 0 0 4px #0e0f11, 0 0 0 5px #383b42; }
   .handle { font-size: 34px; font-weight: 780; letter-spacing: -0.02em; }
-  .tagline { margin-top: 4px; font-size: 22px; font-weight: 600; color: #a6afc0; }
+  .tagline { margin-top: 4px; font-size: 22px; font-weight: 600; color: #a5a8af; }
   h1 { margin-top: 56px; max-width: 1040px; text-wrap: balance; font-size: 78px; line-height: 1.06; font-weight: 790; letter-spacing: -0.04em; }
   .foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
   .tags { display: flex; gap: 10px; }
   .tag { font-family: JBM, monospace; font-size: 19px; padding: 7px 14px; border-radius: 9px;
-    background: #171c26; border: 1px solid #222936; color: #a6afc0; }
-  .url { font-size: 24px; font-weight: 650; color: #86a3ff; white-space: nowrap; }
+    background: #1c1e22; border: 1px solid #26282d; color: #a5a8af; }
+  .url { font-size: 24px; font-weight: 650; color: #5cb5ec; white-space: nowrap; }
 </style></head>
-<body><div class="grid"></div><div class="card">
+<body><div class="card">
   <div class="id"><img src="${avatar}" alt=""><div>
     <div class="handle">arn-c0de</div>
     <div class="tagline">Embedded systems, security tooling and local AI</div>

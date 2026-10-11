@@ -41,23 +41,12 @@ export default function ProjectCard({
   const extra = project.topics.length - topics.length
   const badge = showFeaturedBadge && project.featured
 
-  // A soft light follows the cursor across the card. Written straight to the
-  // element's own custom properties, so only the card under the pointer does
-  // any work and React never re-renders for it.
-  function trackPointer(event: React.PointerEvent<HTMLButtonElement>) {
-    const card = event.currentTarget
-    const box = card.getBoundingClientRect()
-    card.style.setProperty('--mx', `${event.clientX - box.left}px`)
-    card.style.setProperty('--my', `${event.clientY - box.top}px`)
-  }
-
   return (
     <button
       type="button"
       className={`card${badge ? ' card--featured' : ''}`}
       style={{ '--i': index } as React.CSSProperties}
       data-reveal
-      onPointerMove={trackPointer}
       onClick={() => onOpen(project.name)}
       aria-label={t('Open details for {name}', { name: project.title })}
     >
