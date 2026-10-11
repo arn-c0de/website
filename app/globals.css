@@ -7551,3 +7551,77 @@ body::after {
   background: none;
   color: var(--accent);
 }
+
+/* Buttons say what they do in words; a leading line icon only repeats it.
+   Brand marks (filled) and trailing arrows stay; icon-only controls are
+   .iconbtn. Phones keep icons where labels are hidden. */
+@media (min-width: 641px) {
+  .btn > svg[stroke]:first-child,
+  .btn > .btn__icon:first-child {
+    display: none;
+  }
+}
+
+/* Latest: pictures with a caption under them, no card around. */
+.latest {
+  gap: 28px;
+}
+
+.latest__item,
+.latest__item:hover {
+  padding: 0;
+  gap: 10px;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.latest__media {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.latest__meta,
+.latest__title {
+  padding: 0;
+}
+
+.latest__item:hover .latest__title {
+  color: var(--accent);
+}
+
+@media (max-width: 860px) {
+  .latest {
+    gap: 0;
+  }
+
+  .latest__item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .latest__item:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .latest__meta,
+  .latest__title {
+    padding: 0;
+  }
+}
+
+/* Explore: the titles carry it; no icon column. */
+.tile {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.tile__icon {
+  display: none;
+}
+
+.tile > :not(.tile__icon) {
+  grid-column: 1;
+}
