@@ -63,3 +63,46 @@ test('a quote inside a single-quoted URL cannot break out of the attribute', () 
   const { html } = prep(`<a href='https://e.x/"onmouseover="alert(1)'>q</a>`)
   assert.match(html, /href="https:\/\/e\.x\/&quot;onmouseover=&quot;alert\(1\)"/)
 })
+
+test('no removal can stitch a tag together, anchors included', () => {
+  for (const input of [
+    '<scr<a class="anchor" href="#x">x</a>ipt>alert(1)</script>',
+    '<scr<!-- c -->ipt>alert(1)</script>',
+    '<<script>x</script>script>alert(1)<</script>/script>',
+  ]) {
+    const { html } = prep(input)
+    assert.doesNotMatch(html, /<script/i, input)
+  }
+})
+
+test('a tag without its closing bracket stays text', () => {
+  const { html } = prep('<img src=x onerror=alert(1)//')
+  assert.doesNotMatch(html, /<img/i)
+  assert.match(html, /^&lt;img/)
+})
+
+test('a quoted ">" does not end the tag early', () => {
+  const { html } = prep('<img alt="a>b" onerror="alert(1)" src="x.png">')
+  assert.doesNotMatch(html, /onerror/i)
+  assert.match(html, /<img alt="a>b" data-src="https:\/\/raw\.githubusercontent\.com\/arn-c0de\/Demo\/HEAD\/x\.png" loading="lazy">/)
+})
+
+test('only allowed tags and attributes survive', () => {
+  const { html } = prep(
+    '<picture><source srcset="https://e.x/a.png"><img src="https://e.x/b.png" style="x" data-x="y"></picture><input type="text"><input type="checkbox" checked><marquee>m</marquee>',
+  )
+  assert.doesNotMatch(html, /picture|source|srcset|style=|data-x|marquee|type="text"/)
+  assert.match(html, /<input type="checkbox" checked disabled>/)
+  assert.match(html, />m$/)
+})
+
+test('text that looks like markup stays text', () => {
+  const { html } = prep('<pre><code>if a &lt; b: x onclick=1</code></pre><p>1 < 2 and 3 > 2</p>')
+  assert.equal(html, '<pre><code>if a &lt; b: x onclick=1</code></pre><p>1 &lt; 2 and 3 > 2</p>')
+})
+
+test('root-relative GitHub paths resolve against github.com', () => {
+  const { html } = prep('<a href="/arn-c0de/Demo/blob/main/a.md">a</a><img src="/arn-c0de/Demo/raw/main/x.png">')
+  assert.match(html, /href="https:\/\/github\.com\/arn-c0de\/Demo\/blob\/main\/a\.md"/)
+  assert.match(html, /data-src="https:\/\/github\.com\/arn-c0de\/Demo\/raw\/main\/x\.png"/)
+})

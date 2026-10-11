@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { loadReadme } from '@/lib/github'
 import { useI18n } from '@/lib/i18n'
-import { unparkImages, type PreparedReadme } from '@/lib/readmeHtml'
+import { resolvePath, unparkImages, type PreparedReadme } from '@/lib/readmeHtml'
 import type { Project } from '@/lib/types'
 
 /**
@@ -46,13 +46,13 @@ function sanitise(html: string, repo: string): { withImages: string; withoutImag
     }
     if (el.tagName === 'A') {
       const href = el.getAttribute('href')
-      if (href && !isAbsolute(href)) el.setAttribute('href', BLOB + href.replace(/^\.?\//, ''))
+      if (href && !isAbsolute(href)) el.setAttribute('href', resolvePath(href, BLOB))
       el.setAttribute('target', '_blank')
       el.setAttribute('rel', 'noopener noreferrer')
     }
     if (el.tagName === 'IMG') {
       const src = el.getAttribute('src')
-      if (src && !isAbsolute(src)) el.setAttribute('src', RAW + src.replace(/^\.?\//, ''))
+      if (src && !isAbsolute(src)) el.setAttribute('src', resolvePath(src, RAW))
       el.removeAttribute('srcset')
       el.setAttribute('loading', 'lazy')
     }

@@ -1,31 +1,47 @@
 /**
  * Build-time counterpart of the readme sanitising in components/Readme.tsx,
- * for HTML that is baked into the project pages. Node has no DOM, so this
- * works on the markup as text — acceptable here because the input is
- * GitHub's own rendering, which GitHub has already sanitised; this is a
- * second line, not the first.
+ * for HTML that is baked into the project pages. Node has no DOM, so this is
+ * a small allowlist sanitiser of its own. The input is GitHub's rendering,
+ * which GitHub has already sanitised; this is the second line, and it is
+ * written so it does not depend on the first.
+ *
+ * How it stays safe without a DOM: the markup is read once, left to right,
+ * and the output is built from scratch. Every tag is either rebuilt from the
+ * allowed tag and attribute names, or dropped; every `<` that does not open
+ * such a tag is written out as `&lt;`. Nothing is deleted from the input and
+ * the remains glued together, so no removal can assemble a new tag out of
+ * the text on either side of it.
  *
  * Images come out parked in `data-src`, as on the client, so a project page
  * contacts no third party until the visitor asks for the pictures.
  */
 
-const DROP_WITH_CONTENT = [
-  'script',
-  'style',
-  'iframe',
-  'frame',
-  'frameset',
-  'object',
-  'embed',
-  'applet',
-  'form',
-  'noscript',
-  'template',
-]
-const DROP_TAG = ['link', 'meta', 'base']
-/** Attributes that carry a URL a browser may follow or load. */
-const URL_ATTRS = /\s((?:xlink:)?href|src|action|formaction|poster|background|data)\s*=\s*("([^"]*)"|'([^']*)'|([^\s"'>]+))/gi
-/** The only schemes a readme link may use; anything else is dropped. */
+/** Tags kept, with only the global and their own attributes below. */
+const ALLOWED_TAGS = new Set([
+  'a', 'abbr', 'article', 'b', 'blockquote', 'br', 'caption', 'code', 'dd', 'del', 'details', 'div',
+  'dl', 'dt', 'em', 'figcaption', 'figure', 'g-emoji', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i',
+  'img', 'input', 'ins', 'kbd', 'li', 'mark', 'ol', 'p', 'pre', 'q', 's', 'samp', 'section', 'small',
+  'span', 'strike', 'strong', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead',
+  'tr', 'tt', 'u', 'ul', 'var',
+])
+/** Tags dropped together with everything inside them. */
+const DROP_WITH_CONTENT = new Set([
+  'script', 'style', 'iframe', 'frame', 'frameset', 'object', 'embed', 'applet', 'form', 'noscript',
+  'template', 'svg', 'math', 'textarea', 'select', 'title',
+])
+const VOID_TAGS = new Set(['br', 'hr', 'img', 'input'])
+const GLOBAL_ATTRS = new Set(['id', 'class', 'title', 'dir', 'lang', 'align', 'aria-hidden', 'aria-label'])
+const TAG_ATTRS: Record<string, Set<string>> = {
+  a: new Set(['href', 'name']),
+  img: new Set(['src', 'alt', 'width', 'height']),
+  td: new Set(['colspan', 'rowspan']),
+  th: new Set(['colspan', 'rowspan', 'scope']),
+  ol: new Set(['start', 'type']),
+  details: new Set(['open']),
+  input: new Set(['type', 'checked', 'disabled']),
+  'g-emoji': new Set(['alias']),
+}
+/** The only schemes a readme URL may use; anything else drops the attribute. */
 const SAFE_SCHEMES = new Set(['http', 'https', 'mailto'])
 
 export interface PreparedReadme {
@@ -53,72 +69,120 @@ function decodeEntities(value: string): string {
  * still runs), so those go before looking.
  */
 function schemeOf(value: string): string | null {
-  const plain = decodeEntities(value).replace(/[\u0000-\u0020\u007f-\u009f]+/g, '')
+  const plain = decodeEntities(value).replace(/[\u0000- \u007f-\u009f]+/g, '')
   const match = plain.match(/^([a-z][a-z0-9+.-]*):/i)
   return match ? match[1].toLowerCase() : null
 }
 
-/** Applies `step` until the text stops changing, so removals cannot nest. */
-function untilStable(text: string, step: (text: string) => string): string {
-  for (let i = 0; i < 50; i++) {
-    const next = step(text)
-    if (next === text) return text
-    text = next
-  }
-  // Still changing after fifty passes: nothing legitimate looks like that.
-  return ''
+/**
+ * A URL without a scheme, resolved the way it would be on GitHub: `/owner/…`
+ * against github.com, anything else against the repository. Anchors stay.
+ */
+export function resolvePath(value: string, base: string): string {
+  if (value === '' || value.startsWith('#')) return value
+  // Protocol-relative URLs would leave for another host; keep them on GitHub.
+  if (value.startsWith('//')) return base + value.replace(/^\/+/, '')
+  if (value.startsWith('/')) return `https://github.com${value}`
+  return base + value.replace(/^\.\//, '')
 }
+
+/** An attribute value made safe to sit between double quotes. */
+const quoteAttr = (value: string) => value.replace(/&(?!#?\w+;)/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
+
+/** One opening tag: name, attributes (any quoting), optional self-closing slash. */
+const OPEN_TAG = /^<([a-zA-Z][\w-]*)((?:\s+[^\s"'>/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s"'=<>`]+))?)*)\s*\/?>/
+const CLOSE_TAG = /^<\/([a-zA-Z][\w-]*)\s*>/
+const ATTR = /([^\s"'>/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g
 
 export function prepareReadme(input: string, owner: string, repo: string): PreparedReadme {
   const RAW = `https://raw.githubusercontent.com/${owner}/${repo}/HEAD/`
   const BLOB = `https://github.com/${owner}/${repo}/blob/HEAD/`
-
-  // Removing one tag can join the text around it into another
-  // (`<scr<script></script>ipt>`), so every removal repeats until nothing
-  // more matches.
-  let html = untilStable(input, (text) => {
-    for (const tag of DROP_WITH_CONTENT) {
-      text = text.replace(new RegExp(`<${tag}\\b[\\s\\S]*?</${tag}\\s*>`, 'gi'), '')
-      text = text.replace(new RegExp(`<${tag}\\b[^>]*>?`, 'gi'), '')
-    }
-    for (const tag of DROP_TAG) text = text.replace(new RegExp(`<${tag}\\b[^>]*>?`, 'gi'), '')
-    // Event handlers, in any quoting.
-    return text.replace(/\s+on[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]*)/gi, '')
-  })
-
-  // GitHub's heading permalinks render as a stray glyph outside GitHub.
-  html = html.replace(/<a\b[^>]*class="[^"]*\banchor\b[^"]*"[^>]*>[\s\S]*?<\/a>/gi, '')
-  html = html.replace(/<svg\b[^>]*class="[^"]*\bocticon-link\b[^"]*"[^>]*>[\s\S]*?<\/svg>/gi, '')
-  html = html.replace(/\s+srcset\s*=\s*("[^"]*"|'[^']*'|[^\s>]*)/gi, '')
-
-  // URLs, in any quoting: only http(s), mailto, anchors and relative paths
-  // survive, and relative paths are resolved against the repository.
-  html = html.replace(URL_ATTRS, (_, attr: string, _q, double?: string, single?: string, bare?: string) => {
-    const name = attr.toLowerCase()
-    let value = double ?? single ?? bare ?? ''
-    const scheme = schemeOf(value)
-    if (scheme !== null && !SAFE_SCHEMES.has(scheme)) return ''
-    if (scheme === null && value !== '' && !value.startsWith('#')) {
-      const path = value.replace(/^\.?\//, '')
-      value = (name === 'src' ? RAW : BLOB) + path
-    }
-    return ` ${name}="${value.replace(/"/g, '&quot;')}"`
-  })
-
-  // Links leave the site in a new tab and carry no referrer.
-  html = html.replace(/<a\b([^>]*)>/gi, (_, attrs: string) => {
-    const cleaned = attrs.replace(/\s(target|rel)\s*=\s*("[^"]*"|'[^']*')/gi, '')
-    return `<a${cleaned} target="_blank" rel="noopener noreferrer">`
-  })
-
   let images = 0
-  html = html.replace(/<img\b([^>]*)>/gi, (_, attrs: string) => {
-    images += 1
-    const parked = attrs.replace(/\ssrc="/i, ' data-src="')
-    return `<img${parked.replace(/\s*\/$/, '')} loading="lazy">`
-  })
+  let out = ''
+  let i = 0
 
-  return { html, images }
+  /** Everything up to and including the tag that closes `name`, skipped. */
+  const skipPast = (name: string) => {
+    const close = new RegExp(`</${name}\\s*>`, 'ig')
+    close.lastIndex = i
+    const found = close.exec(input)
+    i = found ? found.index + found[0].length : input.length
+  }
+
+  const rebuild = (name: string, rawAttrs: string): string => {
+    const allowed = TAG_ATTRS[name]
+    const attrs: string[] = []
+    for (const m of rawAttrs.matchAll(ATTR)) {
+      const attr = m[1].toLowerCase()
+      if (!GLOBAL_ATTRS.has(attr) && !allowed?.has(attr)) continue
+      let value = m[2] ?? m[3] ?? m[4] ?? ''
+      if (attr === 'href' || attr === 'src') {
+        const scheme = schemeOf(value)
+        if (scheme !== null && !SAFE_SCHEMES.has(scheme)) continue
+        if (scheme === null) value = resolvePath(value, attr === 'src' ? RAW : BLOB)
+        // Parked: an image only loads once the visitor asks for it.
+        if (name === 'img' && attr === 'src') {
+          attrs.push(`data-src="${quoteAttr(value)}"`)
+          continue
+        }
+      }
+      if (name === 'input' && attr === 'type' && value.toLowerCase() !== 'checkbox') return ''
+      attrs.push(m[2] === undefined && m[3] === undefined && m[4] === undefined ? attr : `${attr}="${quoteAttr(value)}"`)
+    }
+    if (name === 'a') attrs.push('target="_blank"', 'rel="noopener noreferrer"')
+    if (name === 'img') {
+      images += 1
+      attrs.push('loading="lazy"')
+    }
+    if (name === 'input' && !attrs.some((a) => a.startsWith('disabled'))) attrs.push('disabled')
+    return `<${name}${attrs.length ? ` ${[...new Set(attrs)].join(' ')}` : ''}>`
+  }
+
+  while (i < input.length) {
+    const lt = input.indexOf('<', i)
+    if (lt === -1) {
+      out += input.slice(i)
+      break
+    }
+    out += input.slice(i, lt)
+    i = lt
+    const rest = input.slice(i)
+
+    if (rest.startsWith('<!--')) {
+      const end = input.indexOf('-->', i + 4)
+      i = end === -1 ? input.length : end + 3
+      continue
+    }
+
+    const close = rest.match(CLOSE_TAG)
+    if (close) {
+      const name = close[1].toLowerCase()
+      if (ALLOWED_TAGS.has(name) && !VOID_TAGS.has(name)) out += `</${name}>`
+      i += close[0].length
+      continue
+    }
+
+    const open = rest.match(OPEN_TAG)
+    if (open) {
+      const name = open[1].toLowerCase()
+      i += open[0].length
+      if (DROP_WITH_CONTENT.has(name)) {
+        skipPast(name)
+      } else if (name === 'a' && /\sclass\s*=\s*["']?[^"'>]*\banchor\b/i.test(open[2])) {
+        // GitHub's heading permalinks render as a stray glyph outside GitHub.
+        skipPast('a')
+      } else if (ALLOWED_TAGS.has(name)) {
+        out += rebuild(name, open[2])
+      }
+      continue
+    }
+
+    // A `<` that opens nothing we keep is text.
+    out += '&lt;'
+    i += 1
+  }
+
+  return { html: out, images }
 }
 
 /** The same markup with the parked images switched back on. */
