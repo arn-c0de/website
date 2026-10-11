@@ -5,6 +5,7 @@ import { asset } from '@/lib/basePath'
 import { formatRelative } from '@/lib/format'
 import { useI18n } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
+import { allTimelineEntries, entryVisual, formatTimelineDate, hasVideo, latestEntries, pick } from '@/lib/timeline'
 import type { Tab } from '@/lib/useAppState'
 import Metric from './Metric'
 import ProjectCard from './ProjectCard'
@@ -15,8 +16,10 @@ import {
   GitHubIcon,
   LanguageIcon,
   MailIcon,
+  PlayIcon,
   RequestIcon,
   StackIcon,
+  TimelineIcon,
 } from './Icons'
 
 /** Languages named in the stack tile — a taste, not the full list. */
@@ -30,13 +33,18 @@ export default function OverviewPane({
   onNavigate,
   onOpenProject,
   onStartRequest,
+  onOpenTimeline,
 }: {
   projects: Project[]
   onNavigate: (tab: Tab) => void
   onOpenProject: (name: string) => void
   onStartRequest: () => void
+  /** Opens the timeline tab at one entry. */
+  onOpenTimeline: (id?: string) => void
 }) {
-  const { t, locale } = useI18n()
+  const { t, locale, labels } = useI18n()
+  const timelineEntries = useMemo(() => allTimelineEntries(projects), [projects])
+  const latest = useMemo(() => latestEntries(timelineEntries, 3), [timelineEntries])
   const stats = useMemo(() => {
     const languages = new Map<string, number>()
     let stars = 0
@@ -136,6 +144,54 @@ export default function OverviewPane({
 
       <Gallery projects={gallery} onOpen={onOpenProject} onAll={() => onNavigate('projects')} />
 
+      {latest.length > 0 && (
+        <section className="band">
+          <div className="band__head" data-reveal>
+            <div>
+              <h2 className="band__title">{t('Latest')}</h2>
+              <p className="band__hint">{t('New videos and milestones from the timeline.')}</p>
+            </div>
+            <div className="band__nav">
+              <button type="button" className="btn btn--sm" onClick={() => onOpenTimeline()}>
+                {labels.timeline}
+                <ArrowIcon />
+              </button>
+            </div>
+          </div>
+
+          <div className="latest">
+            {latest.map((entry, i) => {
+              const visual = entryVisual(entry)
+              const video = hasVideo(entry)
+              return (
+                <button
+                  key={entry.id}
+                  type="button"
+                  className="latest__item"
+                  data-reveal
+                  style={{ '--i': i } as React.CSSProperties}
+                  onClick={() => onOpenTimeline(entry.id)}
+                >
+                  <span className="latest__media" data-empty={!visual}>
+                    {visual && <img src={asset(visual.src)} alt="" loading="lazy" decoding="async" />}
+                    <span className="latest__badge" data-video={video}>
+                      {video ? <PlayIcon /> : <TimelineIcon />}
+                    </span>
+                  </span>
+                  <span className="latest__meta">
+                    <span className={`tl-dot tl-dot--${entry.status}`} aria-hidden />
+                    {entry.date && formatTimelineDate(entry.date, locale)}
+                    <span aria-hidden>·</span>
+                    {video ? t('Video') : entry.status === 'now' ? t('In progress') : t('Milestone')}
+                  </span>
+                  <span className="latest__title">{pick(entry.title, locale)}</span>
+                </button>
+              )
+            })}
+          </div>
+        </section>
+      )}
+
       <section className="band">
         <div className="band__head" data-reveal>
           <div>
@@ -147,6 +203,27 @@ export default function OverviewPane({
         <div className="tiles">
           <Tile
             index={0}
+            icon={<TimelineIcon />}
+            title={labels.timeline}
+            text={t('TILE_TIMELINE')}
+            action={t('Open the timeline')}
+            onAction={() => onOpenTimeline()}
+          >
+            {(['planned', 'now', 'done'] as const).map((status) => {
+              const n = timelineEntries.filter((e) => e.status === status).length
+              if (!n) return null
+              const label = { planned: 'Planned', now: 'In progress', done: 'Done' }[status]
+              return (
+                <span key={status} className="tag">
+                  {t(label)}
+                  <span className="tag__n">{n}</span>
+                </span>
+              )
+            })}
+          </Tile>
+
+          <Tile
+            index={1}
             icon={<StackIcon />}
             title={t('Stack')}
             text={t('TILE_STACK')}
@@ -163,7 +240,7 @@ export default function OverviewPane({
           </Tile>
 
           <Tile
-            index={1}
+            index={2}
             icon={<AboutIcon />}
             title={t('About')}
             text={t('TILE_ABOUT')}
@@ -177,7 +254,7 @@ export default function OverviewPane({
           </Tile>
 
           <Tile
-            index={2}
+            index={3}
             icon={<MailIcon />}
             title={t('Contact')}
             text={t('TILE_CONTACT')}

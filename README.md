@@ -260,9 +260,11 @@ Add a `public/CNAME` file containing the hostname if you point a custom domain h
 
 ## Deployment
 
-Pushing to `main` triggers `.github/workflows/deploy.yml`: typecheck → build → publish `out/` to
-GitHub Pages. The workflow explicitly builds with `PAGES_BASE_PATH=/website`, so generated assets,
-the manifest and the service-worker scope all point to `https://arn-c0de.github.io/website/`.
+Pushing to `main` triggers `.github/workflows/deploy.yml`: typecheck → tests → fetch the channel
+videos → build → publish `out/` to GitHub Pages; it also runs once a day. The workflow builds with
+`PAGES_BASE_PATH=""` for the custom domain, so every absolute URL — sitemap, robots, Open Graph,
+structured data — names `https://arn-c0de.de/` (`SITE_URL` in `lib/basePath.ts` switches to
+`arn-c0de.github.io` only when a base path is set).
 
 **Settings → Pages → Source must stay on "GitHub Actions".** If it is ever switched to "Deploy
 from a branch", GitHub's legacy Jekyll builder takes over, publishes the repository root instead

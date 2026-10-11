@@ -19,6 +19,10 @@ export const LONG: Record<string, { en: string; de: string }> = {
     en: 'A Rust game and simulation engine for Linux. It runs on Quest 3 without the Quest Link PC app; the same world also runs in 2D on the desktop.',
     de: 'Eine Spiel- und Simulations-Engine in Rust für Linux. Läuft auf der Quest 3 ohne die Quest-Link-PC-App; dieselbe Welt läuft auch in 2D am Desktop.',
   },
+  TILE_TIMELINE: {
+    en: 'What is planned, in progress and done — with videos.',
+    de: 'Was geplant, in Arbeit und fertig ist — mit Videos.',
+  },
   TILE_STACK: {
     en: 'Languages and topics, counted from the repositories.',
     de: 'Sprachen und Themen, direkt aus den Repositories gezählt.',
@@ -428,4 +432,10 @@ export const DE: Record<string, string> = {
   'Loads from YouTube when you press play': 'Wird erst beim Abspielen von YouTube geladen',
   'Watch on YouTube': 'Auf YouTube ansehen',
   Videos: 'Videos',
+  // Overview: latest
+  Latest: 'Neuigkeiten',
+  'New videos and milestones from the timeline.': 'Neue Videos und Meilensteine aus dem Zeitstrahl.',
+  Video: 'Video',
+  Milestone: 'Meilenstein',
+  'Open the timeline': 'Zum Zeitstrahl',
 }

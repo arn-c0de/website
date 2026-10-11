@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { SITE_URL, asset } from '@/lib/basePath'
+import videoData from '@/data/videos.json'
+import type { VideoData } from '@/lib/youtube-feed'
 import '@fontsource-variable/manrope'
 import '@fontsource-variable/jetbrains-mono'
 import './globals.css'
@@ -126,6 +128,23 @@ const personJsonLd = {
   knowsAbout: ['Embedded Systems', 'Network Security', 'Python', 'Rust', 'Kotlin', 'ESP32', 'AI Systems'],
 }
 
+/**
+ * The channel videos the timeline shows, described for search engines. Built
+ * from the same data/videos.json the deploy fetches, so it never names a video
+ * the page does not have.
+ */
+const videoJsonLd = (videoData as VideoData).videos.map((v) => ({
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: v.title,
+  description: v.summary || v.title,
+  uploadDate: v.date,
+  ...(v.poster ? { thumbnailUrl: `${SITE_URL}${v.poster}` } : {}),
+  contentUrl: `https://www.youtube.com/watch?v=${v.id}`,
+  embedUrl: `https://www.youtube-nocookie.com/embed/${v.id}`,
+  author: { '@type': 'Person', name: 'arn-c0de', url: `${SITE_URL}/` },
+}))
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -136,6 +155,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
+        {videoJsonLd.length > 0 && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(videoJsonLd) }}
+          />
+        )}
       </head>
       <body>{children}</body>
     </html>

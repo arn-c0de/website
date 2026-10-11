@@ -255,6 +255,22 @@ function AppShellContent() {
     [selectTab, tab],
   )
 
+  // Into the timeline, optionally straight to one entry once it has rendered.
+  const openTimeline = useCallback(
+    (id?: string) => {
+      selectTab('timeline')
+      if (!id) return
+      let tries = 0
+      const seek = () => {
+        const el = document.getElementById(`tl-${id}`)
+        if (el) el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
+        else if (++tries < 20) requestAnimationFrame(seek)
+      }
+      requestAnimationFrame(seek)
+    },
+    [selectTab, reduced],
+  )
+
   const showTopic = useCallback(
     (topic: string) => {
       setQuery(topic)
@@ -387,6 +403,7 @@ function AppShellContent() {
             onNavigate={selectTab}
             onOpenProject={openDetail}
             onStartRequest={() => startRequest()}
+            onOpenTimeline={openTimeline}
           />
         )}
         {tab === 'projects' && (

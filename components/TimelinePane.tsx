@@ -2,9 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import videoData from '@/data/videos.json'
-import timeline, {
-  youtube,
+import {
   type Localized,
   type TimelineEntry,
   type TimelineImage,
@@ -17,8 +15,7 @@ import { asset } from '@/lib/basePath'
 import { useI18n, type Locale } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
 import { usePrefersReducedMotion } from '@/lib/useMotion'
-import { videoEntries } from '@/lib/videos'
-import type { VideoData } from '@/lib/youtube-feed'
+import { allTimelineEntries, formatTimelineDate, hasVideo, pick, sortTimeline } from '@/lib/timeline'
 import { youtubeEmbedUrl, youtubeId, youtubeStart, youtubeWatchUrl } from '@/lib/video'
 import { ArrowIcon, CheckIcon, CloseIcon, LinkIcon, PlayIcon } from './Icons'
 
@@ -28,43 +25,6 @@ const STATUS_LABEL: Record<TimelineStatus, string> = {
   planned: 'Planned',
   now: 'In progress',
   done: 'Done',
-}
-
-function hasVideo(entry: TimelineEntry) {
-  return (entry.media ?? []).some((m) => 'youtube' in m || 'video' in m)
-}
-
-function pick(value: Localized | undefined, locale: Locale): string {
-  if (value === undefined) return ''
-  return typeof value === 'string' ? value : value[locale]
-}
-
-/** 'YYYY-MM' → "Oct 2026", 'YYYY-MM-DD' → "11 Oct 2026", in the page language. */
-export function formatTimelineDate(date: string, locale: Locale): string {
-  const [y, m, d] = date.split('-').map(Number)
-  if (!y || !m) return date
-  const value = new Date(Date.UTC(y, m - 1, d || 1))
-  return value.toLocaleDateString(locale === 'de' ? 'de-DE' : 'en-GB', {
-    timeZone: 'UTC',
-    ...(d ? { day: 'numeric' } : {}),
-    month: 'short',
-    year: 'numeric',
-  })
-}
-
-/** Planned first, then in progress, then done; newest first inside each. */
-export function sortTimeline(entries: readonly TimelineEntry[]): TimelineEntry[] {
-  return entries
-    .map((entry, index) => ({ entry, index }))
-    .sort((a, b) => {
-      const status = ORDER.indexOf(a.entry.status) - ORDER.indexOf(b.entry.status)
-      if (status !== 0) return status
-      const dateA = a.entry.date ?? ''
-      const dateB = b.entry.date ?? ''
-      if (dateA !== dateB) return dateA < dateB ? 1 : -1
-      return a.index - b.index
-    })
-    .map(({ entry }) => entry)
 }
 
 export default function TimelinePane({
@@ -79,10 +39,7 @@ export default function TimelinePane({
   const [zoomed, setZoomed] = useState<TimelineImage | null>(null)
 
   // Hand-written entries plus the channel's videos, fetched at build time.
-  const all = useMemo(
-    () => [...timeline, ...videoEntries((videoData as VideoData).videos, youtube, projects, timeline)],
-    [projects],
-  )
+  const all = useMemo(() => allTimelineEntries(projects), [projects])
   const sorted = useMemo(() => sortTimeline(all), [all])
   const known = useMemo(() => new Set(projects.map((p) => p.name)), [projects])
   const counts = useMemo(() => {
@@ -149,17 +106,30 @@ export default function TimelinePane({
           </h2>
 
           <ol className="tl-list">
-            {entries.map((entry, i) => (
-              <Entry
-                key={entry.id}
-                entry={entry}
-                index={i}
-                locale={locale}
-                canOpen={!!entry.project && known.has(entry.project)}
-                onOpenProject={onOpenProject}
-                onZoom={setZoomed}
-              />
-            ))}
+            {entries.map((entry, i) => {
+              // Done entries span years; a marker where the year changes keeps
+              // a long list scannable. The first year is the section itself.
+              const year = entry.date?.slice(0, 4)
+              const previous = entries[i - 1]?.date?.slice(0, 4)
+              const marker = status === 'done' && i > 0 && year && previous && year !== previous
+              return [
+                marker ? (
+                  <li key={`year-${year}`} className="tl-year">
+                    <span className="tl-year__rail" aria-hidden />
+                    <span className="tl-year__label">{year}</span>
+                  </li>
+                ) : null,
+                <Entry
+                  key={entry.id}
+                  entry={entry}
+                  index={i}
+                  locale={locale}
+                  canOpen={!!entry.project && known.has(entry.project)}
+                  onOpenProject={onOpenProject}
+                  onZoom={setZoomed}
+                />,
+              ]
+            })}
           </ol>
         </section>
       ))}

@@ -2,6 +2,7 @@
   "name": "arn-c0de-site",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "Project console for github.com/arn-c0de",
   "scripts": {
     "dev": "next dev",

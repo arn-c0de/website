@@ -12,5 +12,11 @@ export function asset(path: string): string {
   return `${BASE_PATH}${path.startsWith('/') ? path : `/${path}`}`
 }
 
-/** Absolute origin + base path, for sitemap and robots entries. */
-export const SITE_URL = `https://arn-c0de.github.io${BASE_PATH}`
+/**
+ * Absolute origin + base path, for sitemap, robots, Open Graph and structured
+ * data. Without a base path the site is on its custom domain; with one it is
+ * a project page under github.io. Naming the real domain keeps search
+ * engines and link previews from going through GitHub's redirect.
+ */
+const ORIGIN = BASE_PATH ? 'https://arn-c0de.github.io' : 'https://arn-c0de.de'
+export const SITE_URL = `${ORIGIN}${BASE_PATH}`
