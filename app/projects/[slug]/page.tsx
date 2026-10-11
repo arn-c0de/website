@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import ProjectPage from '@/components/ProjectPage'
@@ -21,13 +23,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const url = `${SITE_URL}/projects/${projectSlug(project)}/`
   const title = `${project.title} — arn-c0de`
   const description = project.description ?? `${project.title}, an open-source project by arn-c0de.`
+  // The project's own card from scripts/generate-og.mjs; a project added
+  // since the cards were last drawn falls back to the site's.
+  const slug = projectSlug(project)
+  const image = existsSync(join(process.cwd(), 'public', 'og', `${slug}.png`))
+    ? { ...OG_IMAGE, url: `${SITE_URL}/og/${slug}.png`, alt: `${project.title} — arn-c0de` }
+    : OG_IMAGE
   return {
     title,
     description,
     alternates: { canonical: url },
     // Spelled out in full: a page's openGraph replaces the layout's, image and all.
-    openGraph: { title, description, url, siteName: 'arn-c0de', type: 'website', images: [OG_IMAGE] },
-    twitter: { card: 'summary_large_image', title, description, images: [OG_IMAGE] },
+    openGraph: { title, description, url, siteName: 'arn-c0de', type: 'website', images: [image] },
+    twitter: { card: 'summary_large_image', title, description, images: [image] },
   }
 }
 

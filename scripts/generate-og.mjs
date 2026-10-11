@@ -2,9 +2,12 @@
  * Draws the social preview card — the image a link to this site unfurls into
  * on Discord, Mastodon, LinkedIn and the rest.
  *
- *   node scripts/generate-og.mjs
+ *   node --import ./scripts/test-setup.mjs scripts/generate-og.mjs
  *
- * Writes public/og.png (1200×630); commit the result. It is a screenshot of a
+ * Writes public/og.png (1200×630) and one card per project page to
+ * public/og/<slug>.png; commit the results. The cards show nothing that goes
+ * stale — no star counts — so they only need redrawing when a project's
+ * title, description or icon changes, or a new one appears. It is a screenshot of a
  * small HTML card taken with a real browser, so it uses the site's own fonts
  * (Manrope, JetBrains Mono — bundled woff2, which the satori renderer behind
  * next/og cannot read) and the same palette as the dark theme.
@@ -16,9 +19,10 @@
  * serves that as application/octet-stream, and unfurlers refuse it.
  */
 import { chromium } from 'playwright-core'
-import { readFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import { pageProjects, projectSlug } from '../lib/projectPages.ts'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const out = join(root, 'public', 'og.png')
@@ -69,15 +73,63 @@ const html = /* html */ `<!doctype html>
   </div>
 </div></body></html>`
 
+/** A project's card: its icon and name lead, the site's handle sits above. */
+function projectHtml(project) {
+  const iconFile = project.icon ? join(root, 'public', project.icon.replace(/^\//, '')) : null
+  const icon =
+    iconFile && existsSync(iconFile)
+      ? `<img class="picon" src="data:image/png;base64,${readFileSync(iconFile).toString('base64')}" alt="">`
+      : `<div class="picon picon--mono">${escapeHtml(project.title.charAt(0))}</div>`
+  const topics = project.topics.slice(0, 3)
+  return /* html */ `<!doctype html>
+<html><head><meta charset="utf-8"><style>
+  @font-face { font-family: Manrope; font-weight: 200 800; src: url('${font('manrope', 'manrope-latin-wght-normal.woff2')}') format('woff2'); }
+  @font-face { font-family: JBM; font-weight: 100 800; src: url('${font('jetbrains-mono', 'jetbrains-mono-latin-wght-normal.woff2')}') format('woff2'); }
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 1200px; height: 630px; overflow: hidden; font-family: Manrope, sans-serif; color: #ececec; background: #0e0f11; }
+  .card { height: 100%; padding: 64px 80px; display: flex; flex-direction: column; }
+  .by { display: flex; align-items: center; gap: 14px; font-size: 24px; font-weight: 700; color: #a5a8af; }
+  .by img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+  .head { margin-top: 64px; display: flex; align-items: center; gap: 32px; }
+  .picon { width: 112px; height: 112px; border-radius: 26px; object-fit: cover; flex: none; }
+  .picon--mono { display: grid; place-items: center; background: #1c1e22; border: 2px solid #26282d; font-size: 56px; font-weight: 780; color: #a5a8af; }
+  h1 { min-width: 0; overflow-wrap: anywhere; font-size: ${project.title.length > 16 ? 60 : 84}px; line-height: 1.02; font-weight: 790; letter-spacing: -0.04em; }
+  .desc { margin-top: 32px; max-width: 1020px; font-size: 30px; line-height: 1.4; color: #a5a8af;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .tags { min-width: 0; overflow: hidden; white-space: nowrap; font-family: JBM, monospace; font-size: 21px; color: #878a91; }
+  .tags span + span::before { content: '·'; margin: 0 12px; color: #383b42; }
+  .url { font-size: 24px; font-weight: 650; color: #5cb5ec; white-space: nowrap; }
+</style></head>
+<body><div class="card">
+  <div class="by"><img src="${avatar}" alt="">arn-c0de</div>
+  <div class="head">${icon}<h1>${escapeHtml(project.title)}</h1></div>
+  ${project.description ? `<p class="desc">${escapeHtml(project.description)}</p>` : ''}
+  <div class="foot">
+    <div class="tags">${[project.language, ...topics].filter(Boolean).map((t) => `<span>${escapeHtml(t)}</span>`).join('')}</div>
+    <div class="url">arn-c0de.de/projects/${escapeHtml(projectSlug(project))}</div>
+  </div>
+</div></body></html>`
+}
+
 const browser = await chromium.launch(
   process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {},
 )
 try {
   const page = await browser.newPage({ viewport: { width: 1200, height: 630 } })
-  await page.setContent(html, { waitUntil: 'load' })
-  await page.evaluate(() => document.fonts.ready)
-  await page.screenshot({ path: out, type: 'png' })
+  const draw = async (markup, path) => {
+    await page.setContent(markup, { waitUntil: 'load' })
+    await page.evaluate(() => document.fonts.ready)
+    await page.screenshot({ path, type: 'png' })
+  }
+  await draw(html, out)
+  console.log('public/og.png written')
+
+  const dir = join(root, 'public', 'og')
+  mkdirSync(dir, { recursive: true })
+  const projects = pageProjects()
+  for (const project of projects) await draw(projectHtml(project), join(dir, `${projectSlug(project)}.png`))
+  console.log(`public/og/: ${projects.length} project cards written`)
 } finally {
   await browser.close()
 }
-console.log(`public/og.png written`)
