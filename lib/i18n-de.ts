@@ -166,6 +166,9 @@ export const DE: Record<string, string> = {
 
   // Project pages
   'Project page': 'Projektseite',
+  'Project view': 'Ansicht',
+  Grid: 'Kacheln',
+  List: 'Liste',
   'In the timeline': 'Im Zeitstrahl',
   'Related projects': 'Ähnliche Projekte',
 

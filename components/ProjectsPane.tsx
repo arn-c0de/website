@@ -1,11 +1,12 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import config from '@/projects.config'
 import { searchProjects, sortProjects } from '@/lib/github'
 import type { Project, SortKey } from '@/lib/types'
 import { useI18n } from '@/lib/i18n'
 import ProjectCard from './ProjectCard'
+import ProjectRow from './ProjectRow'
 import { CloseIcon, SearchIcon } from './Icons'
 
 const SORTS: { key: SortKey; label: string }[] = [
@@ -35,6 +36,25 @@ export default function ProjectsPane({
   const [category, setCategory] = useState<string>('all')
   const [sort, setSort] = useState<SortKey>('featured')
   const [showAll, setShowAll] = useState(config.showAllByDefault)
+  const [view, setView] = useState<'grid' | 'list'>('grid')
+
+  // The chosen view is a reading preference, so it outlives the visit.
+  useEffect(() => {
+    try {
+      if (localStorage.getItem('projects-view') === 'list') setView('list')
+    } catch {
+      /* storage blocked — the grid it is */
+    }
+  }, [])
+
+  function chooseView(next: 'grid' | 'list') {
+    setView(next)
+    try {
+      localStorage.setItem('projects-view', next)
+    } catch {
+      /* storage blocked — the choice lasts for this visit */
+    }
+  }
 
   const categories = useMemo(() => {
     const counts = new Map<string, number>()
@@ -119,6 +139,15 @@ export default function ProjectsPane({
             </option>
           ))}
         </select>
+
+        <div className="viewtoggle" role="group" aria-label={t('Project view')}>
+          <button type="button" aria-pressed={view === 'grid'} onClick={() => chooseView('grid')}>
+            {t('Grid')}
+          </button>
+          <button type="button" aria-pressed={view === 'list'} onClick={() => chooseView('list')}>
+            {t('List')}
+          </button>
+        </div>
       </div>
 
       <div className="chips">
@@ -152,6 +181,12 @@ export default function ProjectsPane({
             {t('Reset filters')}
           </button>
         </div>
+      ) : view === 'list' ? (
+        <ul className="plist">
+          {visible.map((p) => (
+            <ProjectRow key={p.name} project={p} onOpen={onOpen} />
+          ))}
+        </ul>
       ) : (
         <div className="grid">
           {visible.map((p, i) => (
