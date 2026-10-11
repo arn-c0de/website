@@ -33,6 +33,11 @@ test('timeline dates are YYYY-MM or YYYY-MM-DD, and past entries have one', () =
 test('every timeline text is complete in both languages', () => {
   for (const e of timeline) {
     for (const key of ['title', 'text', 'aside', 'when'] as const) bothLanguages(e[key], `${e.id}.${key}`)
+    if (e.help) {
+      assert.ok(e.help.areas.length > 0, `${e.id}: help needs at least one area`)
+      e.help.areas.forEach((area, i) => bothLanguages(area, `${e.id}.help.areas[${i}]`))
+      assert.match(e.help.href, /^https:\/\//, `${e.id}: help link should be https`)
+    }
     ;[...(e.media ?? []), ...(e.images ?? [])].forEach((item, i) => {
       if ('alt' in item) bothLanguages(item.alt, `${e.id}.media[${i}].alt`)
       if ('title' in item) bothLanguages(item.title, `${e.id}.media[${i}].title`)

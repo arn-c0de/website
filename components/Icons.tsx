@@ -232,6 +232,14 @@ export function SocialIcon({ id, size = 16 }: { id: string; size?: number }) {
   return <GitHubIcon size={size} />
 }
 
+export function HandIcon() {
+  return (
+    <svg {...base} width={14} height={14}>
+      <path d="M5.5 8V3.2a1 1 0 0 1 2 0V7.5M7.5 7V2.4a1 1 0 0 1 2 0V7.5M9.5 7.2V3.4a1 1 0 0 1 2 0v5.4c0 3-1.8 5-4.6 5-1.7 0-2.8-.8-3.7-2.2L1.6 9.1a1 1 0 0 1 1.6-1.2L5.5 10" />
+    </svg>
+  )
+}
+
 export function PlayIcon() {
   return (
     <svg viewBox="0 0 16 16" width={22} height={22} fill="currentColor" aria-hidden>

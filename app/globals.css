@@ -6673,3 +6673,68 @@ p {
     display: none;
   }
 }
+
+/* "Help wanted": a warm box that stands apart from the cool accent. */
+.help {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-top: 4px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--warn) 40%, var(--border));
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--warn) 8%, var(--bg-panel));
+}
+
+.help__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--warn);
+}
+
+.help__areas {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.help__area {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--bg-panel);
+  border: 1px solid color-mix(in srgb, var(--warn) 30%, var(--border));
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--text);
+}
+
+.help__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--ink-text);
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.2s var(--spring);
+}
+
+.help__cta:hover {
+  background: var(--ink-hover);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.now .help {
+  margin: 4px 0 0;
+}

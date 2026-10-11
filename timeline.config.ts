@@ -97,6 +97,11 @@ export interface TimelineEntry {
   /** Repository name — adds an "Open project" button that opens its panel. */
   project?: string
   links?: { label: Localized; href: string }[]
+  /**
+   * Marks the entry as looking for help: the areas are listed in a highlighted
+   * box with a "Help out" button to `href`.
+   */
+  help?: { areas: Localized[]; href: string }
 }
 
 /**
@@ -145,6 +150,20 @@ export const youtube: YouTubeSettings = {
 export const plannedNote: Localized = {
   en: 'Target dates come from the QLink plan of 27 September 2026 — estimates, not promises.',
   de: 'Zieltermine aus dem QLink-Plan vom 27. September 2026 — Schätzungen, keine Zusagen.',
+}
+
+/**
+ * What QLink is looking for help with, and where offers land (the issue
+ * template in the preview repository). The overview's "Currently building"
+ * card shows the same list.
+ */
+export const qlinkHelp: NonNullable<TimelineEntry['help']> = {
+  areas: [
+    { en: 'Sound design', de: 'Sound-Design' },
+    { en: '3D models and meshes', de: '3D-Modelle und Meshes' },
+    { en: 'Texturing', de: 'Texturierung' },
+  ],
+  href: 'https://github.com/arn-c0de/QLink-preview/issues/new?template=offer-help.yml',
 }
 
 const timeline: TimelineEntry[] = [
@@ -244,6 +263,21 @@ const timeline: TimelineEntry[] = [
     tags: ['M3', 'vulkan', 'nvenc'],
     project: 'QLink-preview',
   },
+  {
+    id: 'qlink-sound',
+    status: 'planned',
+    date: '2026-10',
+    when: { en: 'Next', de: 'Als Nächstes' },
+    title: { en: 'QLink: sound design', de: 'QLink: Sound-Design' },
+    text: {
+      en: 'The world gets its sound: ambience, weather from light rain to thunder, water and waves, footsteps and interface sounds. Help is welcome here — and with 3D models and textures for the world.',
+      de: 'Die Welt bekommt ihren Klang: Atmosphäre, Wetter vom leichten Regen bis zum Donner, Wasser und Wellen, Schritte und Bedienklänge. Hier ist Hilfe willkommen — ebenso bei 3D-Modellen und Texturen für die Welt.',
+    },
+    layout: 'text',
+    tags: ['sound-design', 'audio', 'help-wanted'],
+    project: 'QLink-preview',
+    help: qlinkHelp,
+  },
 
   // ── In progress ────────────────────────────────────────────────────────
   {
@@ -258,6 +292,7 @@ const timeline: TimelineEntry[] = [
     layout: 'text',
     tags: ['M1', 'M2', 'rust', 'linux'],
     project: 'QLink-preview',
+    help: qlinkHelp,
   },
   {
     id: 'local-ai',

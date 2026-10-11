@@ -445,4 +445,7 @@ export const DE: Record<string, string> = {
   Elsewhere: 'Woanders',
   'Videos, code and short updates — public, not for private messages.':
     'Videos, Code und kurze Updates — öffentlich, nicht für private Nachrichten.',
+  // Help wanted
+  'Help wanted': 'Hilfe gesucht',
+  'Help out': 'Mithelfen',
 }

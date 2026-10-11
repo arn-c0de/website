@@ -108,6 +108,7 @@ first, so entries can be added anywhere in the file.
   images: [{ src: '/timeline/zombieescape.webp', alt: { en: '…', de: '…' }, fit: 'cover' }],
   tags: ['android'],
   project: 'ZombieEscape-Preview',          // adds "Open project", opens its panel
+  help: { areas: [{ en: 'Sound design', de: 'Sound-Design' }], href: 'https://…' }, // "Help wanted" box
 }
 ```
 

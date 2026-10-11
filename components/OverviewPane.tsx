@@ -9,6 +9,8 @@ import { allTimelineEntries, entryVisual, formatTimelineDate, hasVideo, latestEn
 import type { Tab } from '@/lib/useAppState'
 import Metric from './Metric'
 import ProjectCard from './ProjectCard'
+import { HelpWanted } from './TimelinePane'
+import { qlinkHelp } from '@/timeline.config'
 import SocialLinks from './SocialLinks'
 import { YOUTUBE } from '@/lib/socials'
 import {
@@ -125,6 +127,7 @@ export default function OverviewPane({
           </h2>
           <p className="now__text">{t('QLINK_TEXT')}</p>
           <p className="now__note">{t('Early version · test builds on request')}</p>
+          <HelpWanted help={qlinkHelp} locale={locale} />
           <div className="now__also">
             <span className="now__also-label">{t('Also in progress')}</span>
             <span className="tag">ARIS</span>
