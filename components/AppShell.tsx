@@ -19,6 +19,7 @@ import ThemeToggle from './ThemeToggle'
 import LanguageToggle from './LanguageToggle'
 import { I18nProvider, useI18n } from '@/lib/i18n'
 import TopSearch from './TopSearch'
+import SocialLinks from './SocialLinks'
 import {
   AboutIcon,
   GitHubIcon,
@@ -446,15 +447,9 @@ function AppShellContent() {
               {source === 'live' ? t('Live from the GitHub API') : t('Showing committed snapshot')}
             </span>
             <span>{t('No tracking, no cookies, no analytics.')}</span>
-            <a
-              className="footer__link"
-              href="https://github.com/arn-c0de"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <GitHubIcon size={13} />
-              github.com/arn-c0de
-            </a>
+            <span className="footer__link">
+              <SocialLinks variant="icons" />
+            </span>
           </div>
 
           <details className="privacy">

@@ -147,7 +147,7 @@ upload appears without a push.
 
 ```ts
 export const youtube = {
-  handle: '@git-arn-c0de',
+  handle: '@arn-c0de',
   max: 12,                 // the feed holds the latest 15
   includeShorts: true,
   hidden: ['VIDEO_ID'],    // leave one out

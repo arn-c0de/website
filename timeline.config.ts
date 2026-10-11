@@ -133,7 +133,7 @@ export interface YouTubeSettings {
 }
 
 export const youtube: YouTubeSettings = {
-  handle: '@git-arn-c0de',
+  handle: '@arn-c0de',
   channelId: 'UCQ58aokXYmIvWVTtIL7ZMBg',
   max: 12,
   includeShorts: true,

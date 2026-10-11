@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { SITE_URL, asset } from '@/lib/basePath'
 import videoData from '@/data/videos.json'
+import { SOCIALS } from '@/lib/socials'
 import type { VideoData } from '@/lib/youtube-feed'
 import '@fontsource-variable/manrope'
 import '@fontsource-variable/jetbrains-mono'
@@ -119,11 +120,7 @@ const personJsonLd = {
   name: 'arn-c0de',
   alternateName: ['arn-code', 'arn_c0de', 'arn code'],
   url: `${SITE_URL}/`,
-  sameAs: [
-    'https://github.com/arn-c0de',
-    'https://x.com/arn_c0de',
-    'https://www.youtube.com/@git-arn-c0de',
-  ],
+  sameAs: SOCIALS.map((s) => s.href),
   jobTitle: 'Embedded Systems & Security Software Developer',
   knowsAbout: ['Embedded Systems', 'Network Security', 'Python', 'Rust', 'Kotlin', 'ESP32', 'AI Systems'],
 }

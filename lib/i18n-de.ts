@@ -438,4 +438,11 @@ export const DE: Record<string, string> = {
   Video: 'Video',
   Milestone: 'Meilenstein',
   'Open the timeline': 'Zum Zeitstrahl',
+  // Socials
+  '{name}: {handle}': '{name}: {handle}',
+  'Find me on': 'Auch zu finden auf',
+  'YouTube channel': 'YouTube-Kanal',
+  Elsewhere: 'Woanders',
+  'Videos, code and short updates — public, not for private messages.':
+    'Videos, Code und kurze Updates — öffentlich, nicht für private Nachrichten.',
 }

@@ -209,6 +209,29 @@ export function ProjectsIcon() {
   )
 }
 
+export function YouTubeIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 16 16" width={size} height={size} fill="currentColor" aria-hidden>
+      <path d="M15.3 4.6a2 2 0 0 0-1.4-1.4C12.7 2.9 8 2.9 8 2.9s-4.7 0-5.9.3A2 2 0 0 0 .7 4.6 21 21 0 0 0 .4 8a21 21 0 0 0 .3 3.4 2 2 0 0 0 1.4 1.4c1.2.3 5.9.3 5.9.3s4.7 0 5.9-.3a2 2 0 0 0 1.4-1.4c.2-1.1.3-2.3.3-3.4s-.1-2.3-.3-3.4ZM6.5 10.2V5.8L10.4 8l-3.9 2.2Z" />
+    </svg>
+  )
+}
+
+export function XIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 16 16" width={size} height={size} fill="currentColor" aria-hidden>
+      <path d="M12.2 1.5h2.3L9.5 7.2l5.9 7.3h-4.6L7.2 10l-4.1 4.5H.8l5.3-6.1L.5 1.5h4.7l3.3 4.1 3.7-4.1Zm-.8 11.7h1.3L4.6 2.7H3.2l8.2 10.5Z" />
+    </svg>
+  )
+}
+
+/** The mark for a profile in lib/socials.ts. */
+export function SocialIcon({ id, size = 16 }: { id: string; size?: number }) {
+  if (id === 'youtube') return <YouTubeIcon size={size} />
+  if (id === 'x') return <XIcon size={size} />
+  return <GitHubIcon size={size} />
+}
+
 export function PlayIcon() {
   return (
     <svg viewBox="0 0 16 16" width={22} height={22} fill="currentColor" aria-hidden>

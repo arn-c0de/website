@@ -9,6 +9,8 @@ import { allTimelineEntries, entryVisual, formatTimelineDate, hasVideo, latestEn
 import type { Tab } from '@/lib/useAppState'
 import Metric from './Metric'
 import ProjectCard from './ProjectCard'
+import SocialLinks from './SocialLinks'
+import { YOUTUBE } from '@/lib/socials'
 import {
   AboutIcon,
   ArrowIcon,
@@ -20,6 +22,7 @@ import {
   RequestIcon,
   StackIcon,
   TimelineIcon,
+  YouTubeIcon,
 } from './Icons'
 
 /** Languages named in the stack tile — a taste, not the full list. */
@@ -105,15 +108,11 @@ export default function OverviewPane({
               {t('Browse projects')}
               <ArrowIcon />
             </button>
-            <a
-              className="btn btn--lg btn--ghost"
-              href="https://github.com/arn-c0de"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <GitHubIcon size={15} />
-              GitHub
-            </a>
+          </div>
+
+          <div className="hero__socials">
+            <span className="hero__socials-label">{t('Find me on')}</span>
+            <SocialLinks />
           </div>
         </div>
 
@@ -152,6 +151,15 @@ export default function OverviewPane({
               <p className="band__hint">{t('New videos and milestones from the timeline.')}</p>
             </div>
             <div className="band__nav">
+              <a
+                className="btn btn--sm btn--youtube"
+                href={YOUTUBE.href}
+                target="_blank"
+                rel="me noopener noreferrer"
+              >
+                <YouTubeIcon />
+                {t('YouTube channel')}
+              </a>
               <button type="button" className="btn btn--sm" onClick={() => onOpenTimeline()}>
                 {labels.timeline}
                 <ArrowIcon />

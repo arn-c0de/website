@@ -5,6 +5,7 @@ import { asset } from '@/lib/basePath'
 import { useI18n } from '@/lib/i18n'
 import { PGP_PUBLIC_KEY } from '@/lib/pgpKey'
 import { CheckIcon, CopyIcon, RequestIcon } from './Icons'
+import SocialLinks from './SocialLinks'
 
 const SIMPLEX_LINK =
   'https://smp19.simplex.im/a#12EFYcsND4k7C7Gz1wUT7mKrt5-u84PqnHTBUZXw0eg'
@@ -103,6 +104,12 @@ export default function ContactPane({ onStartRequest }: { onStartRequest: () => 
       <p className="channels__note">
         <strong>Matrix</strong> {t('is not set up at the moment — use SimpleX or email instead.')}
       </p>
+
+      <div className="contact__socials">
+        <h2 className="band__title">{t('Elsewhere')}</h2>
+        <p className="band__hint">{t('Videos, code and short updates — public, not for private messages.')}</p>
+        <SocialLinks />
+      </div>
 
       <section className="band">
         <div className="reasons" data-reveal>

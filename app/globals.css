@@ -6438,6 +6438,7 @@ p {
   height: 46px;
   background: var(--bg-panel);
   box-shadow: var(--shadow-md);
+  color: var(--accent);
 }
 
 .latest__meta,
@@ -6566,4 +6567,109 @@ p {
   margin: -10px 0 18px 19px;
   font-size: 13px;
   color: var(--text-faint);
+}
+
+/* ── Social links ───────────────────────────────────────────────────────── */
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.socials__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.2s var(--spring);
+}
+
+.socials__link:hover {
+  text-decoration: none;
+}
+
+.socials--pills .socials__link {
+  height: 36px;
+  padding: 0 14px 0 12px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: var(--shadow-sm);
+  font-size: 13.5px;
+  font-weight: 650;
+}
+
+.socials--pills .socials__link:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.socials__handle {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-faint);
+}
+
+/* Each mark takes its own colour on hover, nowhere else. */
+.socials__link[data-id='youtube']:hover svg,
+.btn--youtube svg {
+  color: #ff0033;
+}
+
+.socials--icons {
+  gap: 4px;
+}
+
+.socials--icons .socials__link {
+  width: 32px;
+  height: 32px;
+  justify-content: center;
+  border-radius: 8px;
+  color: var(--text-muted);
+}
+
+.socials--icons .socials__link:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.hero__socials {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 22px;
+}
+
+.hero__socials-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-faint);
+}
+
+.contact__socials {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 0 48px;
+}
+
+.contact__socials .socials {
+  margin-top: 12px;
+}
+
+.footer__link {
+  display: inline-flex;
+}
+
+@media (max-width: 640px) {
+  .socials__handle {
+    display: none;
+  }
 }
