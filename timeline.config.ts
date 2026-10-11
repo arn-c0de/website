@@ -99,6 +99,47 @@ export interface TimelineEntry {
   links?: { label: Localized; href: string }[]
 }
 
+/**
+ * Videos from the YouTube channel join the timeline on their own. The deploy
+ * workflow reads the channel's public feed (no API key), keeps a short
+ * summary of each description and copies the thumbnails to this site, so a
+ * visitor still loads nothing from YouTube until they press play.
+ *
+ * The feed holds the latest 15 uploads. Use `overrides` to change what an
+ * entry says or where it sits, and `hidden` to leave a video out; both are
+ * keyed by the video id (the part after watch?v= or youtu.be/).
+ */
+export interface YouTubeSettings {
+  /** The channel's @handle. */
+  handle: string
+  /** UC… id; found from the handle when left empty. */
+  channelId?: string
+  /** At most this many videos are shown. */
+  max: number
+  /** Shorts are left out unless this is true. */
+  includeShorts: boolean
+  hidden: string[]
+  overrides: Record<
+    string,
+    {
+      title?: Localized
+      text?: Localized
+      status?: TimelineStatus
+      /** Repository name; otherwise guessed from the title and description. */
+      project?: string
+      tags?: string[]
+    }
+  >
+}
+
+export const youtube: YouTubeSettings = {
+  handle: '@git-arn-c0de',
+  max: 12,
+  includeShorts: true,
+  hidden: [],
+  overrides: {},
+}
+
 const timeline: TimelineEntry[] = [
   // ── Planned ────────────────────────────────────────────────────────────
   {

@@ -11,3 +11,4 @@ CLAUDE.md
 .DS_Store
 .env*
 !.env.example
+public/timeline/youtube/

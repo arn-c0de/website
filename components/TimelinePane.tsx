@@ -2,7 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import videoData from '@/data/videos.json'
 import timeline, {
+  youtube,
   type Localized,
   type TimelineEntry,
   type TimelineImage,
@@ -15,6 +17,8 @@ import { asset } from '@/lib/basePath'
 import { useI18n, type Locale } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
 import { usePrefersReducedMotion } from '@/lib/useMotion'
+import { videoEntries } from '@/lib/videos'
+import type { VideoData } from '@/lib/youtube-feed'
 import { youtubeEmbedUrl, youtubeId, youtubeStart, youtubeWatchUrl } from '@/lib/video'
 import { ArrowIcon, CheckIcon, CloseIcon, LinkIcon, PlayIcon } from './Icons'
 
@@ -24,6 +28,10 @@ const STATUS_LABEL: Record<TimelineStatus, string> = {
   planned: 'Planned',
   now: 'In progress',
   done: 'Done',
+}
+
+function hasVideo(entry: TimelineEntry) {
+  return (entry.media ?? []).some((m) => 'youtube' in m || 'video' in m)
 }
 
 function pick(value: Localized | undefined, locale: Locale): string {
@@ -67,19 +75,26 @@ export default function TimelinePane({
   onOpenProject: (name: string) => void
 }) {
   const { t, locale, labels } = useI18n()
-  const [filter, setFilter] = useState<TimelineStatus | 'all'>('all')
+  const [filter, setFilter] = useState<TimelineStatus | 'all' | 'video'>('all')
   const [zoomed, setZoomed] = useState<TimelineImage | null>(null)
 
-  const sorted = useMemo(() => sortTimeline(timeline), [])
+  // Hand-written entries plus the channel's videos, fetched at build time.
+  const all = useMemo(
+    () => [...timeline, ...videoEntries((videoData as VideoData).videos, youtube, projects, timeline)],
+    [projects],
+  )
+  const sorted = useMemo(() => sortTimeline(all), [all])
   const known = useMemo(() => new Set(projects.map((p) => p.name)), [projects])
   const counts = useMemo(() => {
     const c: Record<TimelineStatus, number> = { planned: 0, now: 0, done: 0 }
-    for (const e of timeline) c[e.status] += 1
+    for (const e of all) c[e.status] += 1
     return c
-  }, [])
+  }, [all])
+  const videoCount = useMemo(() => all.filter(hasVideo).length, [all])
 
-  const groups = ORDER.filter((s) => filter === 'all' || filter === s)
-    .map((status) => ({ status, entries: sorted.filter((e) => e.status === status) }))
+  const visible = filter === 'video' ? sorted.filter(hasVideo) : sorted
+  const groups = ORDER.filter((s) => filter === 'all' || filter === 'video' || filter === s)
+    .map((status) => ({ status, entries: visible.filter((e) => e.status === status) }))
     .filter((g) => g.entries.length > 0)
 
   return (
@@ -97,7 +112,7 @@ export default function TimelinePane({
           onClick={() => setFilter('all')}
         >
           {t('All')}
-          <span className="chip__n">{timeline.length}</span>
+          <span className="chip__n">{all.length}</span>
         </button>
         {ORDER.filter((s) => counts[s] > 0).map((status) => (
           <button
@@ -112,6 +127,18 @@ export default function TimelinePane({
             <span className="chip__n">{counts[status]}</span>
           </button>
         ))}
+        {videoCount > 0 && (
+          <button
+            type="button"
+            className="chip"
+            aria-pressed={filter === 'video'}
+            onClick={() => setFilter(filter === 'video' ? 'all' : 'video')}
+          >
+            <PlayIcon />
+            {t('Videos')}
+            <span className="chip__n">{videoCount}</span>
+          </button>
+        )}
       </div>
 
       {groups.map(({ status, entries }) => (
@@ -173,7 +200,7 @@ function Entry({
   const body = (
     <div className="tl-body">
       <h3 className="tl-title">{pick(entry.title, locale)}</h3>
-      <p className="tl-text">{pick(entry.text, locale)}</p>
+      {pick(entry.text, locale) && <p className="tl-text">{pick(entry.text, locale)}</p>}
       {(entry.tags?.length || canOpen || entry.links?.length) && (
         <div className="tl-foot">
           {entry.tags?.length ? (

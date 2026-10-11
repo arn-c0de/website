@@ -3,6 +3,11 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # Once a day as well, so a new upload on the YouTube channel reaches the
+  # timeline without a push. Off the hour so it does not queue behind every
+  # other repository's midnight job.
+  schedule:
+    - cron: '23 5 * * *'
   workflow_dispatch:
 
 # Only the built site is published; nothing writes back to the repository.
@@ -39,6 +44,11 @@ jobs:
       # Pure-function tests over the config rules, the stack aggregations and
       # the request builder — they run straight through node --test.
       - run: npm test
+
+      # Latest uploads of the YouTube channel for the timeline: titles, a short
+      # summary and local thumbnails. Never fails the build — without YouTube
+      # the committed data/videos.json is used as it is.
+      - run: node scripts/fetch-videos.mjs
 
       - run: npm run build
 

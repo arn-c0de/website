@@ -135,6 +135,29 @@ not even for a thumbnail (add a `poster` from `public/` to show a still). Pressi
 privacy-enhanced `youtube-nocookie.com` player in place, and *Watch on YouTube* opens it there. The
 content security policy allows exactly that one frame source and nothing else.
 
+### Videos from the channel
+
+The channel's uploads join the timeline by themselves. Before every build the deploy workflow runs
+`scripts/fetch-videos.mjs`, which reads the public feed of the channel set in `youtube.handle`
+(no API key), keeps the title, date and a one-or-two-sentence summary of each description — links,
+hashtags, chapter lists and "subscribe" lines are dropped — and copies the thumbnails to
+`public/timeline/youtube/`. The result is `data/videos.json`. A video whose title names a
+repository gets that project's *Open project* button. The workflow also runs once a day, so a new
+upload appears without a push.
+
+```ts
+export const youtube = {
+  handle: '@git-arn-c0de',
+  max: 12,                 // the feed holds the latest 15
+  includeShorts: true,
+  hidden: ['VIDEO_ID'],    // leave one out
+  overrides: { VIDEO_ID: { text: { en: '…', de: '…' }, project: 'QLink-preview', status: 'now' } },
+}
+```
+
+The fetch never fails the build; without YouTube the committed `data/videos.json` is used as it
+is. A video also placed by hand in the timeline is not shown twice.
+
 `test/timeline.test.ts` checks the file on every build: unique ids, valid dates and layouts, both
 languages filled in, every picture, video and poster present in `public/`, every YouTube link
 recognisable, and that each layout gets what it needs.

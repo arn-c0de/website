@@ -6343,3 +6343,8 @@ p {
 .tl-gallery > .tl-video:first-child {
   grid-column: 1 / -1;
 }
+
+.chip svg {
+  width: 13px;
+  height: 13px;
+}

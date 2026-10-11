@@ -427,4 +427,5 @@ export const DE: Record<string, string> = {
   'Play video: {title}': 'Video abspielen: {title}',
   'Loads from YouTube when you press play': 'Wird erst beim Abspielen von YouTube geladen',
   'Watch on YouTube': 'Auf YouTube ansehen',
+  Videos: 'Videos',
 }
