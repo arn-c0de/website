@@ -55,9 +55,7 @@ const html = /* html */ `<!doctype html>
   .id img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover;
     box-shadow: 0 0 0 4px #0b0e14, 0 0 0 5px #333c4c; }
   .handle { font-size: 34px; font-weight: 780; letter-spacing: -0.02em; }
-  .status { margin-top: 4px; display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 600; color: #4cc38a; }
-  .status::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: currentColor;
-    box-shadow: 0 0 0 5px rgba(76,195,138,.2); }
+  .tagline { margin-top: 4px; font-size: 22px; font-weight: 600; color: #a6afc0; }
   h1 { margin-top: 56px; max-width: 1040px; text-wrap: balance; font-size: 78px; line-height: 1.06; font-weight: 790; letter-spacing: -0.04em; }
   .foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
   .tags { display: flex; gap: 10px; }
@@ -68,7 +66,7 @@ const html = /* html */ `<!doctype html>
 <body><div class="grid"></div><div class="card">
   <div class="id"><img src="${avatar}" alt=""><div>
     <div class="handle">arn-c0de</div>
-    <div class="status">Open for freelance work</div>
+    <div class="tagline">Embedded systems, security tooling and local AI</div>
   </div></div>
   <h1>Practical systems, from firmware to the apps people use.</h1>
   <div class="foot">

@@ -140,7 +140,6 @@ export const DE: Record<string, string> = {
   'Theme: light (click to change)': 'Design: hell (klicken zum Wechseln)',
 
   // Overview
-  'Open for freelance work': 'Offen für Freelance-Aufträge',
   'Practical systems, from firmware to the apps people use.':
     'Praxistaugliche Systeme — von der Firmware bis zur App.',
   'Private access & requests': 'Privater Zugang & Anfragen',

@@ -79,9 +79,8 @@ export default function OverviewPane({
             />
             <div>
               <p className="hero__handle">arn-c0de</p>
-              <p className="hero__status">
-                <span className="hero__pulse" aria-hidden />
-                {t('Open for freelance work')}
+              <p className="hero__tagline">
+                {t('Embedded systems, security tooling and local AI')}
               </p>
             </div>
           </div>
