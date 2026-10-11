@@ -6952,3 +6952,150 @@ body::after {
   margin: 24px 0;
   color: var(--text-muted);
 }
+
+/* ── Editorial ──────────────────────────────────────────────────────────── */
+
+/* Topics read as a line of text, not a row of chips. Language tags keep
+   their logo, which already sets them apart. */
+.tagrow {
+  gap: 4px 0;
+}
+
+.tag {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-faint);
+}
+
+.tag + .tag::before {
+  content: '·';
+  margin: 0 7px;
+  color: var(--border-strong);
+}
+
+.tag--language {
+  padding: 0;
+  gap: 6px;
+  color: var(--text-muted);
+}
+
+.tag--language + .tag--language::before {
+  content: none;
+}
+
+.tagrow:has(.tag--language) {
+  gap: 6px 14px;
+}
+
+.tag--language .tag__n {
+  color: var(--text-faint);
+}
+
+/* Status flags: a word in the status colour, sentence case. */
+.card__flag {
+  display: inline-block;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.card__flag::first-letter {
+  text-transform: uppercase;
+}
+
+.card__flag--private,
+.card__flag--research,
+.card__flag--preview,
+.card__flag--archived {
+  background: none;
+}
+
+/* Metrics: an open row between two hairlines. */
+.metrics {
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+}
+
+.metric {
+  padding: 16px 22px;
+}
+
+.metric:first-child {
+  padding-left: 0;
+}
+
+@media (max-width: 720px) {
+  .metric {
+    padding: 14px 16px;
+  }
+
+  .metric:nth-child(odd) {
+    padding-left: 0;
+  }
+}
+
+/* Explore: a quiet directory, two columns with rules between the entries. */
+.tiles {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 40px;
+  border-top: 1px solid var(--border);
+}
+
+.tile {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  column-gap: 14px;
+  row-gap: 6px;
+  align-items: start;
+  padding: 22px 0;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+}
+
+.tile > :not(.tile__icon) {
+  grid-column: 2;
+}
+
+.tile__icon {
+  grid-row: 1 / span 4;
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+.tile__tags {
+  margin-top: 4px;
+}
+
+.tile__link {
+  margin-top: 6px;
+}
+
+.tile:hover {
+  border-color: var(--border);
+}
+
+.tile:hover .tile__title {
+  color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .tiles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
