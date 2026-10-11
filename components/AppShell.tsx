@@ -272,6 +272,13 @@ function AppShellContent() {
     [selectTab, reduced],
   )
 
+  // Project pages link to an entry as ?tab=timeline#tl-<id>.
+  useEffect(() => {
+    const match = location.hash.match(/^#tl-(.+)$/)
+    if (match) openTimeline(decodeURIComponent(match[1]))
+    // Only the address the visitor arrived on.
+  }, [])
+
   const showTopic = useCallback(
     (topic: string) => {
       setQuery(topic)

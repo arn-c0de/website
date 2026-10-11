@@ -20,3 +20,15 @@ export function asset(path: string): string {
  */
 const ORIGIN = BASE_PATH ? 'https://arn-c0de.github.io' : 'https://arn-c0de.de'
 export const SITE_URL = `${ORIGIN}${BASE_PATH}`
+
+/**
+ * The social preview is `public/og.png`, written by `scripts/generate-og.mjs`
+ * and referenced by its absolute URL — Open Graph consumers do not resolve
+ * relative paths, and the site does not sit at a domain root.
+ */
+export const OG_IMAGE = {
+  url: `${SITE_URL}/og.png`,
+  width: 1200,
+  height: 630,
+  alt: 'arn-c0de — project console',
+}

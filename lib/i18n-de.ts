@@ -164,6 +164,11 @@ export const DE: Record<string, string> = {
   'More projects': 'Weitere Projekte',
   'All projects': 'Alle Projekte',
 
+  // Project pages
+  'Project page': 'Projektseite',
+  'In the timeline': 'Im Zeitstrahl',
+  'Related projects': 'Ähnliche Projekte',
+
   // Cards and statuses
   'Open details for {name}': 'Details zu {name} öffnen',
   active: 'aktiv',
