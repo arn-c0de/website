@@ -155,3 +155,21 @@ test('email check accepts the ordinary and rejects the obvious', () => {
     assert.ok(!looksLikeEmail(bad), bad)
   }
 })
+
+test('with a German translator the whole draft reads German and stays aligned', async () => {
+  const { DE } = await import('../lib/i18n-de.ts')
+  const de = (text: string, vars?: Record<string, string | number>) =>
+    (DE[text] ?? text).replace(/\{(\w+)\}/g, (m, k: string) => (vars && k in vars ? String(vars[k]) : m))
+
+  const body = buildBody(draft({ areas: ['llm'], name: '', timeline: 'Within a month' }), de)
+  assert.match(body, /^Hallo arn-c0de,/)
+  assert.match(body, /— Anfrage —/)
+  assert.match(body, /Art: {7}Etwas, das gebaut werden soll/)
+  assert.match(body, /Bereiche: {2}Lokale LLMs & RAG/)
+  // "Zeitrahmen:" is exactly the column width, so it still gets its space.
+  assert.match(body, /Zeitrahmen: Innerhalb eines Monats/)
+  assert.match(body, /Name: {6}\(nicht angegeben\)/)
+
+  const subject = buildSubject(draft({ type: 'question', projects: [project('A'), project('B')] }), de)
+  assert.equal(subject, 'Frage zu einem Projekt — A +1 weitere')
+})

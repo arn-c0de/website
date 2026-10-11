@@ -161,7 +161,9 @@ types, which is why the workflow is pinned to Node 24.
 
 `public/og.png` is the card a link to the site unfurls into, written by `node scripts/generate-og.mjs`
 and committed. Edit the script and rerun it to change the wording; `app/layout.tsx` points at the
-file by absolute URL. It is a plain file in `public/` rather than an `app/opengraph-image.tsx`
+file by absolute URL. The script screenshots a small HTML card with `playwright-core`, so the card
+uses the site's own fonts and dark palette; it needs a Chromium, either from
+`npx playwright install chromium` or named in `CHROMIUM_PATH`. It is a plain file in `public/` rather than an `app/opengraph-image.tsx`
 metadata route on purpose — that route exports as an *extensionless* file, which GitHub Pages
 serves as `application/octet-stream`, and every unfurler refuses it.
 

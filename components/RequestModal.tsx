@@ -81,9 +81,11 @@ export default function RequestModal({
   )
 
   const draft: RequestDraft = { name, email, type, areas, timeline, message, projects: chosen }
-  const subject = buildSubject(draft)
-  const body = buildBody(draft)
-  const mailto = buildMailto(draft)
+  // The draft follows the interface language, so a German visitor writes a
+  // German mail.
+  const subject = buildSubject(draft, tr)
+  const body = buildBody(draft, tr)
+  const mailto = buildMailto(draft, tr)
 
   const missing: string[] = []
   if (!name.trim()) missing.push(tr('name'))
@@ -135,7 +137,9 @@ export default function RequestModal({
 
   async function copyDraft() {
     try {
-      await navigator.clipboard.writeText(`To: ${INQUIRY_EMAIL}\nSubject: ${subject}\n\n${body}`)
+      await navigator.clipboard.writeText(
+        `${tr('To')}: ${INQUIRY_EMAIL}\n${tr('Subject')}: ${subject}\n\n${body}`,
+      )
       setCopied(true)
       setTimeout(() => setCopied(false), 1800)
     } catch {

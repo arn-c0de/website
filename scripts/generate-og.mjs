@@ -4,65 +4,88 @@
  *
  *   node scripts/generate-og.mjs
  *
- * Writes public/og.png (1200×630); commit the result. Next can generate this
- * from `app/opengraph-image.tsx` instead, but a metadata route exports as an
- * *extensionless* file, and GitHub Pages then serves it as
- * application/octet-stream — which is exactly what every unfurler refuses. A
- * plain .png in public/ has the right content type and costs one command.
+ * Writes public/og.png (1200×630); commit the result. It is a screenshot of a
+ * small HTML card taken with a real browser, so it uses the site's own fonts
+ * (Manrope, JetBrains Mono — bundled woff2, which the satori renderer behind
+ * next/og cannot read) and the same palette as the dark theme.
  *
- * `next/og` is WebAssembly, so this runs anywhere Node does. Elements are
- * built with createElement because this file is plain .mjs, not JSX.
+ * Needs a Chromium that playwright-core can launch: either the one from
+ * `npx playwright install chromium`, or any binary named in CHROMIUM_PATH.
+ * The card is a plain .png in public/ rather than an opengraph-image route on
+ * purpose: a metadata route exports as an extensionless file, GitHub Pages
+ * serves that as application/octet-stream, and unfurlers refuse it.
  */
-// The published `next/og` entry is CommonJS and is not exported for a plain
-// `import`; the module it re-exports is.
-import { ImageResponse } from 'next/dist/server/og/image-response.js'
-import { createElement as h } from 'react'
-import { writeFileSync } from 'node:fs'
+import { chromium } from 'playwright-core'
+import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 
-const out = join(dirname(fileURLToPath(import.meta.url)), '..', 'public', 'og.png')
+const root = join(dirname(fileURLToPath(import.meta.url)), '..')
+const out = join(root, 'public', 'og.png')
+// Inlined as data URIs: a page set from a string has no origin to load
+// file:// URLs from.
+const font = (pkg, file) =>
+  `data:font/woff2;base64,${readFileSync(join(root, 'node_modules', '@fontsource-variable', pkg, 'files', file)).toString('base64')}`
+const avatar = `data:image/jpeg;base64,${readFileSync(join(root, 'public', 'avatar-large.jpg')).toString('base64')}`
 
-const INK = '#e7edf5'
-const MUTED = '#aab4c4'
-const FAINT = '#7d8797'
+const TOPICS = ['Embedded firmware', 'Local LLMs & RAG', 'Security tooling', 'Backends']
 
-/** Deliberately typographic: no avatar, no logo, so it stays legible at the
- *  ~300px-wide preview most clients actually render. */
-const card = h(
-  'div',
-  {
-    style: {
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      padding: '84px 88px',
-      background: '#0a0c10',
-      // The site's accent, as the one bright edge.
-      borderLeft: '16px solid #4f8cff',
-      color: INK,
-    },
-  },
-  h('div', { style: { fontSize: 30, letterSpacing: 6, color: FAINT } }, 'PROJECT CONSOLE'),
-  h('div', { style: { fontSize: 132, fontWeight: 700, marginTop: 14 } }, 'arn-c0de'),
-  // Three short lines rather than two long ones: the renderer wraps on its
-  // own otherwise, and a wrapped line leaves one orphaned word hanging.
-  ...[
-    'Embedded firmware · local LLMs & RAG',
-    'game AI & simulation · network & security tooling',
-    'backends & databases · web apps · Android',
-  ].map((line, i) =>
-    h(
-      'div',
-      { key: line, style: { fontSize: 34, lineHeight: 1.45, marginTop: i === 0 ? 26 : 0, color: MUTED } },
-      line,
-    ),
-  ),
-  h('div', { style: { fontSize: 30, marginTop: 40, color: FAINT } }, 'github.com/arn-c0de'),
+const html = /* html */ `<!doctype html>
+<html><head><meta charset="utf-8"><style>
+  @font-face { font-family: Manrope; font-weight: 200 800; src: url('${font('manrope', 'manrope-latin-wght-normal.woff2')}') format('woff2'); }
+  @font-face { font-family: JBM; font-weight: 100 800; src: url('${font('jetbrains-mono', 'jetbrains-mono-latin-wght-normal.woff2')}') format('woff2'); }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    width: 1200px; height: 630px; overflow: hidden;
+    font-family: Manrope, sans-serif; color: #eef1f6;
+    background:
+      radial-gradient(700px 420px at 8% -10%, rgba(134, 163, 255, 0.22), transparent 70%),
+      radial-gradient(600px 380px at 100% 0%, rgba(95, 128, 234, 0.16), transparent 70%),
+      #0b0e14;
+  }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(160,175,255,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(160,175,255,.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 90% at 30% 0%, #000 10%, transparent 75%);
+  }
+  .card { position: relative; height: 100%; padding: 72px 80px; display: flex; flex-direction: column; }
+  .id { display: flex; align-items: center; gap: 20px; }
+  .id img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover;
+    box-shadow: 0 0 0 4px #0b0e14, 0 0 0 5px #333c4c; }
+  .handle { font-size: 34px; font-weight: 780; letter-spacing: -0.02em; }
+  .status { margin-top: 4px; display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 600; color: #4cc38a; }
+  .status::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: currentColor;
+    box-shadow: 0 0 0 5px rgba(76,195,138,.2); }
+  h1 { margin-top: 56px; max-width: 1040px; text-wrap: balance; font-size: 78px; line-height: 1.06; font-weight: 790; letter-spacing: -0.04em; }
+  .foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .tags { display: flex; gap: 10px; }
+  .tag { font-family: JBM, monospace; font-size: 19px; padding: 7px 14px; border-radius: 9px;
+    background: #171c26; border: 1px solid #222936; color: #a6afc0; }
+  .url { font-size: 24px; font-weight: 650; color: #86a3ff; white-space: nowrap; }
+</style></head>
+<body><div class="grid"></div><div class="card">
+  <div class="id"><img src="${avatar}" alt=""><div>
+    <div class="handle">arn-c0de</div>
+    <div class="status">Open for freelance work</div>
+  </div></div>
+  <h1>Practical systems, from firmware to the apps people use.</h1>
+  <div class="foot">
+    <div class="tags">${TOPICS.map((t) => `<span class="tag">${t.replace('&', '&amp;')}</span>`).join('')}</div>
+    <div class="url">arn-c0de.de</div>
+  </div>
+</div></body></html>`
+
+const browser = await chromium.launch(
+  process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {},
 )
-
-const png = await new ImageResponse(card, { width: 1200, height: 630 }).arrayBuffer()
-writeFileSync(out, Buffer.from(png))
-console.log(`public/og.png — ${(png.byteLength / 1024).toFixed(1)} kB`)
+try {
+  const page = await browser.newPage({ viewport: { width: 1200, height: 630 } })
+  await page.setContent(html, { waitUntil: 'load' })
+  await page.evaluate(() => document.fonts.ready)
+  await page.screenshot({ path: out, type: 'png' })
+} finally {
+  await browser.close()
+}
+console.log(`public/og.png written`)

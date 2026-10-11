@@ -85,8 +85,14 @@ export function areaTitles(ids: readonly ServiceAreaId[]): string[] {
   return SERVICE_AREAS.filter((a) => ids.includes(a.id)).map((a) => a.title)
 }
 
+/** Turns an English label into the visitor's language; English by default. */
+export type Translate = (text: string, vars?: Record<string, string | number>) => string
+const english: Translate = (text, vars) =>
+  vars ? text.replace(/\{(\w+)\}/g, (m, k: string) => (k in vars ? String(vars[k]) : m)) : text
+
 function pad(label: string): string {
-  return (label + ':').padEnd(11, ' ')
+  // Never closer than one space, even when a translated label is longer.
+  return (label + ':').padEnd(Math.max(11, label.length + 2), ' ')
 }
 
 /** A label plus continuation lines aligned under it. */
@@ -94,14 +100,14 @@ function block(label: string, values: string[]): string[] {
   return values.map((v, i) => (i === 0 ? pad(label) : ' '.repeat(11)) + v)
 }
 
-export function buildSubject(draft: RequestDraft): string {
-  const type = typeOf(draft.type).label
+export function buildSubject(draft: RequestDraft, t: Translate = english): string {
+  const type = t(typeOf(draft.type).label)
   const projects = draft.projects.map((p) => p.title)
-  const areas = areaTitles(draft.areas.filter((id) => id !== 'unsure'))
+  const areas = areaTitles(draft.areas.filter((id) => id !== 'unsure')).map((a) => t(a))
 
   const focus = projects.length ? projects : areas
   if (focus.length === 1) return `${type} — ${focus[0]}`
-  if (focus.length > 1) return `${type} — ${focus[0]} +${focus.length - 1} more`
+  if (focus.length > 1) return `${type} — ${focus[0]} ${t('+{n} more', { n: focus.length - 1 })}`
   return type
 }
 
@@ -109,35 +115,35 @@ export function buildSubject(draft: RequestDraft): string {
  * A plain-text email the visitor only has to send. Everything is assembled in
  * the browser; nothing is transmitted until their own mail client sends it.
  */
-export function buildBody(draft: RequestDraft): string {
-  const lines: string[] = ['Hello arn-c0de,', '']
+export function buildBody(draft: RequestDraft, t: Translate = english): string {
+  const lines: string[] = [t('Hello arn-c0de,'), '']
 
-  lines.push(draft.message.trim() || '(no message)', '')
+  lines.push(draft.message.trim() || t('(no message)'), '')
 
-  lines.push('— Request —')
-  lines.push(pad('Type') + typeOf(draft.type).label)
+  lines.push(t('— Request —'))
+  lines.push(pad(t('Type')) + t(typeOf(draft.type).label))
 
-  const areas = areaTitles(draft.areas)
-  if (areas.length) lines.push(...block('Areas', areas))
+  const areas = areaTitles(draft.areas).map((a) => t(a))
+  if (areas.length) lines.push(...block(t('Areas'), areas))
 
   if (draft.projects.length) {
-    lines.push(...block('Projects', draft.projects.map((p) => `${p.title} — ${p.html_url}`)))
+    lines.push(...block(t('Projects'), draft.projects.map((p) => `${p.title} — ${p.html_url}`)))
   }
 
-  lines.push(pad('Timeline') + draft.timeline)
+  lines.push(pad(t('Timeline')) + t(draft.timeline))
   lines.push('')
 
-  lines.push('— Contact —')
-  lines.push(pad('Name') + (draft.name.trim() || '(not given)'))
-  lines.push(pad('Email') + (draft.email.trim() || '(not given)'))
+  lines.push(t('— Contact —'))
+  lines.push(pad(t('Name')) + (draft.name.trim() || t('(not given)')))
+  lines.push(pad(t('Email')) + (draft.email.trim() || t('(not given)')))
 
   return lines.join('\n')
 }
 
-export function buildMailto(draft: RequestDraft): string {
+export function buildMailto(draft: RequestDraft, t: Translate = english): string {
   const params = new URLSearchParams({
-    subject: buildSubject(draft),
-    body: buildBody(draft),
+    subject: buildSubject(draft, t),
+    body: buildBody(draft, t),
   })
   // URLSearchParams encodes spaces as "+", which mail clients show literally.
   return `mailto:${INQUIRY_EMAIL}?${params.toString().replace(/\+/g, '%20')}`
