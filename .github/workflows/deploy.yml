@@ -58,6 +58,11 @@ jobs:
 
       - run: npm run build
 
+      # Every page in a real browser, desktop and phone: no script errors, no
+      # 404s from the site itself, nothing cut off at the edge, no broken
+      # internal links. A failure here stops the deploy.
+      - run: node scripts/smoke.mjs
+
       # Pages serves the artifact as-is; without this file it would run the
       # output through Jekyll and drop directories starting with an underscore.
       - run: touch out/.nojekyll
