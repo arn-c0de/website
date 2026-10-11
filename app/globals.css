@@ -7625,3 +7625,67 @@ body::after {
 .tile > :not(.tile__icon) {
   grid-column: 1;
 }
+
+/* Hero: the current project is a column beside the intro, not a card. */
+.now {
+  background: none;
+  border: 0;
+  border-left: 1px solid var(--border);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 4px 0 4px 32px;
+}
+
+@media (max-width: 860px) {
+  .now {
+    border-left: 0;
+    border-top: 1px solid var(--border);
+    padding: 24px 0 0;
+  }
+}
+
+/* Help wanted: a warm rule at the side instead of a tinted box. */
+.help {
+  padding: 2px 0 2px 14px;
+  border: 0;
+  border-left: 2px solid var(--warn);
+  border-radius: 0;
+  background: none;
+}
+
+/* Timeline: entries read like posts, pictures beside or under the text. */
+.tl-card,
+.tl-entry--now .tl-card,
+.tl-entry--planned .tl-card {
+  gap: 28px;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.tl-body,
+.tl-body--aside {
+  padding: 4px 0;
+}
+
+.tl-card .tl-figure {
+  border-radius: 10px;
+}
+
+.tl-gallery {
+  padding: 0;
+}
+
+@media (max-width: 860px) {
+  .tl-card,
+  .tl-entry--now .tl-card {
+    gap: 16px;
+  }
+
+  .tl-body,
+  .tl-body--aside {
+    padding: 0;
+  }
+}
