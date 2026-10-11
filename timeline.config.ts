@@ -314,6 +314,28 @@ const timeline: TimelineEntry[] = [
 
   // ── Done ───────────────────────────────────────────────────────────────
   {
+    id: 'qlink-weather-sound',
+    status: 'done',
+    date: '2026-10-11',
+    title: {
+      en: 'QLink: rain, wind and thunder now have sound',
+      de: 'QLink: Regen, Wind und Gewitter jetzt mit Sound',
+    },
+    text: {
+      en: 'The weather now has sound: rain, wind and thunder follow it as it changes, from a clear sky to a full thunderstorm. These are simple first sounds; they will be expanded step by step.',
+      de: 'Das Wetter hat jetzt Sound: Regen, Wind und Gewitter folgen ihm, wenn es umschlägt, vom klaren Himmel bis zum Gewitter. Es sind einfache erste Sounds; sie werden Schritt für Schritt erweitert.',
+    },
+    layout: 'image-right',
+    media: [
+      {
+        youtube: 'https://www.youtube.com/watch?v=gfXezigydU0',
+        title: { en: 'QLink weather with sound', de: 'QLink-Wetter mit Sound' },
+      },
+    ],
+    tags: ['weather', 'audio', 'sound-design', 'rust'],
+    project: 'QLink-preview',
+  },
+  {
     id: 'qlink-weather',
     status: 'done',
     date: '2026-10-11',
