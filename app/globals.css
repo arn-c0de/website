@@ -7831,3 +7831,166 @@ body::after {
     margin-left: auto;
   }
 }
+
+/* ── Type scale and rhythm ──────────────────────────────────────────────── */
+
+/* Nine sizes and three weights. Sizes: 12 meta · 13 small · 14 interface ·
+   15 body · 17 lede · 20 section · 24/26 figures · 32 page · 44 display.
+   Weights: 400 text · 600 interface · 700 titles (display sizes keep their
+   heavier cut). Everything below snaps the strays onto that grid. */
+:root {
+  --fs-sm: 14px;
+  --fs-md: 17px;
+  --fs-lg: 20px;
+}
+
+/* 12 — meta, counts, mono asides */
+.bar__n,
+.tab__count,
+.chip__n,
+.domain-card__count,
+.pp-entry__meta,
+.socials__handle,
+.kbd,
+.keyblock {
+  font-size: 12px;
+}
+
+/* 13 — small text */
+.card__stat,
+.card__when,
+.fact__note,
+.help__area,
+.pill,
+.now__note,
+.now__also-label,
+.deflist dd,
+.metric__k,
+.card__flag {
+  font-size: 13px;
+}
+
+/* 14 — interface and secondary text */
+.btn,
+.btn__label,
+.tab__label,
+.tile__link,
+.tl-link,
+.pp-back,
+.socials__name,
+.bar__name,
+.domain-card__name,
+.hero__tagline,
+.band__hint,
+.section__hint,
+.card__desc,
+.tile__text,
+.slab__note,
+.channels__note,
+.now__label,
+.help__label,
+.section__title,
+.pp-label,
+.pp-entry__title,
+.pp-related__title,
+.prow__desc {
+  font-size: 14px;
+}
+
+/* 15 — reading text */
+.tl-text,
+.profile__role,
+.now__text,
+.channel__text,
+.latest__title,
+.prow__title {
+  font-size: 15px;
+}
+
+/* 17 — ledes and directory titles */
+.hero__lede,
+.pane__lede,
+.profile__lede,
+.pp-head__lede,
+.tile__title,
+.card__title {
+  font-size: 17px;
+}
+
+/* 20 — section and entry titles */
+.band__title,
+.tl-group__title,
+.tl-title,
+.channel__name {
+  font-size: 20px;
+}
+
+/* Weights: interface 600, titles 700. */
+.btn,
+.btn__label,
+.tab__label,
+.tile__link,
+.tl-link,
+.socials__name,
+.bar__name,
+.domain-card__name,
+.card__stat,
+.help__area,
+.help__cta,
+.now__label,
+.help__label,
+.section__title,
+.pp-label,
+.key__label,
+.prow__title,
+.pp-entry__title,
+.pp-related__title {
+  font-weight: 600;
+}
+
+.band__title,
+.tl-group__title,
+.tl-title,
+.channel__name,
+.tile__title,
+.card__title,
+.latest__title,
+.brand__name,
+.hero__handle {
+  font-weight: 700;
+}
+
+/* Rhythm: sections on a page breathe evenly. */
+.over {
+  gap: 72px;
+}
+
+.section {
+  margin-bottom: 48px;
+}
+
+.band__head {
+  margin-bottom: 20px;
+}
+
+.pane__head {
+  margin-bottom: 32px;
+}
+
+@media (max-width: 640px) {
+  .over {
+    gap: 48px;
+  }
+
+  .section {
+    margin-bottom: 36px;
+  }
+}
+
+.tl-when {
+  font-size: 12px;
+}
+
+.viewtoggle button {
+  font-size: 14px;
+}
