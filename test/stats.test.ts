@@ -138,4 +138,6 @@ test('span lengths read as months and years', () => {
   assert.equal(formatSpan(0, 12 * month), '1 year')
   assert.equal(formatSpan(0, 14 * month), '1 year 2 months')
   assert.equal(formatSpan(0, 25 * month), '2 years 1 month')
+  assert.equal(formatSpan(0, 14 * month, 'de'), '1 Jahr 2 Monate')
+  assert.equal(formatSpan(0, 0, 'de'), '1 Monat')
 })

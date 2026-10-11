@@ -145,11 +145,14 @@ export function projectSpans(projects: Project[]): ProjectSpan[] {
 }
 
 /** "8 months", "1 year 2 months" — how long a project stayed in motion. */
-export function formatSpan(from: number, to: number): string {
+export function formatSpan(from: number, to: number, locale: 'en' | 'de' = 'en'): string {
   const months = Math.max(1, Math.round((to - from) / 2_629_800_000))
-  if (months < 12) return `${months} month${months === 1 ? '' : 's'}`
-  const years = Math.floor(months / 12)
+  const unit = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`
+  const [month, monthsWord, year, years] =
+    locale === 'de' ? ['Monat', 'Monate', 'Jahr', 'Jahre'] : ['month', 'months', 'year', 'years']
+  if (months < 12) return unit(months, month, monthsWord)
+  const whole = Math.floor(months / 12)
   const rest = months % 12
-  const head = `${years} year${years === 1 ? '' : 's'}`
-  return rest === 0 ? head : `${head} ${rest} month${rest === 1 ? '' : 's'}`
+  const head = unit(whole, year, years)
+  return rest === 0 ? head : `${head} ${unit(rest, month, monthsWord)}`
 }

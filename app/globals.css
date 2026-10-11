@@ -8133,3 +8133,314 @@ a.latest__item {
     text-align: left;
   }
 }
+
+/* ── Stack dashboard ────────────────────────────────────────────────────── */
+
+/* Languages: one bar chart, one colour. Name, bar, value in three columns. */
+.lbars {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.lbars li {
+  border-bottom: 1px solid var(--border);
+}
+
+.lbar {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) minmax(0, 1fr) 72px;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.lbar__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.lbar__track {
+  display: block;
+  height: 8px;
+}
+
+.lbar__fill {
+  display: block;
+  width: var(--w, 0);
+  height: 100%;
+  border-radius: 0 4px 4px 0;
+  background: var(--accent);
+  transition: width 0.6s var(--ease-snap);
+}
+
+:root[data-reveal='on'] .lbar:not(.is-in) .lbar__fill {
+  width: 0;
+}
+
+.lbar.is-in .lbar__fill {
+  transition-delay: calc(min(var(--i, 0), 9) * 50ms);
+}
+
+.lbar__value {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.lbar__share {
+  min-width: 3ch;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-faint);
+  text-align: right;
+}
+
+.lbar:hover .lbar__name,
+.lbar:focus-visible .lbar__name {
+  color: var(--accent);
+}
+
+.lbar:hover .lbar__fill {
+  background: var(--accent-2);
+}
+
+@media (max-width: 640px) {
+  .lbar {
+    grid-template-columns: minmax(96px, 120px) minmax(0, 1fr) 60px;
+    gap: 10px;
+  }
+}
+
+/* Charts sit in the open; the card frame is gone. */
+.chart {
+  padding: 16px 0 0;
+}
+
+.chart__plot {
+  position: relative;
+  outline: none;
+}
+
+.chart__plot:focus-visible {
+  box-shadow: 0 0 0 2px var(--accent);
+  border-radius: 6px;
+}
+
+.chart__tick {
+  font-size: 10px;
+}
+
+.chart__bar {
+  fill: color-mix(in srgb, var(--text-faint) 38%, transparent);
+  transition: fill 0.15s var(--ease);
+}
+
+.chart__bar[data-on='true'] {
+  fill: var(--text-muted);
+}
+
+.chart__area {
+  fill: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.chart__dot {
+  stroke: var(--bg);
+  stroke-width: 2;
+  transition: r 0.12s var(--ease);
+}
+
+.chart__cross {
+  stroke: var(--border-strong);
+  stroke-width: 1;
+}
+
+.chart__peak {
+  fill: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.chart__hit {
+  fill: transparent;
+}
+
+/* The tooltip sits beside the crosshair, on whichever side has room. */
+.chart__tip {
+  position: absolute;
+  top: 8px;
+  z-index: 2;
+  display: grid;
+  gap: 4px;
+  min-width: 180px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-md);
+  font-size: 13px;
+  pointer-events: none;
+  transform: translateX(12px);
+}
+
+.chart__tip[data-side='left'] {
+  transform: translateX(calc(-100% - 12px));
+}
+
+.chart--lanes .chart__tip {
+  transform: translate(12px, 4px);
+}
+
+.chart--lanes .chart__tip[data-side='left'] {
+  transform: translate(calc(-100% - 12px), 4px);
+}
+
+.chart__tip-title {
+  font-weight: 700;
+}
+
+.chart__tip-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+}
+
+.chart__tip-row b {
+  margin-left: auto;
+  padding-left: 12px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.chart__swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.chart__swatch--area {
+  background: var(--accent);
+}
+
+.chart__swatch--bar {
+  background: color-mix(in srgb, var(--text-faint) 60%, transparent);
+}
+
+.chart__legend {
+  padding: 10px 0 0;
+  font-size: 13px;
+}
+
+.chart__key--recent::before {
+  background: var(--accent);
+}
+
+.chart__key--quiet::before {
+  background: color-mix(in srgb, var(--text-faint) 45%, transparent);
+}
+
+/* Table view: every number of the chart, for reading and for screen readers. */
+.chart__table {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.chart__table summary {
+  width: fit-content;
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chart__table table {
+  width: 100%;
+  max-width: 520px;
+  margin-top: 10px;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart__table th,
+.chart__table td {
+  padding: 6px 10px 6px 0;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.chart__table thead th {
+  font-weight: 600;
+  color: var(--text-faint);
+}
+
+.chart__table tbody th {
+  font-weight: 500;
+}
+
+/* Lanes: the accent for what is current, quiet ink for the rest. */
+.lane__bar,
+.lane__end {
+  fill: color-mix(in srgb, var(--text-faint) 45%, transparent);
+}
+
+.lane[data-recent='true'] .lane__bar,
+.lane[data-recent='true'] .lane__end {
+  fill: var(--accent);
+}
+
+.lane__end {
+  stroke: var(--bg);
+  stroke-width: 2;
+}
+
+.lane[data-on='true'] .lane__hit {
+  fill: var(--bg-hover);
+}
+
+.lane[data-on='true'] .lane__name,
+.lane[data-recent='true'] .lane__name {
+  fill: var(--text);
+}
+
+.lane:hover .lane__bar {
+  filter: none;
+}
+
+.lane__name {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Phones: the charts keep reading-size labels and scroll sideways inside
+   their own frame instead of shrinking. */
+@media (max-width: 640px) {
+  .chart svg {
+    min-width: 720px;
+  }
+
+  .chart--lanes svg {
+    min-width: 800px;
+  }
+}
+
+.chart__scroll {
+  scrollbar-width: thin;
+}

@@ -1,21 +1,18 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { languageShare, monthlyActivity, projectSpans } from '@/lib/stats'
 import type { Project } from '@/lib/types'
 import { useI18n } from '@/lib/i18n'
 import Metric from './Metric'
-import { ActivityChart, LanguageRing, SpanChart } from './Charts'
-import { LanguageIcon } from './Icons'
+import { ActivityChart, LanguageBars, SpanChart } from './Charts'
 
 /**
  * Everything here is aggregated from the live repo data — no hand-maintained
  * list to drift out of date. Push a repo in a new language and it shows up.
  *
- * The charts and the lists are two readings of the same numbers, so they are
- * wired together: hovering either side of the language section highlights the
- * other, and picking a language, a topic or a lane carries on into the rest of
- * the site rather than dead-ending on this tab.
+ * Picking a language, a topic or a lane carries on into the rest of the site
+ * rather than dead-ending on this tab.
  */
 export default function StackPane({
   projects,
@@ -29,7 +26,6 @@ export default function StackPane({
   onOpenProject: (name: string) => void
 }) {
   const { t } = useI18n()
-  const [activeLanguage, setActiveLanguage] = useState<string | null>(null)
 
   const stats = useMemo(() => {
     const topics = new Map<string, number>()
@@ -56,7 +52,6 @@ export default function StackPane({
       peak: Math.max(0, ...months.map((m) => m.active)),
       categories: sortDesc(categories),
       topics: sortDesc(topics).filter(([, n]) => n > 1),
-      max: Math.max(1, ...languages.map((l) => l.count)),
     }
   }, [projects])
 
@@ -78,58 +73,7 @@ export default function StackPane({
         <h2 className="section__title">{t('Languages')}</h2>
         <p className="section__hint">{t('STACK_LANG_HINT')}</p>
 
-        <div className="langs">
-          <div className="langs__ring" data-reveal>
-            <LanguageRing
-              slices={stats.languages}
-              active={activeLanguage}
-              onActive={setActiveLanguage}
-              onSelect={onLanguageSelect}
-            />
-          </div>
-
-          {/* The fill width is a custom property rather than a plain width:
-              the bar sits at zero until its row scrolls into view, then runs
-              out to --w. Without JS the CSS falls straight through to --w. */}
-          <div className="bars">
-            {stats.languages.map((slice, i) => (
-              <button
-                key={slice.name}
-                type="button"
-                className="bar__row"
-                data-reveal
-                data-dim={activeLanguage !== null && activeLanguage !== slice.name}
-                onPointerEnter={() => setActiveLanguage(slice.name)}
-                onPointerLeave={() => setActiveLanguage(null)}
-                onFocus={() => setActiveLanguage(slice.name)}
-                onBlur={() => setActiveLanguage(null)}
-                onClick={() => onLanguageSelect(slice.name)}
-                title={t('Show {name} projects', { name: slice.name })}
-                style={
-                  {
-                    '--hue': slice.hue,
-                    '--w': `${(slice.count / stats.max) * 100}%`,
-                    '--i': i,
-                  } as React.CSSProperties
-                }
-              >
-                <span className="bar__meta">
-                  <span className="bar__name">
-                    <LanguageIcon language={slice.name} />
-                    {slice.name}
-                  </span>
-                  <span className="bar__n">
-                    {t(slice.count === 1 ? '{n} repo' : '{n} repos', { n: slice.count })} ·{' '}
-                    {Math.round(slice.share * 100)}%
-                  </span>
-                </span>
-                <span className="bar__track">
-                  <span className="bar__fill" />
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
+        <LanguageBars slices={stats.languages} onSelect={onLanguageSelect} />
       </section>
 
       <section className="section">
