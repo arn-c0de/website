@@ -10,7 +10,7 @@ export const dynamic = 'force-static'
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   // '' is the overview; the other tabs each carry their query string.
-  return ['', '?tab=projects', '?tab=stack', '?tab=about', '?tab=contact'].map((suffix) => ({
+  return ['', '?tab=projects', '?tab=timeline', '?tab=stack', '?tab=about', '?tab=contact'].map((suffix) => ({
     url: `${SITE_URL}/${suffix}`,
     changeFrequency: 'weekly',
     priority: suffix === '' ? 1 : 0.7,

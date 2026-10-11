@@ -14,6 +14,7 @@ import ProjectPanel from './ProjectPanel'
 import ProjectsPane from './ProjectsPane'
 import RequestModal from './RequestModal'
 import StackPane from './StackPane'
+import TimelinePane from './TimelinePane'
 import ThemeToggle from './ThemeToggle'
 import LanguageToggle from './LanguageToggle'
 import { I18nProvider, useI18n } from '@/lib/i18n'
@@ -26,12 +27,14 @@ import {
   ProjectsIcon,
   RequestIcon,
   StackIcon,
+  TimelineIcon,
 } from './Icons'
 
 /** Each tab carries its mark, so a narrow screen can drop the words. */
 const TAB_ICONS: Record<Tab, () => React.ReactNode> = {
   overview: OverviewIcon,
   projects: ProjectsIcon,
+  timeline: TimelineIcon,
   stack: StackIcon,
   about: AboutIcon,
   contact: MailIcon,
@@ -396,6 +399,7 @@ function AppShellContent() {
             onOpen={openDetail}
           />
         )}
+        {tab === 'timeline' && <TimelinePane projects={projects} onOpenProject={openDetail} />}
         {tab === 'stack' && (
           <StackPane
             projects={projects}

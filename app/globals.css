@@ -5646,3 +5646,541 @@ p {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* ── Timeline tab ───────────────────────────────────────────────────────── */
+
+/* One rail down the left with a node per entry: a tick when done, a pulse
+   while in progress, a dashed ring while planned. The card beside it places
+   its pictures by named grid areas, so every layout collapses to the same
+   picture-then-text order on a phone without extra markup. */
+
+.tl-group {
+  margin-top: 32px;
+}
+
+.tl-group__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  font-size: var(--fs-lg);
+  font-weight: 740;
+  letter-spacing: -0.02em;
+}
+
+.tl-dot {
+  width: 9px;
+  height: 9px;
+  flex: none;
+  border-radius: 50%;
+}
+
+.tl-dot--done {
+  background: var(--success);
+}
+
+.tl-dot--now {
+  background: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.tl-dot--planned {
+  border: 1.5px dashed var(--text-faint);
+}
+
+.tl-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tl-entry {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 18px;
+}
+
+.tl-rail {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.tl-rail::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--border);
+}
+
+.tl-group--planned .tl-rail::before {
+  background: repeating-linear-gradient(to bottom, var(--border-strong) 0 5px, transparent 5px 10px);
+}
+
+.tl-entry:first-child .tl-rail::before {
+  top: 8px;
+}
+
+.tl-entry:last-child .tl-rail::before {
+  bottom: auto;
+  height: 12px;
+}
+
+.tl-node {
+  position: relative;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.tl-node--done {
+  background: var(--success);
+  color: light-dark(#fff, #0b0e14);
+}
+
+.tl-node--done svg {
+  width: 11px;
+  height: 11px;
+  stroke-width: 2.4;
+}
+
+.tl-node--now {
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--bg), 0 0 0 5px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.tl-node--now::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  animation: tl-pulse 2.2s var(--ease) infinite;
+}
+
+@keyframes tl-pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+.tl-node--planned {
+  border: 2px dashed var(--text-faint);
+}
+
+.tl-main {
+  min-width: 0;
+  padding-bottom: 32px;
+}
+
+.tl-when {
+  margin: 0 0 10px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 22px;
+  color: var(--text-faint);
+}
+
+.tl-entry--now .tl-when {
+  color: var(--accent);
+}
+
+/* Cards and their layouts */
+
+.tl-card {
+  display: grid;
+  grid-template-areas: 'body';
+  grid-template-columns: minmax(0, 1fr);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.tl-entry--now .tl-card {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+}
+
+.tl-entry--planned .tl-card {
+  border-style: dashed;
+  border-color: var(--border-strong);
+  background: color-mix(in srgb, var(--bg-panel) 60%, transparent);
+  box-shadow: none;
+}
+
+.tl-card--image-left {
+  grid-template-areas: 'a body';
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+}
+
+.tl-card--image-right {
+  grid-template-areas: 'body a';
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+}
+
+.tl-card--images-sides {
+  grid-template-areas: 'a body b';
+  grid-template-columns: minmax(0, 0.55fr) minmax(0, 1.3fr) minmax(0, 0.55fr);
+}
+
+.tl-card--image-center {
+  grid-template-areas: 'body a aside';
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 1fr);
+}
+
+.tl-card--gallery {
+  grid-template-areas: 'body' 'gallery';
+}
+
+.tl-body {
+  grid-area: body;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px 26px;
+}
+
+.tl-body--aside {
+  grid-area: aside;
+}
+
+.tl-figure--a {
+  grid-area: a;
+}
+
+.tl-figure--b {
+  grid-area: b;
+}
+
+.tl-title {
+  margin: 0;
+  font-size: var(--fs-lg);
+  font-weight: 740;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.tl-text {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+.tl-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-top: 6px;
+}
+
+.tl-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-left: auto;
+}
+
+.tl-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  background: none;
+  border: 0;
+  font-size: 13.5px;
+  font-weight: 650;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.tl-link svg {
+  transition: transform 0.18s var(--ease);
+}
+
+.tl-link:hover {
+  text-decoration: none;
+}
+
+.tl-link:hover svg {
+  transform: translateX(3px);
+}
+
+/* Pictures */
+
+.tl-figure {
+  position: relative;
+  min-width: 0;
+  min-height: 220px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-inset);
+  overflow: hidden;
+}
+
+.tl-figure__zoom {
+  flex: 1;
+  display: block;
+  width: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
+.tl-figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s var(--ease);
+}
+
+.tl-figure[data-fit='contain'] img {
+  object-fit: contain;
+  padding: 24px;
+}
+
+.tl-figure__zoom:hover img {
+  transform: scale(1.04);
+}
+
+.tl-figure figcaption {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 3px 9px;
+  border-radius: 7px;
+  background: rgba(8, 10, 16, 0.72);
+  backdrop-filter: blur(6px);
+  font-size: 12px;
+  font-weight: 600;
+  color: #eef1f6;
+  pointer-events: none;
+}
+
+/* The picture in the middle sits on a soft panel rather than running to the
+   card's edges, so the two text columns read as one entry around it. */
+.tl-card--image-center .tl-figure {
+  margin: 18px 0;
+  border-radius: var(--radius);
+}
+
+.tl-card--images-sides .tl-figure[data-fit='contain'] img {
+  padding: 18px;
+}
+
+.tl-gallery {
+  grid-area: gallery;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 0 26px 26px;
+}
+
+.tl-gallery[data-count='3'] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.tl-gallery .tl-figure {
+  min-height: 0;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* Lightbox */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: 56px 24px 32px;
+  background: rgba(5, 7, 12, 0.86);
+  backdrop-filter: blur(8px);
+  animation: fade 0.2s var(--ease);
+  cursor: zoom-out;
+}
+
+.lightbox__figure {
+  margin: 0;
+  max-width: min(1200px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: default;
+  animation: modal-pop 0.28s var(--ease-snap);
+}
+
+@keyframes modal-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+.lightbox__figure img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100dvh - 140px);
+  border-radius: 12px;
+  object-fit: contain;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox__figure figcaption {
+  font-size: 14px;
+  color: #d6dbe5;
+  text-align: center;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+/* Phones and narrow tablets: pictures first, text below. */
+@media (max-width: 760px) {
+  .tl-entry {
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .tl-node {
+    width: 16px;
+    height: 16px;
+    margin-top: 3px;
+  }
+
+  .tl-card--image-left,
+  .tl-card--image-right {
+    grid-template-areas: 'a' 'body';
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tl-card--images-sides {
+    grid-template-areas: 'a b' 'body body';
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tl-card--image-center {
+    grid-template-areas: 'a' 'body' 'aside';
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tl-card--image-center .tl-figure {
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .tl-card--image-center .tl-body--aside {
+    padding-top: 0;
+  }
+
+  .tl-card .tl-figure {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .tl-card--images-sides .tl-figure {
+    aspect-ratio: 1;
+  }
+
+  .tl-body {
+    padding: 18px 18px 20px;
+  }
+
+  .tl-gallery,
+  .tl-gallery[data-count='3'] {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0 18px 18px;
+  }
+}
+
+/* Six tabs need the second header row a little earlier. */
+@media (max-width: 1240px) {
+  .topbar__row,
+  .topbar[data-scrolled='true'] .topbar__row {
+    height: auto;
+    min-height: 56px;
+    flex-wrap: wrap;
+    row-gap: 0;
+    padding-top: 10px;
+  }
+
+  .tabs {
+    order: 10;
+    flex: 1 0 100%;
+    margin: 10px 0 10px;
+    justify-content: space-between;
+  }
+
+  .tab {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+.brand {
+  flex: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 1400px) {
+  .tab__count {
+    display: none;
+  }
+}
+
+/* Side pictures follow the text's height instead of setting it: the image
+   is laid over its frame, so a square picture cannot stretch the card. */
+.tl-card:not(.tl-card--gallery) .tl-figure__zoom {
+  position: relative;
+}
+
+.tl-card:not(.tl-card--gallery) .tl-figure img {
+  position: absolute;
+  inset: 0;
+}
+
+.tl-card--image-left .tl-figure,
+.tl-card--image-right .tl-figure {
+  min-height: 260px;
+}
+
+.tl-card--image-center .tl-figure {
+  min-height: 200px;
+}
+
+@media (max-width: 760px) {
+  .tl-card .tl-figure {
+    min-height: 0;
+  }
+}

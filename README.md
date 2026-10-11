@@ -90,6 +90,36 @@ that are easy to break:
 entrance in `globals.css` carries it. The theme wipe uses the same API and marks itself with
 `data-vt="theme"`, which is what its `::view-transition-old(root)` rules are scoped to.
 
+## The timeline tab
+
+A blog-style timeline of what is planned, what is in progress and what is done, kept in
+**`timeline.config.ts`**. The tab sorts by status (planned, in progress, done) and then newest
+first, so entries can be added anywhere in the file.
+
+```ts
+{
+  id: 'zombieescape',                       // unique; also the #tl-… anchor
+  status: 'done',                           // 'planned' | 'now' | 'done'
+  date: '2026-07-18',                       // 'YYYY-MM' or 'YYYY-MM-DD'; planned may use `when`
+  title: { en: 'ZombieEscape preview', de: 'ZombieEscape-Vorschau' },
+  text:  { en: '…', de: '…' },              // a plain string works for both languages
+  layout: 'image-left',
+  images: [{ src: '/timeline/zombieescape.webp', alt: { en: '…', de: '…' }, fit: 'cover' }],
+  tags: ['android'],
+  project: 'ZombieEscape-Preview',          // adds "Open project", opens its panel
+}
+```
+
+Layouts: `text`, `image-left`, `image-right`, `images-sides` (picture, text, picture — two
+images), `image-center` (text, picture, then the `aside` text) and `gallery` (text above two to
+four pictures). On a phone every layout stacks picture-first. Pictures go in `public/timeline/`,
+ideally WebP around 1200px wide; `fit: 'contain'` keeps logos and artwork uncropped. Clicking a
+picture opens it full size.
+
+`test/timeline.test.ts` checks the file on every build: unique ids, valid dates and layouts, both
+languages filled in, every image present in `public/`, and that each layout gets the pictures it
+needs.
+
 ## The stack tab
 
 Four readings of the same repository list, none of them hand-written:

@@ -7,6 +7,10 @@
  * re-wording of the English silently drop the translation.
  */
 export const LONG: Record<string, { en: string; de: string }> = {
+  TIMELINE_LEDE: {
+    en: 'What is planned, what I am working on and what is done.',
+    de: 'Was geplant ist, woran ich arbeite und was fertig ist.',
+  },
   HERO_LEDE: {
     en: 'Most of it is open source on GitHub, from ESP32 firmware to local AI agents.',
     de: 'Das meiste ist Open Source auf GitHub — von ESP32-Firmware bis zu lokalen KI-Agenten.',
@@ -404,4 +408,14 @@ export const DE: Record<string, string> = {
   'About the projects': 'Zu den Projekten',
   'Languages, data stores and focus areas.': 'Sprachen, Datenbanken und Schwerpunkte.',
   'game AI': 'Spiel-KI',
+
+  // Timeline tab
+  'Filter by status': 'Nach Status filtern',
+  Planned: 'Geplant',
+  'In progress': 'In Arbeit',
+  Done: 'Erledigt',
+  'Open project': 'Projekt öffnen',
+  'Enlarge image: {alt}': 'Bild vergrößern: {alt}',
+  'Close image': 'Bild schließen',
+  'Planned, in progress and done': 'Geplant, in Arbeit und erledigt',
 }

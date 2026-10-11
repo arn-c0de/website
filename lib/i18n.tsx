@@ -6,8 +6,8 @@ import { DE, LONG } from './i18n-de'
 export type Locale = 'en' | 'de'
 
 const labels = {
-  en: { overview: 'Overview', projects: 'Projects', stack: 'Stack', about: 'About', contact: 'Contact', request: 'Request' },
-  de: { overview: 'Übersicht', projects: 'Projekte', stack: 'Stack', about: 'Über mich', contact: 'Kontakt', request: 'Anfrage' },
+  en: { overview: 'Overview', projects: 'Projects', timeline: 'Timeline', stack: 'Stack', about: 'About', contact: 'Contact', request: 'Request' },
+  de: { overview: 'Übersicht', projects: 'Projekte', timeline: 'Zeitstrahl', stack: 'Stack', about: 'Über mich', contact: 'Kontakt', request: 'Anfrage' },
 } as const
 
 type Vars = Record<string, string | number>

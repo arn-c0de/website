@@ -83,6 +83,7 @@ export default function TopSearch({
     const tabs: { tab: Tab; label: string; hint: string }[] = [
       { tab: 'overview', label: labels.overview, hint: tr('A bit of everything on one page') },
       { tab: 'projects', label: labels.projects, hint: tr('Browse the repository grid') },
+      { tab: 'timeline', label: labels.timeline, hint: tr('Planned, in progress and done') },
       { tab: 'stack', label: labels.stack, hint: tr('Languages, domains and topics') },
       { tab: 'about', label: labels.about, hint: tr('Focus areas and working principles') },
       { tab: 'contact', label: labels.contact, hint: tr('SimpleX, email and PGP key') },

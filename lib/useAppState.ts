@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-export const TABS = ['overview', 'projects', 'stack', 'about', 'contact'] as const
+export const TABS = ['overview', 'projects', 'timeline', 'stack', 'about', 'contact'] as const
 
 /** The tab a bare URL lands on; also the one omitted from the query string. */
 const DEFAULT_TAB: Tab = 'overview'

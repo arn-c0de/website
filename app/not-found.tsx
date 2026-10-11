@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 
 const WAYS_IN = [
   { href: '?tab=projects', label: 'Projects' },
+  { href: '?tab=timeline', label: 'Timeline' },
   { href: '?tab=stack', label: 'Stack' },
   { href: '?tab=about', label: 'About' },
   { href: '?tab=contact', label: 'Contact' },

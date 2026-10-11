@@ -209,6 +209,17 @@ export function ProjectsIcon() {
   )
 }
 
+export function TimelineIcon() {
+  return (
+    <svg {...base} width={15} height={15}>
+      <path d="M4 1.8v12.4" />
+      <circle cx="4" cy="4.2" r="1.6" />
+      <circle cx="4" cy="11.8" r="1.6" />
+      <path d="M7.5 4.2h6M7.5 11.8h4.5M7.5 8h5" />
+    </svg>
+  )
+}
+
 export function StackIcon() {
   return (
     <svg {...base} width={15} height={15}>
