@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import { existsSync } from 'node:fs'
 import timeline, { type Localized } from '../timeline.config.ts'
+import { youtubeId } from '../lib/video.ts'
 
 const STATUSES = ['planned', 'now', 'done']
 const LAYOUTS = ['text', 'image-left', 'image-right', 'images-sides', 'image-center', 'gallery']
@@ -32,22 +33,31 @@ test('timeline dates are YYYY-MM or YYYY-MM-DD, and past entries have one', () =
 test('every timeline text is complete in both languages', () => {
   for (const e of timeline) {
     for (const key of ['title', 'text', 'aside', 'when'] as const) bothLanguages(e[key], `${e.id}.${key}`)
-    e.images?.forEach((img, i) => {
-      bothLanguages(img.alt, `${e.id}.images[${i}].alt`)
-      bothLanguages(img.caption, `${e.id}.images[${i}].caption`)
+    ;[...(e.media ?? []), ...(e.images ?? [])].forEach((item, i) => {
+      if ('alt' in item) bothLanguages(item.alt, `${e.id}.media[${i}].alt`)
+      if ('title' in item) bothLanguages(item.title, `${e.id}.media[${i}].title`)
+      bothLanguages(item.caption, `${e.id}.media[${i}].caption`)
     })
   }
 })
 
-test('timeline images exist and layouts get the pictures they need', () => {
+test('timeline pictures and videos exist and layouts get what they need', () => {
+  const exists = (path: string) => existsSync(new URL(`../public${path}`, import.meta.url))
   for (const e of timeline) {
-    const images = e.images ?? []
-    for (const img of images) {
-      assert.ok(img.src.startsWith('/'), `${e.id}: image path should start with /`)
-      assert.ok(existsSync(new URL(`../public${img.src}`, import.meta.url)), `${e.id}: missing public${img.src}`)
+    const media = [...(e.media ?? []), ...(e.images ?? [])]
+    for (const item of media) {
+      const files =
+        'src' in item ? [item.src] : 'video' in item ? [item.video, item.poster] : [item.poster]
+      for (const file of files) {
+        if (!file) continue
+        assert.ok(file.startsWith('/'), `${e.id}: path should start with / (${file})`)
+        assert.ok(exists(file), `${e.id}: missing public${file}`)
+      }
+      if ('youtube' in item) assert.ok(youtubeId(item.youtube), `${e.id}: not a YouTube link: ${item.youtube}`)
+      if ('video' in item) assert.match(item.video, /\.(mp4|webm)$/, `${e.id}: use MP4 or WebM`)
     }
-    if (e.layout && e.layout !== 'text') assert.ok(images.length > 0, `${e.id}: layout ${e.layout} needs an image`)
-    if (e.layout === 'images-sides') assert.equal(images.length, 2, `${e.id}: images-sides takes two images`)
+    if (e.layout && e.layout !== 'text') assert.ok(media.length > 0, `${e.id}: layout ${e.layout} needs a picture or video`)
+    if (e.layout === 'images-sides') assert.equal(media.length, 2, `${e.id}: images-sides takes two items`)
     if (e.layout === 'image-center') assert.ok(e.aside, `${e.id}: image-center needs an aside text`)
   }
 })

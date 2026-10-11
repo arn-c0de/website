@@ -209,6 +209,14 @@ export function ProjectsIcon() {
   )
 }
 
+export function PlayIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width={22} height={22} fill="currentColor" aria-hidden>
+      <path d="M5 3.2v9.6c0 .6.7 1 1.2.7l7.4-4.8a.8.8 0 0 0 0-1.4L6.2 2.5C5.7 2.2 5 2.6 5 3.2Z" />
+    </svg>
+  )
+}
+
 export function TimelineIcon() {
   return (
     <svg {...base} width={15} height={15}>

@@ -6,12 +6,17 @@ import timeline, {
   type Localized,
   type TimelineEntry,
   type TimelineImage,
+  type TimelineMedia,
   type TimelineStatus,
+  type TimelineVideoFile,
+  type TimelineYouTube,
 } from '@/timeline.config'
 import { asset } from '@/lib/basePath'
 import { useI18n, type Locale } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
-import { ArrowIcon, CheckIcon, CloseIcon, LinkIcon } from './Icons'
+import { usePrefersReducedMotion } from '@/lib/useMotion'
+import { youtubeEmbedUrl, youtubeId, youtubeStart, youtubeWatchUrl } from '@/lib/video'
+import { ArrowIcon, CheckIcon, CloseIcon, LinkIcon, PlayIcon } from './Icons'
 
 const ORDER: TimelineStatus[] = ['planned', 'now', 'done']
 
@@ -153,13 +158,17 @@ function Entry({
   onZoom: (image: TimelineImage) => void
 }) {
   const { t } = useI18n()
-  const images = entry.images ?? []
+  const images: TimelineMedia[] = entry.media ?? entry.images ?? []
   // A layout that needs pictures falls back to plain text without them.
   const layout = images.length === 0 ? 'text' : (entry.layout ?? 'image-right')
   const when = entry.when ? pick(entry.when, locale) : entry.date ? formatTimelineDate(entry.date, locale) : ''
 
-  const figure = (image: TimelineImage | undefined, slot: string) =>
-    image ? <Figure key={slot} image={image} locale={locale} slot={slot} onZoom={onZoom} /> : null
+  const figure = (item: TimelineMedia | undefined, slot: string) => {
+    if (!item) return null
+    if ('youtube' in item) return <YouTubeFigure key={slot} video={item} locale={locale} slot={slot} />
+    if ('video' in item) return <VideoFigure key={slot} video={item} locale={locale} slot={slot} />
+    return <Figure key={slot} image={item} locale={locale} slot={slot} onZoom={onZoom} />
+  }
 
   const body = (
     <div className="tl-body">
@@ -266,11 +275,98 @@ function Figure({
   const alt = pick(image.alt, locale)
   const caption = pick(image.caption, locale)
   return (
-    <figure className={`tl-figure tl-figure--${slot.startsWith('g') ? 'g' : slot}`} data-fit={image.fit ?? 'cover'}>
+    <figure className={slotClass(slot)} data-fit={image.fit ?? 'cover'}>
       <button type="button" className="tl-figure__zoom" onClick={() => onZoom(image)} aria-label={t('Enlarge image: {alt}', { alt })}>
         <img src={asset(image.src)} alt={alt} loading="lazy" decoding="async" />
       </button>
       {caption && <figcaption>{caption}</figcaption>}
+    </figure>
+  )
+}
+
+const slotClass = (slot: string) => `tl-figure tl-figure--${slot.startsWith('g') ? 'g' : slot}`
+
+/**
+ * A YouTube video behind a click: until it is pressed the page makes no
+ * request to YouTube at all — no thumbnail, no script — which is what the
+ * privacy note promises. Pressing play swaps in the youtube-nocookie player.
+ */
+function YouTubeFigure({ video, locale, slot }: { video: TimelineYouTube; locale: Locale; slot: string }) {
+  const { t } = useI18n()
+  const [playing, setPlaying] = useState(false)
+  const id = youtubeId(video.youtube)
+  const start = youtubeStart(video.youtube)
+  const title = pick(video.title, locale)
+  const caption = pick(video.caption, locale)
+  if (!id) return null
+
+  return (
+    <figure className={`${slotClass(slot)} tl-video`} data-kind="youtube">
+      <div className="tl-video__frame">
+        {playing ? (
+          <iframe
+            src={youtubeEmbedUrl(id, start)}
+            title={title}
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowFullScreen
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
+        ) : (
+          <button
+            type="button"
+            className="tl-video__facade"
+            onClick={() => setPlaying(true)}
+            aria-label={t('Play video: {title}', { title })}
+          >
+            {video.poster && <img src={asset(video.poster)} alt="" loading="lazy" decoding="async" />}
+            <span className="tl-video__play" aria-hidden>
+              <PlayIcon />
+            </span>
+            <span className="tl-video__label">
+              <strong>{title}</strong>
+              <span>{t('Loads from YouTube when you press play')}</span>
+            </span>
+          </button>
+        )}
+      </div>
+      <figcaption className="tl-video__meta">
+        {caption && <span>{caption}</span>}
+        <a href={youtubeWatchUrl(id, start)} target="_blank" rel="noopener noreferrer">
+          {t('Watch on YouTube')}
+          <ArrowIcon />
+        </a>
+      </figcaption>
+    </figure>
+  )
+}
+
+/** A video file from this site. `loop` makes it a silent preview clip. */
+function VideoFigure({ video, locale, slot }: { video: TimelineVideoFile; locale: Locale; slot: string }) {
+  const reduced = usePrefersReducedMotion()
+  const title = pick(video.title, locale)
+  const caption = pick(video.caption, locale)
+  // A looping preview only plays by itself when motion is welcome; otherwise
+  // it gets the normal controls and waits.
+  const preview = video.loop && !reduced
+  return (
+    <figure className={`${slotClass(slot)} tl-video`} data-kind="file">
+      <div className="tl-video__frame">
+        <video
+          src={asset(video.video)}
+          poster={video.poster ? asset(video.poster) : undefined}
+          title={title}
+          aria-label={title}
+          preload="metadata"
+          playsInline
+          controls={!preview}
+          {...(preview ? { autoPlay: true, muted: true, loop: true } : {})}
+        />
+      </div>
+      {caption && (
+        <figcaption className="tl-video__meta">
+          <span>{caption}</span>
+        </figcaption>
+      )}
     </figure>
   )
 }

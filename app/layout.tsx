@@ -75,7 +75,8 @@ export const viewport: Viewport = {
  * has to allow inline: Next's hydration payload and the theme bootstrap below
  * are both inline scripts. The teeth are in `connect-src` and `img-src`: no
  * fetch, socket or beacon can reach anywhere else, and readme images can only
- * come from where GitHub serves them.
+ * come from where GitHub serves them. The one frame allowed is YouTube's
+ * youtube-nocookie.com player, which the timeline only creates on a click.
  */
 // The dev server compiles modules through eval(); the exported site never
 // does, and this folds to a constant at build time.
@@ -89,6 +90,10 @@ const CSP = [
   `script-src ${SCRIPT_SRC}`,
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self'",
+  // Video files are served from this site; YouTube runs only in its
+  // privacy-enhanced player, and only after a visitor presses play.
+  "media-src 'self'",
+  "frame-src https://www.youtube-nocookie.com",
   "manifest-src 'self'",
   "form-action 'none'",
   "object-src 'none'",

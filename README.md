@@ -11,7 +11,8 @@ runtime; a committed snapshot keeps the site working when the API is rate-limite
 
 Next.js 16 with the App Router, statically exported (`output: 'export'`) to plain files. No CSS
 framework, no icon package, no analytics. Fonts are bundled from `@fontsource`, so the only
-outbound request a visitor's browser makes is to `api.github.com`.
+outbound request a visitor's browser makes on its own is to `api.github.com` — a YouTube video in
+the timeline only loads after the visitor presses play.
 
 ## Changing what the site shows
 
@@ -116,9 +117,27 @@ four pictures). On a phone every layout stacks picture-first. Pictures go in `pu
 ideally WebP around 1200px wide; `fit: 'contain'` keeps logos and artwork uncropped. Clicking a
 picture opens it full size.
 
+### Videos
+
+Videos go in the same `media` list as pictures and take the same places in every layout:
+
+```ts
+media: [
+  // Any YouTube link works — watch URL, youtu.be, Shorts, with or without ?t=90
+  { youtube: 'https://youtu.be/VIDEO_ID', title: { en: 'QLink on Quest 3', de: 'QLink auf der Quest 3' } },
+  // A file from public/timeline/, MP4 or WebM; loop: true makes it a silent preview clip
+  { video: '/timeline/clip.webm', title: 'Walkthrough', poster: '/timeline/clip.webp' },
+]
+```
+
+A YouTube video is a button until it is pressed: the page makes no request to YouTube before that,
+not even for a thumbnail (add a `poster` from `public/` to show a still). Pressing play loads the
+privacy-enhanced `youtube-nocookie.com` player in place, and *Watch on YouTube* opens it there. The
+content security policy allows exactly that one frame source and nothing else.
+
 `test/timeline.test.ts` checks the file on every build: unique ids, valid dates and layouts, both
-languages filled in, every image present in `public/`, and that each layout gets the pictures it
-needs.
+languages filled in, every picture, video and poster present in `public/`, every YouTube link
+recognisable, and that each layout gets what it needs.
 
 ## The stack tab
 
@@ -299,7 +318,9 @@ theme and language are stored locally in the browser and are removed with site d
 
 A content security policy in `app/layout.tsx` makes the browser enforce that rather than take the
 claim on trust: `connect-src` allows nothing but this origin and `api.github.com`, and `img-src`
-nothing but this origin, `data:` and where GitHub serves readme images from. Two limits worth
+nothing but this origin, `data:` and where GitHub serves readme images from. `media-src` is this
+origin only, and `frame-src` allows only `youtube-nocookie.com`, which the timeline embeds after a
+click on play. Two limits worth
 knowing, both from it being a `<meta>` tag — GitHub Pages cannot send headers: `frame-ancestors`
 is header-only and therefore absent, and without a nonce `script-src` has to allow inline, because
 Next's hydration payload and the theme bootstrap are both inline scripts. If a readme image ever

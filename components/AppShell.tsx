@@ -448,6 +448,7 @@ function AppShellContent() {
                 {t('PRIVACY_2_PRE')} <span className="mono">api.github.com</span>{' '}
                 {t('PRIVACY_2_POST')}
               </p>
+              <p>{t('PRIVACY_VIDEO')}</p>
               <p>{t('PRIVACY_3')}</p>
             </div>
           </details>

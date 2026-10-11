@@ -19,6 +19,19 @@
  *   'gallery'       text on top, a row of pictures below (2–4 images)
  *
  * On a phone every layout stacks: picture(s) first, then the text.
+ *
+ * Videos sit in `media` next to pictures and take the same places in every
+ * layout. Two kinds:
+ *
+ *   { youtube: 'https://youtu.be/…', title: … }
+ *       Any YouTube link (or the bare id). Nothing is loaded from YouTube
+ *       until the visitor presses play; then it runs in the privacy-enhanced
+ *       youtube-nocookie.com player, with a link to watch it on YouTube.
+ *       Give it a `poster` from public/ to show a still before playing.
+ *
+ *   { video: '/timeline/clip.mp4', title: …, poster: '/timeline/clip.webp' }
+ *       A file served from this site (MP4 or WebM), with player controls.
+ *       `loop: true` turns a short clip into a silent, looping preview.
  */
 
 export type Localized = string | { en: string; de: string }
@@ -42,6 +55,27 @@ export interface TimelineImage {
   fit?: 'cover' | 'contain'
 }
 
+export interface TimelineYouTube {
+  /** A YouTube link of any kind, or the 11-character video id. */
+  youtube: string
+  title: Localized
+  /** Still shown before playing, from public/. Without it a neutral frame is shown. */
+  poster?: string
+  caption?: Localized
+}
+
+export interface TimelineVideoFile {
+  /** Path under public/, e.g. '/timeline/qlink-demo.mp4'. */
+  video: string
+  title: Localized
+  poster?: string
+  caption?: Localized
+  /** Silent looping preview instead of a player with sound and controls. */
+  loop?: boolean
+}
+
+export type TimelineMedia = TimelineImage | TimelineYouTube | TimelineVideoFile
+
 export interface TimelineEntry {
   /** Unique, stable — used as the anchor in the URL. */
   id: string
@@ -55,6 +89,9 @@ export interface TimelineEntry {
   /** Second text column, only used by the 'image-center' layout. */
   aside?: Localized
   layout?: TimelineLayout
+  /** Pictures and videos, in the order the layout places them. */
+  media?: TimelineMedia[]
+  /** Older name for `media` — pictures only; still read. */
   images?: TimelineImage[]
   tags?: string[]
   /** Repository name — adds an "Open project" button that opens its panel. */
@@ -91,6 +128,9 @@ const timeline: TimelineEntry[] = [
     layout: 'text',
     tags: ['rust', 'vulkan', 'linux', 'virtual-reality'],
     project: 'QLink-preview',
+    // With a video: switch the layout and paste the link, e.g.
+    //   layout: 'image-right',
+    //   media: [{ youtube: 'https://youtu.be/VIDEO_ID', title: { en: 'QLink on Quest 3', de: 'QLink auf der Quest 3' } }],
   },
   {
     id: 'local-ai',
@@ -116,7 +156,13 @@ const timeline: TimelineEntry[] = [
       de: 'Neues Layout, ein Farbsystem für hell und dunkel, eine vollständige deutsche Übersetzung und dieser Zeitstrahl.',
     },
     layout: 'gallery',
-    images: [
+    media: [
+      {
+        video: '/timeline/website-walkthrough.webm',
+        title: { en: 'A walk through the new site', de: 'Ein Rundgang durch die neue Seite' },
+        caption: { en: 'Overview, timeline and stack', de: 'Übersicht, Zeitstrahl und Stack' },
+        poster: '/timeline/website-overview.webp',
+      },
       {
         src: '/timeline/website-overview.webp',
         alt: { en: 'The new overview page', de: 'Die neue Übersichtsseite' },

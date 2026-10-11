@@ -111,6 +111,10 @@ export const LONG: Record<string, { en: string; de: string }> = {
     en: 'for the public repository list, plus a readme when you open a project. Readme images load only after you click Load images.',
     de: 'für die öffentliche Repository-Liste, plus das Readme beim Öffnen eines Projekts. Bilder aus Readmes laden erst nach Klick auf „Bilder laden“.',
   },
+  PRIVACY_VIDEO: {
+    en: 'Videos in the timeline come from this site or from YouTube. A YouTube video loads nothing until you press play; then it runs in the privacy-enhanced youtube-nocookie.com player under Google’s privacy policy.',
+    de: 'Videos im Zeitstrahl kommen von dieser Seite oder von YouTube. Ein YouTube-Video lädt nichts, bis du auf Abspielen drückst; dann läuft es im datenschutzfreundlichen Player von youtube-nocookie.com nach den Datenschutzbestimmungen von Google.',
+  },
   PRIVACY_3: {
     en: 'Hosted on GitHub Pages. GitHub sees your IP address when it serves the page; I do not receive those logs.',
     de: 'Gehostet auf GitHub Pages. GitHub sieht beim Ausliefern deine IP-Adresse; diese Logs erhalte ich nicht.',
@@ -418,4 +422,9 @@ export const DE: Record<string, string> = {
   'Enlarge image: {alt}': 'Bild vergrößern: {alt}',
   'Close image': 'Bild schließen',
   'Planned, in progress and done': 'Geplant, in Arbeit und erledigt',
+
+  // Timeline videos
+  'Play video: {title}': 'Video abspielen: {title}',
+  'Loads from YouTube when you press play': 'Wird erst beim Abspielen von YouTube geladen',
+  'Watch on YouTube': 'Auf YouTube ansehen',
 }
