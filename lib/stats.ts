@@ -16,7 +16,7 @@ const MAX_MONTHS = 72
 export interface LanguageSlice {
   name: string
   count: number
-  /** Fraction of the repositories that name a language — the ring's arc. */
+  /** Fraction of the repositories that name a language. */
   share: number
   hue: number
 }

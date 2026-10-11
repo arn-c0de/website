@@ -1759,101 +1759,11 @@ a:hover {
   white-space: nowrap;
 }
 
-.bars {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 8px;
-  align-content: start;
-}
-
-/* A row is a button now — it filters the projects tab down to its language.
-   Dimming is driven by `data-dim` rather than a class: the reveal observer
-   writes `is-in` straight onto the node, and a className React re-renders
-   would take that class with it. */
-.bar__row {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  padding: 8px 11px 9px;
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  box-shadow: var(--shadow-sm);
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease),
-    opacity 0.2s var(--ease), transform 0.24s var(--spring);
-}
-
-.bar__row:hover {
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
-}
-
-.bar__row[data-dim='true'] {
-  opacity: 0.45;
-}
-
-.bar__meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-
-.bar__name {
-  min-width: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 650;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .language-logo {
   width: 20px;
   height: 20px;
   flex: 0 0 auto;
   filter: drop-shadow(0 1px 1px rgba(10, 12, 20, 0.16));
-}
-
-.bar__track {
-  display: block;
-  width: 100%;
-  height: 4px;
-  background: var(--bg-inset);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.bar__fill {
-  /* A span is inline by default, where width and height do not apply. */
-  display: block;
-  /* The share is a custom property so the reveal rules further down can hold
-     the bar at zero until its row is on screen; without JS it lands here. */
-  width: var(--w, 0);
-  height: 100%;
-  border-radius: 999px;
-  background: hsl(var(--hue) 62% 58%);
-  transition: width 0.6s var(--ease-snap), box-shadow 0.2s var(--ease);
-}
-
-.bar__row:hover .bar__fill {
-  box-shadow: 0 0 10px hsl(var(--hue) 62% 58% / 0.45);
-}
-
-.bar__n {
-  flex: 0 0 auto;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  color: var(--text-faint);
 }
 
 .domain-grid {
@@ -1936,7 +1846,6 @@ a:hover {
 /* Everything that can be pressed gives way and springs back, so the whole
    page answers a click the way the tabs do. */
 .cloud__tag:active,
-.bar__row:active,
 .domain-card:active {
   transform: translateY(0) scale(0.96);
 }
@@ -1976,67 +1885,6 @@ a:hover {
 /* All drawn in components/Charts.tsx as plain SVG. Colour lives here rather
    than in the markup, so the charts follow the theme like everything else;
    only the per-language hues are set on the elements themselves. */
-
-.langs {
-  display: grid;
-  grid-template-columns: minmax(0, 210px) minmax(0, 1fr);
-  gap: 10px;
-  align-items: start;
-}
-
-.langs__ring {
-  padding: 14px 12px;
-  display: grid;
-  place-items: center;
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-}
-
-.ring {
-  display: block;
-  width: 100%;
-  max-width: 186px;
-  height: auto;
-  transform-origin: 50% 50%;
-}
-
-.ring__base {
-  fill: none;
-  stroke: var(--bg-inset);
-  stroke-width: 13;
-}
-
-.ring__seg {
-  fill: none;
-  stroke-width: 13;
-  cursor: pointer;
-  transition: stroke-width 0.2s var(--ease), opacity 0.2s var(--ease);
-}
-
-.ring__seg:hover {
-  stroke-width: 17;
-}
-
-.ring__seg[data-dim='true'] {
-  opacity: 0.25;
-}
-
-.ring__value {
-  fill: var(--text);
-  font-family: var(--font-mono);
-  font-size: 21px;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-}
-
-.ring__label {
-  fill: var(--text-faint);
-  font-size: 8.5px;
-  font-weight: 650;
-  letter-spacing: 0.02em;
-}
 
 .chart {
   margin: 0;
@@ -2184,12 +2032,6 @@ a:hover {
 .lane__end {
   stroke: var(--bg-panel);
   stroke-width: 1.6;
-}
-
-@media (max-width: 720px) {
-  .langs {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 
 /* ── Prose panes (about / contact) ──────────────────────────────────────── */
@@ -3102,10 +2944,6 @@ a:hover {
     border-top: 1px solid var(--border);
   }
 
-  .bars {
-    grid-template-columns: 1fr;
-  }
-
   .domain-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -3192,29 +3030,11 @@ a:hover {
 
 /* Language bars run out from zero once their row arrives, one after the next
    rather than all at once. */
-:root[data-reveal='on'] .bar__row:not(.is-in) .bar__fill {
-  width: 0;
-}
 
-.bar__row.is-in .bar__fill {
-  transition-delay: calc(min(var(--i, 0), 7) * 60ms);
-}
-
-/* Charts draw themselves once their card scrolls in: the ring turns into
-   place, the bars grow off the baseline and the line runs left to right.
+/* Charts draw themselves once their card scrolls in: the bars grow off the
+   baseline and the line runs left to right.
    `transform-box: fill-box` is what makes a transform-origin inside an SVG
    shape mean the shape rather than the whole canvas. */
-
-.langs__ring.is-in .ring {
-  animation: ring-in 0.7s var(--ease) both;
-}
-
-@keyframes ring-in {
-  from {
-    opacity: 0;
-    transform: rotate(-26deg) scale(0.88);
-  }
-}
 
 .chart.is-in .chart__bar {
   transform-box: fill-box;
@@ -4322,16 +4142,10 @@ p {
 
 /* Stack */
 
-.bar__row,
 .domain-card {
   border-radius: var(--radius-sm);
 }
 
-.bar__row {
-  padding: 10px 13px 11px;
-}
-
-.bar__name,
 .domain-card__name {
   font-size: 13.5px;
 }
@@ -5005,27 +4819,6 @@ p {
 
 /* Phones: two compact columns of languages instead of one tall list, and a
    ring that does not take the whole screen. */
-@media (max-width: 720px) {
-  .bars {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .bar__row {
-    padding: 9px 11px 10px;
-  }
-
-  .bar__meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-    margin-bottom: 7px;
-  }
-
-  .ring {
-    max-width: 150px;
-  }
-}
 
 /* ── Request dialog ─────────────────────────────────────────────────────── */
 
@@ -6829,10 +6622,8 @@ body::after {
 .slab,
 .tl-card,
 .worklist,
-.bar__row,
 .domain-card,
-.chart,
-.langs__ring {
+.chart {
   box-shadow: none;
 }
 
@@ -6841,7 +6632,6 @@ body::after {
 .tile:hover,
 .latest__item:hover,
 .channel:hover,
-.bar__row:hover,
 .domain-card:hover,
 .cloud__tag:hover,
 .chip:hover,
@@ -7450,7 +7240,6 @@ body::after {
   font-weight: 600;
 }
 
-
 /* Boxes become sections: a rule above, no frame around. */
 .channel,
 .fact,
@@ -7500,21 +7289,6 @@ body::after {
 }
 
 /* Stack: rows and plain text instead of tiles and chips. */
-.bar__row {
-  background: none;
-  border: 0;
-  border-bottom: 1px solid var(--border);
-  border-radius: 0;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.bars {
-  column-gap: 32px;
-  row-gap: 0;
-}
-
-.langs__ring,
 .chart {
   background: none;
   border: 0;
@@ -7851,7 +7625,6 @@ body::after {
 }
 
 /* 12 — meta, counts, mono asides */
-.bar__n,
 .tab__count,
 .chip__n,
 .domain-card__count,
@@ -7884,7 +7657,6 @@ body::after {
 .tl-link,
 .pp-back,
 .socials__name,
-.bar__name,
 .domain-card__name,
 .hero__tagline,
 .band__hint,
@@ -7938,7 +7710,6 @@ body::after {
 .tile__link,
 .tl-link,
 .socials__name,
-.bar__name,
 .domain-card__name,
 .card__stat,
 .help__area,
