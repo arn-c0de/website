@@ -7,8 +7,14 @@ import { DE, LONG } from '../lib/i18n-de.ts'
 function literalKeys() {
   const keys = new Map<string, string>()
   const dir = new URL('../components/', import.meta.url)
-  for (const file of readdirSync(dir).filter((f) => f.endsWith('.tsx'))) {
-    const source = readFileSync(new URL(file, dir), 'utf8')
+  const files = readdirSync(dir)
+    .filter((f) => f.endsWith('.tsx'))
+    .map((f) => new URL(f, dir))
+  // The email draft is assembled outside the components, in the same way.
+  files.push(new URL('../lib/request.ts', import.meta.url))
+  for (const url of files) {
+    const file = url.pathname.split('/').slice(-2).join('/')
+    const source = readFileSync(url, 'utf8')
     for (const match of source.matchAll(/\btr?\(\s*(['"])((?:(?!\1).)+)\1/g)) {
       keys.set(match[2], file)
     }

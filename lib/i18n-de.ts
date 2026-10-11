@@ -417,4 +417,15 @@ export const DE: Record<string, string> = {
   'VR simulation world & multiplayer': 'VR-Simulationswelt & Mehrspieler',
   'QLink test version': 'QLink-Testversion',
   'Private project access & test builds': 'Zugang zu privaten Projekten & Test-Builds',
+
+  // Email draft (lib/request.ts)
+  'Hello arn-c0de,': 'Hallo arn-c0de,',
+  '(no message)': '(keine Nachricht)',
+  '— Request —': '— Anfrage —',
+  Type: 'Art',
+  Areas: 'Bereiche',
+  Timeline: 'Zeitrahmen',
+  '— Contact —': '— Kontakt —',
+  '(not given)': '(nicht angegeben)',
+  '+{n} more': '+{n} weitere',
 }
