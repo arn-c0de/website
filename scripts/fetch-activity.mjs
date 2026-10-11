@@ -63,7 +63,12 @@ async function main() {
     console.warn('activity: no repository answered — keeping the stored file')
     return
   }
+  // GitHub serves a quiet repository's year as it last counted it, which can
+  // end months ago. Only the year up to the newest week is kept, so stale
+  // windows do not stretch the chart backwards.
+  const newest = Math.max(...totals.keys())
   const weeks = [...totals.entries()]
+    .filter(([week]) => week > newest - 52 * 7 * 86_400)
     .sort((a, b) => a[0] - b[0])
     .map(([week, commits]) => ({ week: new Date(week * 1000).toISOString().slice(0, 10), commits }))
   writeFileSync(file, `${JSON.stringify({ fetchedAt: new Date().toISOString(), repos: counted, weeks }, null, 2)}\n`)
