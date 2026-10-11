@@ -68,7 +68,7 @@ const html = /* html */ `<!doctype html>
     <div class="handle">arn-c0de</div>
     <div class="tagline">Embedded systems, security tooling and local AI</div>
   </div></div>
-  <h1>Practical systems, from firmware to the apps people use.</h1>
+  <h1>Software from firmware to app.</h1>
   <div class="foot">
     <div class="tags">${TOPICS.map((t) => `<span class="tag">${t.replace('&', '&amp;')}</span>`).join('')}</div>
     <div class="url">arn-c0de.de</div>

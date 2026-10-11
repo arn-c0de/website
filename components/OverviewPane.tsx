@@ -85,7 +85,7 @@ export default function OverviewPane({
             </div>
           </div>
 
-          <h1 className="hero__name">{t('Practical systems, from firmware to the apps people use.')}</h1>
+          <h1 className="hero__name">{t('Software from firmware to app.')}</h1>
           <p className="hero__lede">{t('HERO_LEDE')}</p>
 
           <div className="hero__actions">
@@ -117,7 +117,7 @@ export default function OverviewPane({
             QLink
           </h2>
           <p className="now__text">{t('QLINK_TEXT')}</p>
-          <p className="now__note">{t('Very early version · test builds by invitation')}</p>
+          <p className="now__note">{t('Early version · test builds on request')}</p>
           <div className="now__also">
             <span className="now__also-label">{t('Also in progress')}</span>
             <span className="tag">ARIS</span>
@@ -346,7 +346,7 @@ function Gallery({
       <div className="band__head" data-reveal>
         <div>
           <h2 className="band__title">{t('Featured projects')}</h2>
-          <p className="band__hint">{t('Hand-picked work — open one for its readme and links.')}</p>
+          <p className="band__hint">{t('Open a project for details.')}</p>
         </div>
         {/* aria-disabled rather than disabled: the state is measured from the
             DOM after mount, and a real `disabled` attribute would both differ

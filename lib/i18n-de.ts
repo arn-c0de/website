@@ -8,120 +8,108 @@
  */
 export const LONG: Record<string, { en: string; de: string }> = {
   HERO_LEDE: {
-    en: 'Industrial traceability, embedded tooling, local AI and VR simulation research — built to run where your data lives, and published on GitHub wherever it can be.',
-    de: 'Industrielle Rückverfolgbarkeit, Embedded-Werkzeuge, lokale KI und VR-Simulationsforschung — gebaut für dort, wo deine Daten liegen, und auf GitHub veröffentlicht, wo immer es geht.',
+    en: 'Most of it is open source on GitHub, from ESP32 firmware to local AI agents.',
+    de: 'Das meiste ist Open Source auf GitHub — von ESP32-Firmware bis zu lokalen KI-Agenten.',
   },
   QLINK_TEXT: {
-    en: 'My own Rust game and simulation engine for Linux. It shows the simulation directly as the Link home on Quest 3 — no Quest Link PC app — while the same world runs in 2D on the desktop, and is meant to start Steam and other games from there.',
-    de: 'Meine eigene Spiel- und Simulations-Engine in Rust für Linux. Sie zeigt die Simulation direkt als Link-Startumgebung auf der Quest 3 — ohne die Quest-Link-PC-App —, während dieselbe Welt in 2D auf dem Desktop läuft. Von dort sollen sich auch Steam und andere Spiele starten lassen.',
+    en: 'A Rust game and simulation engine for Linux. It runs on Quest 3 without the Quest Link PC app; the same world also runs in 2D on the desktop.',
+    de: 'Eine Spiel- und Simulations-Engine in Rust für Linux. Läuft auf der Quest 3 ohne die Quest-Link-PC-App; dieselbe Welt läuft auch in 2D am Desktop.',
   },
   TILE_STACK: {
-    en: 'Languages, domains and shared topics — counted from the repositories themselves, so it never drifts out of date.',
-    de: 'Sprachen, Bereiche und gemeinsame Themen — direkt aus den Repositories gezählt, damit nichts veraltet.',
+    en: 'Languages and topics, counted from the repositories.',
+    de: 'Sprachen und Themen, direkt aus den Repositories gezählt.',
   },
   TILE_ABOUT: {
-    en: 'What I focus on, and the principles the projects are built on: local by default, security that stays honest, readable over clever.',
-    de: 'Woran ich arbeite und nach welchen Prinzipien: lokal als Standard, ehrliche Sicherheit, lesbar statt clever.',
+    en: 'Background, current projects and tools.',
+    de: 'Hintergrund, aktuelle Projekte und Werkzeuge.',
   },
   TILE_CONTACT: {
-    en: 'Questions about a project, help getting something running, a bug or security finding, or an idea you would like built.',
-    de: 'Fragen zu einem Projekt, Hilfe beim Einrichten, ein Bug oder Sicherheitsfund — oder eine Idee, die gebaut werden soll.',
+    en: 'Questions, bugs or ideas — via SimpleX, email or PGP.',
+    de: 'Fragen, Bugs oder Ideen — per SimpleX, E-Mail oder PGP.',
   },
   PROJECTS_LEDE: {
-    en: 'Things I have built around embedded systems, local AI and network security. The list comes straight from GitHub — pick a project to see the details, readme and links.',
-    de: 'Was ich rund um Embedded-Systeme, lokale KI und Netzwerksicherheit gebaut habe. Die Liste kommt direkt von GitHub — wähle ein Projekt für Details, Readme und Links.',
+    en: 'Embedded, local AI and security projects, straight from GitHub.',
+    de: 'Projekte zu Embedded, lokaler KI und Sicherheit, direkt von GitHub.',
   },
   STACK_LEDE: {
-    en: 'A quick look at what I actually use — pulled from the repositories instead of a list I wrote once and forgot to update.',
-    de: 'Ein kurzer Blick darauf, was ich tatsächlich nutze — aus den Repositories gezogen statt aus einer Liste, die ich einmal geschrieben und dann vergessen habe.',
+    en: 'What the repositories are written in, and how active they are.',
+    de: 'Worin die Repositories geschrieben sind und wie aktiv sie sind.',
   },
   STACK_LANG_HINT: {
-    en: 'Share of the repositories that name each language. Pick one to open the projects filtered to it.',
-    de: 'Anteil der Repositories je Sprache. Wähle eine aus, um die Projekte danach zu filtern.',
+    en: 'Share of repositories per language. Click one to filter the projects.',
+    de: 'Anteil der Repositories je Sprache. Ein Klick filtert die Projekte.',
   },
   STACK_ACTIVITY_HINT: {
-    en: 'How many projects were between their first commit and their last push in a given month, and how many started in it.',
-    de: 'Wie viele Projekte in einem Monat zwischen erstem Commit und letztem Push lagen — und wie viele in dem Monat begonnen wurden.',
+    en: 'Projects active per month, and how many started.',
+    de: 'Aktive Projekte pro Monat und wie viele neu begonnen wurden.',
   },
   STACK_TIMELINE_HINT: {
-    en: 'Every repository from its first commit to its most recent push, coloured by language — pick a lane to open it.',
-    de: 'Jedes Repository vom ersten Commit bis zum letzten Push, nach Sprache eingefärbt — wähle eine Zeile, um es zu öffnen.',
+    en: 'Each repository from first commit to last push. Click a lane to open it.',
+    de: 'Jedes Repository vom ersten Commit bis zum letzten Push. Ein Klick öffnet es.',
   },
   ABOUT_LEDE: {
-    en: 'I build complete systems from firmware and hardware to the backends, databases and apps people use. I also work on local LLM and RAG systems, and on game AI for deterministic, replayable simulations.',
-    de: 'Ich baue komplette Systeme — von Firmware und Hardware bis zu den Backends, Datenbanken und Apps, die Menschen nutzen. Außerdem arbeite ich an lokalen LLM- und RAG-Systemen und an Spiel-KI für deterministische, wiederholbare Simulationen.',
+    en: 'I build software from firmware to backends and apps, and work on local AI. Trained electronics technician.',
+    de: 'Ich entwickle Software von der Firmware bis zu Backends und Apps und arbeite an lokaler KI. Ausgebildeter Elektroniker für Geräte und Systeme.',
   },
   ABOUT_ARIS: {
-    en: 'a self-hosted agent with fluid synthetic voice, multi-model support and a harness for tools and file edits.',
-    de: 'ein selbst gehosteter Agent mit flüssiger synthetischer Stimme, Unterstützung für mehrere Modelle und einer Umgebung für Werkzeuge und Dateibearbeitung.',
+    en: 'self-hosted AI agent with voice output and tool support',
+    de: 'selbst gehosteter KI-Agent mit Sprachausgabe und Werkzeugen',
   },
   ABOUT_DEEPVISION: {
-    en: 'a private mobile PCB pilot that keeps camera frames on-device, pairing WebAssembly tracking, reference calibration and a read-only trace adapter.',
-    de: 'ein privater mobiler Leiterplatten-Pilot, der Kamerabilder auf dem Gerät behält — mit WebAssembly-Tracking, Referenzkalibrierung und einem schreibgeschützten Trace-Adapter.',
+    en: 'PCB inspection in the browser, camera frames stay on the device',
+    de: 'Leiterplatten-Prüfung im Browser, Kamerabilder bleiben auf dem Gerät',
   },
-  ABOUT_TOOLKIT: {
-    en: 'Firmware, backends, databases, local LLM/RAG systems and game AI are part of the wider toolkit. Open for collaboration and contributions.',
-    de: 'Firmware, Backends, Datenbanken, lokale LLM-/RAG-Systeme und Spiel-KI gehören zum erweiterten Werkzeugkasten. Offen für Zusammenarbeit und Beiträge.',
-  },
-  ABOUT_TRAINING: {
-    en: 'Practical training in building, measuring and troubleshooting electronic devices — the hardware side every firmware project here leans on.',
-    de: 'Praktische Ausbildung im Aufbauen, Messen und Fehlersuchen an elektronischen Geräten — die Hardware-Seite, auf der jedes Firmware-Projekt hier aufbaut.',
-  },
-  ABOUT_WHY_1: {
-    en: 'Most of what you find here started as something I wanted for myself — an encrypted mesh link, a better way to dig through research, a live view of SSH attempts on a server. If the result might save someone else a few evenings, I clean it up and put it on GitHub.',
-    de: 'Das meiste hier begann als etwas, das ich selbst haben wollte — eine verschlüsselte Mesh-Verbindung, ein besserer Weg durch Recherchen, eine Live-Ansicht der SSH-Versuche auf einem Server. Wenn das Ergebnis jemand anderem ein paar Abende sparen kann, räume ich es auf und stelle es auf GitHub.',
-  },
-  ABOUT_WHY_2: {
-    en: 'The code is public, the setup is documented, and sensitive data stays where it belongs: on your device. No account or cloud detour unless a project genuinely needs one.',
-    de: 'Der Code ist öffentlich, die Einrichtung dokumentiert, und sensible Daten bleiben, wo sie hingehören: auf deinem Gerät. Kein Konto und kein Umweg über die Cloud, außer ein Projekt braucht es wirklich.',
+  ABOUT_WHY: {
+    en: 'Most projects started as tools I needed myself. If they can help others, I clean them up and publish them. Data stays on your own device wherever possible.',
+    de: 'Die meisten Projekte sind entstanden, weil ich sie selbst gebraucht habe. Wenn sie anderen helfen können, räume ich sie auf und veröffentliche sie. Daten bleiben möglichst auf dem eigenen Gerät.',
   },
   ABOUT_NOTE: {
-    en: 'Need a hand with something, want to work on it together, or would like to contribute? Write to me, or open an issue in the repository itself.',
-    de: 'Brauchst du Hilfe, willst du gemeinsam an etwas arbeiten oder etwas beitragen? Schreib mir oder eröffne ein Issue direkt im Repository.',
+    en: 'Questions or ideas? Write to me or open an issue in the repository.',
+    de: 'Fragen oder Ideen? Schreib mir oder eröffne ein Issue im Repository.',
   },
   CONTACT_LEDE: {
-    en: 'Questions about my projects, something you would like built, or a bug you ran into — all welcome here. Pick whichever channel suits, and encrypt it if what you are sending should stay private.',
-    de: 'Fragen zu meinen Projekten, etwas, das gebaut werden soll, oder ein Bug, über den du gestolpert bist — alles willkommen. Nimm den Kanal, der dir passt, und verschlüssele, was privat bleiben soll.',
+    en: 'Questions, bugs or ideas — pick a channel. Please encrypt anything sensitive.',
+    de: 'Fragen, Bugs oder Ideen — wähl einen Kanal. Sensibles bitte verschlüsseln.',
   },
   CONTACT_SIMPLEX: {
-    en: 'No phone number, no account, no identifier on a server — the easiest option for a private first message or a quick back-and-forth.',
-    de: 'Keine Telefonnummer, kein Konto, keine Kennung auf einem Server — der einfachste Weg für eine private erste Nachricht oder einen schnellen Austausch.',
+    en: 'No phone number, no account. The easiest way to send a private first message.',
+    de: 'Keine Telefonnummer, kein Konto. Am einfachsten für eine private erste Nachricht.',
   },
   CONTACT_EMAIL: {
-    en: 'Fine for anything ordinary. For sensitive technical detail, encrypt your message with the PGP key below before sending it.',
-    de: 'Gut für alles Alltägliche. Sensible technische Details verschlüssele bitte vor dem Senden mit dem PGP-Schlüssel unten.',
+    en: 'For everything else. Encrypt sensitive details with the PGP key below.',
+    de: 'Für alles andere. Sensible Details mit dem PGP-Schlüssel unten verschlüsseln.',
   },
   CONTACT_ACCESS: {
-    en: 'For private projects and test access, send a short use case and the project you are interested in. Access is reviewed and granted manually.',
-    de: 'Für private Projekte und Testzugänge schick einen kurzen Anwendungsfall und das Projekt, das dich interessiert. Zugänge werden manuell geprüft und vergeben.',
+    en: 'For private projects or test access, send a short use case. Access is granted manually.',
+    de: 'Für private Projekte oder Testzugang kurz den Anwendungsfall schicken. Zugang wird manuell vergeben.',
   },
   CONTACT_TRUST: {
-    en: 'Confirm the fingerprint through a second, independent channel before sending anything sensitive. This page alone is not enough.',
-    de: 'Bestätige den Fingerabdruck über einen zweiten, unabhängigen Kanal, bevor du etwas Sensibles schickst. Diese Seite allein reicht nicht.',
+    en: 'Verify the fingerprint through a second channel before sending anything sensitive.',
+    de: 'Vor sensiblen Nachrichten den Fingerabdruck über einen zweiten Kanal prüfen.',
   },
   PANEL_PRIVATE: {
-    en: 'This is a private project. Use “Ask about this” to request access, an early build or further details.',
-    de: 'Das ist ein privates Projekt. Über „Danach fragen“ kannst du Zugang, einen frühen Build oder weitere Details anfragen.',
+    en: 'Private project. Use “Ask about this” to request access.',
+    de: 'Privates Projekt. Zugang über „Danach fragen“ anfragen.',
   },
   README_IMAGES: {
-    en: 'hosted by GitHub. They stay blocked until you ask for them, so nothing is requested from a third party without your say-so.',
-    de: '— sie liegen bei GitHub und bleiben blockiert, bis du sie anforderst. So wird ohne deine Zustimmung nichts von Dritten geladen.',
+    en: 'from GitHub. They only load when you click below.',
+    de: 'von GitHub. Sie laden erst nach einem Klick unten.',
   },
   PRIVACY_1: {
-    en: 'This site sets no cookies and runs no analytics or tracking of any kind. Fonts, icons and styles are served from this domain — there is no CDN and no third-party script, and nothing is stored offline. The only things kept in your browser are your chosen colour theme and language, which clearing site data removes. The page carries a content security policy that says all of this to your browser, so it is enforced rather than promised.',
-    de: 'Diese Seite setzt keine Cookies und nutzt weder Analyse noch Tracking. Schriften, Icons und Styles kommen von dieser Domain — kein CDN, kein Skript von Dritten, nichts wird offline gespeichert. In deinem Browser bleiben nur das gewählte Farbschema und die Sprache; das Löschen der Website-Daten entfernt beides. Eine Content Security Policy teilt all das deinem Browser mit, sodass es durchgesetzt statt nur versprochen wird.',
+    en: 'No cookies, no analytics, no tracking. Fonts and scripts come from this domain. Only your theme and language are stored in your browser. A content security policy enforces this.',
+    de: 'Keine Cookies, keine Analyse, kein Tracking. Schriften und Skripte kommen von dieser Domain. Im Browser werden nur Farbschema und Sprache gespeichert. Eine Content Security Policy setzt das durch.',
   },
   PRIVACY_2_PRE: {
-    en: 'The one request made automatically is to',
+    en: 'The only automatic request goes to',
     de: 'Die einzige automatische Anfrage geht an',
   },
   PRIVACY_2_POST: {
-    en: 'to read the public repository list. Opening a project additionally requests that repository’s readme. Images embedded in readmes are hosted by GitHub and stay blocked until you press Load images.',
-    de: 'und liest die öffentliche Repository-Liste. Beim Öffnen eines Projekts wird zusätzlich dessen Readme geladen. In Readmes eingebettete Bilder liegen bei GitHub und bleiben blockiert, bis du auf „Bilder laden“ klickst.',
+    en: 'for the public repository list, plus a readme when you open a project. Readme images load only after you click Load images.',
+    de: 'für die öffentliche Repository-Liste, plus das Readme beim Öffnen eines Projekts. Bilder aus Readmes laden erst nach Klick auf „Bilder laden“.',
   },
   PRIVACY_3: {
-    en: 'Hosting is GitHub Pages. Like any web server, GitHub receives your IP address and request metadata when the page is delivered; that happens on their infrastructure under their privacy policy and is outside my control. I neither receive nor keep those logs.',
-    de: 'Gehostet wird bei GitHub Pages. Wie jeder Webserver erhält GitHub beim Ausliefern der Seite deine IP-Adresse und Anfrage-Metadaten; das geschieht auf deren Infrastruktur nach deren Datenschutzbestimmungen und liegt außerhalb meines Einflusses. Ich erhalte und speichere diese Logs nicht.',
+    en: 'Hosted on GitHub Pages. GitHub sees your IP address when it serves the page; I do not receive those logs.',
+    de: 'Gehostet auf GitHub Pages. GitHub sieht beim Ausliefern deine IP-Adresse; diese Logs erhalte ich nicht.',
   },
 }
 
@@ -140,12 +128,11 @@ export const DE: Record<string, string> = {
   'Theme: light (click to change)': 'Design: hell (klicken zum Wechseln)',
 
   // Overview
-  'Practical systems, from firmware to the apps people use.':
-    'Praxistaugliche Systeme — von der Firmware bis zur App.',
+  'Software from firmware to app.': 'Software von der Firmware bis zur App.',
   'Private access & requests': 'Privater Zugang & Anfragen',
   'Browse projects': 'Projekte ansehen',
   'Currently building': 'Gerade in Arbeit',
-  'Very early version · test builds by invitation': 'Sehr frühe Version · Test-Builds auf Einladung',
+  'Early version · test builds on request': 'Frühe Version · Test-Builds auf Anfrage',
   'Also in progress': 'Außerdem in Arbeit',
   'Public projects': 'Öffentliche Projekte',
   'GitHub stars': 'GitHub-Sterne',
@@ -160,8 +147,7 @@ export const DE: Record<string, string> = {
   'Read about me': 'Mehr über mich',
   'Get in touch': 'Kontakt aufnehmen',
   'Featured projects': 'Ausgewählte Projekte',
-  'Hand-picked work — open one for its readme and links.':
-    'Handverlesene Arbeiten — öffne eins für Readme und Links.',
+  'Open a project for details.': 'Projekt öffnen für Details.',
   'Previous projects': 'Vorherige Projekte',
   'More projects': 'Weitere Projekte',
   'All projects': 'Alle Projekte',
@@ -222,28 +208,11 @@ export const DE: Record<string, string> = {
   Dec: 'Dez',
 
   // About tab
-  Freelance: 'Freelance',
   'Embedded systems, backends, apps and AI': 'Embedded-Systeme, Backends, Apps und KI',
   '{n} public repositories': '{n} öffentliche Repositories',
   'German · English': 'Deutsch · Englisch',
-  'open for work': 'offen für Aufträge',
-  'What I do': 'Was ich mache',
-  'Freelance software development, backed by hands-on electronics.':
-    'Freiberufliche Softwareentwicklung mit praktischem Elektronik-Hintergrund.',
-  'Freelance & personal': 'Freelance & privat',
-  'Embedded, backends, apps, AI': 'Embedded, Backends, Apps, KI',
   'Traceability web app': 'Rückverfolgbarkeits-Web-App',
-  'for industrial environments.': 'für industrielle Umgebungen.',
-  Training: 'Ausbildung',
-  'Electronics technician for devices and systems': 'Elektroniker für Geräte und Systeme',
-  building: 'Aufbauen',
-  measuring: 'Messen',
-  troubleshooting: 'Fehlersuche',
-  'Why any of this exists': 'Warum es das alles gibt',
-  'Scratching my own itch, then cleaning it up.': 'Erst für mich selbst gebaut, dann aufgeräumt.',
   Toolbox: 'Werkzeugkasten',
-  'What I reach for, and what the repositories are actually written in.':
-    'Womit ich arbeite — und worin die Repositories tatsächlich geschrieben sind.',
   Focus: 'Schwerpunkte',
   'Works in': 'Arbeitet mit',
   'C mostly on ESP32, SDR and Wi-Fi.': 'C vor allem auf ESP32, SDR und WLAN.',
@@ -252,20 +221,11 @@ export const DE: Record<string, string> = {
   'Stores data in': 'Speichert Daten in',
   'Vector stores for RAG, SQLite when a file is enough.':
     'Vektordatenbanken für RAG, SQLite, wenn eine Datei reicht.',
-  Speaks: 'Spricht',
   'In the repositories': 'In den Repositories',
-  German: 'Deutsch',
-  English: 'Englisch',
-  native: 'Muttersprache',
-  fluent: 'fließend',
   'industrial traceability': 'industrielle Rückverfolgbarkeit',
   'web applications': 'Webanwendungen',
   'embedded systems': 'Embedded-Systeme',
-  'backend deployment': 'Backend-Deployment',
-  'server integration': 'Server-Integration',
   'databases & vector search': 'Datenbanken & Vektorsuche',
-  'npc goal systems': 'NPC-Zielsysteme',
-  'round-based rpg combat': 'rundenbasierte RPG-Kämpfe',
   'vector stores': 'Vektordatenbanken',
   'plain files': 'einfache Dateien',
 
@@ -279,8 +239,7 @@ export const DE: Record<string, string> = {
   Copied: 'Kopiert',
   'is not set up at the moment — use SimpleX or email instead.':
     'ist derzeit nicht eingerichtet — nutze stattdessen SimpleX oder E-Mail.',
-  'Not sure it is worth a message?': 'Unsicher, ob sich eine Nachricht lohnt?',
-  'All of these are.': 'Für all das lohnt sie sich.',
+  'Good reasons to write': 'Gute Gründe für eine Nachricht',
   'questions about one of my projects': 'Fragen zu einem meiner Projekte',
   'help getting something set up': 'Hilfe beim Einrichten',
   'bugs or security findings': 'Bugs oder Sicherheitsfunde',
@@ -437,4 +396,12 @@ export const DE: Record<string, string> = {
   Required: 'Pflichtangaben',
   done: 'erledigt',
   missing: 'fehlt',
+
+  // About, shortened
+  'Current projects': 'Aktuelle Projekte',
+  'for industrial environments': 'für industrielle Umgebungen',
+  'Rust game and simulation engine for Linux and Quest 3': 'Spiel- und Simulations-Engine in Rust für Linux und Quest 3',
+  'About the projects': 'Zu den Projekten',
+  'Languages, data stores and focus areas.': 'Sprachen, Datenbanken und Schwerpunkte.',
+  'game AI': 'Spiel-KI',
 }
