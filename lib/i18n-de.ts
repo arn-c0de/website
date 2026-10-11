@@ -419,6 +419,10 @@ export const DE: Record<string, string> = {
 
   // Timeline tab
   'Filter by status': 'Nach Status filtern',
+  'Filter by project': 'Nach Projekt filtern',
+  'Filter by year': 'Nach Jahr filtern',
+  'All years': 'Alle Jahre',
+  'No entries match these filters.': 'Keine Einträge passen zu diesen Filtern.',
   Planned: 'Geplant',
   'In progress': 'In Arbeit',
   Done: 'Erledigt',

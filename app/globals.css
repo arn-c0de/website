@@ -6926,3 +6926,29 @@ body::after {
 .keyfold summary {
   color: var(--accent);
 }
+
+/* Timeline filters: project and year above the status chips. */
+.tl-toolbar {
+  border-bottom: 0;
+  padding-bottom: 0;
+  margin-bottom: 10px;
+}
+
+.tl-toolbar .select {
+  flex: 0 1 220px;
+  min-width: 0;
+}
+
+.tl-toolbar__reset {
+  margin-left: 4px;
+}
+
+.tl-toolbar__reset svg {
+  width: 14px;
+  height: 14px;
+}
+
+.tl-empty {
+  margin: 24px 0;
+  color: var(--text-muted);
+}

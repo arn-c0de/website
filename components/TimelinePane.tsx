@@ -37,6 +37,8 @@ export default function TimelinePane({
 }) {
   const { t, locale, labels } = useI18n()
   const [filter, setFilter] = useState<TimelineStatus | 'all' | 'video'>('all')
+  const [project, setProject] = useState('all')
+  const [year, setYear] = useState('all')
   const [zoomed, setZoomed] = useState<TimelineImage | null>(null)
 
   // Hand-written entries plus the channel's videos, fetched at build time.
@@ -44,14 +46,37 @@ export default function TimelinePane({
   const sorted = useMemo(() => sortTimeline(all), [all])
   const known = useMemo(() => new Set(projects.map((p) => p.name)), [projects])
   const icons = useMemo(() => new Map(projects.map((p) => [p.name, p.icon])), [projects])
+  const titles = useMemo(() => new Map(projects.map((p) => [p.name, p.title])), [projects])
+
+  // Projects and years that actually appear, for the two dropdowns.
+  const projectOptions = useMemo(() => {
+    const names = [...new Set(all.map((e) => e.project).filter((n): n is string => !!n))]
+    return names
+      .map((name) => ({ name, label: titles.get(name) || name }))
+      .sort((a, b) => a.label.localeCompare(b.label))
+  }, [all, titles])
+  const years = useMemo(
+    () => [...new Set(all.map((e) => e.date?.slice(0, 4)).filter((y): y is string => !!y))].sort().reverse(),
+    [all],
+  )
+
+  // Project and year narrow everything; the status chips count what is left.
+  const scoped = useMemo(
+    () =>
+      sorted.filter(
+        (e) => (project === 'all' || e.project === project) && (year === 'all' || e.date?.startsWith(year)),
+      ),
+    [sorted, project, year],
+  )
   const counts = useMemo(() => {
     const c: Record<TimelineStatus, number> = { planned: 0, now: 0, done: 0 }
-    for (const e of all) c[e.status] += 1
+    for (const e of scoped) c[e.status] += 1
     return c
-  }, [all])
-  const videoCount = useMemo(() => all.filter(hasVideo).length, [all])
+  }, [scoped])
+  const videoCount = useMemo(() => scoped.filter(hasVideo).length, [scoped])
+  const narrowed = project !== 'all' || year !== 'all'
 
-  const visible = filter === 'video' ? sorted.filter(hasVideo) : sorted
+  const visible = filter === 'video' ? scoped.filter(hasVideo) : scoped
   const groups = ORDER.filter((s) => filter === 'all' || filter === 'video' || filter === s)
     .map((status) => ({ status, entries: visible.filter((e) => e.status === status) }))
     .filter((g) => g.entries.length > 0)
@@ -63,6 +88,54 @@ export default function TimelinePane({
         <p className="pane__lede">{t('TIMELINE_LEDE')}</p>
       </div>
 
+      {(projectOptions.length > 1 || years.length > 1) && (
+        <div className="toolbar tl-toolbar">
+          {projectOptions.length > 1 && (
+            <select
+              className="select"
+              value={project}
+              onChange={(e) => setProject(e.target.value)}
+              aria-label={t('Filter by project')}
+            >
+              <option value="all">{t('All projects')}</option>
+              {projectOptions.map((p) => (
+                <option key={p.name} value={p.name}>
+                  {p.label}
+                </option>
+              ))}
+            </select>
+          )}
+          {years.length > 1 && (
+            <select
+              className="select"
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+              aria-label={t('Filter by year')}
+            >
+              <option value="all">{t('All years')}</option>
+              {years.map((y) => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))}
+            </select>
+          )}
+          {narrowed && (
+            <button
+              type="button"
+              className="tl-link tl-toolbar__reset"
+              onClick={() => {
+                setProject('all')
+                setYear('all')
+              }}
+            >
+              <CloseIcon />
+              {t('Reset filters')}
+            </button>
+          )}
+        </div>
+      )}
+
       <div className="chips" role="group" aria-label={t('Filter by status')}>
         <button
           type="button"
@@ -71,7 +144,7 @@ export default function TimelinePane({
           onClick={() => setFilter('all')}
         >
           {t('All')}
-          <span className="chip__n">{all.length}</span>
+          <span className="chip__n">{scoped.length}</span>
         </button>
         {ORDER.filter((s) => counts[s] > 0).map((status) => (
           <button
@@ -99,6 +172,8 @@ export default function TimelinePane({
           </button>
         )}
       </div>
+
+      {groups.length === 0 && <p className="tl-empty">{t('No entries match these filters.')}</p>}
 
       {groups.map(({ status, entries }) => (
         <section key={status} className={`tl-group tl-group--${status}`}>
