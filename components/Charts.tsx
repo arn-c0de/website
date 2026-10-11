@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useI18n } from '@/lib/i18n'
+import type { CommitWeek } from '@/lib/commits'
 import { activityDomain, formatSpan, type ActivityMonth, type LanguageSlice, type ProjectSpan } from '@/lib/stats'
 import { LanguageIcon } from './Icons'
 
@@ -260,6 +261,165 @@ export function ActivityChart({ months }: { months: ActivityMonth[] }) {
   )
 }
 
+/* ── Commits per week ─────────────────────────────────────────────────────── */
+
+const C = { w: 720, h: 170, left: 30, right: 10, top: 18, bottom: 26 }
+const C_PLOT_W = C.w - C.left - C.right
+const C_PLOT_H = C.h - C.top - C.bottom
+
+/**
+ * Commits per week across the public repositories, one bar per week in the
+ * accent. Same reading aids as the activity chart: the peak labelled, a
+ * crosshair with the exact week on hover or arrow keys, and a table.
+ */
+export function CommitChart({ weeks }: { weeks: CommitWeek[] }) {
+  const { t, locale } = useI18n()
+  const [hover, setHover] = useState<number | null>(null)
+  if (weeks.length === 0) return null
+
+  const max = Math.max(1, ...weeks.map((w) => w.commits))
+  const step = C_PLOT_W / weeks.length
+  const centre = (i: number) => C.left + step * (i + 0.5)
+  const y = (value: number) => C.top + C_PLOT_H * (1 - value / max)
+  const base = C.top + C_PLOT_H
+  const barW = Math.max(2, Math.min(10, step - 2))
+  const peak = weeks.reduce((best, w, i) => (w.commits > weeks[best].commits ? i : best), 0)
+  const day = (iso: string, withYear = true) =>
+    new Date(iso).toLocaleDateString(locale === 'de' ? 'de-DE' : 'en-GB', {
+      day: 'numeric',
+      month: 'short',
+      ...(withYear ? { year: 'numeric' } : {}),
+      timeZone: 'UTC',
+    })
+  // A month label under the first week of each month.
+  const monthStarts = weeks
+    .map((w, i) => ({ i, d: new Date(w.week) }))
+    .filter(({ i, d }) => i === 0 || d.getUTCMonth() !== new Date(weeks[i - 1].week).getUTCMonth())
+  const every = monthStarts.length > 8 ? 2 : 1
+  const shown = hover !== null ? weeks[hover] : null
+
+  function onKey(e: React.KeyboardEvent) {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return
+    e.preventDefault()
+    const last = weeks.length - 1
+    setHover((h) => {
+      if (e.key === 'Home') return 0
+      if (e.key === 'End') return last
+      const from = h ?? (e.key === 'ArrowLeft' ? last + 1 : -1)
+      return Math.min(last, Math.max(0, from + (e.key === 'ArrowLeft' ? -1 : 1)))
+    })
+  }
+
+  return (
+    <figure className="chart" data-reveal>
+      <div className="chart__scroll">
+        <div
+          className="chart__plot"
+          tabIndex={0}
+          role="group"
+          aria-label={t('Commits per week')}
+          onKeyDown={onKey}
+          onBlur={() => setHover(null)}
+          onPointerLeave={() => setHover(null)}
+        >
+          <svg viewBox={`0 0 ${C.w} ${C.h}`} aria-hidden>
+            {[...new Set([0, Math.round(max / 2), max])].map((value) => (
+              <g key={value}>
+                <line className="chart__grid" x1={C.left} x2={C.w - C.right} y1={y(value)} y2={y(value)} />
+                <text className="chart__tick" x={C.left - 7} y={y(value) + 3} textAnchor="end">
+                  {value}
+                </text>
+              </g>
+            ))}
+
+            {hover !== null && (
+              <line className="chart__cross" x1={centre(hover)} x2={centre(hover)} y1={C.top} y2={base} />
+            )}
+
+            {weeks.map((w, i) =>
+              w.commits > 0 ? (
+                <rect
+                  key={w.week}
+                  className="chart__col"
+                  x={centre(i) - barW / 2}
+                  y={y(w.commits)}
+                  width={barW}
+                  height={base - y(w.commits)}
+                  rx={Math.min(2, barW / 2)}
+                  data-on={hover === i}
+                  style={{ '--i': i } as React.CSSProperties}
+                />
+              ) : null,
+            )}
+
+            <text className="chart__peak" x={centre(peak)} y={y(weeks[peak].commits) - 6} textAnchor="middle">
+              {weeks[peak].commits}
+            </text>
+
+            {monthStarts
+              .filter((_, k) => k % every === 0)
+              .map(({ i, d }) => (
+                <text key={i} className="chart__tick" x={centre(i)} y={C.h - 8} textAnchor="start">
+                  {d.toLocaleDateString(locale === 'de' ? 'de-DE' : 'en-GB', { month: 'short', timeZone: 'UTC' })}
+                </text>
+              ))}
+
+            {weeks.map((w, i) => (
+              <rect
+                key={w.week}
+                className="chart__hit"
+                x={C.left + step * i}
+                y={C.top}
+                width={step}
+                height={C_PLOT_H}
+                onPointerEnter={() => setHover(i)}
+              />
+            ))}
+          </svg>
+
+          {shown && hover !== null && (
+            <div
+              className="chart__tip"
+              role="status"
+              data-side={centre(hover) > C.w * 0.7 ? 'left' : 'right'}
+              style={{ left: `${(centre(hover) / C.w) * 100}%` }}
+            >
+              <span className="chart__tip-title">
+                {t('Week of {date}', { date: day(shown.week) })}
+              </span>
+              <span className="chart__tip-row">
+                <i className="chart__swatch chart__swatch--area" aria-hidden />
+                {t('Commits')}
+                <b>{shown.commits}</b>
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <details className="chart__table">
+        <summary>{t('Show as table')}</summary>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">{t('Week of')}</th>
+              <th scope="col">{t('Commits')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {weeks.map((w) => (
+              <tr key={w.week}>
+                <th scope="row">{day(w.week)}</th>
+                <td>{w.commits}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </details>
+    </figure>
+  )
+}
+
 /* ── Project timeline ─────────────────────────────────────────────────────── */
 
 const S = { w: 800, label: 168, plot: 176, right: 12, head: 22, row: 20 }
@@ -317,7 +477,8 @@ export function SpanChart({
             {spans.map((span, i) => {
               const top = S.head + i * S.row
               const middle = top + S.row / 2
-              const start = x(span.from)
+              // A lane that began before the range starts at its left edge.
+              const start = x(Math.max(span.from, from))
               // A repository pushed the day it was created still needs a mark.
               const width = Math.max(6, x(span.to) - start)
               const name = span.title.length > S_NAME_MAX ? `${span.title.slice(0, S_NAME_MAX - 1)}…` : span.title

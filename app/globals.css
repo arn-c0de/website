@@ -8215,3 +8215,41 @@ a.latest__item {
 .chart__scroll {
   scrollbar-width: thin;
 }
+
+/* Time range: one control above everything on the stack tab that runs over
+   time, so all of it shows the same slice. */
+.rangebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 8px 0 28px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.rangebar__label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rangebar .viewtoggle {
+  height: 36px;
+}
+
+/* Commit columns: one series, the accent. */
+.chart__col {
+  fill: var(--accent);
+  transition: fill 0.15s var(--ease);
+}
+
+.chart__col[data-on='true'] {
+  fill: var(--accent-2);
+}
+
+.chart.is-in .chart__col {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: bar-grow 0.5s var(--ease-snap) both;
+  animation-delay: calc(min(var(--i, 0), 52) * 8ms);
+}

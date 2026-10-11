@@ -1,11 +1,12 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import { commitSummary, commitWeeks, weeksSince } from '@/lib/commits'
 import { languageShare, monthlyActivity, projectSpans } from '@/lib/stats'
 import type { Project } from '@/lib/types'
 import { useI18n } from '@/lib/i18n'
 import Metric from './Metric'
-import { ActivityChart, LanguageBars, SpanChart } from './Charts'
+import { ActivityChart, CommitChart, LanguageBars, SpanChart } from './Charts'
 
 /**
  * Everything here is aggregated from the live repo data — no hand-maintained
@@ -14,6 +15,9 @@ import { ActivityChart, LanguageBars, SpanChart } from './Charts'
  * Picking a language, a topic or a lane carries on into the rest of the site
  * rather than dead-ending on this tab.
  */
+type Range = 6 | 12 | 'all'
+const RANGES: Range[] = [6, 12, 'all']
+
 export default function StackPane({
   projects,
   onTopicSelect,
@@ -25,7 +29,8 @@ export default function StackPane({
   onLanguageSelect: (language: string) => void
   onOpenProject: (name: string) => void
 }) {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
+  const [range, setRange] = useState<Range>(12)
 
   const stats = useMemo(() => {
     const topics = new Map<string, number>()
@@ -55,6 +60,21 @@ export default function StackPane({
     }
   }, [projects])
 
+  // The slice of the timeline the range picks: the last N months of
+  // activity, the lanes still running inside them, and the commit weeks.
+  const scoped = useMemo(() => {
+    const months = range === 'all' ? stats.months : stats.months.slice(-range)
+    const since = months[0]?.at ?? 0
+    // GitHub keeps a year of weekly commit counts; "everything" is that year.
+    const weeks = weeksSince(commitWeeks(), since)
+    return {
+      months,
+      spans: stats.spans.filter((s) => s.to >= since),
+      weeks,
+      commits: commitSummary(weeks),
+    }
+  }, [stats, range])
+
   return (
     <div className="pane stack-pane">
       <div className="pane__head">
@@ -74,18 +94,6 @@ export default function StackPane({
         <p className="section__hint">{t('STACK_LANG_HINT')}</p>
 
         <LanguageBars slices={stats.languages} onSelect={onLanguageSelect} />
-      </section>
-
-      <section className="section">
-        <h2 className="section__title">{t('Activity')}</h2>
-        <p className="section__hint">{t('STACK_ACTIVITY_HINT')}</p>
-        <ActivityChart months={stats.months} />
-      </section>
-
-      <section className="section">
-        <h2 className="section__title">{t('Project timeline')}</h2>
-        <p className="section__hint">{t('STACK_TIMELINE_HINT')}</p>
-        <SpanChart spans={stats.spans} months={stats.months} onOpen={onOpenProject} />
       </section>
 
       <section className="section">
@@ -126,6 +134,44 @@ export default function StackPane({
           ))}
         </div>
       </section>
+
+      {/* One time range for everything below it that runs over time. */}
+      <div className="rangebar" data-reveal>
+        <span className="rangebar__label">{t('Time range')}</span>
+        <div className="viewtoggle" role="group" aria-label={t('Time range')}>
+          {RANGES.map((r) => (
+            <button key={r} type="button" aria-pressed={range === r} onClick={() => setRange(r)}>
+              {r === 'all' ? t('Everything') : t('{n} months', { n: r })}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {scoped.weeks.length > 0 && (
+        <section className="section">
+          <h2 className="section__title">{t('Commits per week')}</h2>
+          <p className="section__hint">
+            {t('COMMITS_HINT', {
+              total: scoped.commits.total,
+              perWeek: String(scoped.commits.perWeek).replace('.', locale === 'de' ? ',' : '.'),
+            })}
+          </p>
+          <CommitChart weeks={scoped.weeks} />
+        </section>
+      )}
+
+      <section className="section">
+        <h2 className="section__title">{t('Activity')}</h2>
+        <p className="section__hint">{t('STACK_ACTIVITY_HINT')}</p>
+        <ActivityChart months={scoped.months} />
+      </section>
+
+      <section className="section">
+        <h2 className="section__title">{t('Project timeline')}</h2>
+        <p className="section__hint">{t('STACK_TIMELINE_HINT')}</p>
+        <SpanChart spans={scoped.spans} months={scoped.months} onOpen={onOpenProject} />
+      </section>
+
     </div>
   )
 }
