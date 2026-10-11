@@ -223,6 +223,14 @@ they added via *Ask about this* in a project panel — and get a finished email 
 send. It opens from the *Request* button in the top bar, from a project panel, or from the command
 palette, and shows the live draft next to the form.
 
+The form reads top to bottom: the request type as six cards, the message, name and email side by
+side, the timeframe as chips, and the optional areas and projects folded away. Types and
+timeframes are real radio inputs under their cards, so keyboard and screen-reader behaviour comes
+from the browser. The footer ticks off the three required fields as they are filled, and the send
+button stays disabled until all three are there; an email address that does not look complete is
+flagged under its field. On a phone the dialog becomes a full-height sheet and the preview opens
+behind a button instead of following a long form.
+
 Areas and projects are both picked through `components/SearchPicker.tsx` — one search box over a
 scrollable multi-select list, with chosen entries pinned to the top so a search can never hide a
 selection. Projects match on name, description, language, category and topics, so "esp32" or

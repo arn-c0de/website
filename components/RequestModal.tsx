@@ -18,7 +18,15 @@ import {
 import { useI18n } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
 import SearchPicker, { type PickerItem } from './SearchPicker'
-import { CheckIcon, CloseIcon, CopyIcon, RequestIcon, SendIcon } from './Icons'
+import {
+  CheckIcon,
+  CloseIcon,
+  CopyIcon,
+  MailIcon,
+  RequestIcon,
+  RequestTypeIcon,
+  SendIcon,
+} from './Icons'
 
 /** One labelled row. Every control in the form sits in one of these. */
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
@@ -51,6 +59,7 @@ export default function RequestModal({
   const [touched, setTouched] = useState(false)
   const [copied, setCopied] = useState(false)
   const [showDetails, setShowDetails] = useState(selected.length > 0)
+  const [showPreview, setShowPreview] = useState(false)
   const closeRef = useRef<HTMLButtonElement>(null)
 
   const chosen = useMemo(
@@ -147,16 +156,25 @@ export default function RequestModal({
     }
   }
 
+  const emailInvalid = email.trim() !== '' && !looksLikeEmail(email)
+  const checks = [
+    { key: 'message', label: tr('Message'), done: message.trim() !== '' },
+    { key: 'name', label: tr('Name'), done: name.trim() !== '' },
+    { key: 'email', label: tr('Email'), done: looksLikeEmail(email) },
+  ]
+
   return (
     <>
       <div className="scrim" style={{ zIndex: 55 }} onClick={onClose} />
-      <div className="modal" role="dialog" aria-modal="true" aria-label={tr('Start a request')}>
+      <div className="modal" role="dialog" aria-modal="true" aria-labelledby="request-title">
         <header className="modal__head">
           <span className="modal__mark" aria-hidden>
             <RequestIcon />
           </span>
           <div className="modal__heading">
-            <h2 className="modal__title">{tr('Start a request')}</h2>
+            <h2 className="modal__title" id="request-title">
+              {tr('Start a request')}
+            </h2>
             <p className="modal__sub">{tr('Describe what you need. Add details only when they are useful.')}</p>
           </div>
           <button ref={closeRef} type="button" className="iconbtn" onClick={onClose} aria-label={tr('Close')}>
@@ -166,72 +184,98 @@ export default function RequestModal({
 
         <div className="modal__cols">
           <div className="modal__form">
-            <label className="request-field request-field--message request-field--primary">
-              <span>{tr('What can I help with?')}</span>
+            {/* Real radio inputs under the cards: arrow keys, focus and the
+                checked state all come from the browser. */}
+            <fieldset className="rq-group">
+              <legend className="rq-label">{tr('What is it about?')}</legend>
+              <div className="rq-types">
+                {INQUIRY_TYPES.map((option) => (
+                  <label key={option.id} className="rq-type">
+                    <input
+                      type="radio"
+                      name="request-type"
+                      value={option.id}
+                      checked={type === option.id}
+                      onChange={() => setType(option.id)}
+                    />
+                    <span className="rq-type__icon">
+                      <RequestTypeIcon type={option.id} />
+                    </span>
+                    <span className="rq-type__label">{tr(option.label)}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <label className="rq-group">
+              <span className="rq-label">
+                {tr('What can I help with?')}
+                <span className="rq-count" aria-hidden>
+                  {message.trim().length > 0 ? message.trim().length : ''}
+                </span>
+              </span>
               <textarea
-                className="input input--area input--sm"
+                className="input input--area rq-message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onBlur={() => setTouched(true)}
-                rows={4}
+                rows={5}
                 placeholder={tr('Tell me what you need and any useful context.')}
+                aria-invalid={touched && !message.trim()}
               />
             </label>
 
-            <Row label={tr('Request type')}>
-              <select
-                className="select select--wide select--sm"
-                value={type}
-                onChange={(e) => setType(e.target.value as InquiryTypeId)}
-                aria-label={tr('Request type')}
-              >
-                {INQUIRY_TYPES.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    {tr(t.label)}
-                  </option>
-                ))}
-              </select>
-            </Row>
-
-            <div className="request-contact">
-              <label className="request-field">
-                <span>{tr('Name')}</span>
+            <div className="rq-row">
+              <label className="rq-group">
+                <span className="rq-label">{tr('Name')}</span>
                 <input
-                  className="input input--sm"
+                  className="input"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   onBlur={() => setTouched(true)}
                   placeholder={tr('Jane Doe')}
                   autoComplete="name"
+                  aria-invalid={touched && !name.trim()}
                 />
               </label>
-              <label className="request-field">
-                <span>{tr('Email')}</span>
+              <label className="rq-group">
+                <span className="rq-label">{tr('Email')}</span>
                 <input
-                  className="input input--sm"
+                  className="input"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onBlur={() => setTouched(true)}
                   placeholder={tr('jane@example.com')}
                   autoComplete="email"
+                  aria-invalid={emailInvalid || (touched && !looksLikeEmail(email))}
+                  aria-describedby={emailInvalid ? 'request-email-error' : undefined}
                 />
-              </label>
-              <label className="request-field request-field--timeline">
-                <span>{tr('Timing')}</span>
-                <select
-                  className="select select--wide select--sm"
-                  value={timeline}
-                  onChange={(e) => setTimeline(e.target.value as RequestDraft['timeline'])}
-                >
-                  {TIMELINES.map((t) => (
-                    <option key={t} value={t}>
-                      {tr(t)}
-                    </option>
-                  ))}
-                </select>
+                {emailInvalid && (
+                  <span className="rq-error" id="request-email-error">
+                    {tr('That address does not look complete yet.')}
+                  </span>
+                )}
               </label>
             </div>
+
+            <fieldset className="rq-group">
+              <legend className="rq-label">{tr('Timing')}</legend>
+              <div className="rq-chips">
+                {TIMELINES.map((option) => (
+                  <label key={option} className="rq-chip">
+                    <input
+                      type="radio"
+                      name="request-timeline"
+                      value={option}
+                      checked={timeline === option}
+                      onChange={() => setTimeline(option)}
+                    />
+                    {tr(option)}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
 
             <details
               className="request-more"
@@ -270,41 +314,62 @@ export default function RequestModal({
                     label={tr('Search projects')}
                   />
                 </Row>
-
               </div>
             </details>
+
+            {/* Phones get the preview on demand instead of below a long form. */}
+            <button
+              type="button"
+              className="rq-previewtoggle"
+              aria-expanded={showPreview}
+              aria-controls="request-preview"
+              onClick={() => setShowPreview((open) => !open)}
+            >
+              <MailIcon />
+              {showPreview ? tr('Hide preview') : tr('Show preview')}
+            </button>
           </div>
 
-          <aside className="modal__preview">
-            <span className="fset__label">{tr('Preview')}</span>
-            <div className="draft draft--tight">
-              <div className="draft__head">
-                <span>
-                  <span className="draft__key">{tr('To')}</span>
-                  <span className="mono">{INQUIRY_EMAIL}</span>
-                </span>
-                <span>
-                  <span className="draft__key">{tr('Subject')}</span>
-                  {subject}
-                </span>
+          <aside className="modal__preview" id="request-preview" data-open={showPreview}>
+            <div className="rq-mail">
+              <div className="rq-mail__bar" aria-hidden>
+                <span />
+                <span />
+                <span />
+                <em>{tr('Preview')}</em>
               </div>
-              <pre className="draft__body">{body}</pre>
+              <dl className="rq-mail__head">
+                <dt>{tr('To')}</dt>
+                <dd className="mono">{INQUIRY_EMAIL}</dd>
+                <dt>{tr('Subject')}</dt>
+                <dd>{subject}</dd>
+              </dl>
+              <pre className="rq-mail__body">{body}</pre>
             </div>
+            <p className="rq-note">
+              {mailto.length > MAILTO_LIMIT
+                ? tr('Long message — use Copy draft, some mail apps truncate links.')
+                : tr('Nothing is sent from here. You send it from your own mail app.')}
+            </p>
           </aside>
         </div>
 
         <footer className="modal__foot">
-          <span className="modal__hint">
-            {touched && !ready ? (
-              <span className="modal__hint--warn">
-                {tr('Still needed: {list}', { list: missing.join(', ') })}
-              </span>
-            ) : mailto.length > MAILTO_LIMIT ? (
-              tr('Long message — use Copy draft, some mail apps truncate links.')
-            ) : (
-              tr('Nothing is sent from here. You send it from your own mail app.')
-            )}
-          </span>
+          <ul className="rq-checks" aria-label={tr('Required')}>
+            {checks.map((check) => (
+              <li
+                key={check.key}
+                data-done={check.done}
+                data-missing={touched && !check.done}
+              >
+                <span className="rq-checks__dot" aria-hidden>
+                  {check.done && <CheckIcon />}
+                </span>
+                {check.label}
+                <span className="sr-only">{check.done ? tr('done') : tr('missing')}</span>
+              </li>
+            ))}
+          </ul>
           <div className="modal__actions">
             <button
               type="button"

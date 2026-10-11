@@ -428,4 +428,14 @@ export const DE: Record<string, string> = {
   '— Contact —': '— Kontakt —',
   '(not given)': '(nicht angegeben)',
   '+{n} more': '+{n} weitere',
+
+  // Request dialog, second pass
+  'What is it about?': 'Worum geht es?',
+  Message: 'Nachricht',
+  'That address does not look complete yet.': 'Die Adresse sieht noch nicht vollständig aus.',
+  'Show preview': 'Vorschau zeigen',
+  'Hide preview': 'Vorschau ausblenden',
+  Required: 'Pflichtangaben',
+  done: 'erledigt',
+  missing: 'fehlt',
 }

@@ -141,6 +141,51 @@ export function SendIcon() {
   )
 }
 
+/** One mark per request type in the request dialog, drawn on the same grid. */
+export function RequestTypeIcon({ type }: { type: string }) {
+  const paths: Record<string, React.ReactNode> = {
+    question: (
+      <>
+        <circle cx="8" cy="8" r="6.2" />
+        <path d="M6.2 6.2a1.9 1.9 0 0 1 3.6.6c0 1.3-1.8 1.6-1.8 2.7" />
+        <path d="M8 11.6h.01" />
+      </>
+    ),
+    access: (
+      <>
+        <circle cx="5.3" cy="10.7" r="2.8" />
+        <path d="m7.3 8.7 6-6M11.3 4.7l1.6 1.6M9.8 6.2l1.3 1.3" />
+      </>
+    ),
+    build: <path d="m5.5 4.5-3.5 3.5 3.5 3.5M10.5 4.5 14 8l-3.5 3.5M9 3 7 13" />,
+    collaboration: (
+      <>
+        <circle cx="5.8" cy="5.5" r="2.3" />
+        <path d="M1.8 13.2c.4-2.2 2-3.5 4-3.5s3.6 1.3 4 3.5" />
+        <path d="M10.6 3.4a2.3 2.3 0 0 1 0 4.3M12 9.9c1.2.5 2 1.6 2.2 3.3" />
+      </>
+    ),
+    issue: (
+      <>
+        <path d="M8 2.2 14.3 13H1.7Z" />
+        <path d="M8 6.5v3M8 11.3h.01" />
+      </>
+    ),
+    other: (
+      <>
+        <circle cx="3.5" cy="8" r=".9" />
+        <circle cx="8" cy="8" r=".9" />
+        <circle cx="12.5" cy="8" r=".9" />
+      </>
+    ),
+  }
+  return (
+    <svg {...base} width={17} height={17}>
+      {paths[type] ?? paths.other}
+    </svg>
+  )
+}
+
 /* Tab marks. One weight, one grid, so the row reads as a set rather than as
    five borrowed glyphs. */
 

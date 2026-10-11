@@ -2204,7 +2204,6 @@ a:hover {
   font-weight: 650;
 }
 
-
 /* ── About pane ─────────────────────────────────────────────────────────── */
 
 /* Trained for / available for. Two equal columns so neither reads as the
@@ -2653,17 +2652,6 @@ a:hover {
 
 /* ── Request form ───────────────────────────────────────────────────────── */
 
-
-
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  min-width: 0;
-}
-
-
 .input {
   width: 100%;
   height: 38px;
@@ -2705,37 +2693,6 @@ a:hover {
 
 /* Selectable service cards */
 
-.picks {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(238px, 1fr));
-  gap: 10px;
-}
-
-.pick {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 14px;
-  text-align: left;
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: border-color 0.15s, background 0.15s, transform 0.15s var(--ease), box-shadow 0.15s;
-}
-
-.pick:hover {
-  border-color: var(--border-strong);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-}
-
-.pick[aria-pressed='true'] {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
-}
-
 .pick__box {
   width: 18px;
   height: 18px;
@@ -2749,74 +2706,9 @@ a:hover {
   color: var(--accent-text);
 }
 
-.pick[aria-pressed='true'] .pick__box {
-  background: var(--accent);
-  border-color: var(--accent);
-}
-
-.pick__title {
-  display: block;
-  font-size: 14.5px;
-  font-weight: 650;
-  letter-spacing: -0.01em;
-}
-
-.pick__blurb {
-  display: block;
-  margin-top: 3px;
-  font-size: 13px;
-  line-height: 1.45;
-  color: var(--text-muted);
-}
-
-.draft {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: var(--bg-panel);
-}
-
-.draft__head {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg-inset);
-  font-size: 13px;
-}
-
-.draft__key {
-  display: inline-block;
-  width: 62px;
-  color: var(--text-faint);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.draft__body {
-  margin: 0;
-  padding: 14px;
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  line-height: 1.65;
-  color: var(--text-muted);
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  max-height: 340px;
-  overflow-y: auto;
-}
-
-
 /* ── Request modal ──────────────────────────────────────────────────────── */
 
 .modal {
-  --accent: var(--request);
-  --accent-2: var(--request);
-  --accent-soft: var(--request-soft);
-  --accent-text: var(--request-text);
   position: fixed;
   z-index: 56;
   top: 50%;
@@ -2934,27 +2826,6 @@ a:hover {
 
 .frow__field {
   min-width: 0;
-}
-
-.fset__label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-}
-
-.chips--tight {
-  gap: 4px;
-  margin-bottom: 0;
-}
-
-.chip--sm {
-  height: 24px;
-  padding: 0 8px;
-  font-size: 12px;
 }
 
 /* Searchable area list. The search starts as a single icon over the list and
@@ -3144,40 +3015,6 @@ a:hover {
   color: var(--text-faint);
 }
 
-.input--sm {
-  height: 34px;
-  font-size: 14px;
-}
-
-textarea.input--sm {
-  height: auto;
-  min-height: 64px;
-}
-
-.select--sm {
-  height: 34px;
-  font-size: 14px;
-  background-position: calc(100% - 15px) 15px, calc(100% - 11px) 15px;
-}
-
-.draft--tight {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.draft--tight .draft__head {
-  background: var(--bg-panel);
-}
-
-.draft--tight .draft__body {
-  flex: 1;
-  max-height: none;
-  font-size: 12px;
-  line-height: 1.6;
-}
-
 .modal__foot {
   display: flex;
   align-items: center;
@@ -3185,18 +3022,6 @@ textarea.input--sm {
   padding: 11px 16px;
   border-top: 1px solid var(--border);
   background: var(--bg-inset);
-}
-
-.modal__hint {
-  flex: 1;
-  min-width: 0;
-  font-size: 12px;
-  color: var(--text-faint);
-}
-
-.modal__hint--warn {
-  color: var(--star);
-  font-weight: 600;
 }
 
 .modal__actions {
@@ -3853,50 +3678,6 @@ textarea.input--sm {
   font-size: 12px;
 }
 
-.request-contact {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  padding: 8px 0;
-  border-top: 1px solid var(--border);
-}
-
-.request-field {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.request-field > span {
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-}
-
-.request-field--timeline,
-.request-field--message {
-  grid-column: 1 / -1;
-}
-
-.request-field--message {
-  padding-top: 1px;
-}
-
-.request-field--message .input--area {
-  min-height: 76px;
-}
-
-.request-field--primary {
-  padding-bottom: 2px;
-}
-
-.request-field--primary .input--area {
-  min-height: 96px;
-}
-
 .request-more {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -3950,19 +3731,6 @@ textarea.input--sm {
   gap: 7px;
 }
 
-.modal__preview .fset__label {
-  margin: 0;
-}
-
-.draft--tight .draft__head {
-  padding: 10px 11px;
-}
-
-.draft--tight .draft__body {
-  padding: 11px;
-  font-size: 11.5px;
-}
-
 .modal__foot {
   padding: 10px 14px;
 }
@@ -3991,13 +3759,6 @@ textarea.input--sm {
     padding-top: 0;
   }
 
-  .request-contact {
-    grid-template-columns: 1fr;
-  }
-
-  .request-field--timeline {
-    grid-column: auto;
-  }
 }
 
 /* ── Design system ──────────────────────────────────────────────────────── */
@@ -5430,4 +5191,546 @@ p {
   .ring {
     max-width: 150px;
   }
+}
+
+/* ── Request dialog ─────────────────────────────────────────────────────── */
+
+/* A form that reads top to bottom: what it is about, the message, who you
+   are, when. Choices are cards and chips rather than drop-downs, the mail
+   it builds sits beside it like a mail window, and the footer says what is
+   still missing instead of a sentence about it. */
+
+.modal {
+  width: min(1000px, calc(100vw - 32px));
+  max-height: min(820px, calc(100dvh - 40px));
+  border-color: var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.modal__head {
+  gap: 14px;
+  padding: 20px 24px;
+}
+
+.modal__mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.modal__title {
+  font-size: var(--fs-lg);
+  font-weight: 760;
+}
+
+.modal__sub {
+  margin-top: 2px;
+  font-size: 13.5px;
+}
+
+.modal__cols {
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 1fr);
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 22px 24px 26px;
+}
+
+.modal__preview {
+  gap: 12px;
+  padding: 22px 24px;
+  background: color-mix(in srgb, var(--bg-inset) 80%, var(--bg-panel));
+}
+
+.rq-group {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rq-label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0;
+  font-size: 13.5px;
+  font-weight: 650;
+  color: var(--text);
+}
+
+.rq-count {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-faint);
+}
+
+/* Inputs: a little taller, a softer resting state, a clear focus ring and a
+   red edge only once the field has been left empty or wrong. */
+.modal .input {
+  height: 42px;
+  padding: 0 13px;
+  font-size: 14.5px;
+  background: var(--bg-panel);
+  border-color: var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.modal .input:hover {
+  border-color: var(--border-strong);
+}
+
+.modal .input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.modal .input[aria-invalid='true']:not(:focus) {
+  border-color: color-mix(in srgb, #e5484d 70%, var(--border));
+}
+
+.modal .rq-message {
+  height: auto;
+  min-height: 128px;
+  padding: 12px 13px;
+  line-height: 1.6;
+}
+
+.rq-error {
+  font-size: 12.5px;
+  color: light-dark(#c4363b, #ff8589);
+}
+
+.rq-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+/* Request type cards */
+
+.rq-types {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.rq-type {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 9px 12px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s, transform 0.2s var(--spring);
+}
+
+.rq-type:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.rq-type input,
+.rq-chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rq-type__icon {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--bg-inset);
+  color: var(--text-muted);
+  transition: background 0.15s, color 0.15s;
+}
+
+.rq-type__label {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.rq-type:has(input:checked) {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent-soft) 70%, var(--bg-panel));
+  box-shadow: 0 0 0 1px var(--accent), var(--shadow-sm);
+}
+
+.rq-type:has(input:checked) .rq-type__icon {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.rq-type:has(input:focus-visible),
+.rq-chip:has(input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Timing chips */
+
+.rq-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.rq-chip {
+  position: relative;
+  height: 34px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.rq-chip:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.rq-chip:has(input:checked) {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--ink-text);
+}
+
+/* Optional details keep their picker, framed like the rest. */
+.modal .request-more {
+  border-radius: 11px;
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-sm);
+}
+
+.modal .request-more summary {
+  min-height: 46px;
+  padding: 0 14px;
+  font-size: 13.5px;
+}
+
+/* Preview as a small mail window */
+
+.rq-mail {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.rq-mail__bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-inset);
+}
+
+.rq-mail__bar span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--border-strong);
+}
+
+.rq-mail__bar em {
+  margin-left: auto;
+  font-style: normal;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.rq-mail__head {
+  margin: 0;
+  padding: 12px 16px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 6px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+}
+
+.rq-mail__head dt {
+  color: var(--text-faint);
+  font-weight: 600;
+}
+
+.rq-mail__head dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+
+.rq-mail__head dd.mono {
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.rq-mail__body {
+  flex: 1;
+  margin: 0;
+  padding: 14px 16px;
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.rq-note {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-faint);
+}
+
+.rq-previewtoggle {
+  display: none;
+}
+
+/* Footer: what is still missing, then the two ways out. */
+
+.modal__foot {
+  gap: 16px;
+  padding: 14px 24px;
+  background: var(--bg-panel);
+}
+
+.rq-checks {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rq-checks li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-faint);
+  transition: color 0.2s;
+}
+
+.rq-checks__dot {
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 50%;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.rq-checks__dot svg {
+  width: 11px;
+  height: 11px;
+  stroke-width: 2.4;
+}
+
+.rq-checks li[data-done='true'] {
+  color: var(--text);
+}
+
+.rq-checks li[data-done='true'] .rq-checks__dot {
+  background: var(--success);
+  border-color: var(--success);
+  color: light-dark(#fff, #0b0e14);
+  animation: pop-in 0.3s var(--ease-snap);
+}
+
+.rq-checks li[data-missing='true'] {
+  color: light-dark(#c4363b, #ff8589);
+}
+
+.rq-checks li[data-missing='true'] .rq-checks__dot {
+  border-color: currentColor;
+}
+
+.modal__actions .btn {
+  height: 40px;
+}
+
+.btn--disabled,
+.btn--disabled:hover {
+  opacity: 0.4;
+  transform: none;
+  box-shadow: none;
+}
+
+@media (max-width: 860px) {
+  .rq-types {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Phones: a full-height sheet. The preview folds away behind a button, and
+   the footer stays pinned with both actions full width. */
+@media (max-width: 800px) {
+  .modal {
+    inset: 0;
+    width: auto;
+    max-height: none;
+    border-radius: 0;
+    border: 0;
+  }
+
+  .modal__head {
+    padding: 14px 16px;
+  }
+
+  .modal__cols {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    overflow-y: auto;
+  }
+
+  .modal__form,
+  .modal__preview {
+    overflow: visible;
+  }
+
+  .modal__form {
+    padding: 18px 16px 20px;
+    gap: 20px;
+  }
+
+  .modal__preview {
+    padding: 0 16px 20px;
+    border-top: 0;
+    background: none;
+  }
+
+  .modal__preview[data-open='false'] {
+    display: none;
+  }
+
+  .rq-mail__body {
+    max-height: 320px;
+  }
+
+  .rq-previewtoggle {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    background: none;
+    border: 0;
+    font-size: 14px;
+    font-weight: 650;
+    color: var(--accent);
+    cursor: pointer;
+  }
+
+  .modal__foot {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .modal__actions .btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .rq-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rq-type {
+    min-height: 48px;
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 800px) {
+  .rq-mail,
+  .rq-mail__body {
+    flex: none;
+  }
+
+  .modal__actions .btn {
+    padding: 0 12px;
+    font-size: 13.5px;
+    white-space: nowrap;
+  }
+}
+
+/* Optional details: label above its picker, like every other field. */
+.modal .request-more__body {
+  padding: 4px 14px 14px;
+}
+
+.modal .request-more__body .frow,
+.modal__form .request-more__body .frow {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  padding: 12px 0 4px;
+  border-bottom: 0;
+}
+
+.modal .request-more__body .frow__label,
+.modal__form .request-more__body .frow__label {
+  padding-top: 0;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-muted);
+}
+
+.modal__form .request-more .arealist {
+  max-height: 138px;
+  border-radius: 10px;
 }
