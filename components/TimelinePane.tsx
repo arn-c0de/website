@@ -43,6 +43,7 @@ export default function TimelinePane({
   const all = useMemo(() => allTimelineEntries(projects), [projects])
   const sorted = useMemo(() => sortTimeline(all), [all])
   const known = useMemo(() => new Set(projects.map((p) => p.name)), [projects])
+  const icons = useMemo(() => new Map(projects.map((p) => [p.name, p.icon])), [projects])
   const counts = useMemo(() => {
     const c: Record<TimelineStatus, number> = { planned: 0, now: 0, done: 0 }
     for (const e of all) c[e.status] += 1
@@ -129,6 +130,7 @@ export default function TimelinePane({
                   index={i}
                   locale={locale}
                   canOpen={!!entry.project && known.has(entry.project)}
+                  icon={entry.project ? (icons.get(entry.project) ?? null) : null}
                   onOpenProject={onOpenProject}
                   onZoom={setZoomed}
                 />,
@@ -148,6 +150,7 @@ function Entry({
   index,
   locale,
   canOpen,
+  icon,
   onOpenProject,
   onZoom,
 }: {
@@ -155,6 +158,8 @@ function Entry({
   index: number
   locale: Locale
   canOpen: boolean
+  /** The linked project's icon, shown before the title. */
+  icon: string | null
   onOpenProject: (name: string) => void
   onZoom: (image: TimelineImage) => void
 }) {
@@ -173,7 +178,10 @@ function Entry({
 
   const body = (
     <div className="tl-body">
-      <h3 className="tl-title">{pick(entry.title, locale)}</h3>
+      <h3 className="tl-title">
+        {icon && <img className="tl-title__icon" src={icon} alt="" width={28} height={28} />}
+        {pick(entry.title, locale)}
+      </h3>
       {pick(entry.text, locale) && <p className="tl-text">{pick(entry.text, locale)}</p>}
       {entry.help && <HelpWanted help={entry.help} locale={locale} />}
       {(entry.tags?.length || canOpen || entry.links?.length) && (

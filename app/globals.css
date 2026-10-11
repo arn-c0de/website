@@ -6738,3 +6738,29 @@ p {
 .now .help {
   margin: 4px 0 0;
 }
+
+/* Project marks next to titles: the now card and timeline entries. */
+.now__title,
+.tl-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.now__icon,
+.tl-title__icon {
+  flex: none;
+  object-fit: contain;
+  border-radius: 9px;
+}
+
+.now__icon {
+  width: 40px;
+  height: 40px;
+}
+
+.tl-title__icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+}

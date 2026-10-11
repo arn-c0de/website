@@ -50,6 +50,7 @@ export default function OverviewPane({
   const { t, locale, labels } = useI18n()
   const timelineEntries = useMemo(() => allTimelineEntries(projects), [projects])
   const latest = useMemo(() => latestEntries(timelineEntries, 3), [timelineEntries])
+  const qlinkIcon = projects.find((p) => p.name === 'QLink-preview')?.icon ?? null
   const stats = useMemo(() => {
     const languages = new Map<string, number>()
     let stars = 0
@@ -123,6 +124,7 @@ export default function OverviewPane({
         <aside className="now" aria-labelledby="now-title">
           <p className="now__label">{t('Currently building')}</p>
           <h2 className="now__title" id="now-title">
+            {qlinkIcon && <img className="now__icon" src={qlinkIcon} alt="" width={40} height={40} />}
             QLink
           </h2>
           <p className="now__text">{t('QLINK_TEXT')}</p>
