@@ -30,6 +30,9 @@ const avatar = `data:image/jpeg;base64,${readFileSync(join(root, 'public', 'avat
 
 const TOPICS = ['Embedded firmware', 'Local LLMs & RAG', 'Security tooling', 'Backends']
 
+const escapeHtml = (s) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+
 const html = /* html */ `<!doctype html>
 <html><head><meta charset="utf-8"><style>
   @font-face { font-family: Manrope; font-weight: 200 800; src: url('${font('manrope', 'manrope-latin-wght-normal.woff2')}') format('woff2'); }
@@ -61,7 +64,7 @@ const html = /* html */ `<!doctype html>
   </div></div>
   <h1>Software from firmware to app.</h1>
   <div class="foot">
-    <div class="tags">${TOPICS.map((t) => `<span class="tag">${t.replace('&', '&amp;')}</span>`).join('')}</div>
+    <div class="tags">${TOPICS.map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
     <div class="url">arn-c0de.de</div>
   </div>
 </div></body></html>`
