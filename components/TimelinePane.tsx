@@ -18,6 +18,7 @@ import { useI18n, type Locale } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
 import { usePrefersReducedMotion } from '@/lib/useMotion'
 import {
+  ageRestriction,
   allTimelineEntries,
   entryHasPage,
   entryPath,
@@ -426,10 +427,26 @@ export function YouTubeFigure({ video, locale, slot }: { video: TimelineYouTube;
   const start = youtubeStart(video.youtube)
   const title = pick(video.title, locale)
   const caption = pick(video.caption, locale)
+  // YouTube refuses 18+ videos in an embedded player, so those link out.
+  const restricted = ageRestriction(video)
   if (!id) return null
 
+  const label = (
+    <>
+      {video.poster && <img src={asset(video.poster)} alt="" loading="lazy" decoding="async" />}
+      {restricted && <span className="tl-video__age">18+</span>}
+      <span className="tl-video__play" aria-hidden>
+        <PlayIcon />
+      </span>
+      <span className="tl-video__label">
+        <strong>{title}</strong>
+        <span>{restricted ? t('Age-restricted: plays on YouTube') : t('Loads from YouTube when you press play')}</span>
+      </span>
+    </>
+  )
+
   return (
-    <figure className={`${slotClass(slot)} tl-video`} data-kind="youtube">
+    <figure className={`${slotClass(slot)} tl-video`} data-kind="youtube" data-age={restricted ? '18' : undefined}>
       <div className="tl-video__frame">
         {playing ? (
           <iframe
@@ -439,6 +456,16 @@ export function YouTubeFigure({ video, locale, slot }: { video: TimelineYouTube;
             allowFullScreen
             referrerPolicy="strict-origin-when-cross-origin"
           />
+        ) : restricted ? (
+          <a
+            className="tl-video__facade"
+            href={youtubeWatchUrl(id, start)}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('Watch on YouTube (18+): {title}', { title })}
+          >
+            {label}
+          </a>
         ) : (
           <button
             type="button"
@@ -446,19 +473,12 @@ export function YouTubeFigure({ video, locale, slot }: { video: TimelineYouTube;
             onClick={() => setPlaying(true)}
             aria-label={t('Play video: {title}', { title })}
           >
-            {video.poster && <img src={asset(video.poster)} alt="" loading="lazy" decoding="async" />}
-            <span className="tl-video__play" aria-hidden>
-              <PlayIcon />
-            </span>
-            <span className="tl-video__label">
-              <strong>{title}</strong>
-              <span>{t('Loads from YouTube when you press play')}</span>
-            </span>
+            {label}
           </button>
         )}
       </div>
       <figcaption className="tl-video__meta">
-        {caption && <span>{caption}</span>}
+        {restricted ? <span>{pick(restricted, locale)}</span> : caption && <span>{caption}</span>}
         <a href={youtubeWatchUrl(id, start)} target="_blank" rel="noopener noreferrer">
           {t('Watch on YouTube')}
           <ArrowIcon />

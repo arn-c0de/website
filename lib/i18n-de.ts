@@ -180,6 +180,8 @@ export const DE: Record<string, string> = {
   // Project pages
   'Project page': 'Projektseite',
   'Read post': 'Beitrag lesen',
+  'Age-restricted: plays on YouTube': 'Ab 18: läuft nur auf YouTube',
+  'Watch on YouTube (18+): {title}': 'Auf YouTube ansehen (ab 18): {title}',
   'Older post': 'Älterer Beitrag',
   'Newer post': 'Neuerer Beitrag',
   'Project view': 'Ansicht',

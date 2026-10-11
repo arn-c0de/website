@@ -1,8 +1,8 @@
 import videoData from '@/data/videos.json'
-import timeline, { youtube, type Localized, type TimelineEntry, type TimelineStatus } from '@/timeline.config'
+import timeline, { youtube, type Localized, type TimelineEntry, type TimelineStatus, type TimelineYouTube } from '@/timeline.config'
 import type { Locale } from './i18n'
 import type { Project } from './types'
-import { videoEntries } from './videos'
+import { isAgeRestricted, videoEntries } from './videos'
 import type { VideoData } from './youtube-feed'
 import { youtubeId } from './video'
 
@@ -103,4 +103,10 @@ export function paragraphs(value: Localized | undefined, locale: Locale): string
     .split(/\n\s*\n/)
     .map((p) => p.trim())
     .filter(Boolean)
+}
+
+/** The reason a video is 18+ on YouTube, or null when it plays embedded. */
+export function ageRestriction(video: TimelineYouTube): Localized | null {
+  const restricted = isAgeRestricted(youtubeId(video.youtube), video.title, video.ageRestricted, youtube.ageRestricted)
+  return restricted ? (youtube.ageRestricted?.note ?? { en: 'Age-restricted on YouTube (18+).', de: 'Auf YouTube ab 18 freigegeben.' }) : null
 }

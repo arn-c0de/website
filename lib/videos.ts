@@ -1,4 +1,4 @@
-import type { TimelineEntry, YouTubeSettings } from '@/timeline.config'
+import type { Localized, TimelineEntry, YouTubeSettings } from '@/timeline.config'
 import type { StoredVideo } from './youtube-feed'
 
 /** Enough of a project to recognise it in a video's title or text. */
@@ -34,6 +34,23 @@ export function guessProject(video: Pick<StoredVideo, 'title' | 'summary'>, proj
  * videos does not read as one long column, and a video already placed in
  * the config by hand is not shown twice.
  */
+/**
+ * Whether a video is 18+ on YouTube: flagged on the entry, listed by id, or
+ * carrying one of the configured words in its title (either language).
+ */
+export function isAgeRestricted(
+  id: string | null,
+  title: Localized | undefined,
+  flagged: boolean | undefined,
+  rules: YouTubeSettings['ageRestricted'],
+): boolean {
+  if (flagged) return true
+  if (!rules) return false
+  if (id && rules.ids.includes(id)) return true
+  const text = (typeof title === 'string' ? title : title ? `${title.en} ${title.de}` : '').toLowerCase()
+  return rules.titleIncludes.some((word) => text.includes(word.toLowerCase()))
+}
+
 export function videoEntries(
   videos: readonly StoredVideo[],
   settings: YouTubeSettings,
@@ -52,14 +69,32 @@ export function videoEntries(
     .map((v, i) => {
       const o = settings.overrides[v.id] ?? {}
       const project = o.project ?? guessProject(v, projects)
+      const restricted = isAgeRestricted(v.id, v.title, false, settings.ageRestricted)
+      const note = settings.ageRestricted?.note
+      // The reason goes into the text too, not only onto the frame.
+      const text: Localized =
+        o.text ??
+        (restricted && note
+          ? {
+              en: `${v.summary} ${typeof note === 'string' ? note : note.en}`.trim(),
+              de: `${v.summary} ${typeof note === 'string' ? note : note.de}`.trim(),
+            }
+          : v.summary)
       return {
         id: `yt-${v.id.toLowerCase().replace(/[^a-z0-9-]/g, '-')}`,
         status: o.status ?? 'done',
         date: v.date,
         title: o.title ?? v.title,
-        text: o.text ?? v.summary,
+        text,
         layout: i % 2 === 0 ? 'image-right' : 'image-left',
-        media: [{ youtube: v.id, title: v.title, ...(v.poster ? { poster: v.poster } : {}) }],
+        media: [
+          {
+            youtube: v.id,
+            title: v.title,
+            ...(v.poster ? { poster: v.poster } : {}),
+            ...(restricted ? { ageRestricted: true } : {}),
+          },
+        ],
         tags: o.tags ?? (v.short ? ['video', 'short'] : ['video']),
         project: project && known.has(project) ? project : undefined,
       } satisfies TimelineEntry

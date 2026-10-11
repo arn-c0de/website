@@ -61,6 +61,12 @@ export interface TimelineYouTube {
   title: Localized
   /** Still shown before playing, from public/. Without it a neutral frame is shown. */
   poster?: string
+  /**
+   * Age-restricted on YouTube (18+). YouTube does not play those in an
+   * embedded player, so the frame links to YouTube instead and says why.
+   * `youtube.ageRestricted` below can mark videos without this flag.
+   */
+  ageRestricted?: boolean
   caption?: Localized
 }
 
@@ -129,6 +135,12 @@ export interface YouTubeSettings {
   /** Shorts are left out unless this is true. */
   includeShorts: boolean
   hidden: string[]
+  /**
+   * Videos that are 18+ on YouTube: by id, or by a word in the title (so a
+   * channel upload is covered before its id is known). They link out
+   * instead of embedding, with `note` as the reason.
+   */
+  ageRestricted?: { ids: string[]; titleIncludes: string[]; note: Localized }
   overrides: Record<
     string,
     {
@@ -148,6 +160,14 @@ export const youtube: YouTubeSettings = {
   max: 12,
   includeShorts: true,
   hidden: [],
+  ageRestricted: {
+    ids: ['ugbmEdZKVCA'],
+    titleIncludes: ['shoothouse'],
+    note: {
+      en: 'Age-restricted on YouTube (18+) because of the gore simulation.',
+      de: 'Auf YouTube ab 18 freigegeben, wegen der Gore-Simulation.',
+    },
+  },
   overrides: {},
 }
 
@@ -322,14 +342,15 @@ const timeline: TimelineEntry[] = [
       de: 'QLink: Shoothouse-Lauf mit neuem Movement, NPCs, Angst und Stamina',
     },
     text: {
-      en: 'A cut run through the shoothouse: reworked movement, NPCs that act on their own, first sounds, a fear system the NPCs react to, and stamina. All early; values, animations and sounds will keep changing.',
-      de: 'Ein zusammengeschnittener Lauf durchs Shoothouse: überarbeitetes Movement, NPCs, die selbst handeln, erste Sounds, ein Angstsystem, auf das die NPCs reagieren, und Stamina. Alles noch früh; Werte, Animationen und Sounds ändern sich weiter.',
+      en: 'A cut run through the shoothouse: reworked movement, NPCs that act on their own, first sounds, a fear system the NPCs react to, and stamina. All early; values, animations and sounds will keep changing. The video is age-restricted (18+) on YouTube because of the gore simulation.',
+      de: 'Ein zusammengeschnittener Lauf durchs Shoothouse: überarbeitetes Movement, NPCs, die selbst handeln, erste Sounds, ein Angstsystem, auf das die NPCs reagieren, und Stamina. Alles noch früh; Werte, Animationen und Sounds ändern sich weiter. Das Video ist auf YouTube ab 18 freigegeben, wegen der Gore-Simulation.',
     },
     layout: 'image-left',
     media: [
       {
         youtube: 'https://youtu.be/ugbmEdZKVCA',
         title: { en: 'QLink shoothouse run', de: 'QLink-Shoothouse-Lauf' },
+        ageRestricted: true,
       },
     ],
     tags: ['shoothouse', 'npc', 'movement', 'audio', 'rust'],

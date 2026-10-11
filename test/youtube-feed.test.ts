@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import { channelIdFromPage, decodeXml, parseFeed, summarize } from '../lib/youtube-feed.ts'
-import { guessProject, videoEntries } from '../lib/videos.ts'
+import { guessProject, isAgeRestricted, videoEntries } from '../lib/videos.ts'
 
 // Shaped like https://www.youtube.com/feeds/videos.xml?channel_id=… returns it.
 const FEED = `<?xml version="1.0" encoding="UTF-8"?>
@@ -116,4 +116,29 @@ test('videos become timeline entries, honouring hidden, overrides, Shorts and ma
   assert.deepEqual(e.text, { en: 'Custom', de: 'Eigen' })
   assert.equal(e.project, 'QLink-preview')
   assert.deepEqual(e.media, [{ youtube: 'AAAAAAAAAAA', title: 'QLink demo', poster: '/timeline/youtube/AAAAAAAAAAA.jpg' }])
+})
+
+test('18+ videos are found by flag, id or a word in the title', () => {
+  const rules = { ids: ['BBBBBBBBBBB'], titleIncludes: ['shoothouse'], note: { en: '18+', de: 'ab 18' } }
+  assert.equal(isAgeRestricted('AAAAAAAAAAA', 'Weather', true, rules), true)
+  assert.equal(isAgeRestricted('BBBBBBBBBBB', 'Anything', false, rules), true)
+  assert.equal(isAgeRestricted('CCCCCCCCCCC', 'QLink ShootHouse run', false, rules), true)
+  assert.equal(isAgeRestricted('CCCCCCCCCCC', { en: 'x', de: 'Shoothouse-Lauf' }, false, rules), true)
+  assert.equal(isAgeRestricted('CCCCCCCCCCC', 'Weather', false, rules), false)
+  assert.equal(isAgeRestricted('CCCCCCCCCCC', 'Shoothouse', false, undefined), false)
+})
+
+test('a channel upload matching the 18+ rules links out and says why', () => {
+  const settings = {
+    handle: '@x',
+    max: 5,
+    includeShorts: true,
+    hidden: [],
+    overrides: {},
+    ageRestricted: { ids: [], titleIncludes: ['shoothouse'], note: { en: 'Age-restricted.', de: 'Ab 18.' } },
+  }
+  const stored = [{ id: 'EEEEEEEEEEE', title: 'QLink shoothouse', date: '2026-10-10', summary: 'A run.', poster: null, short: false }]
+  const [e] = videoEntries(stored, settings, PROJECTS, [])
+  assert.deepEqual(e.text, { en: 'A run. Age-restricted.', de: 'A run. Ab 18.' })
+  assert.deepEqual(e.media, [{ youtube: 'EEEEEEEEEEE', title: 'QLink shoothouse', ageRestricted: true }])
 })
