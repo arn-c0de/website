@@ -5,7 +5,7 @@ import { asset } from '@/lib/basePath'
 import { formatRelative } from '@/lib/format'
 import { useI18n } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
-import { allTimelineEntries, entryVisual, formatTimelineDate, hasVideo, latestEntries, pick } from '@/lib/timeline'
+import { allTimelineEntries, entryPath, entryVisual, formatTimelineDate, hasVideo, latestEntries, pick } from '@/lib/timeline'
 import type { Tab } from '@/lib/useAppState'
 import Metric from './Metric'
 import ProjectCard from './ProjectCard'
@@ -177,13 +177,12 @@ export default function OverviewPane({
               const visual = entryVisual(entry)
               const video = hasVideo(entry)
               return (
-                <button
+                <a
                   key={entry.id}
-                  type="button"
                   className="latest__item"
                   data-reveal
                   style={{ '--i': i } as React.CSSProperties}
-                  onClick={() => onOpenTimeline(entry.id)}
+                  href={asset(entryPath(entry.id))}
                 >
                   <span className="latest__media" data-empty={!visual}>
                     {visual && <img src={asset(visual.src)} alt="" loading="lazy" decoding="async" />}
@@ -198,7 +197,7 @@ export default function OverviewPane({
                     {video ? t('Video') : entry.status === 'now' ? t('In progress') : t('Milestone')}
                   </span>
                   <span className="latest__title">{pick(entry.title, locale)}</span>
-                </button>
+                </a>
               )
             })}
           </div>

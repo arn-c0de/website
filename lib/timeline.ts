@@ -86,3 +86,21 @@ export function entryVisual(entry: TimelineEntry): { src: string; video: boolean
   }
   return null
 }
+
+/** Done and in-progress entries with a date get a page of their own. */
+export function entryHasPage(entry: Pick<TimelineEntry, 'status' | 'date'>): boolean {
+  return entry.status !== 'planned' && !!entry.date
+}
+
+/** Site-relative path of an entry's page, without the base path. */
+export function entryPath(id: string): string {
+  return `/timeline/${id}/`
+}
+
+/** Paragraphs of a localized text block, split on blank lines. */
+export function paragraphs(value: Localized | undefined, locale: Locale): string[] {
+  return pick(value, locale)
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+}

@@ -1,6 +1,6 @@
 import type { TimelineEntry } from '@/timeline.config'
 import type { Locale } from './i18n'
-import { pick } from './timeline'
+import { entryPath, pick } from './timeline'
 
 /**
  * The timeline as an Atom feed, so the "what is new" half of it can be
@@ -60,7 +60,10 @@ export function buildAtomFeed(entries: readonly TimelineEntry[], locale: Locale,
   const lang = locale === 'de' ? 'de' : 'en'
 
   const body = items.map((e) => {
+    // The id stays the timeline anchor it has always been, so readers do
+    // not see old entries as new; the link goes to the entry's own page.
     const link = `${home}?tab=timeline#tl-${e.id}`
+    const page = `${siteUrl}${entryPath(e.id)}`
     const status = STATUS[locale][e.status as 'now' | 'done']
     const text = [pick(e.text, locale), pick(e.aside, locale)].filter(Boolean).join('\n\n')
     const links = (e.links ?? []).map((l) => `\n    <link rel="related" href="${escapeXml(absolute(l.href, siteUrl))}" title="${escapeXml(pick(l.label, locale))}"/>`)
@@ -68,7 +71,7 @@ export function buildAtomFeed(entries: readonly TimelineEntry[], locale: Locale,
     return `  <entry>
     <id>${escapeXml(link)}</id>
     <title>${escapeXml(pick(e.title, locale))}</title>
-    <link rel="alternate" type="text/html" href="${escapeXml(link)}"/>${links.join('')}
+    <link rel="alternate" type="text/html" href="${escapeXml(page)}"/>${links.join('')}
     <updated>${feedDate(e.date!)}</updated>
     <category term="${e.status}" label="${escapeXml(status)}"/>${tags.join('')}
     <summary type="text">${escapeXml(text || pick(e.title, locale))}</summary>

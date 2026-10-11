@@ -32,6 +32,11 @@ test('the feed is dated by its newest entry, not the build', () => {
   assert.match(xml, /<id>https:\/\/x\.test\/\?tab=timeline#tl-c<\/id>/)
 })
 
+test('entries link to their own post page', () => {
+  const xml = buildAtomFeed([entry('c', 'now', '2026-05-02')], 'en', 'https://x.test')
+  assert.match(xml, /<link rel="alternate" type="text\/html" href="https:\/\/x\.test\/timeline\/c\/"\/>/)
+})
+
 test('text is escaped and the language is picked', () => {
   const e = { ...entry('a', 'done', '2026-01'), title: { en: 'A <b> & "c"', de: 'Deutsch' } }
   assert.match(buildAtomFeed([e], 'en', 'https://x.test'), /A &lt;b&gt; &amp; &quot;c&quot;/)

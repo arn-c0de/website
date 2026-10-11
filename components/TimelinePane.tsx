@@ -17,7 +17,15 @@ import { FEED_PATH } from '@/lib/feed'
 import { useI18n, type Locale } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
 import { usePrefersReducedMotion } from '@/lib/useMotion'
-import { allTimelineEntries, formatTimelineDate, hasVideo, pick, sortTimeline } from '@/lib/timeline'
+import {
+  allTimelineEntries,
+  entryHasPage,
+  entryPath,
+  formatTimelineDate,
+  hasVideo,
+  pick,
+  sortTimeline,
+} from '@/lib/timeline'
 import { youtubeEmbedUrl, youtubeId, youtubeStart, youtubeWatchUrl } from '@/lib/video'
 import { ArrowIcon, CheckIcon, CloseIcon, HandIcon, LinkIcon, PlayIcon } from './Icons'
 
@@ -265,7 +273,7 @@ function Entry({
       </h3>
       {pick(entry.text, locale) && <p className="tl-text">{pick(entry.text, locale)}</p>}
       {entry.help && <HelpWanted help={entry.help} locale={locale} />}
-      {(entry.tags?.length || canOpen || entry.links?.length) && (
+      {(entry.tags?.length || canOpen || entry.links?.length || entryHasPage(entry)) && (
         <div className="tl-foot">
           {entry.tags?.length ? (
             <span className="tagrow">
@@ -283,6 +291,11 @@ function Entry({
                 {pick(link.label, locale)}
               </a>
             ))}
+            {entryHasPage(entry) && (
+              <a className="tl-link" href={asset(entryPath(entry.id))}>
+                {t('Read post')}
+              </a>
+            )}
             {canOpen && (
               <button type="button" className="tl-link" onClick={() => onOpenProject(entry.project!)}>
                 {t('Open project')}
@@ -351,7 +364,7 @@ function Entry({
   )
 }
 
-function Figure({
+export function Figure({
   image,
   locale,
   slot,
@@ -406,7 +419,7 @@ const slotClass = (slot: string) => `tl-figure tl-figure--${slot.startsWith('g')
  * request to YouTube at all — no thumbnail, no script — which is what the
  * privacy note promises. Pressing play swaps in the youtube-nocookie player.
  */
-function YouTubeFigure({ video, locale, slot }: { video: TimelineYouTube; locale: Locale; slot: string }) {
+export function YouTubeFigure({ video, locale, slot }: { video: TimelineYouTube; locale: Locale; slot: string }) {
   const { t } = useI18n()
   const [playing, setPlaying] = useState(false)
   const id = youtubeId(video.youtube)
@@ -456,7 +469,7 @@ function YouTubeFigure({ video, locale, slot }: { video: TimelineYouTube; locale
 }
 
 /** A video file from this site. `loop` makes it a silent preview clip. */
-function VideoFigure({ video, locale, slot }: { video: TimelineVideoFile; locale: Locale; slot: string }) {
+export function VideoFigure({ video, locale, slot }: { video: TimelineVideoFile; locale: Locale; slot: string }) {
   const reduced = usePrefersReducedMotion()
   const title = pick(video.title, locale)
   const caption = pick(video.caption, locale)
@@ -487,7 +500,7 @@ function VideoFigure({ video, locale, slot }: { video: TimelineVideoFile; locale
 }
 
 /** Full-size view of one picture. Escape, the button or the backdrop closes it. */
-function Lightbox({ image, locale, onClose }: { image: TimelineImage; locale: Locale; onClose: () => void }) {
+export function Lightbox({ image, locale, onClose }: { image: TimelineImage; locale: Locale; onClose: () => void }) {
   const { t } = useI18n()
   const closeRef = useRef<HTMLButtonElement>(null)
   const latest = useRef(onClose)

@@ -1,6 +1,8 @@
 import type { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/basePath'
+import { snapshotProjects } from '@/lib/github'
 import { pageProjects, projectSlug } from '@/lib/projectPages'
+import { allTimelineEntries, entryHasPage, entryPath } from '@/lib/timeline'
 
 // Required for `output: 'export'` — the sitemap is generated once at build time.
 export const dynamic = 'force-static'
@@ -8,7 +10,7 @@ export const dynamic = 'force-static'
 /**
  * The app is one page with query-string views, so the sitemap lists the tab
  * URLs — those are what a visitor would share or a crawler would index — plus
- * the prerendered page of every public project.
+ * the prerendered page of every public project and every timeline post.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   // '' is the overview; the other tabs each carry their query string.
@@ -28,5 +30,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     }),
   )
-  return [...tabs, ...projects]
+  const posts = allTimelineEntries(snapshotProjects())
+    .filter(entryHasPage)
+    .map(
+      (e): MetadataRoute.Sitemap[number] => ({
+        url: `${SITE_URL}${entryPath(e.id)}`,
+        lastModified: e.date,
+        changeFrequency: 'monthly',
+        priority: 0.5,
+      }),
+    )
+  return [...tabs, ...projects, ...posts]
 }

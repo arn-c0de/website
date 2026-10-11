@@ -88,6 +88,11 @@ export interface TimelineEntry {
   text: Localized
   /** Second text column, only used by the 'image-center' layout. */
   aside?: Localized
+  /**
+   * A longer write-up, shown only on the entry's own page (/timeline/<id>/)
+   * under the short text. Separate paragraphs with a blank line.
+   */
+  body?: Localized
   layout?: TimelineLayout
   /** Pictures and videos, in the order the layout places them. */
   media?: TimelineMedia[]
