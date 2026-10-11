@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { loadReadme } from '@/lib/github'
 import { useI18n } from '@/lib/i18n'
+import { unparkImages, type PreparedReadme } from '@/lib/readmeHtml'
 import type { Project } from '@/lib/types'
 
 /**
@@ -74,13 +75,25 @@ function sanitise(html: string, repo: string): { withImages: string; withoutImag
  * the detail panel and by the project pages; key it by repo name so stepping
  * to another project starts from a clean state.
  */
-export default function Readme({ project }: { project: Project }) {
+export default function Readme({
+  project,
+  prerendered,
+}: {
+  project: Project
+  /** Baked in at build time (project pages); when present nothing is fetched. */
+  prerendered?: PreparedReadme | null
+}) {
   const { t } = useI18n()
-  const [readme, setReadme] = useState<{ withImages: string; withoutImages: string; images: number } | null>(null)
-  const [readmeState, setReadmeState] = useState<'loading' | 'ready' | 'missing'>('loading')
+  const [readme, setReadme] = useState<{ withImages: string; withoutImages: string; images: number } | null>(() =>
+    prerendered
+      ? { withImages: unparkImages(prerendered.html), withoutImages: prerendered.html, images: prerendered.images }
+      : null,
+  )
+  const [readmeState, setReadmeState] = useState<'loading' | 'ready' | 'missing'>(prerendered ? 'ready' : 'loading')
   const [imagesShown, setImagesShown] = useState(false)
 
   useEffect(() => {
+    if (prerendered) return
     if (project.isPrivate) {
       setReadmeState('missing')
       setReadme(null)
@@ -100,7 +113,7 @@ export default function Readme({ project }: { project: Project }) {
       }
     })
     return () => controller.abort()
-  }, [project.name])
+  }, [project.name, project.isPrivate, prerendered])
 
   return (
     <>

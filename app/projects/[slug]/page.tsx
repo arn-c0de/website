@@ -1,16 +1,28 @@
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import ProjectPage from '@/components/ProjectPage'
 import { OG_IMAGE, SITE_URL } from '@/lib/basePath'
 import { pageProjects, projectSlug } from '@/lib/projectPages'
+import type { PreparedReadme } from '@/lib/readmeHtml'
 
 // A static export knows every page at build time; anything else is a 404.
 export const dynamicParams = false
 
 export function generateStaticParams() {
   return pageProjects().map((p) => ({ slug: projectSlug(p) }))
+}
+
+/** Written by scripts/fetch-readmes.mjs before the build; absent locally. */
+function bakedReadme(repo: string): PreparedReadme | null {
+  const file = join(process.cwd(), 'data', 'readmes', `${repo}.json`)
+  if (!existsSync(file)) return null
+  try {
+    return JSON.parse(readFileSync(file, 'utf8')) as PreparedReadme
+  } catch {
+    return null
+  }
 }
 
 function find(slug: string) {
@@ -65,7 +77,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
-      <ProjectPage name={project.name} />
+      <ProjectPage name={project.name} readme={bakedReadme(project.name)} />
     </>
   )
 }

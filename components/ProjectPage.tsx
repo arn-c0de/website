@@ -6,6 +6,7 @@ import { formatMonth, formatRelative, languageHue } from '@/lib/format'
 import { loadProjects, snapshotProjects } from '@/lib/github'
 import { I18nProvider, useI18n } from '@/lib/i18n'
 import { projectHref, relatedProjects } from '@/lib/projectPages'
+import type { PreparedReadme } from '@/lib/readmeHtml'
 import { allTimelineEntries, entryVisual, formatTimelineDate, hasVideo, pick, sortTimeline } from '@/lib/timeline'
 import type { Project } from '@/lib/types'
 import {
@@ -29,15 +30,15 @@ import ThemeToggle from './ThemeToggle'
  * own that search engines index and chat apps unfurl. Prerendered from the
  * committed snapshot; the live numbers replace it once the API answers.
  */
-export default function ProjectPage({ name }: { name: string }) {
+export default function ProjectPage({ name, readme }: { name: string; readme: PreparedReadme | null }) {
   return (
     <I18nProvider>
-      <Content name={name} />
+      <Content name={name} readme={readme} />
     </I18nProvider>
   )
 }
 
-function Content({ name }: { name: string }) {
+function Content({ name, readme }: { name: string; readme: PreparedReadme | null }) {
   const { t, locale } = useI18n()
   const [projects, setProjects] = useState<Project[]>(() => snapshotProjects())
 
@@ -145,7 +146,7 @@ function Content({ name }: { name: string }) {
           <div className="pp-body">
             <section className="pp-readme">
               <h2 className="pp-label">{t('Readme')}</h2>
-              <Readme project={project} />
+              <Readme project={project} prerendered={readme} />
             </section>
 
             <aside className="pp-side">

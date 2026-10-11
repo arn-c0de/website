@@ -50,6 +50,12 @@ jobs:
       # the committed data/videos.json is used as it is.
       - run: node scripts/fetch-videos.mjs
 
+      # Each project's readme, baked into its page so search engines see the
+      # text. Never fails the build — a missing readme loads in the browser.
+      - run: node --import ./scripts/test-setup.mjs scripts/fetch-readmes.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - run: npm run build
 
       # Pages serves the artifact as-is; without this file it would run the

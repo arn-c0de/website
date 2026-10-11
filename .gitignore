@@ -12,3 +12,6 @@ CLAUDE.md
 .env*
 !.env.example
 public/timeline/youtube/
+
+# Written by scripts/fetch-readmes.mjs before each build.
+data/readmes/
