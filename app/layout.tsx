@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { OG_IMAGE, SITE_URL, asset } from '@/lib/basePath'
+import { FEED_PATH } from '@/lib/feed'
 import videoData from '@/data/videos.json'
 import { SOCIALS } from '@/lib/socials'
 import type { VideoData } from '@/lib/youtube-feed'
@@ -28,6 +29,15 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'arn-c0de', url: 'https://github.com/arn-c0de' }],
   manifest: asset('/manifest.webmanifest'),
+  // The timeline as Atom, one feed per language — see lib/feed.ts.
+  alternates: {
+    types: {
+      'application/atom+xml': [
+        { url: `${SITE_URL}${FEED_PATH.en}`, title: 'arn-c0de — timeline' },
+        { url: `${SITE_URL}${FEED_PATH.de}`, title: 'arn-c0de — Zeitstrahl (Deutsch)' },
+      ],
+    },
+  },
   // Favicon and apple-touch icon come from app/icon.png and app/apple-icon.png
   // via Next's file convention, which handles the base path itself.
   openGraph: {

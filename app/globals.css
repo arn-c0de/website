@@ -5889,6 +5889,12 @@ p {
   cursor: pointer;
 }
 
+.tl-feed {
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 .tl-link svg {
   transition: transform 0.18s var(--ease);
 }

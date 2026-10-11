@@ -13,6 +13,7 @@ import {
   type TimelineYouTube,
 } from '@/timeline.config'
 import { asset } from '@/lib/basePath'
+import { FEED_PATH } from '@/lib/feed'
 import { useI18n, type Locale } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
 import { usePrefersReducedMotion } from '@/lib/useMotion'
@@ -85,7 +86,12 @@ export default function TimelinePane({
     <div className="pane timeline">
       <div className="pane__head">
         <h1 className="pane__title">{labels.timeline}</h1>
-        <p className="pane__lede">{t('TIMELINE_LEDE')}</p>
+        <p className="pane__lede">
+          {t('TIMELINE_LEDE')}{' '}
+          <a className="tl-feed" href={asset(FEED_PATH[locale])} type="application/atom+xml">
+            {t('Follow it as a feed')}
+          </a>
+        </p>
       </div>
 
       {(projectOptions.length > 1 || years.length > 1) && (

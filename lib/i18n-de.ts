@@ -203,6 +203,7 @@ export const DE: Record<string, string> = {
   All: 'Alle',
   'No project matches those filters.': 'Kein Projekt passt zu diesen Filtern.',
   'Reset filters': 'Filter zurücksetzen',
+  'Follow it as a feed': 'Als Feed abonnieren',
   'Show all {n} projects': 'Alle {n} Projekte zeigen',
 
   // Stack tab

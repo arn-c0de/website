@@ -159,6 +159,14 @@ export const youtube = {
 The fetch never fails the build; without YouTube the committed `data/videos.json` is used as it
 is. A video also placed by hand in the timeline is not shown twice.
 
+### Feed
+
+The timeline is also an Atom feed: `/feed.xml` in English and `/feed.de.xml` in German, written at
+build time by `lib/feed.ts`. Only dated entries that are done or in progress go in — planned
+ones are not news yet — and the feed is dated by its newest entry rather than the build, so the
+daily rebuild does not look like an update to every reader. The timeline tab links the feed for
+the current language, and `app/layout.tsx` announces both so readers find them from the address.
+
 `test/timeline.test.ts` checks the file on every build: unique ids, valid dates and layouts, both
 languages filled in, every picture, video and poster present in `public/`, every YouTube link
 recognisable, and that each layout gets what it needs.
@@ -335,6 +343,14 @@ MAILTO_LIMIT    // above this the UI steers people to Copy draft instead
 `public/arn-c0de.asc` is the PGP public key rendered on the contact tab. Its fingerprint is
 `93A7 8377 0EEA FFA4 3B24  22F1 A0F9 A2E7 0D64 2ADC`. If the key is ever rotated, replace that
 file and update the matching constants in `components/ContactPane.tsx` and `lib/pgpKey.ts`.
+
+### security.txt
+
+`/.well-known/security.txt` ([RFC 9116](https://www.rfc-editor.org/rfc/rfc9116)) names the contact
+address and the PGP key for reporting a vulnerability. It is a route in `app/.well-known/`, so its
+`Expires` is set at build time to 180 days ahead and the daily deploy keeps it current. The deploy
+uploads with `include-hidden-files: true`; without it the `.well-known` directory would be left out
+of the Pages artifact.
 
 ## Privacy
 
