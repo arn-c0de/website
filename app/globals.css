@@ -7356,11 +7356,198 @@ body::after {
   }
 }
 
-/* In a narrow column the list wraps; separators would start lines. */
-.deflist .tagrow {
+/* Where a list wraps, separators would start lines: space instead. */
+.deflist .tagrow,
+.fact .tagrow {
   gap: 3px 14px;
 }
 
-.deflist .tag + .tag::before {
+.deflist .tag + .tag::before,
+.fact .tag + .tag::before {
   content: none;
+}
+
+/* ── Open layout ────────────────────────────────────────────────────────── */
+
+/* Navigation is words: no icon per tab, no frame around the row. Phones
+   keep the icons, which stand in for the labels there. */
+@media (min-width: 641px) {
+  .tab__icon {
+    display: none;
+  }
+}
+
+.tabs {
+  border-color: transparent;
+}
+
+.tab__count {
+  background: none;
+  padding: 0;
+  color: var(--text-faint);
+}
+
+/* Section labels in sentence case instead of spaced capitals. */
+.panel__label,
+.section__title,
+.now__label,
+.help__label,
+.key__label,
+.pp-label,
+.modal__form .frow__label {
+  text-transform: none;
+  letter-spacing: -0.005em;
+  font-size: 13.5px;
+  font-weight: 680;
+  color: var(--text);
+}
+
+.key__label {
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+/* Small annotations are plain text, not pills. */
+.pill {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-faint);
+}
+
+/* Lists marked with a dash rather than a row of ticks. */
+.checklist svg {
+  display: none;
+}
+
+.checklist li::before {
+  content: '–';
+  margin-right: 10px;
+  color: var(--text-faint);
+}
+
+/* Help wanted: the areas as one line of text. */
+.help__areas {
+  gap: 2px 16px;
+}
+
+.help__area {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font-weight: 600;
+}
+
+
+/* Boxes become sections: a rule above, no frame around. */
+.channel,
+.fact,
+.reasons,
+.slab,
+.worklist,
+.key {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.channel,
+.fact {
+  padding: 20px 0 4px;
+  border-top: 1px solid var(--border);
+}
+
+.channels,
+.facts {
+  column-gap: 40px;
+}
+
+.reasons,
+.slab {
+  padding: 28px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.slab--prose {
+  padding: 28px 0;
+}
+
+.worklist {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.worklist li {
+  padding: 14px 0;
+}
+
+.key {
+  padding: 0;
+}
+
+/* Stack: rows and plain text instead of tiles and chips. */
+.bar__row {
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.bars {
+  column-gap: 32px;
+  row-gap: 0;
+}
+
+.langs__ring,
+.chart {
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+}
+
+.domain-grid {
+  gap: 0 32px;
+}
+
+.domain-card {
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.domain-card__count {
+  background: none;
+  padding: 0;
+  color: var(--text-faint);
+}
+
+.cloud {
+  gap: 6px 18px;
+}
+
+.cloud__tag {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--text-muted);
+}
+
+.cloud__tag:hover {
+  background: none;
+  color: var(--accent);
 }
