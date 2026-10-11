@@ -47,7 +47,26 @@ export function sortTimeline(entries: readonly TimelineEntry[]): TimelineEntry[]
 
 /** The hand-written entries plus the channel's videos, fetched at build time. */
 export function allTimelineEntries(projects: readonly Pick<Project, 'name' | 'title'>[]): TimelineEntry[] {
-  return [...timeline, ...videoEntries((videoData as VideoData).videos, youtube, projects, timeline)]
+  const stored = (videoData as VideoData).videos
+  return [...timeline.map((entry) => withFetchedPosters(entry, stored)), ...videoEntries(stored, youtube, projects, timeline)]
+}
+
+/**
+ * A YouTube video placed by hand has no thumbnail of its own; once the
+ * deploy has fetched the channel, it borrows the local copy from there, so
+ * the entry shows the real still without the page asking YouTube for it.
+ */
+function withFetchedPosters(entry: TimelineEntry, stored: VideoData['videos']): TimelineEntry {
+  if (!entry.media?.some((m) => 'youtube' in m && !m.poster)) return entry
+  return {
+    ...entry,
+    media: entry.media.map((m) => {
+      if (!('youtube' in m) || m.poster) return m
+      const id = youtubeId(m.youtube)
+      const poster = stored.find((v) => v.id === id)?.poster
+      return poster ? { ...m, poster } : m
+    }),
+  }
 }
 
 /** Done and in-progress entries, newest first — what the overview calls "latest". */

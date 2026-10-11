@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import {
+  plannedNote,
   type Localized,
   type TimelineEntry,
   type TimelineImage,
@@ -104,6 +105,9 @@ export default function TimelinePane({
             <span className={`tl-dot tl-dot--${status}`} aria-hidden />
             {t(STATUS_LABEL[status])}
           </h2>
+          {status === 'planned' && pick(plannedNote, locale) && (
+            <p className="tl-group__note">{pick(plannedNote, locale)}</p>
+          )}
 
           <ol className="tl-list">
             {entries.map((entry, i) => {

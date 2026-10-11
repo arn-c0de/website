@@ -6561,3 +6561,9 @@ p {
     gap: 12px;
   }
 }
+
+.tl-group__note {
+  margin: -10px 0 18px 19px;
+  font-size: 13px;
+  color: var(--text-faint);
+}

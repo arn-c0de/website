@@ -141,19 +141,107 @@ export const youtube: YouTubeSettings = {
   overrides: {},
 }
 
+/** Shown under the "Planned" heading; leave empty for none. */
+export const plannedNote: Localized = {
+  en: 'Target dates come from the QLink plan of 27 September 2026 — estimates, not promises.',
+  de: 'Zieltermine aus dem QLink-Plan vom 27. September 2026 — Schätzungen, keine Zusagen.',
+}
+
 const timeline: TimelineEntry[] = [
   // ── Planned ────────────────────────────────────────────────────────────
+  // QLink roadmap, plan of 2026-09-27. Dates are the likely-case targets from
+  // that plan, not promises; move them when the milestone tracker moves.
+  {
+    id: 'qlink-shared-room',
+    status: 'planned',
+    date: '2027-07',
+    when: { en: '2nd half of 2027', de: '2. Hälfte 2027' },
+    title: { en: 'QLink: shared room for two players', de: 'QLink: gemeinsamer Raum für zwei Spieler' },
+    text: {
+      en: 'Two people in the same QLink world, with its own network protocol and privacy design.',
+      de: 'Zwei Personen in derselben QLink-Welt, mit eigenem Netzwerkprotokoll und Datenschutzkonzept.',
+    },
+    layout: 'text',
+    tags: ['multiplayer', 'void-world'],
+    project: 'QLink-preview',
+  },
+  {
+    id: 'qlink-beta',
+    status: 'planned',
+    date: '2027-06',
+    when: { en: 'About June 2027', de: 'Etwa Juni 2027' },
+    title: { en: 'QLink public beta', de: 'Öffentliche QLink-Beta' },
+    text: {
+      en: 'Installable packages, a list of exactly tested hardware and published performance measurements. Earliest April, latest October 2027.',
+      de: 'Installierbare Pakete, eine Liste genau getesteter Hardware und veröffentlichte Leistungsmessungen. Frühestens April, spätestens Oktober 2027.',
+    },
+    layout: 'text',
+    tags: ['M8', 'M9', 'linux'],
+    project: 'QLink-preview',
+  },
   {
     id: 'qlink-launcher',
     status: 'planned',
-    when: { en: 'Next', de: 'Als Nächstes' },
-    title: { en: 'QLink replaces the Link app', de: 'QLink ersetzt die Link-App' },
+    date: '2027-04',
+    title: { en: 'Start Steam games from QLink', de: 'Steam-Spiele aus QLink starten' },
     text: {
-      en: 'Steam and other VR games should start directly from the QLink home on Quest 3, so the Quest Link PC app is no longer needed.',
-      de: 'Steam und andere VR-Spiele sollen direkt aus der QLink-Umgebung auf der Quest 3 starten, damit die Quest-Link-PC-App nicht mehr nötig ist.',
+      en: 'The QLink home launches OpenXR apps and Steam titles and returns afterwards — the step that replaces the Quest Link PC app.',
+      de: 'Die QLink-Umgebung startet OpenXR-Apps und Steam-Spiele und kehrt danach zurück — der Schritt, der die Quest-Link-PC-App ersetzt.',
     },
     layout: 'text',
-    tags: ['rust', 'pcvr', 'meta-quest-3'],
+    tags: ['M7', 'steam', 'pcvr'],
+    project: 'QLink-preview',
+  },
+  {
+    id: 'qlink-audio',
+    status: 'planned',
+    date: '2027-03',
+    title: { en: 'Audio and controller vibration', de: 'Ton und Controller-Vibration' },
+    text: {
+      en: 'Headset sound, microphone and haptics. Depends on new observations first; if they take too long, the beta ships without it and says so.',
+      de: 'Ton im Headset, Mikrofon und Vibration. Hängt zuerst von neuen Beobachtungen ab; dauern die zu lange, kommt die Beta ohne und sagt das offen.',
+    },
+    layout: 'text',
+    tags: ['M6', 'audio', 'haptics'],
+    project: 'QLink-preview',
+  },
+  {
+    id: 'qlink-openxr',
+    status: 'planned',
+    date: '2027-02',
+    title: { en: 'OpenXR runtime alpha', de: 'OpenXR-Runtime als Alpha' },
+    text: {
+      en: 'QLink becomes an OpenXR runtime on Linux, so standard VR applications can render to the Quest 3.',
+      de: 'QLink wird zur OpenXR-Runtime unter Linux, damit normale VR-Anwendungen auf die Quest 3 rendern können.',
+    },
+    layout: 'text',
+    tags: ['M5', 'openxr', 'vulkan'],
+    project: 'QLink-preview',
+  },
+  {
+    id: 'qlink-service',
+    status: 'planned',
+    date: '2026-12',
+    title: { en: 'QLink as a background service', de: 'QLink als Hintergrunddienst' },
+    text: {
+      en: 'A small service owns the USB connection without root rights; everything else talks to it.',
+      de: 'Ein kleiner Dienst übernimmt die USB-Verbindung ohne Root-Rechte; alles andere spricht mit ihm.',
+    },
+    layout: 'text',
+    tags: ['M4', 'linux'],
+    project: 'QLink-preview',
+  },
+  {
+    id: 'qlink-gpu',
+    status: 'planned',
+    date: '2026-11',
+    title: { en: 'Full resolution on the GPU', de: 'Volle Auflösung auf der GPU' },
+    text: {
+      en: 'The headset picture rendered with Vulkan at full resolution and handed straight to the hardware encoder, at a steady 72 Hz.',
+      de: 'Das Headset-Bild mit Vulkan in voller Auflösung gerendert und direkt an den Hardware-Encoder übergeben, stabil mit 72 Hz.',
+    },
+    layout: 'text',
+    tags: ['M3', 'vulkan', 'nvenc'],
     project: 'QLink-preview',
   },
 
@@ -164,15 +252,12 @@ const timeline: TimelineEntry[] = [
     date: '2026-10',
     title: 'QLink',
     text: {
-      en: 'A Rust game and simulation engine for Linux. The simulation is the Link home on Quest 3 over USB, and the same world runs in 2D on the desktop. Very early preview; test builds on request.',
-      de: 'Eine Spiel- und Simulations-Engine in Rust für Linux. Die Simulation ist die Link-Umgebung auf der Quest 3 per USB, dieselbe Welt läuft in 2D am Desktop. Sehr frühe Vorschau; Test-Builds auf Anfrage.',
+      en: 'A Rust game and simulation engine for Linux that drives the Quest 3 over USB without the Quest Link PC app. Current focus: a session that stays stable and reconnects cleanly, complete controller input, and the editor, avatar and world.',
+      de: 'Eine Spiel- und Simulations-Engine in Rust für Linux, die die Quest 3 per USB ohne Quest-Link-PC-App ansteuert. Aktueller Fokus: eine Sitzung, die stabil bleibt und sauber neu verbindet, vollständige Controller-Eingabe sowie Editor, Avatar und Welt.',
     },
     layout: 'text',
-    tags: ['rust', 'vulkan', 'linux', 'virtual-reality'],
+    tags: ['M1', 'M2', 'rust', 'linux'],
     project: 'QLink-preview',
-    // With a video: switch the layout and paste the link, e.g.
-    //   layout: 'image-right',
-    //   media: [{ youtube: 'https://youtu.be/VIDEO_ID', title: { en: 'QLink on Quest 3', de: 'QLink auf der Quest 3' } }],
   },
   {
     id: 'local-ai',
@@ -188,6 +273,41 @@ const timeline: TimelineEntry[] = [
   },
 
   // ── Done ───────────────────────────────────────────────────────────────
+  {
+    id: 'qlink-weather',
+    status: 'done',
+    date: '2026-10-11',
+    title: {
+      en: 'QLink: clear sky to thunderstorm, and FLUID waves',
+      de: 'QLink: von klarem Himmel bis Gewitter, dazu FLUID-Wellen',
+    },
+    text: {
+      en: 'QLink now has dynamic weather: the sky moves from clear to a full thunderstorm in real time. The video also shows the new FLUID wave system and a short look at the editor.',
+      de: 'QLink hat jetzt dynamisches Wetter: Der Himmel wechselt in Echtzeit von klar bis zum Gewitter. Das Video zeigt außerdem das neue FLUID-Wellensystem und einen kurzen Blick in den Editor.',
+    },
+    layout: 'image-left',
+    media: [
+      {
+        youtube: 'https://www.youtube.com/watch?v=nk8gpHifNbc',
+        title: { en: 'QLink weather and FLUID waves', de: 'QLink-Wetter und FLUID-Wellen' },
+      },
+    ],
+    tags: ['weather', 'fluid', 'editor', 'rust'],
+    project: 'QLink-preview',
+  },
+  {
+    id: 'qlink-feasibility',
+    status: 'done',
+    date: '2026-09-26',
+    title: { en: 'QLink: first picture on the Quest 3', de: 'QLink: erstes Bild auf der Quest 3' },
+    text: {
+      en: 'First commit, and within a day of native work: connection, head tracking and a displayed video stream over USB — without the Quest Link PC app, on one Quest 3.',
+      de: 'Erster Commit und innerhalb eines Tages nativer Arbeit: Verbindung, Kopf-Tracking und ein angezeigter Videostream per USB — ohne Quest-Link-PC-App, auf einer Quest 3.',
+    },
+    layout: 'text',
+    tags: ['M0', 'usb', 'hevc'],
+    project: 'QLink-preview',
+  },
   {
     id: 'website-redesign',
     status: 'done',
