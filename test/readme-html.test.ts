@@ -34,3 +34,32 @@ test('removes GitHub heading anchors', () => {
   const { html } = prep('<h2><a class="anchor" href="#x"><svg class="octicon octicon-link"></svg></a>Title</h2>')
   assert.equal(html, '<h2>Title</h2>')
 })
+
+test('removals repeat until nothing nested is left', () => {
+  const { html } = prep('<scr<script></script>ipt>alert(1)</script><p o<a onclick="x">nmouseover="y">z</p>')
+  assert.doesNotMatch(html, /<script|onclick|onmouseover/i)
+})
+
+test('entity-encoded and whitespace-split schemes are caught', () => {
+  for (const href of ['jav&#x61;script:alert(1)', 'jav&#97;script:alert(1)', 'javascript&colon;alert(1)', 'java&Tab;script:x', ' javascript:x', 'vbscript:x', 'data:text/html,x']) {
+    const { html } = prep(`<a href="${href}">x</a>`)
+    assert.doesNotMatch(html, /href=/, href)
+  }
+})
+
+test('unquoted, single-quoted and xlink URLs are checked too', () => {
+  const { html } = prep(`<a href=javascript:alert(1)>a</a><a href='javascript:alert(1)'>b</a><svg><use xlink:href="javascript:x"></use></svg>`)
+  assert.doesNotMatch(html, /javascript/i)
+})
+
+test('safe schemes, anchors and protocol-relative paths survive or stay on GitHub', () => {
+  const { html } = prep('<a href="mailto:a@b.c">m</a><a href="#top">t</a><a href="//evil.example/x">e</a>')
+  assert.match(html, /href="mailto:a@b\.c"/)
+  assert.match(html, /href="#top"/)
+  assert.match(html, /href="https:\/\/github\.com\/arn-c0de\/Demo\/blob\/HEAD\/\/?evil\.example\/x"/)
+})
+
+test('a quote inside a single-quoted URL cannot break out of the attribute', () => {
+  const { html } = prep(`<a href='https://e.x/"onmouseover="alert(1)'>q</a>`)
+  assert.match(html, /href="https:\/\/e\.x\/&quot;onmouseover=&quot;alert\(1\)"/)
+})

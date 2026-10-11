@@ -9,8 +9,24 @@
  * contacts no third party until the visitor asks for the pictures.
  */
 
-const DROP_WITH_CONTENT = ['script', 'style', 'iframe', 'object', 'embed', 'form', 'noscript', 'template']
+const DROP_WITH_CONTENT = [
+  'script',
+  'style',
+  'iframe',
+  'frame',
+  'frameset',
+  'object',
+  'embed',
+  'applet',
+  'form',
+  'noscript',
+  'template',
+]
 const DROP_TAG = ['link', 'meta', 'base']
+/** Attributes that carry a URL a browser may follow or load. */
+const URL_ATTRS = /\s((?:xlink:)?href|src|action|formaction|poster|background|data)\s*=\s*("([^"]*)"|'([^']*)'|([^\s"'>]+))/gi
+/** The only schemes a readme link may use; anything else is dropped. */
+const SAFE_SCHEMES = new Set(['http', 'https', 'mailto'])
 
 export interface PreparedReadme {
   /** Images parked in data-src. */
@@ -18,36 +34,75 @@ export interface PreparedReadme {
   images: number
 }
 
+const NAMED: Record<string, string> = { colon: ':', tab: '\t', newline: '\n', amp: '&', quot: '"', apos: "'", lt: '<', gt: '>' }
+
+/** Character references as a browser resolves them in an attribute value. */
+function decodeEntities(value: string): string {
+  return value.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);?/gi, (match, ref: string) => {
+    if (ref[0] === '#') {
+      const code = ref[1] === 'x' || ref[1] === 'X' ? parseInt(ref.slice(2), 16) : parseInt(ref.slice(1), 10)
+      return Number.isFinite(code) && code <= 0x10ffff ? String.fromCodePoint(code) : ''
+    }
+    return NAMED[ref.toLowerCase()] ?? match
+  })
+}
+
+/**
+ * The scheme a browser would act on, or null for a relative URL. Browsers
+ * drop whitespace and control characters inside a scheme (`java\tscript:`
+ * still runs), so those go before looking.
+ */
+function schemeOf(value: string): string | null {
+  const plain = decodeEntities(value).replace(/[\u0000-\u0020\u007f-\u009f]+/g, '')
+  const match = plain.match(/^([a-z][a-z0-9+.-]*):/i)
+  return match ? match[1].toLowerCase() : null
+}
+
+/** Applies `step` until the text stops changing, so removals cannot nest. */
+function untilStable(text: string, step: (text: string) => string): string {
+  for (let i = 0; i < 50; i++) {
+    const next = step(text)
+    if (next === text) return text
+    text = next
+  }
+  // Still changing after fifty passes: nothing legitimate looks like that.
+  return ''
+}
+
 export function prepareReadme(input: string, owner: string, repo: string): PreparedReadme {
   const RAW = `https://raw.githubusercontent.com/${owner}/${repo}/HEAD/`
   const BLOB = `https://github.com/${owner}/${repo}/blob/HEAD/`
-  const isAbsolute = (url: string) => /^(https?:|mailto:|#)/i.test(url)
 
-  let html = input
-  for (const tag of DROP_WITH_CONTENT) {
-    html = html.replace(new RegExp(`<${tag}\\b[\\s\\S]*?</${tag}\\s*>`, 'gi'), '')
-    html = html.replace(new RegExp(`<${tag}\\b[^>]*>`, 'gi'), '')
-  }
-  for (const tag of DROP_TAG) html = html.replace(new RegExp(`<${tag}\\b[^>]*>`, 'gi'), '')
+  // Removing one tag can join the text around it into another
+  // (`<scr<script></script>ipt>`), so every removal repeats until nothing
+  // more matches.
+  let html = untilStable(input, (text) => {
+    for (const tag of DROP_WITH_CONTENT) {
+      text = text.replace(new RegExp(`<${tag}\\b[\\s\\S]*?</${tag}\\s*>`, 'gi'), '')
+      text = text.replace(new RegExp(`<${tag}\\b[^>]*>?`, 'gi'), '')
+    }
+    for (const tag of DROP_TAG) text = text.replace(new RegExp(`<${tag}\\b[^>]*>?`, 'gi'), '')
+    // Event handlers, in any quoting.
+    return text.replace(/\s+on[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]*)/gi, '')
+  })
 
   // GitHub's heading permalinks render as a stray glyph outside GitHub.
   html = html.replace(/<a\b[^>]*class="[^"]*\banchor\b[^"]*"[^>]*>[\s\S]*?<\/a>/gi, '')
   html = html.replace(/<svg\b[^>]*class="[^"]*\bocticon-link\b[^"]*"[^>]*>[\s\S]*?<\/svg>/gi, '')
+  html = html.replace(/\s+srcset\s*=\s*("[^"]*"|'[^']*'|[^\s>]*)/gi, '')
 
-  // Event handlers, in any quoting.
-  html = html.replace(/\s+on[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '')
-  html = html.replace(/\s+srcset\s*=\s*("[^"]*"|'[^']*')/gi, '')
-
-  // URLs: drop executable schemes, resolve paths relative to the repository.
-  html = html.replace(/\s(href|src)\s*=\s*"([^"]*)"/gi, (_, attr: string, value: string) => {
+  // URLs, in any quoting: only http(s), mailto, anchors and relative paths
+  // survive, and relative paths are resolved against the repository.
+  html = html.replace(URL_ATTRS, (_, attr: string, _q, double?: string, single?: string, bare?: string) => {
     const name = attr.toLowerCase()
-    const scheme = value.replace(/&#?\w+;/g, '').replace(/[\u0000- ]+/g, '').toLowerCase()
-    if (/^(javascript|vbscript|data):/.test(scheme)) return ''
-    if (!isAbsolute(value) && value !== '') {
+    let value = double ?? single ?? bare ?? ''
+    const scheme = schemeOf(value)
+    if (scheme !== null && !SAFE_SCHEMES.has(scheme)) return ''
+    if (scheme === null && value !== '' && !value.startsWith('#')) {
       const path = value.replace(/^\.?\//, '')
       value = (name === 'src' ? RAW : BLOB) + path
     }
-    return ` ${name}="${value}"`
+    return ` ${name}="${value.replace(/"/g, '&quot;')}"`
   })
 
   // Links leave the site in a new tab and carry no referrer.
