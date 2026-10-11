@@ -322,7 +322,9 @@ through a `mailto:` link, with *Copy draft* as the fallback when no client is co
 
 The wording is deliberately neutral. There is no budget field, no rates and no "commissioned work"
 framing, because no business is registered — every kind of inquiry is possible, none of it is
-advertised as a paid service. Keep that in mind when editing the copy.
+advertised as a paid service. Keep that in mind when editing the copy — the *Legal notice* in the
+footer (`IMPRINT_1`/`IMPRINT_2` in `lib/i18n-de.ts`) states that the site is private and
+non-commercial and therefore carries no imprint, and the copy has to stay true to that.
 
 Everything configurable lives in `lib/request.ts`:
 

@@ -471,6 +471,14 @@ function AppShellContent() {
               <p>{t('PRIVACY_3')}</p>
             </div>
           </details>
+
+          <details className="privacy">
+            <summary>{t('Legal notice')}</summary>
+            <div className="privacy__body">
+              <p>{t('IMPRINT_1')}</p>
+              <p>{t('IMPRINT_2')}</p>
+            </div>
+          </details>
         </div>
       </footer>
 

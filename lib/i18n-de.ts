@@ -123,6 +123,14 @@ export const LONG: Record<string, { en: string; de: string }> = {
     en: 'Hosted on GitHub Pages. GitHub sees your IP address when it serves the page; I do not receive those logs.',
     de: 'Gehostet auf GitHub Pages. GitHub sieht beim Ausliefern deine IP-Adresse; diese Logs erhalte ich nicht.',
   },
+  IMPRINT_1: {
+    en: 'This site has no imprint. It is a private, non-commercial website: nothing is sold here, no service is offered for payment and there is no advertising, so the imprint duty of § 5 DDG does not apply.',
+    de: 'Diese Seite hat kein Impressum. Sie ist ein privates, nicht kommerzielles Angebot: Hier wird nichts verkauft, keine Leistung gegen Bezahlung angeboten und keine Werbung geschaltet. Eine Impressumspflicht nach § 5 DDG besteht daher nicht.',
+  },
+  IMPRINT_2: {
+    en: 'All projects shown here are private hobby projects. I do not work as a freelancer and take on no commissioned work; professional work happens only under employment contracts. A request sent through this site is not an order for a paid service.',
+    de: 'Alle hier gezeigten Projekte sind private Hobbyprojekte. Ich arbeite nicht als Freelancer und nehme keine Auftragsarbeiten an; berufliche Tätigkeit läuft ausschließlich über Arbeitsverträge. Eine Anfrage über diese Seite ist keine Bestellung einer bezahlten Leistung.',
+  },
 }
 
 export const DE: Record<string, string> = {
@@ -135,6 +143,7 @@ export const DE: Record<string, string> = {
   'Showing committed snapshot': 'Zeigt gespeicherten Stand',
   'No tracking, no cookies, no analytics.': 'Kein Tracking, keine Cookies, keine Analyse.',
   Privacy: 'Datenschutz',
+  'Legal notice': 'Impressum',
   'Theme: follows system': 'Design: folgt dem System',
   'Theme: dark (click to change)': 'Design: dunkel (klicken zum Wechseln)',
   'Theme: light (click to change)': 'Design: hell (klicken zum Wechseln)',
