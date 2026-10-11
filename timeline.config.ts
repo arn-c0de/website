@@ -314,6 +314,28 @@ const timeline: TimelineEntry[] = [
 
   // ── Done ───────────────────────────────────────────────────────────────
   {
+    id: 'qlink-shoothouse',
+    status: 'done',
+    date: '2026-10-11',
+    title: {
+      en: 'QLink: shoothouse run with new movement, NPCs, fear and stamina',
+      de: 'QLink: Shoothouse-Lauf mit neuem Movement, NPCs, Angst und Stamina',
+    },
+    text: {
+      en: 'A cut run through the shoothouse: reworked movement, NPCs that act on their own, first sounds, a fear system the NPCs react to, and stamina. All early; values, animations and sounds will keep changing.',
+      de: 'Ein zusammengeschnittener Lauf durchs Shoothouse: überarbeitetes Movement, NPCs, die selbst handeln, erste Sounds, ein Angstsystem, auf das die NPCs reagieren, und Stamina. Alles noch früh; Werte, Animationen und Sounds ändern sich weiter.',
+    },
+    layout: 'image-left',
+    media: [
+      {
+        youtube: 'https://youtu.be/ugbmEdZKVCA',
+        title: { en: 'QLink shoothouse run', de: 'QLink-Shoothouse-Lauf' },
+      },
+    ],
+    tags: ['shoothouse', 'npc', 'movement', 'audio', 'rust'],
+    project: 'QLink-preview',
+  },
+  {
     id: 'qlink-weather-sound',
     status: 'done',
     date: '2026-10-11',
