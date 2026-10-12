@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import { asset } from '@/lib/basePath'
 import { snapshotProjects } from '@/lib/github'
 import { I18nProvider, useI18n, type Locale } from '@/lib/i18n'
-import { hasPage, projectHref } from '@/lib/projectPages'
+import { hasLinkablePage, projectHref } from '@/lib/projectPages'
 import {
   allTimelineEntries,
   entryHasPage,
@@ -100,7 +100,7 @@ function Content({ id }: { id: string }) {
             </span>
           ) : null}
           <div className="post__actions">
-            {project && hasPage(project) && (
+            {project && hasLinkablePage(project) && (
               <a className="btn" href={projectHref(project, locale)}>
                 {t('Project page')}: {project.title}
               </a>

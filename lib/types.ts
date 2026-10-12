@@ -34,6 +34,8 @@ export interface Project extends GitHubRepo {
   /** Public delivery state or a private research/access project. */
   status: 'active' | 'research' | 'private' | 'preview' | 'archived'
   isPrivate: boolean
+  /** Site path of a page of its own, for a private project that has no project page. */
+  page?: string
 }
 
 export type SortKey = 'featured' | 'stars' | 'updated' | 'name'

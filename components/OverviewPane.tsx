@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { asset } from '@/lib/basePath'
 import { formatRelative } from '@/lib/format'
+import { sortProjects } from '@/lib/github'
 import { useI18n } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
 import { ageRestriction, allTimelineEntries, entryPath, entryVisual, formatTimelineDate, hasVideo, latestEntries, pick } from '@/lib/timeline'
@@ -72,7 +73,9 @@ export default function OverviewPane({
   // The gallery leads with the curated set and tops it up with the rest by
   // stars, so it never looks thin while the config is still short.
   const gallery = useMemo(() => {
-    const featured = projects.filter((p) => p.featured)
+    // In the curated order, so private projects (appended after the repos)
+    // are not the ones cut off.
+    const featured = sortProjects(projects.filter((p) => p.featured), 'featured')
     const rest = projects
       .filter((p) => !p.featured)
       .sort((a, b) => b.stargazers_count - a.stargazers_count)

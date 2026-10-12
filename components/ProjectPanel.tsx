@@ -14,7 +14,7 @@ import {
   RequestIcon,
 } from './Icons'
 import Readme from './Readme'
-import { hasPage, projectHref } from '@/lib/projectPages'
+import { hasLinkablePage, projectHref } from '@/lib/projectPages'
 
 /**
  * Copies the project's own page when it has one — that address unfurls with
@@ -27,7 +27,7 @@ function CopyLinkButton({ project }: { project: Project }) {
 
   async function copy() {
     try {
-      const url = hasPage(project) ? new URL(projectHref(project, locale), location.origin).href : location.href
+      const url = hasLinkablePage(project) ? new URL(projectHref(project, locale), location.origin).href : location.href
       await navigator.clipboard.writeText(url)
       setCopied(true)
       setTimeout(() => setCopied(false), 1600)
@@ -258,7 +258,7 @@ export default function ProjectPanel({
                   {link.label}
                 </a>
               ))}
-              {hasPage(project) && (
+              {hasLinkablePage(project) && (
                 <a className="btn" href={projectHref(project, locale)}>
                   <LinkIcon />
                   {t('Project page')}

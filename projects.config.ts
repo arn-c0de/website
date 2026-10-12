@@ -63,6 +63,7 @@ const config: SiteConfig = {
   featured: [
     'QLink-preview',
     'JobFinder-private',
+    'DeepVision-Web-private',
     'anon-WebMirror-private',
     'Crawllama',
     'InteractiveChecklists',

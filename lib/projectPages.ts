@@ -21,9 +21,14 @@ export function hasPage(project: Pick<Project, 'isPrivate'>): boolean {
   return !project.isPrivate
 }
 
+/** True when the project can be linked to: its project page, or a page of its own. */
+export function hasLinkablePage(project: Pick<Project, 'isPrivate' | 'page'>): boolean {
+  return hasPage(project) || Boolean(project.page)
+}
+
 /** Site-relative address of a project's page, base path included. */
-export function projectHref(project: Pick<Project, 'title'>, locale: Locale = 'en'): string {
-  return asset(localePath(`/projects/${projectSlug(project)}/`, locale))
+export function projectHref(project: Pick<Project, 'title' | 'page'>, locale: Locale = 'en'): string {
+  return asset(localePath(project.page ?? `/projects/${projectSlug(project)}/`, locale))
 }
 
 /** The projects that get a page, in the site's own order. */
