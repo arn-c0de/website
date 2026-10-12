@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { BASE_PATH, OG_IMAGE, SITE_URL, asset } from '@/lib/basePath'
 import { FEED_PATH } from '@/lib/feed'
+import { pageProjects, projectHref } from '@/lib/projectPages'
 import videoData from '@/data/videos.json'
 import { SOCIALS } from '@/lib/socials'
 import type { VideoData } from '@/lib/youtube-feed'
@@ -169,7 +170,40 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
         )}
       </head>
-      <body>{children}</body>
+      <body>
+        <noscript>
+          <div className="noscript">
+            <p>
+              JavaScript is off, so the tabs, search and project panels do not open. Every page below
+              works without it. / JavaScript ist aus, daher öffnen sich Tabs, Suche und Projekt-Panels
+              nicht. Alle Seiten unten funktionieren ohne.
+            </p>
+            <details>
+              <summary>Pages / Seiten</summary>
+              <ul>
+                <li>
+                  <a href={asset('/qlink/')}>QLink</a>
+                </li>
+                <li>
+                  <a href={asset('/deepvision/')}>DeepVision-Web</a>
+                </li>
+                {pageProjects().map((p) => (
+                  <li key={p.name}>
+                    <a href={projectHref(p)}>{p.title}</a>
+                  </li>
+                ))}
+                <li>
+                  <a href={asset(FEED_PATH.en)}>Feed (Atom, English)</a>
+                </li>
+                <li>
+                  <a href={asset(FEED_PATH.de)}>Feed (Atom, Deutsch)</a>
+                </li>
+              </ul>
+            </details>
+          </div>
+        </noscript>
+        {children}
+      </body>
     </html>
   )
 }

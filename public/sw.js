@@ -8,8 +8,11 @@
  *
  * The file has to stay: a browser that still holds the old registration
  * fetches this path when it checks for an update, and only then can the
- * caches be cleared and the registration dropped. Safe to delete once no
- * client can plausibly still be carrying the previous worker.
+ * caches be cleared and the registration dropped.
+ *
+ * In place since 2026-08-04. Browsers check a registered worker for updates
+ * at least once a day on a visit, so anyone who has come back since then is
+ * clean. Delete this file on or after 2027-02-01.
  */
 
 self.addEventListener('install', () => self.skipWaiting())
