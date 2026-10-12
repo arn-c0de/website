@@ -6,10 +6,10 @@
 :root {
   color-scheme: light dark;
 
-  --font-sans: 'Manrope Variable', system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-manrope-latin), 'Manrope Variable', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', monospace;
   /* Headings: a serif with some warmth, against the sans of the text. */
-  --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --font-display: var(--font-fraunces-latin), 'Fraunces Variable', Georgia, 'Times New Roman', serif;
 
   /* Type scale — nothing that is meant to be read goes below 12px. */
   --fs-xs: 12px;
@@ -536,13 +536,6 @@ a:hover {
   line-height: 1.15;
 }
 
-.hero__role {
-  margin: 3px 0 0;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--text-faint);
-}
-
 .hero__lede {
   margin: 12px 0 16px;
   max-width: 60ch;
@@ -667,12 +660,6 @@ a:hover {
 
 /* Section rows: description on the left, the way in on the right third. */
 
-.slabs {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
 .slab {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
@@ -690,20 +677,6 @@ a:hover {
   box-shadow: var(--shadow-md);
 }
 
-.slab__title {
-  margin: 0 0 4px;
-  font-size: 15px;
-  font-weight: 720;
-  letter-spacing: -0.01em;
-}
-
-.slab__text {
-  margin: 0;
-  max-width: 62ch;
-  font-size: 13.5px;
-  color: var(--text-muted);
-}
-
 .slab__side {
   min-width: 0;
   padding-left: 18px;
@@ -713,27 +686,6 @@ a:hover {
   align-items: flex-start;
   justify-content: space-between;
   gap: 10px;
-}
-
-.slab__link {
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: none;
-  border: 0;
-  font-size: 13px;
-  font-weight: 650;
-  color: var(--accent);
-  cursor: pointer;
-}
-
-.slab__link svg {
-  transition: transform 0.18s var(--ease);
-}
-
-.slab:hover .slab__link svg {
-  transform: translateX(3px);
 }
 
 .tag__n {
@@ -2058,13 +2010,6 @@ a:hover {
 /* Trained for / available for. Two equal columns so neither reads as the
    footnote of the other; the freelance side carries the accent because it is
    the one a visitor can act on. */
-.roles {
-  display: grid;
-  grid-template-columns: minmax(190px, 0.62fr) minmax(0, 1.38fr);
-  gap: 10px;
-  margin-bottom: 22px;
-}
-
 /* The text keeps its column; the facts sit alongside instead of pushing the
    reading down the page. */
 /* Profile header: the portrait carries the introduction, so it is allowed to
@@ -2113,17 +2058,6 @@ a:hover {
 }
 
 /* Marks the line as the present state rather than a career summary. */
-.profile__now {
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
 .profile__lede {
   margin: 9px 0 0;
   max-width: 58ch;
@@ -2250,17 +2184,6 @@ a:hover {
 }
 
 /* A channel that cannot be used should not compete with the two that can. */
-.channel--muted {
-  background: var(--bg-inset);
-  box-shadow: none;
-}
-
-.channel--muted:hover {
-  transform: none;
-  box-shadow: none;
-  border-color: var(--border);
-}
-
 .channel__head {
   display: flex;
   align-items: center;
@@ -2414,13 +2337,6 @@ a:hover {
   overflow-y: auto;
 }
 
-.copyrow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
 /* ── Request form ───────────────────────────────────────────────────────── */
 
 .input {
@@ -2450,11 +2366,6 @@ a:hover {
 
 .input::placeholder {
   color: var(--text-faint);
-}
-
-.select--wide {
-  width: 100%;
-  background-position: calc(100% - 15px) 17px, calc(100% - 11px) 17px;
 }
 
 .btn--disabled {
@@ -3443,10 +3354,6 @@ a:hover {
   border-top: 0;
 }
 
-.request-more .request-contact {
-  margin-top: 2px;
-}
-
 .modal__preview {
   gap: 7px;
 }
@@ -3644,20 +3551,6 @@ p {
   padding: 0 20px;
   font-size: 14.5px;
   border-radius: 11px;
-}
-
-.btn--ghost {
-  background: transparent;
-  border-color: transparent;
-  box-shadow: none;
-  color: var(--text-muted);
-}
-
-.btn--ghost:hover {
-  background: var(--bg-hover);
-  border-color: transparent;
-  box-shadow: none;
-  color: var(--text);
 }
 
 .btn--primary,
@@ -4197,8 +4090,6 @@ p {
   font-size: 14.5px;
 }
 
-.profile__now,
-.role__tag,
 .pill {
   font-size: 11px;
 }
@@ -4558,7 +4449,6 @@ p {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .roles,
   .reasons {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -4631,8 +4521,6 @@ p {
   }
 
   .role,
-  .role:not(.role--lead),
-  .role--lead,
   .channel,
   .key {
     padding: 20px;
@@ -4810,10 +4698,6 @@ p {
 
 /* The tags follow the text; the card may run taller than its content when
    its neighbour is long, and empty space reads better at the bottom. */
-.role__tags {
-  margin-top: 4px;
-}
-
 @media (max-width: 480px) {
   .modal__form .frow {
     grid-template-columns: 1fr;
@@ -6718,8 +6602,7 @@ body::after {
   background: none;
 }
 
-/* Text links and accents read as one blue. */
-.slab__link,
+/* Text links and accents read as one colour. */
 .tile__link,
 .tl-link,
 .keyfold summary {
@@ -8847,4 +8730,9 @@ a.tag--link:hover {
   margin: 8px 0 0;
   padding-left: 20px;
   columns: 3 200px;
+}
+
+/* Placeholder while a tab's code arrives (normally preloaded already). */
+.pane--loading {
+  min-height: 60vh;
 }

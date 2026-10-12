@@ -7,14 +7,8 @@ import { loadProjects, snapshotProjects } from '@/lib/github'
 import type { DataSource, Project } from '@/lib/types'
 import { usePrefersReducedMotion, useRevealRoot } from '@/lib/useMotion'
 import { TABS, useAppState, type Tab } from '@/lib/useAppState'
-import AboutPane from './AboutPane'
-import ContactPane from './ContactPane'
+import dynamic from 'next/dynamic'
 import OverviewPane from './OverviewPane'
-import ProjectPanel from './ProjectPanel'
-import ProjectsPane from './ProjectsPane'
-import RequestModal from './RequestModal'
-import StackPane from './StackPane'
-import TimelinePane from './TimelinePane'
 import ThemeToggle from './ThemeToggle'
 import LanguageToggle from './LanguageToggle'
 import { I18nProvider, useI18n, type Locale } from '@/lib/i18n'
@@ -30,6 +24,35 @@ import {
   StackIcon,
   TimelineIcon,
 } from './Icons'
+
+/*
+ * Only the overview is in the first load. The other tabs, the project panel
+ * and the request dialog are chunks of their own, fetched in the background
+ * once the page is idle (see `preloadPanes`), so switching stays instant.
+ */
+const loadAbout = () => import('./AboutPane')
+const loadContact = () => import('./ContactPane')
+const loadProjectsPane = () => import('./ProjectsPane')
+const loadTimeline = () => import('./TimelinePane')
+const loadStack = () => import('./StackPane')
+const loadPanel = () => import('./ProjectPanel')
+const loadRequest = () => import('./RequestModal')
+
+const paneLoading = () => <div className="pane pane--loading" aria-busy="true" />
+const AboutPane = dynamic(loadAbout, { loading: paneLoading })
+const ContactPane = dynamic(loadContact, { loading: paneLoading })
+const ProjectsPane = dynamic(loadProjectsPane, { loading: paneLoading })
+const TimelinePane = dynamic(loadTimeline, { loading: paneLoading })
+const StackPane = dynamic(loadStack, { loading: paneLoading })
+const ProjectPanel = dynamic(loadPanel)
+const RequestModal = dynamic(loadRequest)
+
+function preloadPanes() {
+  for (const load of [loadProjectsPane, loadTimeline, loadPanel, loadRequest, loadAbout, loadContact, loadStack]) {
+    load().catch(() => {})
+  }
+}
+
 
 /** Each tab carries its mark, so a narrow screen can drop the words. */
 const TAB_ICONS: Record<Tab, () => React.ReactNode> = {
@@ -139,6 +162,12 @@ function AppShellContent() {
       window.removeEventListener('resize', measure)
     }
   }, [tab, projects.length])
+
+  // Fetch the other tabs' code once the first view has settled.
+  useEffect(() => {
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500))
+    idle(preloadPanes)
+  }, [])
 
   useEffect(() => {
     const controller = new AbortController()

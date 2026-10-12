@@ -10,7 +10,7 @@ import { ageRestriction, allTimelineEntries, entryPath, entryVisual, formatTimel
 import type { Tab } from '@/lib/useAppState'
 import Metric from './Metric'
 import ProjectCard from './ProjectCard'
-import { HelpWanted } from './TimelinePane'
+import HelpWanted from './HelpWanted'
 import { qlinkHelp } from '@/timeline.config'
 import { now } from '@/now.config'
 import SocialLinks from './SocialLinks'

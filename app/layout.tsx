@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { BASE_PATH, OG_IMAGE, SITE_URL, asset } from '@/lib/basePath'
 import { FEED_PATH } from '@/lib/feed'
+import { fraunces, manrope } from '@/lib/fonts'
 import { pageProjects, projectHref } from '@/lib/projectPages'
 import videoData from '@/data/videos.json'
 import { SOCIALS } from '@/lib/socials'
@@ -155,7 +156,7 @@ const videoJsonLd = (videoData as VideoData).videos.map((v) => ({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={`${manrope.variable} ${fraunces.variable}`} suppressHydrationWarning>
       <head>
         <meta httpEquiv="Content-Security-Policy" content={CSP} />
         <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />

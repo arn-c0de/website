@@ -28,7 +28,8 @@ import {
   sortTimeline,
 } from '@/lib/timeline'
 import { youtubeEmbedUrl, youtubeId, youtubeStart, youtubeWatchUrl } from '@/lib/video'
-import { ArrowIcon, CheckIcon, CloseIcon, HandIcon, LinkIcon, PlayIcon } from './Icons'
+import { ArrowIcon, CheckIcon, CloseIcon, LinkIcon, PlayIcon } from './Icons'
+import HelpWanted from './HelpWanted'
 import ProjectIcon from './ProjectIcon'
 
 const ORDER: TimelineStatus[] = ['planned', 'now', 'done']
@@ -394,29 +395,6 @@ export function Figure({
 }
 
 /** "Help wanted" box: the areas as chips and a button to offer help. */
-export function HelpWanted({ help, locale }: { help: NonNullable<TimelineEntry['help']>; locale: Locale }) {
-  const { t } = useI18n()
-  return (
-    <div className="help">
-      <span className="help__label">
-        <HandIcon />
-        {t('Help wanted')}
-      </span>
-      <span className="help__areas">
-        {help.areas.map((area) => (
-          <span key={pick(area, 'en')} className="help__area">
-            {pick(area, locale)}
-          </span>
-        ))}
-      </span>
-      <a className="help__cta" href={help.href} target="_blank" rel="noopener noreferrer">
-        {t('Help out')}
-        <ArrowIcon />
-      </a>
-    </div>
-  )
-}
-
 const slotClass = (slot: string) => `tl-figure tl-figure--${slot.startsWith('g') ? 'g' : slot}`
 
 /**
@@ -580,3 +558,5 @@ export function Lightbox({ image, locale, onClose }: { image: TimelineImage; loc
     document.body,
   )
 }
+
+export { HelpWanted }
