@@ -32,7 +32,7 @@ const font = (pkg, file) =>
   `data:font/woff2;base64,${readFileSync(join(root, 'node_modules', '@fontsource-variable', pkg, 'files', file)).toString('base64')}`
 const avatar = `data:image/jpeg;base64,${readFileSync(join(root, 'public', 'avatar-large.jpg')).toString('base64')}`
 
-const TOPICS = ['Embedded firmware', 'Local LLMs & RAG', 'Security tooling', 'Backends']
+const TOPICS = ['Web apps', 'Backends & APIs', 'Embedded firmware', 'Local AI']
 
 const escapeHtml = (s) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -40,6 +40,7 @@ const escapeHtml = (s) =>
 const html = /* html */ `<!doctype html>
 <html><head><meta charset="utf-8"><style>
   @font-face { font-family: Manrope; font-weight: 200 800; src: url('${font('manrope', 'manrope-latin-wght-normal.woff2')}') format('woff2'); }
+  @font-face { font-family: Fraunces; font-weight: 100 900; src: url('${font('fraunces', 'fraunces-latin-wght-normal.woff2')}') format('woff2'); }
   @font-face { font-family: JBM; font-weight: 100 800; src: url('${font('jetbrains-mono', 'jetbrains-mono-latin-wght-normal.woff2')}') format('woff2'); }
   * { box-sizing: border-box; margin: 0; }
   body {
@@ -54,19 +55,19 @@ const html = /* html */ `<!doctype html>
     box-shadow: 0 0 0 4px #0e0f11, 0 0 0 5px #383b42; }
   .handle { font-size: 34px; font-weight: 780; letter-spacing: -0.02em; }
   .tagline { margin-top: 4px; font-size: 22px; font-weight: 600; color: #a5a8af; }
-  h1 { margin-top: 56px; max-width: 1040px; text-wrap: balance; font-size: 78px; line-height: 1.06; font-weight: 790; letter-spacing: -0.04em; }
+  h1 { font-family: Fraunces, Georgia, serif; margin-top: 56px; max-width: 1040px; text-wrap: balance; font-size: 78px; line-height: 1.06; font-weight: 790; letter-spacing: -0.04em; }
   .foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
   .tags { display: flex; gap: 10px; }
   .tag { font-family: JBM, monospace; font-size: 19px; padding: 7px 14px; border-radius: 9px;
     background: #1c1e22; border: 1px solid #26282d; color: #a5a8af; }
-  .url { font-size: 24px; font-weight: 650; color: #5cb5ec; white-space: nowrap; }
+  .url { font-size: 24px; font-weight: 650; color: #ec8a5c; white-space: nowrap; }
 </style></head>
 <body><div class="card">
   <div class="id"><img src="${avatar}" alt=""><div>
     <div class="handle">arn-c0de</div>
-    <div class="tagline">Embedded systems, security tooling and local AI</div>
+    <div class="tagline">Web apps, backends, embedded systems and local AI</div>
   </div></div>
-  <h1>Software from firmware to app.</h1>
+  <h1>Web apps, backends and everything below.</h1>
   <div class="foot">
     <div class="tags">${TOPICS.map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
     <div class="url">arn-c0de.de</div>
@@ -84,6 +85,7 @@ function projectHtml(project) {
   return /* html */ `<!doctype html>
 <html><head><meta charset="utf-8"><style>
   @font-face { font-family: Manrope; font-weight: 200 800; src: url('${font('manrope', 'manrope-latin-wght-normal.woff2')}') format('woff2'); }
+  @font-face { font-family: Fraunces; font-weight: 100 900; src: url('${font('fraunces', 'fraunces-latin-wght-normal.woff2')}') format('woff2'); }
   @font-face { font-family: JBM; font-weight: 100 800; src: url('${font('jetbrains-mono', 'jetbrains-mono-latin-wght-normal.woff2')}') format('woff2'); }
   * { box-sizing: border-box; margin: 0; }
   body { width: 1200px; height: 630px; overflow: hidden; font-family: Manrope, sans-serif; color: #ececec; background: #0e0f11; }
@@ -93,13 +95,13 @@ function projectHtml(project) {
   .head { margin-top: 64px; display: flex; align-items: center; gap: 32px; }
   .picon { width: 112px; height: 112px; border-radius: 26px; object-fit: cover; flex: none; }
   .picon--mono { display: grid; place-items: center; background: #1c1e22; border: 2px solid #26282d; font-size: 56px; font-weight: 780; color: #a5a8af; }
-  h1 { min-width: 0; overflow-wrap: anywhere; font-size: ${project.title.length > 16 ? 60 : 84}px; line-height: 1.02; font-weight: 790; letter-spacing: -0.04em; }
+  h1 { font-family: Fraunces, Georgia, serif; min-width: 0; overflow-wrap: anywhere; font-size: ${project.title.length > 16 ? 60 : 84}px; line-height: 1.02; font-weight: 790; letter-spacing: -0.04em; }
   .desc { margin-top: 32px; max-width: 1020px; font-size: 30px; line-height: 1.4; color: #a5a8af;
     display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
   .tags { min-width: 0; overflow: hidden; white-space: nowrap; font-family: JBM, monospace; font-size: 21px; color: #878a91; }
   .tags span + span::before { content: '·'; margin: 0 12px; color: #383b42; }
-  .url { font-size: 24px; font-weight: 650; color: #5cb5ec; white-space: nowrap; }
+  .url { font-size: 24px; font-weight: 650; color: #ec8a5c; white-space: nowrap; }
 </style></head>
 <body><div class="card">
   <div class="by"><img src="${avatar}" alt="">arn-c0de</div>

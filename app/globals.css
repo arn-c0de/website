@@ -8,6 +8,8 @@
 
   --font-sans: 'Manrope Variable', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', monospace;
+  /* Headings: a serif with some warmth, against the sans of the text. */
+  --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
 
   /* Type scale — nothing that is meant to be read goes below 12px. */
   --fs-xs: 12px;
@@ -53,9 +55,10 @@
   --text: light-dark(#17181c, #ececec);
   --text-muted: light-dark(#4c4f57, #a5a8af);
   --text-faint: light-dark(#66696f, #878a91);
-  --accent: light-dark(#0a6aab, #5cb5ec);
-  --accent-2: light-dark(#08578d, #3f9fdb);
-  --accent-soft: light-dark(#e7f0f6, #13212b);
+  /* Rust red: 5.7:1 on the light page, 7:1+ on the dark one. */
+  --accent: light-dark(#a83f12, #ec8a5c);
+  --accent-2: light-dark(#8f3510, #f0a07a);
+  --accent-soft: light-dark(#f6e8e0, #2a1b14);
   --accent-text: light-dark(#ffffff, #0e0f11);
   /* The primary action is ink, not a second blue: one strong button style,
      with the accent left to links, selection and active states. */
@@ -8599,4 +8602,43 @@ a.qlp__row:hover .qlp__name {
 
 .pp-release__notes .readme {
   margin-top: 12px;
+}
+
+/* ── Display face ───────────────────────────────────────────────────────── */
+
+/* Titles in Fraunces; text, labels and figures in tables stay in the sans. */
+h1,
+h2,
+h3,
+.brand__name,
+.hero__name,
+.pane__title,
+.band__title,
+.now__title,
+.tile__title,
+.card__title,
+.latest__title,
+.metric__v,
+.pp-head__title,
+.post__title,
+.tl-title,
+.tl-group__title,
+.qlp__feature-title,
+.prow__title,
+.profile__name,
+.channel__name,
+.panel__title,
+.footer__brand > span:first-of-type {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Small headings that act as labels keep the sans. */
+.section__title,
+.pp-label,
+.now__label,
+.help__label,
+.qlp__col-title {
+  font-family: var(--font-sans);
+  letter-spacing: -0.005em;
 }

@@ -6,6 +6,7 @@ import { SOCIALS } from '@/lib/socials'
 import type { VideoData } from '@/lib/youtube-feed'
 import '@fontsource-variable/manrope'
 import '@fontsource-variable/jetbrains-mono'
+import '@fontsource-variable/fraunces'
 import './globals.css'
 
 const DESCRIPTION =
