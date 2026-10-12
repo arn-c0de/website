@@ -8480,3 +8480,30 @@ a.qlp__row:hover .qlp__name {
 .now__more:hover {
   text-decoration: underline;
 }
+
+/* ── Accessibility fixes (axe) ──────────────────────────────────────────── */
+
+/* Small counts read at full muted contrast, not faded. */
+.tab__count,
+.chip__n {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+.chip[aria-pressed='true'] .chip__n {
+  color: inherit;
+}
+
+/* Links inside running text are underlined, not told apart by colour alone. */
+.now__more,
+.readme a,
+.post__p a,
+.prose a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.card__title {
+  display: block;
+}

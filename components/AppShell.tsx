@@ -398,13 +398,10 @@ function AppShellContent() {
 
       {/* One panel whose contents swap, so it is labelled by whichever tab is
           selected rather than by five panels' worth of markup. */}
-      <main
-        className="main"
-        id="pane"
-        role="tabpanel"
-        aria-labelledby={`tab-${tab}`}
-        data-dir={direction.current > 0 ? 'forward' : 'back'}
-      >
+      <main className="main" data-dir={direction.current > 0 ? 'forward' : 'back'}>
+        {/* The tab panel sits inside <main> rather than being it: a role on
+            <main> itself would take away the page's main landmark. */}
+        <div id="pane" role="tabpanel" aria-labelledby={`tab-${tab}`}>
         {tab === 'overview' && (
           <OverviewPane
             projects={projects}
@@ -437,6 +434,7 @@ function AppShellContent() {
           <AboutPane projects={projects} onStartRequest={() => startRequest()} />
         )}
         {tab === 'contact' && <ContactPane onStartRequest={() => startRequest()} />}
+        </div>
       </main>
 
       <footer className="footer">

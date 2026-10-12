@@ -67,7 +67,11 @@ function Content({ name, readme }: { name: string; readme: PreparedReadme | null
     <PageChrome
       back={{ href: `${home}?tab=projects`, label: t('All projects') }}
       action={
-        <a className="btn btn--request btn--sm" href={`${home}?request=1&for=${encodeURIComponent(project.name)}`}>
+        <a
+          className="btn btn--request btn--sm"
+          href={`${home}?request=1&for=${encodeURIComponent(project.name)}`}
+          aria-label={t('Ask about this')}
+        >
           <RequestIcon />
           <span className="btn__label">{t('Ask about this')}</span>
         </a>
@@ -131,7 +135,7 @@ function Content({ name, readme }: { name: string; readme: PreparedReadme | null
             <Readme project={project} prerendered={readme} />
           </section>
 
-          <aside className="pp-side">
+          <div className="pp-side">
             <section>
               <h2 className="pp-label">{t('Details')}</h2>
               <dl className="deflist">
@@ -227,7 +231,7 @@ function Content({ name, readme }: { name: string; readme: PreparedReadme | null
                 </ul>
               </section>
             )}
-          </aside>
+          </div>
         </div>
       </article>
     </PageChrome>

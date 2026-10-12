@@ -8,7 +8,9 @@
  *   - no uncaught script error and no console error (hydration mismatches
  *     land there), apart from failed requests to other hosts;
  *   - nothing from this site answers 4xx/5xx;
- *   - nothing sticks out past the viewport edge (cut off on a phone).
+ *   - nothing sticks out past the viewport edge (cut off on a phone);
+ *   - no accessibility violation axe-core finds (WCAG 2.1 A/AA and best
+ *     practice), outside readmes, whose markup comes from GitHub.
  * And once for the whole site: every internal link points at a page that
  * exists.
  *
@@ -23,6 +25,7 @@ import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright-core'
 
 const root = join(fileURLToPath(new URL('..', import.meta.url)), 'out')
+const AXE = readFileSync(join(root, '..', 'node_modules', 'axe-core', 'axe.min.js'), 'utf8')
 const TYPES = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript',
@@ -84,7 +87,9 @@ const browser = await chromium.launch(
 )
 try {
   for (const viewport of VIEWPORTS) {
-    const context = await browser.newContext({ viewport })
+    // Reduced motion: no element is caught half-way through fading in,
+    // which would read as low contrast.
+    const context = await browser.newContext({ viewport, reducedMotion: 'reduce' })
     for (const path of [...new Set(pages)]) {
       const page = await context.newPage()
       const where = `${viewport.name} ${path}`
@@ -135,6 +140,19 @@ try {
         return out
       })
       if (sticking.length) failures.push(`${where}: sticks out of the viewport: ${sticking.slice(0, 3).join(', ')}`)
+
+      await page.waitForTimeout(300)
+      // Run inside the page through the devtools protocol, so the page's
+      // CSP does not apply to it.
+      await page.evaluate(AXE)
+      const violations = await page.evaluate(async () => {
+        const result = await window.axe.run(
+          { exclude: [['.readme']] },
+          { runOnly: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'] },
+        )
+        return result.violations.map((v) => `${v.impact} ${v.id} (${v.nodes[0]?.target.join(' ')}): ${v.help}`)
+      })
+      for (const v of violations) failures.push(`${where}: a11y ${v}`)
 
       for (const href of await page.$$eval('a[href]', (as) => as.map((a) => a.href))) {
         if (href.startsWith(origin)) links.add(href.split('#')[0])

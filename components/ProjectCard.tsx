@@ -62,7 +62,8 @@ export default function ProjectCard({
             {project.title.charAt(0)}
           </span>
         )}
-        <h3 className="card__title">{project.title}</h3>
+        {/* Not a heading: headings may not sit inside a button. */}
+        <span className="card__title">{project.title}</span>
         {/* Active is the normal state; only the exceptions earn a badge. */}
         {project.status !== 'active' && (
           <span className={`card__flag card__flag--${project.status}`}>{t(project.status)}</span>
