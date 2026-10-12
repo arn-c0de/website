@@ -2,6 +2,8 @@
 
 import { asset } from '@/lib/basePath'
 import { useI18n } from '@/lib/i18n'
+import { pick } from '@/lib/timeline'
+import { now } from '@/now.config'
 import type { Project } from '@/lib/types'
 import { GitHubIcon, LanguageIcon, RequestIcon } from './Icons'
 
@@ -26,7 +28,7 @@ export default function AboutPane({
   projects: Project[]
   onStartRequest: () => void
 }) {
-  const { t, href } = useI18n()
+  const { t, href, locale } = useI18n()
   const languages = [...new Set(projects.map((p) => p.language).filter(Boolean))] as string[]
 
   return (
@@ -65,28 +67,17 @@ export default function AboutPane({
         </div>
 
         <ul className="worklist" data-reveal>
-          <li>
-            <strong>{t('Traceability web app')}</strong>
-            <span>{t('for industrial environments')}</span>
-          </li>
-          <li>
-            <strong>JobFinder</strong>
-            <span>{t('ABOUT_JOBFINDER')}</span>
-          </li>
-          <li>
-            <strong>ARIS</strong>
-            <span>{t('ABOUT_ARIS')}</span>
-          </li>
-          <li>
-            <strong>
-              <a href={href('/deepvision/')}>DeepVision-Web</a>
-            </strong>
-            <span>{t('ABOUT_DEEPVISION')}</span>
-          </li>
-          <li>
-            <strong>QLink</strong>
-            <span>{t('Rust game and simulation engine for Linux and Quest 3')}</span>
-          </li>
+          {now.items
+            .filter((item) => item.about)
+            .map((item) => {
+              const name = pick(item.name, locale)
+              return (
+                <li key={name}>
+                  <strong>{item.href ? <a href={href(item.href)}>{name}</a> : name}</strong>
+                  <span>{pick(item.about, locale)}</span>
+                </li>
+              )
+            })}
         </ul>
       </section>
 

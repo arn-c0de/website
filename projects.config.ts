@@ -26,6 +26,12 @@ export interface ProjectOverride {
    */
   show?: boolean
   status?: 'active' | 'research' | 'private' | 'preview' | 'archived'
+  /**
+   * 'YYYY-MM-DD' on which the site was last checked against the repo. Pushes
+   * before it count as seen by the content audit, so a push that is not worth
+   * a timeline post stops being reported. See CONTENT.md.
+   */
+  reviewed?: string
 }
 
 export interface SiteConfig {

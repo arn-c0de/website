@@ -45,6 +45,11 @@ jobs:
       # the request builder — they run straight through node --test.
       - run: npm test
 
+      # What on the site is out of date or missing, in the job summary of
+      # every run (see CONTENT.md). Errors already failed `npm test` above;
+      # the rest is a to-do list and never fails the build.
+      - run: npm run -s content:audit >> "$GITHUB_STEP_SUMMARY"
+
       # Latest uploads of the YouTube channel for the timeline: titles, a short
       # summary and local thumbnails. Never fails the build — without YouTube
       # the committed data/videos.json is used as it is.

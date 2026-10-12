@@ -110,6 +110,11 @@ export interface TimelineEntry {
   tags?: string[]
   /** Repository name — adds an "Open project" button that opens its panel. */
   project?: string
+  /**
+   * Further repositories the entry is about, beyond `project`. Nothing is
+   * shown for them; the content audit counts the entry as their latest news.
+   */
+  mentions?: string[]
   links?: { label: Localized; href: string }[]
   /**
    * Marks the entry as looking for help: the areas are listed in a highlighted
@@ -544,6 +549,7 @@ const timeline: TimelineEntry[] = [
     layout: 'text',
     tags: ['esp32', 'lora', 'firmware'],
     project: 'ESP32-LoRa-Mesh-Server',
+    mentions: ['ESP32-LABs', 'ESP-ProMicro-HidKey', 'ESP32-Multi-OS-Launcher'],
   },
   {
     id: 'anps',
@@ -589,6 +595,7 @@ const timeline: TimelineEntry[] = [
     ],
     tags: ['ollama', 'rag', 'android'],
     project: 'Crawllama',
+    mentions: ['Geograbber'],
   },
 ]
 

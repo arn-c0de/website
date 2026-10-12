@@ -12,6 +12,7 @@ import Metric from './Metric'
 import ProjectCard from './ProjectCard'
 import { HelpWanted } from './TimelinePane'
 import { qlinkHelp } from '@/timeline.config'
+import { now } from '@/now.config'
 import SocialLinks from './SocialLinks'
 import { YOUTUBE } from '@/lib/socials'
 import {
@@ -27,6 +28,12 @@ import {
   TimelineIcon,
   YouTubeIcon,
 } from './Icons'
+
+/** The rows of the "Currently building" card, filled from now.config.ts. */
+const NOW_ROWS = [
+  ['web', 'Web apps & backends'],
+  ['also', 'Also in progress'],
+] as const
 
 /** Languages named in the stack tile — a taste, not the full list. */
 const TOP_LANGUAGES = 4
@@ -142,19 +149,25 @@ export default function OverviewPane({
             </a>
           </p>
           <HelpWanted help={qlinkHelp} locale={locale} />
-          <div className="now__also">
-            <span className="now__also-label">{t('Web apps & backends')}</span>
-            <span className="tag">{t('Traceability web app')}</span>
-            <span className="tag">JobFinder</span>
-            <a className="tag tag--link" href={href('/deepvision/')}>
-              DeepVision-Web
-            </a>
-          </div>
-          <div className="now__also">
-            <span className="now__also-label">{t('Also in progress')}</span>
-            <span className="tag">ARIS</span>
-            <span className="tag">FLUID</span>
-          </div>
+          {NOW_ROWS.map(([row, label]) => (
+            <div key={row} className="now__also">
+              <span className="now__also-label">{t(label)}</span>
+              {now.items
+                .filter((item) => item.overview === row)
+                .map((item) => {
+                  const name = pick(item.name, locale)
+                  return item.href ? (
+                    <a key={name} className="tag tag--link" href={href(item.href)}>
+                      {name}
+                    </a>
+                  ) : (
+                    <span key={name} className="tag">
+                      {name}
+                    </span>
+                  )
+                })}
+            </div>
+          ))}
         </aside>
       </section>
 

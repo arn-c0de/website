@@ -9,7 +9,8 @@
     "build": "next build",
     "preview": "PAGES_BASE_PATH= next build && npx serve out",
     "typecheck": "tsc --noEmit",
-    "test": "node --import ./scripts/test-setup.mjs --test test/*.test.ts"
+    "test": "node --import ./scripts/test-setup.mjs --test test/*.test.ts",
+    "content:audit": "node --import ./scripts/test-setup.mjs scripts/content-audit.mjs"
   },
   "dependencies": {
     "next": "^16.4.0",

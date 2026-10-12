@@ -19,6 +19,11 @@ the timeline only loads after the visitor presses play.
 Everything editorial lives in **`projects.config.ts`**. Commit a change there and the deploy
 workflow publishes it.
 
+To keep the content current, run `npm run content:audit`. It lists what is broken, out of date or
+missing. **[CONTENT.md](CONTENT.md)** is the playbook for working through that list, for a person or an
+agent alike. "Currently building" on the overview and the About list both read from
+`now.config.ts`.
+
 ```ts
 featured: ['Crawllama', 'GPG-Meister', …]   // shown first, in this exact order
 hidden: ['arn-c0de']                        // never appears
@@ -218,6 +223,7 @@ npm install
 npm run dev        # http://localhost:3000
 npm run typecheck
 npm test           # node --test over the pure logic in lib/
+npm run content:audit  # stale, broken or missing content — see CONTENT.md
 npm run build      # static output in out/
 npm run preview    # build without the sub-path and serve it at localhost root
 ```

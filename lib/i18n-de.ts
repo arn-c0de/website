@@ -71,18 +71,6 @@ export const LONG: Record<string, { en: string; de: string }> = {
     en: 'Mostly web apps right now — frontend, API, database and deployment, built end to end.',
     de: 'Gerade vor allem Web-Apps — Frontend, API, Datenbank und Deployment, komplett aus einer Hand.',
   },
-  ABOUT_JOBFINDER: {
-    en: 'self-hosted web app for jobs, freelance projects and public tenders',
-    de: 'selbst gehostete Web-App für Jobs, Freelance-Projekte und Ausschreibungen',
-  },
-  ABOUT_ARIS: {
-    en: 'self-hosted AI agent with voice output and tool support',
-    de: 'selbst gehosteter KI-Agent mit Sprachausgabe und Werkzeugen',
-  },
-  ABOUT_DEEPVISION: {
-    en: 'PCB inspection in the browser, camera frames stay on the device',
-    de: 'Leiterplatten-Prüfung im Browser, Kamerabilder bleiben auf dem Gerät',
-  },
   ABOUT_WHY: {
     en: 'Most projects started as tools I needed myself. If they can help others, I clean them up and publish them. Data stays on your own device wherever possible.',
     de: 'Die meisten Projekte sind entstanden, weil ich sie selbst gebraucht habe. Wenn sie anderen helfen können, räume ich sie auf und veröffentliche sie. Daten bleiben möglichst auf dem eigenen Gerät.',
@@ -374,7 +362,6 @@ export const DE: Record<string, string> = {
   'Web apps, backends, embedded systems and AI': 'Web-Apps, Backends, Embedded-Systeme und KI',
   '{n} public repositories': '{n} öffentliche Repositories',
   'German · English': 'Deutsch · Englisch',
-  'Traceability web app': 'Rückverfolgbarkeits-Web-App',
   Toolbox: 'Werkzeugkasten',
   Focus: 'Schwerpunkte',
   'Works in': 'Arbeitet mit',
@@ -563,8 +550,6 @@ export const DE: Record<string, string> = {
 
   // About, shortened
   'Current projects': 'Aktuelle Projekte',
-  'for industrial environments': 'für industrielle Umgebungen',
-  'Rust game and simulation engine for Linux and Quest 3': 'Spiel- und Simulations-Engine in Rust für Linux und Quest 3',
   'About the projects': 'Zu den Projekten',
   'Languages, data stores and focus areas.': 'Sprachen, Datenbanken und Schwerpunkte.',
   'game AI': 'Spiel-KI',
