@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import { asset } from '@/lib/basePath'
 import { snapshotProjects } from '@/lib/github'
-import { I18nProvider, useI18n } from '@/lib/i18n'
+import { I18nProvider, useI18n, type Locale } from '@/lib/i18n'
 import { hasPage, projectHref } from '@/lib/projectPages'
 import {
   allTimelineEntries,
@@ -25,16 +25,16 @@ import { Figure, HelpWanted, Lightbox, VideoFigure, YouTubeFigure } from './Time
  * video at full width, the longer write-up from `body`, and the way to the
  * older and newer posts.
  */
-export default function TimelinePost({ id }: { id: string }) {
+export default function TimelinePost({ id, locale }: { id: string; locale: Locale }) {
   return (
-    <I18nProvider>
+    <I18nProvider locale={locale}>
       <Content id={id} />
     </I18nProvider>
   )
 }
 
 function Content({ id }: { id: string }) {
-  const { t, locale, labels } = useI18n()
+  const { t, locale, labels, href } = useI18n()
   const [zoomed, setZoomed] = useState<TimelineImage | null>(null)
   const projects = useMemo(() => snapshotProjects(), [])
   // Newest first, as the feed and the overview order them.
@@ -48,7 +48,7 @@ function Content({ id }: { id: string }) {
   const older = index < posts.length - 1 ? posts[index + 1] : null
   const project = entry.project ? projects.find((p) => p.name === entry.project) : undefined
   const media: TimelineMedia[] = entry.media ?? entry.images ?? []
-  const home = asset('/')
+  const home = href('/')
 
   const figure = (item: TimelineMedia, slot: string) => {
     if ('youtube' in item) return <YouTubeFigure key={slot} video={item} locale={locale} slot={slot} />
@@ -101,7 +101,7 @@ function Content({ id }: { id: string }) {
           ) : null}
           <div className="post__actions">
             {project && hasPage(project) && (
-              <a className="btn" href={projectHref(project)}>
+              <a className="btn" href={projectHref(project, locale)}>
                 {t('Project page')}: {project.title}
               </a>
             )}
@@ -118,7 +118,7 @@ function Content({ id }: { id: string }) {
         {(older || newer) && (
           <nav className="post__nav" aria-label={labels.timeline}>
             {older ? (
-              <a className="post__step" href={asset(entryPath(older.id))}>
+              <a className="post__step" href={href(entryPath(older.id))}>
                 <span className="post__step-k">{t('Older post')}</span>
                 <span className="post__step-t">{pick(older.title, locale)}</span>
               </a>
@@ -126,7 +126,7 @@ function Content({ id }: { id: string }) {
               <span />
             )}
             {newer && (
-              <a className="post__step post__step--newer" href={asset(entryPath(newer.id))}>
+              <a className="post__step post__step--newer" href={href(entryPath(newer.id))}>
                 <span className="post__step-k">{t('Newer post')}</span>
                 <span className="post__step-t">{pick(newer.title, locale)}</span>
               </a>

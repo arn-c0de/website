@@ -1,5 +1,6 @@
 import type { TimelineEntry } from '@/timeline.config'
 import type { Locale } from './i18n'
+import { localePath } from './localePath'
 import { entryPath, pick } from './timeline'
 
 /**
@@ -64,7 +65,7 @@ export function buildAtomFeed(entries: readonly TimelineEntry[], locale: Locale,
     // The id stays the timeline anchor it has always been, so readers do
     // not see old entries as new; the link goes to the entry's own page.
     const link = `${home}?tab=timeline#tl-${e.id}`
-    const page = `${siteUrl}${entryPath(e.id)}`
+    const page = `${siteUrl}${localePath(entryPath(e.id), locale)}`
     const status = STATUS[locale][e.status as 'now' | 'done']
     const text = [pick(e.text, locale), pick(e.aside, locale)].filter(Boolean).join('\n\n')
     const links = (e.links ?? []).map((l) => `\n    <link rel="related" href="${escapeXml(absolute(l.href, siteUrl))}" title="${escapeXml(pick(l.label, locale))}"/>`)

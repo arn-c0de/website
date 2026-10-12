@@ -22,12 +22,12 @@ import { hasPage, projectHref } from '@/lib/projectPages'
  * which already carries the open panel (`?p=Name`).
  */
 function CopyLinkButton({ project }: { project: Project }) {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const [copied, setCopied] = useState(false)
 
   async function copy() {
     try {
-      const url = hasPage(project) ? new URL(projectHref(project), location.origin).href : location.href
+      const url = hasPage(project) ? new URL(projectHref(project, locale), location.origin).href : location.href
       await navigator.clipboard.writeText(url)
       setCopied(true)
       setTimeout(() => setCopied(false), 1600)
@@ -259,7 +259,7 @@ export default function ProjectPanel({
                 </a>
               ))}
               {hasPage(project) && (
-                <a className="btn" href={projectHref(project)}>
+                <a className="btn" href={projectHref(project, locale)}>
                   <LinkIcon />
                   {t('Project page')}
                 </a>

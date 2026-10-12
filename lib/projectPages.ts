@@ -1,4 +1,6 @@
 import { asset } from './basePath'
+import type { Locale } from './i18n'
+import { localePath } from './localePath'
 import { snapshotProjects } from './github'
 import type { Project } from './types'
 
@@ -20,8 +22,8 @@ export function hasPage(project: Pick<Project, 'isPrivate'>): boolean {
 }
 
 /** Site-relative address of a project's page, base path included. */
-export function projectHref(project: Pick<Project, 'title'>): string {
-  return asset(`/projects/${projectSlug(project)}/`)
+export function projectHref(project: Pick<Project, 'title'>, locale: Locale = 'en'): string {
+  return asset(localePath(`/projects/${projectSlug(project)}/`, locale))
 }
 
 /** The projects that get a page, in the site's own order. */

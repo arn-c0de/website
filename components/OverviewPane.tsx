@@ -47,7 +47,7 @@ export default function OverviewPane({
   /** Opens the timeline tab at one entry. */
   onOpenTimeline: (id?: string) => void
 }) {
-  const { t, locale, labels } = useI18n()
+  const { t, locale, labels, href } = useI18n()
   const timelineEntries = useMemo(() => allTimelineEntries(projects), [projects])
   const latest = useMemo(() => latestEntries(timelineEntries, 3), [timelineEntries])
   const qlinkIcon = projects.find((p) => p.name === 'QLink-preview')?.icon ?? null
@@ -124,7 +124,7 @@ export default function OverviewPane({
         <aside className="now" aria-labelledby="now-title">
           <p className="now__label">{t('Currently building')}</p>
           <h2 className="now__title" id="now-title">
-            <a className="now__link" href={asset('/qlink/')}>
+            <a className="now__link" href={href('/qlink/')}>
               {qlinkIcon && <img className="now__icon" src={qlinkIcon} alt="" width={40} height={40} />}
               QLink
               <ArrowIcon />
@@ -134,7 +134,7 @@ export default function OverviewPane({
           <p className="now__note">
             {t('Early version · test builds on request')}
             <span aria-hidden> · </span>
-            <a className="now__more" href={asset('/qlink/')}>
+            <a className="now__more" href={href('/qlink/')}>
               {t('Videos, roadmap and more')}
             </a>
           </p>
@@ -196,7 +196,7 @@ export default function OverviewPane({
                   className="latest__item"
                   data-reveal
                   style={{ '--i': i } as React.CSSProperties}
-                  href={asset(entryPath(entry.id))}
+                  href={href(entryPath(entry.id))}
                 >
                   <span className="latest__media" data-empty={!visual}>
                     {entry.media?.some((m) => 'youtube' in m && ageRestriction(m)) && (

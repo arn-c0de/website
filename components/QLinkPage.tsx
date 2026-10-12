@@ -3,7 +3,7 @@
 import { useMemo } from 'react'
 import { asset } from '@/lib/basePath'
 import { snapshotProjects } from '@/lib/github'
-import { I18nProvider, useI18n } from '@/lib/i18n'
+import { I18nProvider, useI18n, type Locale } from '@/lib/i18n'
 import { projectHref } from '@/lib/projectPages'
 import { YOUTUBE } from '@/lib/socials'
 import {
@@ -30,19 +30,19 @@ export const QLINK_REPO = 'QLink-preview'
  * roadmap, every video so far, and how to help. Everything comes from the
  * timeline config, so a new entry there shows up here without touching this.
  */
-export default function QLinkPage() {
+export default function QLinkPage({ locale }: { locale: Locale }) {
   return (
-    <I18nProvider>
+    <I18nProvider locale={locale}>
       <Content />
     </I18nProvider>
   )
 }
 
 function Content() {
-  const { t, locale, labels } = useI18n()
+  const { t, locale, labels, href } = useI18n()
   const projects = useMemo(() => snapshotProjects(), [])
   const project = projects.find((p) => p.name === QLINK_REPO)
-  const home = asset('/')
+  const home = href('/')
 
   const entries = useMemo(
     () => allTimelineEntries(projects).filter((e) => e.project === QLINK_REPO),
@@ -83,7 +83,7 @@ function Content() {
             </a>
           )}
           {project && (
-            <a className="btn" href={projectHref(project)}>
+            <a className="btn" href={projectHref(project, locale)}>
               {t('Project page')}
             </a>
           )}
@@ -106,7 +106,7 @@ function Content() {
                 </p>
                 <h3 className="qlp__feature-title">{pick(newest.title, locale)}</h3>
                 <p className="qlp__feature-lede">{pick(newest.text, locale)}</p>
-                <a className="tl-link" href={asset(entryPath(newest.id))}>
+                <a className="tl-link" href={href(entryPath(newest.id))}>
                   {t('Read post')}
                   <ArrowIcon />
                 </a>
@@ -136,7 +136,7 @@ function Content() {
                 const visual = entryVisual(entry)
                 const adult = entry.media?.some((m) => 'youtube' in m && ageRestriction(m))
                 return (
-                  <a key={entry.id} className="latest__item" href={asset(entryPath(entry.id))}>
+                  <a key={entry.id} className="latest__item" href={href(entryPath(entry.id))}>
                     <span className="latest__media" data-empty={!visual}>
                       {adult && <span className="tl-video__age">18+</span>}
                       {visual && (
@@ -185,7 +185,7 @@ function RoadColumn({
   entries: TimelineEntry[]
   when: (e: TimelineEntry) => string
 }) {
-  const { locale } = useI18n()
+  const { locale, href } = useI18n()
   if (entries.length === 0) return null
   return (
     <div className="qlp__col">
@@ -204,7 +204,7 @@ function RoadColumn({
           return (
             <li key={e.id}>
               {entryHasPage(e) ? (
-                <a className="qlp__row" href={asset(entryPath(e.id))}>
+                <a className="qlp__row" href={href(entryPath(e.id))}>
                   {body}
                   {status === 'done' ? <CheckIcon /> : <TimelineIcon />}
                 </a>

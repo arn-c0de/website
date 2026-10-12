@@ -1,6 +1,8 @@
 'use client'
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo } from 'react'
+import { BASE_PATH, asset } from './basePath'
+import { counterpartPath, localePath } from './localePath'
 import { DE, LONG } from './i18n-de'
 
 export type Locale = 'en' | 'de'
@@ -28,32 +30,50 @@ function translate(locale: Locale, text: string, vars?: Vars): string {
 
 const I18nContext = createContext<{ locale: Locale; setLocale: (locale: Locale) => void } | null>(null)
 
-export function I18nProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocale] = useState<Locale>('en')
-  // A stored choice wins; otherwise a German browser gets German.
+/** The page's path without the base path, for switching to its counterpart. */
+function currentPath(): string {
+  const base = BASE_PATH
+  const path = location.pathname
+  return base && path.startsWith(base) ? path.slice(base.length) || '/' : path
+}
+
+/**
+ * The language is the page's: English at the root, German under /de/, both
+ * prerendered. Choosing the other language goes to the other address and is
+ * remembered; a visitor who chose German before, or whose browser is German
+ * and who has not chosen, is sent to the German page on arrival.
+ */
+export function I18nProvider({ locale, children }: { locale: Locale; children: React.ReactNode }) {
   useEffect(() => {
     try {
       const stored = localStorage.getItem('locale')
-      if (stored === 'de' || stored === 'en') setLocale(stored)
-      else if (navigator.language?.toLowerCase().startsWith('de')) setLocale('de')
+      const wanted: Locale | null =
+        stored === 'de' || stored === 'en'
+          ? stored
+          : navigator.language?.toLowerCase().startsWith('de')
+            ? 'de'
+            : null
+      if (wanted && wanted !== locale) {
+        location.replace(asset(counterpartPath(currentPath(), wanted)) + location.search + location.hash)
+      }
     } catch {
-      /* Storage blocked — English it is. */
+      /* Storage blocked — the page's own language it is. */
     }
-  }, [])
+  }, [locale])
+
   const choose = useCallback((next: Locale) => {
-    setLocale(next)
     try {
       localStorage.setItem('locale', next)
     } catch {
       /* Not remembered, but still applied. */
     }
-  }, [])
+    if (next !== locale) location.assign(asset(counterpartPath(currentPath(), next)) + location.search + location.hash)
+  }, [locale])
+
   useEffect(() => {
     document.documentElement.lang = locale
   }, [locale])
-  return (
-    <I18nContext.Provider value={{ locale, setLocale: choose }}>{children}</I18nContext.Provider>
-  )
+  return <I18nContext.Provider value={{ locale, setLocale: choose }}>{children}</I18nContext.Provider>
 }
 
 export function useI18n() {
@@ -64,6 +84,8 @@ export function useI18n() {
       ...value,
       labels: labels[value.locale],
       t: (text: string, vars?: Vars) => translate(value.locale, text, vars),
+      /** A page of this site in the current language, base path included. */
+      href: (path: string) => asset(localePath(path, value.locale)),
     }),
     [value],
   )

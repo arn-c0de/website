@@ -253,7 +253,7 @@ function Entry({
   onOpenProject: (name: string) => void
   onZoom: (image: TimelineImage) => void
 }) {
-  const { t } = useI18n()
+  const { t, href } = useI18n()
   const images: TimelineMedia[] = entry.media ?? entry.images ?? []
   // A layout that needs pictures falls back to plain text without them.
   const layout = images.length === 0 ? 'text' : (entry.layout ?? 'image-right')
@@ -293,7 +293,7 @@ function Entry({
               </a>
             ))}
             {entryHasPage(entry) && (
-              <a className="tl-link" href={asset(entryPath(entry.id))}>
+              <a className="tl-link" href={href(entryPath(entry.id))}>
                 {t('Read post')}
               </a>
             )}

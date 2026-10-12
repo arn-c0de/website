@@ -17,7 +17,7 @@ import StackPane from './StackPane'
 import TimelinePane from './TimelinePane'
 import ThemeToggle from './ThemeToggle'
 import LanguageToggle from './LanguageToggle'
-import { I18nProvider, useI18n } from '@/lib/i18n'
+import { I18nProvider, useI18n, type Locale } from '@/lib/i18n'
 import TopSearch from './TopSearch'
 import SocialLinks from './SocialLinks'
 import {
@@ -52,8 +52,12 @@ function tick() {
   }
 }
 
-export default function AppShell() {
-  return <I18nProvider><AppShellContent /></I18nProvider>
+export default function AppShell({ locale }: { locale: Locale }) {
+  return (
+    <I18nProvider locale={locale}>
+      <AppShellContent />
+    </I18nProvider>
+  )
 }
 
 function AppShellContent() {

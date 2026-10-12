@@ -80,7 +80,7 @@ export default function TopSearch({
     return () => document.removeEventListener('pointerdown', onDown)
   }, [open, close])
 
-  const { t: tr, labels, locale } = useI18n()
+  const { t: tr, labels, locale, href } = useI18n()
   // Timeline posts, newest first; searched in both languages.
   const posts = useMemo(
     () => latestEntries(allTimelineEntries(projects), Infinity).filter(entryHasPage),
@@ -140,7 +140,7 @@ export default function TopSearch({
         meta: e.date ? formatTimelineDate(e.date, locale) : undefined,
         run: () => {
           close()
-          location.href = asset(entryPath(e.id))
+          location.href = href(entryPath(e.id))
         },
       })),
       {

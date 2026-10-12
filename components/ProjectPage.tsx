@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { asset } from '@/lib/basePath'
 import { formatMonth, formatRelative, languageHue } from '@/lib/format'
 import { loadProjects, snapshotProjects } from '@/lib/github'
-import { I18nProvider, useI18n } from '@/lib/i18n'
+import { I18nProvider, useI18n, type Locale } from '@/lib/i18n'
 import { projectHref, relatedProjects } from '@/lib/projectPages'
 import type { PreparedReadme } from '@/lib/readmeHtml'
 import { formatBytes, latestRelease } from '@/lib/releases'
@@ -26,16 +26,24 @@ import Readme from './Readme'
  * own that search engines index and chat apps unfurl. Prerendered from the
  * committed snapshot; the live numbers replace it once the API answers.
  */
-export default function ProjectPage({ name, readme }: { name: string; readme: PreparedReadme | null }) {
+export default function ProjectPage({
+  name,
+  readme,
+  locale,
+}: {
+  name: string
+  readme: PreparedReadme | null
+  locale: Locale
+}) {
   return (
-    <I18nProvider>
+    <I18nProvider locale={locale}>
       <Content name={name} readme={readme} />
     </I18nProvider>
   )
 }
 
 function Content({ name, readme }: { name: string; readme: PreparedReadme | null }) {
-  const { t, locale } = useI18n()
+  const { t, locale, href } = useI18n()
   const [projects, setProjects] = useState<Project[]>(() => snapshotProjects())
 
   useEffect(() => {
@@ -57,7 +65,7 @@ function Content({ name, readme }: { name: string; readme: PreparedReadme | null
   )
   const related = useMemo(() => relatedProjects(project, projects), [project, projects])
   const release = latestRelease(project.name)
-  const home = asset('/')
+  const home = href('/')
 
   const links = [
     ...(project.html_url ? [{ label: t('Repository'), href: project.html_url, icon: <GitHubIcon size={14} /> }] : []),
@@ -109,6 +117,11 @@ function Content({ name, readme }: { name: string; readme: PreparedReadme | null
               {link.label}
             </a>
           ))}
+          {project.name === 'QLink-preview' && (
+            <a className="btn" href={href('/qlink/')}>
+              {t('Videos, roadmap and more')}
+            </a>
+          )}
           <CopyPageLink />
         </div>
 
@@ -258,7 +271,7 @@ function Content({ name, readme }: { name: string; readme: PreparedReadme | null
                 <ul className="pp-list">
                   {related.map((p) => (
                     <li key={p.name}>
-                      <a className="pp-related" href={projectHref(p)}>
+                      <a className="pp-related" href={projectHref(p, locale)}>
                         <span className="pp-related__title">{p.title}</span>
                         {p.description && <span className="pp-related__desc">{p.description}</span>}
                         <ArrowIcon />

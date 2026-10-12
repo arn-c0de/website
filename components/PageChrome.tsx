@@ -22,8 +22,8 @@ export default function PageChrome({
   action?: React.ReactNode
   children: React.ReactNode
 }) {
-  const { t } = useI18n()
-  const home = asset('/')
+  const { t, href } = useI18n()
+  const home = href('/')
 
   return (
     <div className="shell">

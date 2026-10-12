@@ -1,5 +1,7 @@
-import AppShell from '@/components/AppShell'
+import { HomeRoute, homeMetadata } from '@/lib/routes/home'
+
+export const metadata = homeMetadata('en')
 
 export default function Page() {
-  return <AppShell />
+  return <HomeRoute locale="en" />
 }

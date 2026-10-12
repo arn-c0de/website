@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { OG_IMAGE, SITE_URL, asset } from '@/lib/basePath'
+import { BASE_PATH, OG_IMAGE, SITE_URL, asset } from '@/lib/basePath'
 import { FEED_PATH } from '@/lib/feed'
 import videoData from '@/data/videos.json'
 import { SOCIALS } from '@/lib/socials'
@@ -16,20 +16,6 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: 'arn-c0de (arn-code) — project console',
   description: DESCRIPTION,
-  keywords: [
-    'arn-c0de',
-    'arn-code',
-    'arn code',
-    'web apps',
-    'backend development',
-    'embedded systems',
-    'network security',
-    'ESP32',
-    'firmware',
-    'AI agents',
-    'Python',
-    'Rust',
-  ],
   authors: [{ name: 'arn-c0de', url: 'https://github.com/arn-c0de' }],
   manifest: asset('/manifest.webmanifest'),
   // The timeline as Atom, one feed per language — see lib/feed.ts.
@@ -107,8 +93,14 @@ const CSP = [
 /**
  * Applies the stored theme before first paint. Without this the app flashes
  * the system theme for a frame when the visitor has picked the other one.
+ * Also marks the German pages (/de/…) as German before anything renders —
+ * the one root layout cannot know the path when it is prerendered.
  */
 const themeBootstrap = `
+try {
+  var p = location.pathname.slice(${JSON.stringify(BASE_PATH)}.length);
+  if (p === '/de' || p.indexOf('/de/') === 0) document.documentElement.lang = 'de';
+} catch (e) {}
 try {
   var t = localStorage.getItem('theme');
   if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
@@ -122,8 +114,25 @@ const personJsonLd = {
   alternateName: ['arn-code', 'arn_c0de', 'arn code'],
   url: `${SITE_URL}/`,
   sameAs: SOCIALS.map((s) => s.href),
-  jobTitle: 'Embedded Systems & Security Software Developer',
-  knowsAbout: ['Embedded Systems', 'Network Security', 'Python', 'Rust', 'Kotlin', 'ESP32', 'AI Systems'],
+  jobTitle: 'Web and backend developer, apprentice electronics technician',
+  description:
+    'Builds web apps and their backends, embedded firmware and local AI; in training as an electronics technician for devices and systems.',
+  knowsAbout: [
+    'Web Development',
+    'Backend Development',
+    'TypeScript',
+    'React',
+    'Next.js',
+    'REST APIs',
+    'PostgreSQL',
+    'Python',
+    'Rust',
+    'Kotlin',
+    'Embedded Systems',
+    'ESP32',
+    'Local LLMs',
+    'Network Security',
+  ],
 }
 
 /**
