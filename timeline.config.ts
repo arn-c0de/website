@@ -350,6 +350,19 @@ const timeline: TimelineEntry[] = [
 
   // ── Done ───────────────────────────────────────────────────────────────
   {
+    id: 'deepvision-deep-zoom',
+    status: 'done',
+    date: '2026-10-12',
+    title: { en: 'DeepVision-Web: Deep Zoom with stabilized tracking works', de: 'DeepVision-Web: Deep Zoom mit stabilisiertem Tracking funktioniert' },
+    text: {
+      en: 'Zooming into a single component now holds steady: tracking keeps the board in place, even with a shaky hand. It is the base FastAOI builds on. Private project — only occasional previews.',
+      de: 'Das Heranzoomen an ein einzelnes Bauteil bleibt jetzt ruhig: Das Tracking hält die Platine fest, auch aus der freien Hand. Darauf baut FastAOI auf. Privates Projekt — nur vereinzelte Einblicke.',
+    },
+    layout: 'text',
+    tags: ['computer-vision', 'webassembly'],
+    project: 'DeepVision-Web-private',
+  },
+  {
     id: 'qlink-shoothouse',
     status: 'done',
     date: '2026-10-11T20:00',

@@ -212,8 +212,8 @@ export const LONG: Record<string, { en: string; de: string }> = {
     de: 'Gebaut, an Aufnahmen gemessen',
   },
   DV_STATUS_NOTE: {
-    en: 'Verdicts on real boards only once the camera is calibrated. Tracking is still a pilot and not yet accepted on the device.',
-    de: 'Urteile an echten Platinen erst nach der Kamera-Kalibrierung. Das Tracking ist noch ein Pilot und auf dem Gerät noch nicht abgenommen.',
+    en: 'Deep Zoom with stabilized tracking works. FastAOI gives verdicts on real boards only once the camera is calibrated.',
+    de: 'Deep Zoom mit stabilisiertem Tracking funktioniert. FastAOI liefert Urteile an echten Platinen erst nach der Kamera-Kalibrierung.',
   },
 }
 
