@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { prepareReadme } from '../lib/readmeHtml.ts'
+import { balanceHtml, prepareReadme } from '../lib/readmeHtml.ts'
 import { docDir, docKind, pickDocs, trimDoc } from '../lib/repoDocs.ts'
 
 test('recognises roadmap, milestones, features and changelog by file name', () => {
@@ -40,12 +40,19 @@ test('listed paths win over found ones; false shows none', () => {
   assert.deepEqual(pickDocs(['ROADMAP.md'], false), [])
 })
 
-test('long files are cut at a heading', () => {
-  const html = `<h2>1.2</h2><p>${'a'.repeat(50)}</p><h2>1.1</h2><p>${'b'.repeat(50)}</p>`
-  assert.deepEqual(trimDoc(html, 1000), { html, truncated: false })
-  const cut = trimDoc(html, 80)
+test('long files are cut before a heading and its wrapper, with nothing left open', () => {
+  const heading = (v: string) => `<div class="markdown-heading" dir="auto"><h2 class="heading-element">${v}</h2></div>`
+  const html = `<div class="md"><article class="markdown-body">${heading('1.2')}<p>${'a'.repeat(50)}</p>${heading('1.1')}<p>${'b'.repeat(50)}</p></article></div>`
+  assert.deepEqual(trimDoc(html, 10_000), { html, truncated: false })
+  const cut = trimDoc(html, 250)
   assert.equal(cut.truncated, true)
-  assert.equal(cut.html, `<h2>1.2</h2><p>${'a'.repeat(50)}</p>`)
+  assert.equal(cut.html, `<div class="md"><article class="markdown-body">${heading('1.2')}<p>${'a'.repeat(50)}</p></article></div>`)
+})
+
+test('balanceHtml closes what is open and drops stray closing tags', () => {
+  assert.equal(balanceHtml('<div><p>a<br>b'), '<div><p>a<br>b</p></div>')
+  assert.equal(balanceHtml('a</p><ul><li>x</ul>'), 'a<ul><li>x</li></ul>')
+  assert.equal(prepareReadme('<div><article><p>cut here', 'o', 'r').html, '<div><article><p>cut here</p></article></div>')
 })
 
 test('links in a file below the root resolve from its folder', () => {

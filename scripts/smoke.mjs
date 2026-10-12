@@ -87,7 +87,9 @@ const BUDGET = {
   stylesheet: 160_000,
   font: 200_000,
   image: 1_500_000,
-  document: 250_000,
+  // Project pages carry their readme and repo files twice (markup and the
+  // data React hydrates from); Crawllama's long readme is the largest.
+  document: 300_000,
 }
 
 const VIEWPORTS = [

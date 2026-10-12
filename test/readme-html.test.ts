@@ -84,7 +84,7 @@ test('a tag without its closing bracket stays text', () => {
 test('a quoted ">" does not end the tag early', () => {
   const { html } = prep('<img alt="a>b" onerror="alert(1)" src="x.png">')
   assert.doesNotMatch(html, /onerror/i)
-  assert.match(html, /<img alt="a>b" data-src="https:\/\/raw\.githubusercontent\.com\/arn-c0de\/Demo\/HEAD\/x\.png" loading="lazy">/)
+  assert.match(html, /<img alt="a&gt;b" data-src="https:\/\/raw\.githubusercontent\.com\/arn-c0de\/Demo\/HEAD\/x\.png" loading="lazy">/)
 })
 
 test('only allowed tags and attributes survive', () => {

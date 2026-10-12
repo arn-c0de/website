@@ -8,7 +8,7 @@
  * render them, cleans them like the readme and stores them in
  * data/docs/<repo>.json; the project page is prerendered with them.
  */
-import type { PreparedReadme } from './readmeHtml'
+import { balanceHtml, type PreparedReadme } from './readmeHtml'
 
 export type DocKind = 'roadmap' | 'milestones' | 'features' | 'changelog' | 'doc'
 
@@ -59,13 +59,32 @@ export function pickDocs(paths: readonly string[], explicit?: readonly string[] 
 }
 
 /**
- * Long files (changelogs grow forever) are cut at the last heading before
- * `limit` characters, so the page carries the newest part and links the rest.
+ * Characters of cleaned HTML a file may bring to the page. The page carries
+ * it twice (as markup and in the data React hydrates from), and the smoke
+ * test holds every page's HTML to a budget. Changelogs are newest first, so
+ * their top is what matters.
  */
-export function trimDoc(html: string, limit = 40_000): { html: string; truncated: boolean } {
+export const DOC_LIMIT: Record<DocKind, number> = {
+  roadmap: 24_000,
+  milestones: 24_000,
+  features: 24_000,
+  changelog: 12_000,
+  doc: 24_000,
+}
+
+/**
+ * Long files are cut before the last heading that starts within `limit`
+ * characters (with GitHub's wrapper around it), and whatever the cut left
+ * open is closed again, so the page carries the newest part and links the
+ * rest. Runs on HTML that prepareReadme already cleaned.
+ */
+export function trimDoc(html: string, limit = 24_000): { html: string; truncated: boolean } {
   if (html.length <= limit) return { html, truncated: false }
-  const cut = Math.max(html.lastIndexOf('<h2', limit), html.lastIndexOf('<h3', limit))
-  return { html: html.slice(0, cut > 0 ? cut : limit), truncated: true }
+  let cut = -1
+  for (const m of html.slice(0, limit).matchAll(/(?:<div class="markdown-heading"[^>]*>\s*)?<h[1-3][\s>]/g)) {
+    if (m.index > 0) cut = m.index
+  }
+  return { html: balanceHtml(html.slice(0, cut > 0 ? cut : limit).replace(/<[^>]*$/, '')), truncated: true }
 }
 
 /** The folder a file sits in, with a trailing slash ('' at the root). */

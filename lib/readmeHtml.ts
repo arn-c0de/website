@@ -87,7 +87,8 @@ export function resolvePath(value: string, base: string): string {
 }
 
 /** An attribute value made safe to sit between double quotes. */
-const quoteAttr = (value: string) => value.replace(/&(?!#?\w+;)/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
+const quoteAttr = (value: string) =>
+  value.replace(/&(?!#?\w+;)/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
 /** One opening tag: name, attributes (any quoting), optional self-closing slash. */
 const OPEN_TAG = /^<([a-zA-Z][\w-]*)((?:\s+[^\s"'>/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s"'=<>`]+))?)*)\s*\/?>/
@@ -186,7 +187,31 @@ export function prepareReadme(input: string, owner: string, repo: string, dir = 
     i += 1
   }
 
-  return { html: out, images }
+  return { html: balanceHtml(out), images }
+}
+
+/**
+ * Closes what is left open and drops closing tags that close nothing, for
+ * markup this module built (every tag rebuilt, so the scan stays simple).
+ * The HTML is set as innerHTML into the page; an open <div> at its end would
+ * swallow the elements after it, and React's hydration would then find a
+ * different page than it rendered.
+ */
+export function balanceHtml(html: string): string {
+  const open: string[] = []
+  const out = html.replace(/<(\/?)([a-z][\w-]*)([^>]*)>/gi, (tag, slash: string, rawName: string) => {
+    const name = rawName.toLowerCase()
+    if (VOID_TAGS.has(name)) return tag
+    if (!slash) {
+      open.push(name)
+      return tag
+    }
+    const at = open.lastIndexOf(name)
+    if (at === -1) return ''
+    const closing = open.splice(at).reverse()
+    return closing.map((n) => `</${n}>`).join('')
+  })
+  return out + open.reverse().map((n) => `</${n}>`).join('')
 }
 
 /** The same markup with the parked images switched back on. */

@@ -21,7 +21,7 @@ import { fileURLToPath } from 'node:url'
 import config from '../projects.config.ts'
 import { pageProjects } from '../lib/projectPages.ts'
 import { prepareReadme } from '../lib/readmeHtml.ts'
-import { docDir, pickDocs, trimDoc } from '../lib/repoDocs.ts'
+import { DOC_LIMIT, docDir, pickDocs, trimDoc } from '../lib/repoDocs.ts'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const dir = join(root, 'data', 'readmes')
@@ -48,10 +48,10 @@ async function fetchDocs(repo) {
   for (const pick of pickDocs(paths, explicit)) {
     const res = await api(`${repo}/contents/${pick.path.split('/').map(encodeURIComponent).join('/')}`)
     if (!res.ok) continue
-    const { html, truncated } = trimDoc(await res.text())
-    const prepared = prepareReadme(html, owner, repo, docDir(pick.path))
+    const prepared = prepareReadme(await res.text(), owner, repo, docDir(pick.path))
     // GitHub wraps every file in <div id="file">; several on one page would repeat the id.
-    docs.push({ ...pick, ...prepared, html: prepared.html.replace(/ id="file"/g, ''), truncated })
+    const { html, truncated } = trimDoc(prepared.html.replace(/ id="file"/g, ''), DOC_LIMIT[pick.kind])
+    docs.push({ ...pick, html, images: (html.match(/<img\b/g) ?? []).length, truncated })
   }
   return docs
 }
