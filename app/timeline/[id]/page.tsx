@@ -23,9 +23,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const url = `${SITE_URL}${entryPath(entry.id)}`
   const title = `${pick(entry.title, 'en')} — arn-c0de`
   const description = pick(entry.text, 'en') || pick(entry.title, 'en')
-  // The entry's own picture when it has one, else the site's card.
+  // The entry's own picture when it has one, else the site's card. An 18+
+  // video's still never becomes a link preview.
   const visual = entryVisual(entry)
-  const image = visual ? { url: `${SITE_URL}${visual.src}`, alt: pick(entry.title, 'en') } : OG_IMAGE
+  const image = visual && !visual.sensitive ? { url: `${SITE_URL}${visual.src}`, alt: pick(entry.title, 'en') } : OG_IMAGE
   return {
     title,
     description,

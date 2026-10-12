@@ -84,11 +84,16 @@ export function latestEntries(entries: readonly TimelineEntry[], count: number):
     .map(({ entry }) => entry)
 }
 
-/** The picture that stands for an entry: a poster, an image or nothing. */
-export function entryVisual(entry: TimelineEntry): { src: string; video: boolean } | null {
+/**
+ * The picture that stands for an entry: a poster, an image or nothing.
+ * `sensitive` marks the poster of an 18+ video, which is shown blurred.
+ */
+export function entryVisual(entry: TimelineEntry): { src: string; video: boolean; sensitive: boolean } | null {
   for (const m of [...(entry.media ?? []), ...(entry.images ?? [])]) {
-    if ('src' in m) return { src: m.src, video: false }
-    if ('poster' in m && m.poster) return { src: m.poster, video: true }
+    if ('src' in m) return { src: m.src, video: false, sensitive: false }
+    if ('poster' in m && m.poster) {
+      return { src: m.poster, video: true, sensitive: 'youtube' in m && ageRestriction(m) !== null }
+    }
     if ('youtube' in m && youtubeId(m.youtube)) return null
   }
   return null

@@ -8272,3 +8272,29 @@ a.tl-video__facade {
   font-weight: 700;
   letter-spacing: 0.02em;
 }
+
+/* Stills of 18+ videos are blurred wherever they appear; the video frame
+   offers to show them, the small thumbnails never do. */
+img[data-sensitive] {
+  filter: blur(18px) saturate(0.6) brightness(0.7);
+  transform: scale(1.08);
+}
+
+.tl-video__veil {
+  cursor: default;
+}
+
+.tl-video__veil-text {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  max-width: 80%;
+  text-align: center;
+  font-size: 14px;
+}
+
+.tl-video__veil-text .btn {
+  color: var(--text);
+}

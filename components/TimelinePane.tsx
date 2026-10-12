@@ -423,6 +423,8 @@ const slotClass = (slot: string) => `tl-figure tl-figure--${slot.startsWith('g')
 export function YouTubeFigure({ video, locale, slot }: { video: TimelineYouTube; locale: Locale; slot: string }) {
   const { t } = useI18n()
   const [playing, setPlaying] = useState(false)
+  // An 18+ video's still stays blurred until the visitor asks to see it.
+  const [revealed, setRevealed] = useState(false)
   const id = youtubeId(video.youtube)
   const start = youtubeStart(video.youtube)
   const title = pick(video.title, locale)
@@ -430,6 +432,7 @@ export function YouTubeFigure({ video, locale, slot }: { video: TimelineYouTube;
   // YouTube refuses 18+ videos in an embedded player, so those link out.
   const restricted = ageRestriction(video)
   if (!id) return null
+  const veiled = restricted !== null && !!video.poster && !revealed
 
   const label = (
     <>
@@ -456,6 +459,17 @@ export function YouTubeFigure({ video, locale, slot }: { video: TimelineYouTube;
             allowFullScreen
             referrerPolicy="strict-origin-when-cross-origin"
           />
+        ) : veiled ? (
+          <div className="tl-video__facade tl-video__veil">
+            <img src={asset(video.poster!)} alt="" loading="lazy" decoding="async" data-sensitive />
+            <span className="tl-video__age">18+</span>
+            <span className="tl-video__veil-text">
+              <strong>{pick(restricted!, locale)}</strong>
+              <button type="button" className="btn btn--sm" onClick={() => setRevealed(true)}>
+                {t('Show preview')}
+              </button>
+            </span>
+          </div>
         ) : restricted ? (
           <a
             className="tl-video__facade"

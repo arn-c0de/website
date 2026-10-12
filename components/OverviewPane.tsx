@@ -5,7 +5,7 @@ import { asset } from '@/lib/basePath'
 import { formatRelative } from '@/lib/format'
 import { useI18n } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
-import { allTimelineEntries, entryPath, entryVisual, formatTimelineDate, hasVideo, latestEntries, pick } from '@/lib/timeline'
+import { ageRestriction, allTimelineEntries, entryPath, entryVisual, formatTimelineDate, hasVideo, latestEntries, pick } from '@/lib/timeline'
 import type { Tab } from '@/lib/useAppState'
 import Metric from './Metric'
 import ProjectCard from './ProjectCard'
@@ -190,7 +190,10 @@ export default function OverviewPane({
                   href={asset(entryPath(entry.id))}
                 >
                   <span className="latest__media" data-empty={!visual}>
-                    {visual && <img src={asset(visual.src)} alt="" loading="lazy" decoding="async" />}
+                    {entry.media?.some((m) => 'youtube' in m && ageRestriction(m)) && (
+                      <span className="tl-video__age">18+</span>
+                    )}
+                    {visual && <img src={asset(visual.src)} alt="" loading="lazy" decoding="async" data-sensitive={visual.sensitive || undefined} />}
                     <span className="latest__badge" data-video={video}>
                       {video ? <PlayIcon /> : <TimelineIcon />}
                     </span>

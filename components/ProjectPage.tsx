@@ -179,7 +179,7 @@ function Content({ name, readme }: { name: string; readme: PreparedReadme | null
                         <a className="pp-entry" href={`${home}?tab=timeline#tl-${entry.id}`}>
                           <span className="pp-entry__media" data-empty={!visual}>
                             {visual ? (
-                              <img src={asset(visual.src)} alt="" loading="lazy" decoding="async" />
+                              <img src={asset(visual.src)} alt="" loading="lazy" decoding="async" data-sensitive={visual.sensitive || undefined} />
                             ) : video ? (
                               <PlayIcon />
                             ) : (
