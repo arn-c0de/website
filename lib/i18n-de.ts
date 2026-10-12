@@ -60,8 +60,8 @@ export const LONG: Record<string, { en: string; de: string }> = {
     de: 'Jedes Repository vom ersten Commit bis zum letzten Push. Ein Klick öffnet es.',
   },
   ABOUT_LEDE: {
-    en: 'I build software from firmware to backends and apps, and work on local AI. At the moment most of my time goes into web apps and their backends. Trained electronics technician.',
-    de: 'Ich entwickle Software von der Firmware bis zu Backends und Apps und arbeite an lokaler KI. Im Moment fließt die meiste Zeit in Web-Apps und ihre Backends. Ausgebildeter Elektroniker für Geräte und Systeme.',
+    en: 'I build software from firmware to backends and apps, and work on local AI. At the moment most of my time goes into web apps and their backends. In training as an electronics technician for devices and systems.',
+    de: 'Ich entwickle Software von der Firmware bis zu Backends und Apps und arbeite an lokaler KI. Im Moment fließt die meiste Zeit in Web-Apps und ihre Backends. In Ausbildung zum Elektroniker für Geräte und Systeme.',
   },
   ABOUT_WEB_FOCUS: {
     en: 'Mostly web apps right now — frontend, API, database and deployment, built end to end.',
