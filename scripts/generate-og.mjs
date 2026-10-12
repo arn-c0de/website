@@ -79,7 +79,7 @@ function projectHtml(project) {
   const iconFile = project.icon ? join(root, 'public', project.icon.replace(/^\//, '')) : null
   const icon =
     iconFile && existsSync(iconFile)
-      ? `<img class="picon" src="data:image/png;base64,${readFileSync(iconFile).toString('base64')}" alt="">`
+      ? `<img class="picon" src="data:image/${iconFile.endsWith('.svg') ? 'svg+xml' : iconFile.split('.').pop()};base64,${readFileSync(iconFile).toString('base64')}" alt="">`
       : `<div class="picon picon--mono">${escapeHtml(project.title.charAt(0))}</div>`
   const topics = project.topics.slice(0, 3)
   return /* html */ `<!doctype html>

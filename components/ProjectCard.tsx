@@ -53,7 +53,7 @@ export default function ProjectCard({
     >
       <div className="card__head">
         {project.icon ? (
-          <ProjectIcon src={project.icon} dark={project.iconDark} className="card__icon" size={26} />
+          <ProjectIcon src={project.icon} dark={project.iconDark} className="card__icon" size={26} lazy />
         ) : project.language ? (
           <span className="card__icon card__icon--language">
             <LanguageIcon language={project.language} size={18} />

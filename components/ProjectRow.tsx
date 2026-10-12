@@ -22,7 +22,7 @@ export default function ProjectRow({ project, onOpen }: { project: Project; onOp
         aria-label={t('Open details for {name}', { name: project.title })}
       >
         {project.icon ? (
-          <ProjectIcon src={project.icon} dark={project.iconDark} className="prow__icon" size={24} />
+          <ProjectIcon src={project.icon} dark={project.iconDark} className="prow__icon" size={24} lazy />
         ) : project.language ? (
           <span className="prow__icon prow__icon--language">
             <LanguageIcon language={project.language} size={16} />

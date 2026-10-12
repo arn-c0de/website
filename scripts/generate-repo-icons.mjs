@@ -6,7 +6,7 @@
  * Drop an image into images/repo_icons/ named after the repository — case,
  * dashes and spaces do not matter, `GPG-Meister.png` and `gpgmeister.png`
  * both land on the same repo. Run this, commit the results: it writes a
- * square 128px PNG per icon into public/repo-icons/ and the list of repos
+ * square 128px WebP per icon into public/repo-icons/ and the list of repos
  * that have one into data/repo-icons.json, which is what the app reads.
  *
  * Sources stay out of public/ on purpose — some are multi-megabyte artwork
@@ -43,10 +43,10 @@ for (const file of files) {
     // `contain` rather than `cover`: these are logos, and cropping one to a
     // square is how a logo stops being recognisable.
     .resize(SIZE, SIZE, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
-    .png({ compressionLevel: 9 })
-    .toFile(join(outDir, `${key}.png`))
+    .webp({ quality: 90, alphaQuality: 100, effort: 6 })
+    .toFile(join(outDir, `${key}.webp`))
   slugs.push(key)
-  console.log(`${file} → public/repo-icons/${key}.png`)
+  console.log(`${file} → public/repo-icons/${key}.webp`)
 }
 
 slugs.sort()

@@ -273,7 +273,7 @@ function Entry({
   const body = (
     <div className="tl-body">
       <h3 className="tl-title">
-        {icon && <ProjectIcon src={icon} dark={iconDark} className="tl-title__icon" size={28} />}
+        {icon && <ProjectIcon src={icon} dark={iconDark} className="tl-title__icon" size={28} lazy />}
         {pick(entry.title, locale)}
       </h3>
       {pick(entry.text, locale) && <p className="tl-text">{pick(entry.text, locale)}</p>}

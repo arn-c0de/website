@@ -605,7 +605,7 @@ const timeline: TimelineEntry[] = [
         fit: 'contain',
       },
       {
-        src: '/repo-icons/geograbber.png',
+        src: '/repo-icons/geograbber.webp',
         alt: { en: 'GeoGrabber icon', de: 'GeoGrabber-Icon' },
         fit: 'contain',
       },

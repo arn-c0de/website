@@ -12,7 +12,7 @@ const ICONS = new Set(repoIcons as string[])
 /** Matches the slug `scripts/generate-repo-icons.mjs` writes the files under. */
 function iconFor(name: string): string | null {
   const key = name.toLowerCase().replace(/[^a-z0-9]/g, '')
-  return ICONS.has(key) ? asset(`/repo-icons/${key}.png`) : null
+  return ICONS.has(key) ? asset(`/repo-icons/${key}.webp`) : null
 }
 
 /** GitHub descriptions often carry stray double spaces and newlines. */
