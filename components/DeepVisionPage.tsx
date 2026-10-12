@@ -1,8 +1,10 @@
 'use client'
 
 import { asset } from '@/lib/basePath'
+import { snapshotProjects } from '@/lib/github'
 import { I18nProvider, useI18n, type Locale } from '@/lib/i18n'
-import { RequestIcon } from './Icons'
+import { projectHref } from '@/lib/projectPages'
+import { ArrowIcon, RequestIcon } from './Icons'
 import PageChrome, { CopyPageLink } from './PageChrome'
 
 /**
@@ -39,13 +41,18 @@ const STATUS = [
   { part: 'FastAOI with Deep Zoom', state: 'DV_STATE_AOI', tone: 'now' },
   { part: 'Automatic top/bottom detection', state: 'Draft', tone: 'now' },
   { part: 'Own component model', state: 'Planned', tone: 'planned' },
+  { part: 'Synthetic training data from Simple-Sim', state: 'Under consideration', tone: 'planned' },
 ] as const
+
+const SIM_REPO = 'A-AIO-process-optimization-and-training'
 
 const TECH = ['WebAssembly', 'OpenCV', 'Emscripten', 'Web Worker', 'WebGL2', 'Node.js', 'ONNX', 'Ollama']
 
 function Content() {
-  const { t, labels, href } = useI18n()
+  const { t, labels, href, locale } = useI18n()
   const home = href('/')
+  // The public sandbox whose synthetic datasets may train the component model.
+  const sim = snapshotProjects().find((p) => p.name === SIM_REPO)
 
   return (
     <PageChrome
@@ -123,6 +130,17 @@ function Content() {
               <li key={key}>{t(key)}</li>
             ))}
           </ul>
+        </section>
+
+        <section className="qlp__section">
+          <h2 className="pp-label">{t('Possible next step')}</h2>
+          <p className="dvp__lead">{t('DV_SYNTH')}</p>
+          {sim && (
+            <a className="tl-link" href={projectHref(sim, locale)}>
+              {sim.title}
+              <ArrowIcon />
+            </a>
+          )}
         </section>
 
         <section className="qlp__section">

@@ -328,6 +328,23 @@ const timeline: TimelineEntry[] = [
     help: qlinkHelp,
   },
   {
+    id: 'deepvision-synthetic-data',
+    status: 'planned',
+    when: { en: 'Idea', de: 'Idee' },
+    title: {
+      en: 'DeepVision-Web × Simple-Sim: synthetic training data',
+      de: 'DeepVision-Web × Simple-Sim: synthetische Trainingsdaten',
+    },
+    text: {
+      en: 'Under consideration: use the synthetic component and defect datasets from the Simple-Sim pipeline in AIO Process Optimization to train the own component model of DeepVision-Web for better recognition.',
+      de: 'Wird geprüft: die synthetischen Bauteil- und Fehler-Datensätze der Simple-Sim-Pipeline aus AIO Process Optimization nutzen, um das eigene Bauteil-Modell von DeepVision-Web für eine bessere Erkennung zu trainieren.',
+    },
+    layout: 'text',
+    tags: ['aoi', 'synthetic-data', 'pytorch'],
+    project: 'DeepVision-Web-private',
+    mentions: ['A-AIO-process-optimization-and-training'],
+  },
+  {
     id: 'deepvision-fastaoi',
     status: 'now',
     date: '2026-10',

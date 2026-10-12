@@ -195,6 +195,10 @@ export const LONG: Record<string, { en: string; de: string }> = {
     en: 'It points people at what to look at. The decision stays with the person doing the inspection.',
     de: 'Es zeigt, wo man genauer hinschauen sollte. Die Entscheidung bleibt bei dem Menschen, der prüft.',
   },
+  DV_SYNTH: {
+    en: 'A possible combination with AIO Process Optimization, my public sandbox for AOI models: its Simple-Sim pipeline generates synthetic datasets of components and defects, trains classifiers on them and ranks them in an arena. Such synthetic data could train DeepVision’s own component model for better recognition, before enough real board images exist. An idea under consideration, not a fixed plan.',
+    de: 'Eine mögliche Kombination mit AIO Process Optimization, meiner öffentlichen Sandbox für AOI-Modelle: Deren Simple-Sim-Pipeline erzeugt synthetische Datensätze von Bauteilen und Fehlern, trainiert Klassifikatoren darauf und vergleicht sie in einer Arena. Solche synthetischen Daten könnten das eigene Bauteil-Modell von DeepVision für eine bessere Erkennung trainieren, bevor genug echte Platinenbilder vorliegen. Eine Idee, die ich prüfe, kein fester Plan.',
+  },
   DV_STATE_AOI: {
     en: 'Built, measured on recordings',
     de: 'Gebaut, an Aufnahmen gemessen',
@@ -233,6 +237,9 @@ export const DE: Record<string, string> = {
   Working: 'Funktioniert',
   Draft: 'Entwurf',
   'Built with': 'Gebaut mit',
+  'Possible next step': 'Möglicher nächster Schritt',
+  'Synthetic training data from Simple-Sim': 'Synthetische Trainingsdaten aus Simple-Sim',
+  'Under consideration': 'Wird geprüft',
   // Shell, header, footer
   'Start a request': 'Anfrage starten',
   'GitHub profile': 'GitHub-Profil',
