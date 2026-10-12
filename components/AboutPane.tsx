@@ -6,9 +6,10 @@ import type { Project } from '@/lib/types'
 import { GitHubIcon, LanguageIcon, RequestIcon } from './Icons'
 
 const FOCUS = [
+  'web applications',
+  'backends & APIs',
   'industrial traceability',
   'embedded systems',
-  'web applications',
   'android',
   'llm & rag systems',
   'databases & vector search',
@@ -43,7 +44,7 @@ export default function AboutPane({
         <div className="profile__text">
           <h1 className="profile__name">arn-c0de</h1>
           <p className="profile__role">
-            {t('Embedded systems, backends, apps and AI')}
+            {t('Web apps, backends, embedded systems and AI')}
           </p>
           <p className="profile__lede">{t('ABOUT_LEDE')}</p>
           <div className="profile__meta">
@@ -59,6 +60,7 @@ export default function AboutPane({
         <div className="band__head">
           <div>
             <h2 className="band__title">{t('Current projects')}</h2>
+            <p className="band__hint">{t('ABOUT_WEB_FOCUS')}</p>
           </div>
         </div>
 
@@ -66,6 +68,10 @@ export default function AboutPane({
           <li>
             <strong>{t('Traceability web app')}</strong>
             <span>{t('for industrial environments')}</span>
+          </li>
+          <li>
+            <strong>JobFinder</strong>
+            <span>{t('ABOUT_JOBFINDER')}</span>
           </li>
           <li>
             <strong>ARIS</strong>

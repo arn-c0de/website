@@ -94,12 +94,12 @@ export default function OverviewPane({
             <div>
               <p className="hero__handle">arn-c0de</p>
               <p className="hero__tagline">
-                {t('Embedded systems, security tooling and local AI')}
+                {t('Web apps, backends, embedded systems and local AI')}
               </p>
             </div>
           </div>
 
-          <h1 className="hero__name">{t('Software from firmware to app.')}</h1>
+          <h1 className="hero__name">{t('Web apps, backends and everything below.')}</h1>
           <p className="hero__lede">{t('HERO_LEDE')}</p>
 
           <div className="hero__actions">
@@ -131,10 +131,15 @@ export default function OverviewPane({
           <p className="now__note">{t('Early version · test builds on request')}</p>
           <HelpWanted help={qlinkHelp} locale={locale} />
           <div className="now__also">
+            <span className="now__also-label">{t('Web apps & backends')}</span>
+            <span className="tag">{t('Traceability web app')}</span>
+            <span className="tag">JobFinder</span>
+            <span className="tag">DeepVision-Web</span>
+          </div>
+          <div className="now__also">
             <span className="now__also-label">{t('Also in progress')}</span>
             <span className="tag">ARIS</span>
             <span className="tag">FLUID</span>
-            <span className="tag">DeepVision-Web</span>
           </div>
         </aside>
       </section>

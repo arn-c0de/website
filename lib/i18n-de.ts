@@ -12,8 +12,8 @@ export const LONG: Record<string, { en: string; de: string }> = {
     de: 'Was geplant ist, woran ich arbeite und was fertig ist.',
   },
   HERO_LEDE: {
-    en: 'Most of it is open source on GitHub, from ESP32 firmware to local AI agents.',
-    de: 'Das meiste ist Open Source auf GitHub — von ESP32-Firmware bis zu lokalen KI-Agenten.',
+    en: 'Right now I mostly build web apps and the backends behind them: APIs, databases and self-hosted services. Much of it is open source on GitHub, from ESP32 firmware to local AI agents.',
+    de: 'Gerade baue ich vor allem Web-Apps und die Backends dahinter: APIs, Datenbanken und selbst gehostete Dienste. Vieles davon ist Open Source auf GitHub — von ESP32-Firmware bis zu lokalen KI-Agenten.',
   },
   QLINK_TEXT: {
     en: 'A Rust game and simulation engine for Linux. It runs on Quest 3 without the Quest Link PC app; the same world also runs in 2D on the desktop.',
@@ -36,8 +36,8 @@ export const LONG: Record<string, { en: string; de: string }> = {
     de: 'Fragen, Bugs oder Ideen — per SimpleX, E-Mail oder PGP.',
   },
   PROJECTS_LEDE: {
-    en: 'Embedded, local AI and security projects, straight from GitHub.',
-    de: 'Projekte zu Embedded, lokaler KI und Sicherheit, direkt von GitHub.',
+    en: 'Web apps, backends, embedded, local AI and security projects, straight from GitHub.',
+    de: 'Projekte zu Web-Apps, Backends, Embedded, lokaler KI und Sicherheit, direkt von GitHub.',
   },
   STACK_LEDE: {
     en: 'What the repositories are written in, and how active they are.',
@@ -60,8 +60,16 @@ export const LONG: Record<string, { en: string; de: string }> = {
     de: 'Jedes Repository vom ersten Commit bis zum letzten Push. Ein Klick öffnet es.',
   },
   ABOUT_LEDE: {
-    en: 'I build software from firmware to backends and apps, and work on local AI. Trained electronics technician.',
-    de: 'Ich entwickle Software von der Firmware bis zu Backends und Apps und arbeite an lokaler KI. Ausgebildeter Elektroniker für Geräte und Systeme.',
+    en: 'I build software from firmware to backends and apps, and work on local AI. At the moment most of my time goes into web apps and their backends. Trained electronics technician.',
+    de: 'Ich entwickle Software von der Firmware bis zu Backends und Apps und arbeite an lokaler KI. Im Moment fließt die meiste Zeit in Web-Apps und ihre Backends. Ausgebildeter Elektroniker für Geräte und Systeme.',
+  },
+  ABOUT_WEB_FOCUS: {
+    en: 'Mostly web apps right now — frontend, API, database and deployment, built end to end.',
+    de: 'Gerade vor allem Web-Apps — Frontend, API, Datenbank und Deployment, komplett aus einer Hand.',
+  },
+  ABOUT_JOBFINDER: {
+    en: 'self-hosted web app for jobs, freelance projects and public tenders',
+    de: 'selbst gehostete Web-App für Jobs, Freelance-Projekte und Ausschreibungen',
   },
   ABOUT_ARIS: {
     en: 'self-hosted AI agent with voice output and tool support',
@@ -142,7 +150,7 @@ export const DE: Record<string, string> = {
   'Start a request': 'Anfrage starten',
   'GitHub profile': 'GitHub-Profil',
   Sections: 'Bereiche',
-  'Embedded systems, security tooling and local AI': 'Embedded-Systeme, Sicherheitswerkzeuge und lokale KI',
+  'Web apps, backends, embedded systems and local AI': 'Web-Apps, Backends, Embedded-Systeme und lokale KI',
   'Live from the GitHub API': 'Live aus der GitHub-API',
   'Showing committed snapshot': 'Zeigt gespeicherten Stand',
   'No tracking, no cookies, no analytics.': 'Kein Tracking, keine Cookies, keine Analyse.',
@@ -153,7 +161,8 @@ export const DE: Record<string, string> = {
   'Theme: light (click to change)': 'Design: hell (klicken zum Wechseln)',
 
   // Overview
-  'Software from firmware to app.': 'Software von der Firmware bis zur App.',
+  'Web apps, backends and everything below.': 'Web-Apps, Backends und alles darunter.',
+  'Web apps & backends': 'Web-Apps & Backends',
   'Private access & requests': 'Privater Zugang & Anfragen',
   'Browse projects': 'Projekte ansehen',
   'Currently building': 'Gerade in Arbeit',
@@ -258,7 +267,7 @@ export const DE: Record<string, string> = {
   Dec: 'Dez',
 
   // About tab
-  'Embedded systems, backends, apps and AI': 'Embedded-Systeme, Backends, Apps und KI',
+  'Web apps, backends, embedded systems and AI': 'Web-Apps, Backends, Embedded-Systeme und KI',
   '{n} public repositories': '{n} öffentliche Repositories',
   'German · English': 'Deutsch · Englisch',
   'Traceability web app': 'Rückverfolgbarkeits-Web-App',
@@ -274,6 +283,7 @@ export const DE: Record<string, string> = {
   'In the repositories': 'In den Repositories',
   'industrial traceability': 'industrielle Rückverfolgbarkeit',
   'web applications': 'Webanwendungen',
+  'backends & APIs': 'Backends & APIs',
   'embedded systems': 'Embedded-Systeme',
   'databases & vector search': 'Datenbanken & Vektorsuche',
   'vector stores': 'Vektordatenbanken',

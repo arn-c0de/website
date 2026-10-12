@@ -9,7 +9,7 @@ import '@fontsource-variable/jetbrains-mono'
 import './globals.css'
 
 const DESCRIPTION =
-  'Open-source projects by arn-c0de: embedded firmware, local LLM and RAG systems, game AI, network security tooling, backends and Android apps.'
+  'Open-source projects by arn-c0de: web apps and backends, embedded firmware, local LLM and RAG systems, game AI, network security tooling and Android apps.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -19,6 +19,8 @@ export const metadata: Metadata = {
     'arn-c0de',
     'arn-code',
     'arn code',
+    'web apps',
+    'backend development',
     'embedded systems',
     'network security',
     'ESP32',

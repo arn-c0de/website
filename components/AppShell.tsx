@@ -445,7 +445,7 @@ function AppShellContent() {
             <img src={asset('/avatar.jpg')} alt="" width={22} height={22} />
             <span>arn-c0de</span>
             <span className="footer__sep" aria-hidden>·</span>
-            <span className="footer__muted">{t('Embedded systems, security tooling and local AI')}</span>
+            <span className="footer__muted">{t('Web apps, backends, embedded systems and local AI')}</span>
           </div>
 
           <div className="footer__row">
