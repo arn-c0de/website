@@ -16,3 +16,6 @@ public/timeline/youtube/
 # Written by scripts/fetch-readmes.mjs before each build.
 data/readmes/
 data/docs/
+
+# Drawn by scripts/generate-og.mjs --posts during the deploy.
+public/og/posts/

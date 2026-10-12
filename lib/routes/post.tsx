@@ -21,9 +21,10 @@ export function postParams() {
  * The link preview: the post's own card from scripts/generate-og.mjs, else
  * its picture, else the site's card. An 18+ video's still is never used.
  */
-function postImage(id: string, alt: string) {
-  if (existsSync(join(process.cwd(), 'public', 'og', 'posts', `${id}.png`))) {
-    return { ...OG_IMAGE, url: `${SITE_URL}/og/posts/${id}.png`, alt }
+/** The card scripts/generate-og.mjs draws at deploy, else the post's picture, else the site's. */
+function postImage(id: string, alt: string, locale: Locale) {
+  if (existsSync(join(process.cwd(), 'public', 'og', 'posts', `${id}.${locale}.jpg`))) {
+    return { ...OG_IMAGE, url: `${SITE_URL}/og/posts/${id}.${locale}.jpg`, type: 'image/jpeg', alt }
   }
   const entry = posts().find((e) => e.id === id)
   const visual = entry ? entryVisual(entry) : null
@@ -37,7 +38,7 @@ export function postMetadata(id: string, locale: Locale): Metadata {
   const url = `${SITE_URL}${localePath(path, locale)}`
   const title = `${pick(entry.title, locale)} — arn-c0de`
   const description = pick(entry.text, locale) || pick(entry.title, locale)
-  const image = postImage(entry.id, pick(entry.title, locale))
+  const image = postImage(entry.id, pick(entry.title, locale), locale)
   return {
     title,
     description,

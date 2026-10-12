@@ -73,11 +73,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # A link-preview card per timeline post, in English and German, drawn
+      # after the videos are fetched so a new video's post has one too. Never
+      # fails the build — without them a post previews with its picture.
+      - run: node --import ./scripts/test-setup.mjs scripts/generate-og.mjs --posts || echo "post cards skipped"
+
       - run: npm run build
 
       # Every page in a real browser, desktop and phone: no script errors, no
       # 404s from the site itself, nothing cut off at the edge, no broken
-      # internal links. A failure here stops the deploy.
+      # internal links, no axe findings, first loads within the size budget.
+      # A failure here stops the deploy.
       - run: node scripts/smoke.mjs
 
       # Pages serves the artifact as-is; without this file it would run the
