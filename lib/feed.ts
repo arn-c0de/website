@@ -37,8 +37,9 @@ export function escapeXml(text: string): string {
 
 /** 'YYYY-MM' or 'YYYY-MM-DD' → RFC 3339 at midnight UTC. */
 export function feedDate(date: string): string {
-  const [y, m, d] = date.split('-')
-  return `${y}-${m}-${d ?? '01'}T00:00:00Z`
+  const [day, time] = date.split('T')
+  const [y, m, d] = day.split('-')
+  return `${y}-${m}-${d ?? '01'}T${time ? `${time.slice(0, 5)}:00` : '00:00:00'}Z`
 }
 
 /** Site-relative links ('/timeline/…') made absolute; feed readers have no page to resolve them against. */

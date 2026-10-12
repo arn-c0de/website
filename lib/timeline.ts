@@ -17,9 +17,12 @@ export function pick(value: Localized | undefined, locale: Locale): string {
   return typeof value === 'string' ? value : value[locale]
 }
 
-/** 'YYYY-MM' → "Oct 2026", 'YYYY-MM-DD' → "11 Oct 2026", in the page language. */
+/**
+ * 'YYYY-MM' → "Oct 2026", 'YYYY-MM-DD' → "11 Oct 2026", in the page language.
+ * A time after the day ('YYYY-MM-DDTHH:MM') only orders entries; it is not shown.
+ */
 export function formatTimelineDate(date: string, locale: Locale): string {
-  const [y, m, d] = date.split('-').map(Number)
+  const [y, m, d] = date.slice(0, 10).split('-').map(Number)
   if (!y || !m) return date
   const value = new Date(Date.UTC(y, m - 1, d || 1))
   return value.toLocaleDateString(locale === 'de' ? 'de-DE' : 'en-GB', {
@@ -40,6 +43,8 @@ export function sortTimeline(entries: readonly TimelineEntry[]): TimelineEntry[]
       const dateA = a.entry.date ?? ''
       const dateB = b.entry.date ?? ''
       if (dateA !== dateB) return dateA < dateB ? 1 : -1
+      // Same day and no time to tell them apart: the order in the config,
+      // where newer entries go on top.
       return a.index - b.index
     })
     .map(({ entry }) => entry)
@@ -72,9 +77,11 @@ function withFetchedPosters(entry: TimelineEntry, stored: VideoData['videos']): 
 /** Done and in-progress entries, newest first — what the overview calls "latest". */
 export function latestEntries(entries: readonly TimelineEntry[], count: number): TimelineEntry[] {
   return entries
-    .filter((e) => e.status !== 'planned' && e.date)
-    .sort((a, b) => (a.date! < b.date! ? 1 : a.date! > b.date! ? -1 : 0))
+    .map((entry, index) => ({ entry, index }))
+    .filter(({ entry }) => entry.status !== 'planned' && entry.date)
+    .sort((a, b) => (a.entry.date! < b.entry.date! ? 1 : a.entry.date! > b.entry.date! ? -1 : a.index - b.index))
     .slice(0, count)
+    .map(({ entry }) => entry)
 }
 
 /** The picture that stands for an entry: a poster, an image or nothing. */

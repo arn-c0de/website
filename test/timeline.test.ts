@@ -23,9 +23,9 @@ test('timeline entries have unique ids and known statuses and layouts', () => {
   }
 })
 
-test('timeline dates are YYYY-MM or YYYY-MM-DD, and past entries have one', () => {
+test('timeline dates are YYYY-MM, YYYY-MM-DD or YYYY-MM-DDTHH:MM, and past entries have one', () => {
   for (const e of timeline) {
-    if (e.date) assert.match(e.date, /^\d{4}-(0[1-9]|1[0-2])(-(0[1-9]|[12]\d|3[01]))?$/, e.id)
+    if (e.date) assert.match(e.date, /^\d{4}-(0[1-9]|1[0-2])(-(0[1-9]|[12]\d|3[01])(T([01]\d|2[0-3]):[0-5]\d)?)?$/, e.id)
     if (e.status !== 'planned') assert.ok(e.date || e.when, `${e.id}: needs a date or "when"`)
   }
 })
@@ -65,4 +65,14 @@ test('timeline pictures and videos exist and layouts get what they need', () => 
     if (e.layout === 'images-sides') assert.equal(media.length, 2, `${e.id}: images-sides takes two items`)
     if (e.layout === 'image-center') assert.ok(e.aside, `${e.id}: image-center needs an aside text`)
   }
+})
+
+test('a time after the day orders entries of one day and is not shown', async () => {
+  const { formatTimelineDate, latestEntries } = await import('../lib/timeline.ts')
+  assert.equal(formatTimelineDate('2026-10-11T20:00', 'en'), formatTimelineDate('2026-10-11', 'en'))
+  const e = (id: string, date: string) => ({ id, status: 'done' as const, date, title: id, text: '' })
+  assert.deepEqual(
+    latestEntries([e('a', '2026-10-11T12:00'), e('b', '2026-10-11T20:00'), e('c', '2026-10-11')], 3).map((x) => x.id),
+    ['b', 'a', 'c'],
+  )
 })

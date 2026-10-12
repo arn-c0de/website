@@ -86,7 +86,10 @@ export interface TimelineEntry {
   /** Unique, stable — used as the anchor in the URL. */
   id: string
   status: TimelineStatus
-  /** 'YYYY-MM' or 'YYYY-MM-DD'. Planned entries may leave it out. */
+  /**
+   * 'YYYY-MM' or 'YYYY-MM-DD'; add a time ('YYYY-MM-DDTHH:MM', UTC) to order
+   * several entries of one day. Planned entries may leave it out.
+   */
   date?: string
   /** Shown instead of the formatted date, e.g. { en: 'Early 2027', de: 'Anfang 2027' }. */
   when?: Localized
@@ -336,7 +339,7 @@ const timeline: TimelineEntry[] = [
   {
     id: 'qlink-shoothouse',
     status: 'done',
-    date: '2026-10-11',
+    date: '2026-10-11T20:00',
     title: {
       en: 'QLink: shoothouse run with new movement, NPCs, fear and stamina',
       de: 'QLink: Shoothouse-Lauf mit neuem Movement, NPCs, Angst und Stamina',
@@ -359,7 +362,7 @@ const timeline: TimelineEntry[] = [
   {
     id: 'qlink-weather-sound',
     status: 'done',
-    date: '2026-10-11',
+    date: '2026-10-11T17:00',
     title: {
       en: 'QLink: rain, wind and thunder now have sound',
       de: 'QLink: Regen, Wind und Gewitter jetzt mit Sound',
@@ -381,7 +384,7 @@ const timeline: TimelineEntry[] = [
   {
     id: 'qlink-weather',
     status: 'done',
-    date: '2026-10-11',
+    date: '2026-10-11T12:00',
     title: {
       en: 'QLink: clear sky to thunderstorm, and FLUID waves',
       de: 'QLink: von klarem Himmel bis Gewitter, dazu FLUID-Wellen',

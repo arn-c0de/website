@@ -96,7 +96,8 @@ async function main() {
     videos.push({
       id: v.id,
       title: v.title,
-      date: v.published.slice(0, 10),
+      // Minute precision: two uploads on one day still come out in order.
+      date: v.published.slice(0, 16),
       summary: summarize(v.description),
       poster: await saveThumbnail(v.id),
       short: v.short,
