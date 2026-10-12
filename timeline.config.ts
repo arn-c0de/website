@@ -356,7 +356,18 @@ const timeline: TimelineEntry[] = [
       en: 'On the phone the anchors now work while tracking: about 19 poses a second, the overlay visible in three of four frames, corrections of 1.5 to 14 px. The slight stutter left comes from the anchor search every two seconds; next is a cheaper feature search for it. Private project — only occasional previews.',
       de: 'Am Handy funktionieren die Anker jetzt im Track: rund 19 Posen pro Sekunde, das Overlay in drei von vier Bildern sichtbar, Korrekturen von 1,5 bis 14 px. Das restliche leichte Ruckeln kommt von der Ankersuche alle zwei Sekunden; als Nächstes eine billigere Merkmalssuche dafür. Privates Projekt — nur vereinzelte Einblicke.',
     },
-    layout: 'text',
+    layout: 'image-right',
+    media: [
+      {
+        src: '/timeline/deepvision-smooth-tracking.webp',
+        alt: {
+          en: 'DeepVision-Web at 16× zoom on a circuit board: four components framed while tracking, with camera and tracking rates in the corner',
+          de: 'DeepVision-Web bei 16-fachem Zoom auf einer Platine: vier Bauteile im Track umrahmt, in der Ecke Kamera- und Tracking-Raten',
+        },
+        caption: { en: 'Tracking at 16×', de: 'Tracking bei 16×' },
+        fit: 'contain',
+      },
+    ],
     tags: ['tracking', 'opencv', 'webassembly'],
     project: 'DeepVision-Web-private',
   },
