@@ -10,7 +10,9 @@
  *   - nothing from this site answers 4xx/5xx;
  *   - nothing sticks out past the viewport edge (cut off on a phone);
  *   - no accessibility violation axe-core finds (WCAG 2.1 A/AA and best
- *     practice), outside readmes, whose markup comes from GitHub.
+ *     practice), outside readmes, whose markup comes from GitHub;
+ *   - the first load (desktop, before scrolling) stays within BUDGET, so a
+ *     heavy dependency or a huge picture fails here instead of going live.
  * And once for the whole site: every internal link points at a page that
  * exists.
  *
@@ -74,6 +76,20 @@ const pages = [
   ...[...sitemap.matchAll(/<loc>https?:\/\/[^/]+(\/[^<?]+)<\/loc>/g)].map((m) => m[1]),
 ]
 
+/**
+ * Bytes per kind on a page's first load, uncompressed (GitHub Pages gzips on
+ * top). Set with headroom over the state of October 2026: about 570 KB of
+ * script, 120 KB of CSS, 100 KB of fonts and a 70 KB start page. Raise one
+ * on purpose, with the reason in the commit, never to make a red run green.
+ */
+const BUDGET = {
+  script: 750_000,
+  stylesheet: 160_000,
+  font: 200_000,
+  image: 1_500_000,
+  document: 250_000,
+}
+
 const VIEWPORTS = [
   { name: 'desktop', width: 1440, height: 900 },
   { name: 'phone', width: 390, height: 844 },
@@ -102,13 +118,27 @@ try {
           failures.push(`${where}: console error: ${message.text().slice(0, 300)}`)
         }
       })
+      const loaded = []
       page.on('response', (response) => {
         if (response.url().startsWith(origin) && response.status() >= 400) {
           failures.push(`${where}: ${response.status()} for ${response.url().slice(origin.length)}`)
         }
+        if (response.url().startsWith(origin) && response.status() < 300) {
+          const type = response.request().resourceType()
+          loaded.push(response.body().then((b) => [type, b.length], () => [type, 0]))
+        }
       })
 
       await page.goto(origin + path, { waitUntil: 'networkidle' })
+      if (viewport.name === 'desktop') {
+        const bytes = {}
+        for (const [type, size] of await Promise.all(loaded)) bytes[type] = (bytes[type] ?? 0) + size
+        for (const [type, max] of Object.entries(BUDGET)) {
+          if ((bytes[type] ?? 0) > max) {
+            failures.push(`${where}: ${type} ${Math.round(bytes[type] / 1000)} KB over the ${max / 1000} KB budget`)
+          }
+        }
+      }
       // Scroll through once so reveal-on-scroll content and lazy parts mount.
       await page.evaluate(async () => {
         for (let y = 0; y < document.body.scrollHeight; y += 600) {
