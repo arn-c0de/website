@@ -19,6 +19,7 @@ import type { TimelineImage, TimelineMedia } from '@/timeline.config'
 import { LinkIcon } from './Icons'
 import PageChrome, { CopyPageLink } from './PageChrome'
 import { Figure, HelpWanted, Lightbox, VideoFigure, YouTubeFigure } from './TimelinePane'
+import ProjectIcon from './ProjectIcon'
 
 /**
  * A timeline entry as a post of its own: the short text, every picture and
@@ -72,7 +73,7 @@ function Content({ id }: { id: string }) {
           )}
         </p>
         <h1 className="post__title">
-          {project?.icon && <img className="post__icon" src={project.icon} alt="" width={36} height={36} />}
+          {project?.icon && <ProjectIcon src={project.icon} dark={project.iconDark} className="post__icon" size={36} />}
           {pick(entry.title, locale)}
         </h1>
         {pick(entry.text, locale) && <p className="post__lede">{pick(entry.text, locale)}</p>}

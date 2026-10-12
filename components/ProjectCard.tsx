@@ -4,6 +4,7 @@ import type { Project } from '@/lib/types'
 import { formatRelative } from '@/lib/format'
 import { useI18n } from '@/lib/i18n'
 import { ArrowIcon, ForkIcon, LanguageIcon, StarIcon } from './Icons'
+import ProjectIcon from './ProjectIcon'
 
 const MAX_TAGS = 3
 /** Rough width budget for the single tag row, in characters of the mono
@@ -52,7 +53,7 @@ export default function ProjectCard({
     >
       <div className="card__head">
         {project.icon ? (
-          <img className="card__icon" src={project.icon} alt="" width={26} height={26} />
+          <ProjectIcon src={project.icon} dark={project.iconDark} className="card__icon" size={26} />
         ) : project.language ? (
           <span className="card__icon card__icon--language">
             <LanguageIcon language={project.language} size={18} />

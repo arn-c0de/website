@@ -15,6 +15,7 @@ import {
 } from './Icons'
 import Readme from './Readme'
 import { hasLinkablePage, projectHref } from '@/lib/projectPages'
+import ProjectIcon from './ProjectIcon'
 
 /**
  * Copies the project's own page when it has one — that address unfurls with
@@ -190,7 +191,7 @@ export default function ProjectPanel({
         />
         <header className="panel__head">
           {project.icon ? (
-            <img className="panel__icon" src={project.icon} alt="" width={44} height={44} />
+            <ProjectIcon src={project.icon} dark={project.iconDark} className="panel__icon" size={44} />
           ) : (
             <span className="panel__icon panel__icon--mono" aria-hidden>
               {project.title.charAt(0)}

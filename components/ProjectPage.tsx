@@ -20,6 +20,7 @@ import {
 } from './Icons'
 import PageChrome, { CopyPageLink } from './PageChrome'
 import Readme from './Readme'
+import ProjectIcon from './ProjectIcon'
 
 /**
  * A project's own page: what the detail panel shows, at an address of its
@@ -90,7 +91,7 @@ function Content({ name, readme }: { name: string; readme: PreparedReadme | null
       <article className="pane pp">
         <header className="pp-head">
           {project.icon ? (
-            <img className="pp-head__icon" src={project.icon} alt="" width={56} height={56} />
+            <ProjectIcon src={project.icon} dark={project.iconDark} className="pp-head__icon" size={56} />
           ) : (
             <span className="pp-head__icon pp-head__icon--mono" aria-hidden>
               {project.title.charAt(0)}

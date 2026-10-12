@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <mask id="gap" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="700">
+      <rect width="1000" height="700" fill="#fff"/>
+      <polygon points="311.6,230 361.6,230 641.5,620 591.5,620" fill="#000"/>
+    </mask>
+  </defs>
+  <g transform="translate(14.882 97.048) scale(0.48908)">
+    <path mask="url(#gap)" fill="#0479AB" fill-rule="evenodd" d="M35 45H250A280 280 0 0 1 250 605H35Z M170 170H250A150 150 0 0 1 250 470H170Z"/>
+    <path fill="#0479AB" d="M229 45H362.2A60 60 0 0 1 411 70L695 465L600.6 579.8Z"/>
+    <polygon fill="#5C6C75" points="455,90 575,90 703,268 831,90 951,90 703,435"/>
+  </g>
+</svg>

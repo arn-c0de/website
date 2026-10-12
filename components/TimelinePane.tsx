@@ -29,6 +29,7 @@ import {
 } from '@/lib/timeline'
 import { youtubeEmbedUrl, youtubeId, youtubeStart, youtubeWatchUrl } from '@/lib/video'
 import { ArrowIcon, CheckIcon, CloseIcon, HandIcon, LinkIcon, PlayIcon } from './Icons'
+import ProjectIcon from './ProjectIcon'
 
 const ORDER: TimelineStatus[] = ['planned', 'now', 'done']
 
@@ -55,7 +56,7 @@ export default function TimelinePane({
   const all = useMemo(() => allTimelineEntries(projects), [projects])
   const sorted = useMemo(() => sortTimeline(all), [all])
   const known = useMemo(() => new Set(projects.map((p) => p.name)), [projects])
-  const icons = useMemo(() => new Map(projects.map((p) => [p.name, p.icon])), [projects])
+  const icons = useMemo(() => new Map(projects.map((p) => [p.name, p])), [projects])
   const titles = useMemo(() => new Map(projects.map((p) => [p.name, p.title])), [projects])
 
   // Projects and years that actually appear, for the two dropdowns.
@@ -220,7 +221,8 @@ export default function TimelinePane({
                   index={i}
                   locale={locale}
                   canOpen={!!entry.project && known.has(entry.project)}
-                  icon={entry.project ? (icons.get(entry.project) ?? null) : null}
+                  icon={entry.project ? (icons.get(entry.project)?.icon ?? null) : null}
+                  iconDark={entry.project ? icons.get(entry.project)?.iconDark : undefined}
                   onOpenProject={onOpenProject}
                   onZoom={setZoomed}
                 />,
@@ -241,6 +243,7 @@ function Entry({
   locale,
   canOpen,
   icon,
+  iconDark,
   onOpenProject,
   onZoom,
 }: {
@@ -250,6 +253,7 @@ function Entry({
   canOpen: boolean
   /** The linked project's icon, shown before the title. */
   icon: string | null
+  iconDark?: string
   onOpenProject: (name: string) => void
   onZoom: (image: TimelineImage) => void
 }) {
@@ -269,7 +273,7 @@ function Entry({
   const body = (
     <div className="tl-body">
       <h3 className="tl-title">
-        {icon && <img className="tl-title__icon" src={icon} alt="" width={28} height={28} />}
+        {icon && <ProjectIcon src={icon} dark={iconDark} className="tl-title__icon" size={28} />}
         {pick(entry.title, locale)}
       </h3>
       {pick(entry.text, locale) && <p className="tl-text">{pick(entry.text, locale)}</p>}

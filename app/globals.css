@@ -8757,3 +8757,33 @@ a.tag--link:hover {
   color: var(--accent);
   border-color: var(--accent);
 }
+
+/* Images with a light and a dark variant: only the one for the theme shows. */
+:root[data-theme='light'] .themed-dark,
+:root[data-theme='dark'] .themed-light {
+  display: none !important;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) .themed-dark {
+    display: none !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .themed-light {
+    display: none !important;
+  }
+}
+
+.dvp__logo {
+  display: block;
+  width: min(340px, 100%);
+  height: auto;
+  margin: 6px 0 4px;
+}
+
+/* No icon beside the title here: the wordmark carries the mark. */
+.dvp .pp-actions {
+  margin-left: 0;
+}

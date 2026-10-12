@@ -1,5 +1,6 @@
 'use client'
 
+import { asset } from '@/lib/basePath'
 import { I18nProvider, useI18n, type Locale } from '@/lib/i18n'
 import { RequestIcon } from './Icons'
 import PageChrome, { CopyPageLink } from './PageChrome'
@@ -62,15 +63,27 @@ function Content() {
     >
       <article className="pane dvp">
         <header className="pp-head">
-          <span className="pp-head__icon pp-head__icon--mono" aria-hidden>
-            D
-          </span>
           <div className="pp-head__text">
             <p className="pp-head__kicker">
               {t('Currently building')}
               <span className="card__flag card__flag--private">{t('private')}</span>
             </p>
-            <h1 className="pp-head__title">DeepVision-Web</h1>
+            <h1 className="pp-head__title">
+              <img
+                className="dvp__logo themed-light"
+                src={asset('/projects/deepvision/logo-light.svg')}
+                alt="DeepVision-Web"
+                width={340}
+                height={43}
+              />
+              <img
+                className="dvp__logo themed-dark"
+                src={asset('/projects/deepvision/logo-dark.svg')}
+                alt="DeepVision-Web"
+                width={340}
+                height={43}
+              />
+            </h1>
             <p className="pp-head__lede">{t('DV_LEDE')}</p>
           </div>
         </header>

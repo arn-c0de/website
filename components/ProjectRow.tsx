@@ -4,6 +4,7 @@ import type { Project } from '@/lib/types'
 import { formatRelative } from '@/lib/format'
 import { useI18n } from '@/lib/i18n'
 import { LanguageIcon, StarIcon } from './Icons'
+import ProjectIcon from './ProjectIcon'
 
 /**
  * One line of the projects list: the same project a card shows, read across
@@ -21,7 +22,7 @@ export default function ProjectRow({ project, onOpen }: { project: Project; onOp
         aria-label={t('Open details for {name}', { name: project.title })}
       >
         {project.icon ? (
-          <img className="prow__icon" src={project.icon} alt="" width={24} height={24} />
+          <ProjectIcon src={project.icon} dark={project.iconDark} className="prow__icon" size={24} />
         ) : project.language ? (
           <span className="prow__icon prow__icon--language">
             <LanguageIcon language={project.language} size={16} />

@@ -36,6 +36,8 @@ export interface Project extends GitHubRepo {
   isPrivate: boolean
   /** Site path of a page of its own, for a private project that has no project page. */
   page?: string
+  /** Icon variant for the dark theme, when the icon needs one. */
+  iconDark?: string
 }
 
 export type SortKey = 'featured' | 'stars' | 'updated' | 'name'
