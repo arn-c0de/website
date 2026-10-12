@@ -19,6 +19,10 @@ the timeline only loads after the visitor presses play.
 Everything editorial lives in **`projects.config.ts`**. Commit a change there and the deploy
 workflow publishes it.
 
+Where everything lives and step-by-step recipes (timeline posts, videos, private projects, new
+pages, project pages filled from the repos' own roadmap and changelog files) are in
+**[AGENT-GUIDE.md](AGENT-GUIDE.md)**.
+
 To keep the content current, run `npm run content:audit`. It lists what is broken, out of date or
 missing. **[CONTENT.md](CONTENT.md)** is the playbook for working through that list, for a person or an
 agent alike. "Currently building" on the overview and the About list both read from

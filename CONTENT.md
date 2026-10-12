@@ -1,6 +1,7 @@
 # Keeping the content current
 
-A playbook for whoever updates the site, person or agent. The site's code rarely needs touching to
+A playbook for whoever updates the site, person or agent. For where things live in the code and
+how to add new kinds of content, see [AGENT-GUIDE.md](AGENT-GUIDE.md). The site's code rarely needs touching to
 keep it current; what goes stale is what it *says*. All of that lives in four files:
 
 | File | What it holds |
