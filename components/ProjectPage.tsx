@@ -6,7 +6,8 @@ import { formatMonth, formatRelative, languageHue } from '@/lib/format'
 import { loadProjects, snapshotProjects } from '@/lib/github'
 import { I18nProvider, useI18n, type Locale } from '@/lib/i18n'
 import { projectHref, relatedProjects } from '@/lib/projectPages'
-import type { PreparedReadme } from '@/lib/readmeHtml'
+import { unparkImages, type PreparedReadme } from '@/lib/readmeHtml'
+import type { DocKind, RepoDoc } from '@/lib/repoDocs'
 import { formatBytes, latestRelease } from '@/lib/releases'
 import { allTimelineEntries, entryVisual, formatTimelineDate, hasVideo, pick, sortTimeline } from '@/lib/timeline'
 import type { Project } from '@/lib/types'
@@ -30,20 +31,22 @@ import ProjectIcon from './ProjectIcon'
 export default function ProjectPage({
   name,
   readme,
+  docs = [],
   locale,
 }: {
   name: string
   readme: PreparedReadme | null
+  docs?: RepoDoc[]
   locale: Locale
 }) {
   return (
     <I18nProvider locale={locale}>
-      <Content name={name} readme={readme} />
+      <Content name={name} readme={readme} docs={docs} />
     </I18nProvider>
   )
 }
 
-function Content({ name, readme }: { name: string; readme: PreparedReadme | null }) {
+function Content({ name, readme, docs }: { name: string; readme: PreparedReadme | null; docs: RepoDoc[] }) {
   const { t, locale, href } = useI18n()
   const [projects, setProjects] = useState<Project[]>(() => snapshotProjects())
 
@@ -184,6 +187,9 @@ function Content({ name, readme }: { name: string; readme: PreparedReadme | null
           <section className="pp-readme">
             <h2 className="pp-label">{t('Readme')}</h2>
             <Readme project={project} prerendered={readme} />
+            {docs.map((doc) => (
+              <RepoDocSection key={doc.path} doc={doc} repoUrl={project.html_url} />
+            ))}
           </section>
 
           <div className="pp-side">
@@ -286,5 +292,48 @@ function Content({ name, readme }: { name: string; readme: PreparedReadme | null
         </div>
       </article>
     </PageChrome>
+  )
+}
+
+const DOC_LABEL: Record<DocKind, string> = {
+  roadmap: 'Roadmap',
+  milestones: 'Milestones',
+  features: 'Features',
+  changelog: 'Changelog',
+  doc: 'Documentation',
+}
+
+/**
+ * A markdown file from the repo under the readme. Roadmap and milestones
+ * open, the rest folded; images stay parked until the visitor asks.
+ */
+function RepoDocSection({ doc, repoUrl }: { doc: RepoDoc; repoUrl: string }) {
+  const { t } = useI18n()
+  const [imagesShown, setImagesShown] = useState(false)
+  const url = `${repoUrl}/blob/HEAD/${doc.path}`
+  return (
+    <section className="pp-doc">
+      <details open={doc.kind === 'roadmap' || doc.kind === 'milestones'}>
+        <summary className="pp-doc__summary">
+          <h2 className="pp-label">{t(DOC_LABEL[doc.kind])}</h2>
+          <span className="pp-doc__path">{doc.path}</span>
+        </summary>
+        {doc.images > 0 && !imagesShown && (
+          <button type="button" className="btn btn--sm pp-doc__images" onClick={() => setImagesShown(true)}>
+            {t('Load images')} ({doc.images})
+          </button>
+        )}
+        <div
+          className={`readme${imagesShown ? '' : ' readme--noimg'}`}
+          dangerouslySetInnerHTML={{ __html: imagesShown ? unparkImages(doc.html) : doc.html }}
+        />
+        <p className="pp-doc__more">
+          {doc.truncated && <>{t('Shortened here.')} </>}
+          <a href={url} target="_blank" rel="noopener noreferrer">
+            {t('Full file on GitHub')}
+          </a>
+        </p>
+      </details>
+    </section>
   )
 }

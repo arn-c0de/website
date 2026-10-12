@@ -8787,3 +8787,44 @@ a.tag--link:hover {
 .dvp .pp-actions {
   margin-left: 0;
 }
+
+/* ── Repo files under the readme (roadmap, changelog, …) ────────────────── */
+
+.pp-doc {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.pp-doc__summary {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  cursor: pointer;
+  list-style-position: outside;
+}
+
+.pp-doc__summary .pp-label {
+  margin: 0;
+}
+
+.pp-doc__path {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.pp-doc details[open] > .pp-doc__summary {
+  margin-bottom: 14px;
+}
+
+.pp-doc__images {
+  margin-bottom: 12px;
+}
+
+.pp-doc__more {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}

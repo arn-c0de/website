@@ -94,9 +94,13 @@ const OPEN_TAG = /^<([a-zA-Z][\w-]*)((?:\s+[^\s"'>/=]+(?:\s*=\s*(?:"[^"]*"|'[^']
 const CLOSE_TAG = /^<\/([a-zA-Z][\w-]*)\s*>/
 const ATTR = /([^\s"'>/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g
 
-export function prepareReadme(input: string, owner: string, repo: string): PreparedReadme {
-  const RAW = `https://raw.githubusercontent.com/${owner}/${repo}/HEAD/`
-  const BLOB = `https://github.com/${owner}/${repo}/blob/HEAD/`
+/**
+ * `dir` is the folder the markdown file sits in (e.g. 'docs/'), so relative
+ * links in a file below the root resolve the way they do on GitHub.
+ */
+export function prepareReadme(input: string, owner: string, repo: string, dir = ''): PreparedReadme {
+  const RAW = `https://raw.githubusercontent.com/${owner}/${repo}/HEAD/${dir}`
+  const BLOB = `https://github.com/${owner}/${repo}/blob/HEAD/${dir}`
   let images = 0
   let out = ''
   let i = 0

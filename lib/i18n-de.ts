@@ -206,6 +206,13 @@ export const LONG: Record<string, { en: string; de: string }> = {
 }
 
 export const DE: Record<string, string> = {
+  // Repo files on project pages
+  Milestones: 'Meilensteine',
+  Features: 'Funktionen',
+  Changelog: 'Änderungen',
+  Documentation: 'Dokumentation',
+  'Shortened here.': 'Hier gekürzt.',
+  'Full file on GitHub': 'Ganze Datei auf GitHub',
   // DeepVision-Web page
   'Private project.': 'Privates Projekt.',
   'How it works': 'So funktioniert es',

@@ -32,6 +32,13 @@ export interface ProjectOverride {
    * a timeline post stops being reported. See CONTENT.md.
    */
   reviewed?: string
+  /**
+   * Markdown files from the repo shown on its project page under the readme.
+   * Found on their own by name (roadmap, milestones, features, changelog);
+   * list paths here to add others or pick a different file, or set false to
+   * show none. See lib/repoDocs.ts.
+   */
+  docs?: string[] | false
 }
 
 export interface SiteConfig {

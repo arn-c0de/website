@@ -8,6 +8,7 @@ import type { Locale } from '@/lib/i18n'
 import { localePath, pageAlternates } from '@/lib/localeRoutes'
 import { pageProjects, projectSlug } from '@/lib/projectPages'
 import type { PreparedReadme } from '@/lib/readmeHtml'
+import type { RepoDoc } from '@/lib/repoDocs'
 
 export function projectParams() {
   return pageProjects().map((p) => ({ slug: projectSlug(p) }))
@@ -21,6 +22,17 @@ function bakedReadme(repo: string): PreparedReadme | null {
     return JSON.parse(readFileSync(file, 'utf8')) as PreparedReadme
   } catch {
     return null
+  }
+}
+
+/** Roadmap, changelog and the like, written by scripts/fetch-readmes.mjs; absent locally. */
+function bakedDocs(repo: string): RepoDoc[] {
+  const file = join(process.cwd(), 'data', 'docs', `${repo}.json`)
+  if (!existsSync(file)) return []
+  try {
+    return JSON.parse(readFileSync(file, 'utf8')) as RepoDoc[]
+  } catch {
+    return []
   }
 }
 
@@ -82,7 +94,12 @@ export function ProjectRoute({ slug, locale }: { slug: string; locale: Locale })
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
-      <ProjectPage name={project.name} readme={bakedReadme(project.name)} locale={locale} />
+      <ProjectPage
+        name={project.name}
+        readme={bakedReadme(project.name)}
+        docs={bakedDocs(project.name)}
+        locale={locale}
+      />
     </>
   )
 }
