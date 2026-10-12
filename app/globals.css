@@ -8507,3 +8507,96 @@ a.qlp__row:hover .qlp__name {
 .card__title {
   display: block;
 }
+
+/* Project page: the latest release and its files. */
+.pp-release {
+  margin-bottom: 40px;
+}
+
+.pp-release__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: var(--text-faint);
+}
+
+.pp-release__head a {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.pp-release__head a:hover {
+  color: var(--accent);
+}
+
+.pp-release__files {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.pp-release__files li {
+  border-bottom: 1px solid var(--border);
+}
+
+.pp-release__files a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 16px;
+  align-items: center;
+  padding: 10px 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.pp-release__file {
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pp-release__size {
+  font-size: 13px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.pp-release__get {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.pp-release__files a:hover .pp-release__file {
+  color: var(--accent);
+}
+
+.pp-release__none {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.pp-release__notes {
+  margin-top: 12px;
+}
+
+.pp-release__notes summary {
+  width: fit-content;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.pp-release__notes .readme {
+  margin-top: 12px;
+}

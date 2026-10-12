@@ -7,6 +7,7 @@ import { loadProjects, snapshotProjects } from '@/lib/github'
 import { I18nProvider, useI18n } from '@/lib/i18n'
 import { projectHref, relatedProjects } from '@/lib/projectPages'
 import type { PreparedReadme } from '@/lib/readmeHtml'
+import { formatBytes, latestRelease } from '@/lib/releases'
 import { allTimelineEntries, entryVisual, formatTimelineDate, hasVideo, pick, sortTimeline } from '@/lib/timeline'
 import type { Project } from '@/lib/types'
 import {
@@ -55,6 +56,7 @@ function Content({ name, readme }: { name: string; readme: PreparedReadme | null
     [projects, name],
   )
   const related = useMemo(() => relatedProjects(project, projects), [project, projects])
+  const release = latestRelease(project.name)
   const home = asset('/')
 
   const links = [
@@ -128,6 +130,41 @@ function Content({ name, readme }: { name: string; readme: PreparedReadme | null
             <div className="metric__k">{t('Last push')}</div>
           </div>
         </div>
+
+        {release && (
+          <section className="pp-release">
+            <h2 className="pp-label">{t('Latest release')}</h2>
+            <p className="pp-release__head">
+              <a href={release.url} target="_blank" rel="noopener noreferrer">
+                {release.name}
+              </a>
+              {release.name !== release.tag && <span className="mono">{release.tag}</span>}
+              {release.date && <span>{formatTimelineDate(release.date, locale)}</span>}
+              {release.prerelease && <span className="card__flag card__flag--preview">{t('Pre-release')}</span>}
+            </p>
+            {release.assets.length > 0 ? (
+              <ul className="pp-release__files">
+                {release.assets.map((a) => (
+                  <li key={a.url}>
+                    <a href={a.url} rel="noopener noreferrer">
+                      <span className="pp-release__file">{a.name}</span>
+                      <span className="pp-release__size">{formatBytes(a.size)}</span>
+                      <span className="pp-release__get">{t('Download')}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="pp-release__none">{t('Source code only — download it from the release page.')}</p>
+            )}
+            {release.notes && (
+              <details className="pp-release__notes">
+                <summary>{t('Release notes')}</summary>
+                <div className="readme" dangerouslySetInnerHTML={{ __html: release.notes }} />
+              </details>
+            )}
+          </section>
+        )}
 
         <div className="pp-body">
           <section className="pp-readme">

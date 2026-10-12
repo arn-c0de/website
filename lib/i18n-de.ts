@@ -193,6 +193,11 @@ export const DE: Record<string, string> = {
   // Project pages
   'Project page': 'Projektseite',
   'Read post': 'Beitrag lesen',
+  'Latest release': 'Neuestes Release',
+  'Pre-release': 'Vorabversion',
+  Download: 'Herunterladen',
+  'Release notes': 'Änderungen',
+  'Source code only — download it from the release page.': 'Nur Quellcode – Download auf der Release-Seite.',
   'QLink page': 'QLink-Seite',
   'Videos, roadmap and more': 'Videos, Roadmap und mehr',
   'Latest video': 'Neuestes Video',

@@ -56,6 +56,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # Latest release of each project, for the downloads on its page.
+      # Never fails the build — without it the pages show no downloads.
+      - run: node --import ./scripts/test-setup.mjs scripts/fetch-releases.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       # Commits per week across the public repositories, for the stack tab.
       # Never fails the build — without it the commit chart stays hidden.
       - run: node --import ./scripts/test-setup.mjs scripts/fetch-activity.mjs
