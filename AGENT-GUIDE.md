@@ -26,7 +26,8 @@ server and no database; everything the site says is in the repository.
 | Give a repo an icon | `images/repo_icons/<repo>.png` → `node scripts/generate-repo-icons.mjs` | 3 min |
 | Give a private project an icon (light + dark) | `public/projects/<name>/` + `icon`/`iconDark` in `lib/privateProjects.ts` | 5 min |
 | Add a page of its own (like `/qlink/`, `/deepvision/`) | see [New page](#a-new-page-of-its-own) | 20 min |
-| Redraw the link-preview cards | `node --import ./scripts/test-setup.mjs scripts/generate-og.mjs` | 3 min |
+| Redraw the site and project link-preview cards (commit them) | `node --import ./scripts/test-setup.mjs scripts/generate-og.mjs` | 3 min |
+| Link-preview cards of timeline posts | nothing: the deploy draws them (`generate-og.mjs --posts`) | 0 min |
 | Change contact channels, socials | `lib/socials.ts`, `components/ContactPane.tsx` | 5 min |
 
 ## Where the code lives
@@ -159,11 +160,23 @@ any `t('…')` without a German entry.
 | `npm test` | logic, translations, dates, content audit errors | 10 s |
 | `npm run content:audit` | what is stale or missing (report, not a gate) | 5 s |
 | `PAGES_BASE_PATH="" npm run build` | the static export builds | 1–2 min |
-| `CHROMIUM_PATH=/opt/pw-browsers/chromium node scripts/smoke.mjs` | every page on desktop and phone: no script errors, no 404s, nothing cut off, no axe a11y violations, no broken internal links | 5–10 min |
+| `CHROMIUM_PATH=/opt/pw-browsers/chromium node scripts/smoke.mjs` | every page on desktop and phone: no script errors, no 404s, nothing cut off, no axe a11y violations, no broken internal links, first load within `BUDGET` (script, CSS, fonts, images, HTML) | 5–10 min |
 
 For a text-only change (timeline, now, projects config) typecheck + test is enough; the deploy
 runs the rest and does not publish when it fails. For a change to components, routes or CSS, run
 the build and the smoke test before pushing.
+
+## Performance rules
+
+- The overview is the only tab in the first load. Other tabs, the project panel and the request
+  dialog are `next/dynamic` chunks in `components/AppShell.tsx`, preloaded when the page is idle.
+  A component the overview needs must not import from a tab's file (that is why `HelpWanted`
+  has its own file).
+- The Latin subsets of Manrope and Fraunces come through `next/font` (`lib/fonts.ts`) and are
+  preloaded; the other subsets stay with @fontsource and load only when used.
+- Images: WebP, `loading="lazy"` for anything in lists or below the fold.
+- `scripts/smoke.mjs` fails a page whose first load exceeds `BUDGET`. Raise a budget only on
+  purpose, with the reason in the commit message.
 
 ## Rules
 
