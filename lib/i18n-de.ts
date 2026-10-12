@@ -51,6 +51,10 @@ export const LONG: Record<string, { en: string; de: string }> = {
     en: '{total} commits across the public repositories, {perWeek} a week on average.',
     de: '{total} Commits über alle öffentlichen Repositories, im Schnitt {perWeek} pro Woche.',
   },
+  QLINK_HELP_TEXT: {
+    en: 'Sound, 3D models and textures are the parts I cannot do alone. If you would like to help, open an issue with the offer-help template: say what you would like to work on and show something you made.',
+    de: 'Sound, 3D-Modelle und Texturen sind die Teile, die ich nicht allein schaffe. Wer helfen möchte, eröffnet ein Issue mit der Vorlage „Hilfe anbieten“: kurz sagen, woran du arbeiten möchtest, und etwas zeigen, das du gemacht hast.',
+  },
   STACK_ACTIVITY_HINT: {
     en: 'Projects active per month, and how many started.',
     de: 'Aktive Projekte pro Monat und wie viele neu begonnen wurden.',
@@ -189,6 +193,12 @@ export const DE: Record<string, string> = {
   // Project pages
   'Project page': 'Projektseite',
   'Read post': 'Beitrag lesen',
+  'QLink page': 'QLink-Seite',
+  'Videos, roadmap and more': 'Videos, Roadmap und mehr',
+  'Latest video': 'Neuestes Video',
+  Roadmap: 'Roadmap',
+  'All videos': 'Alle Videos',
+  'The whole timeline': 'Der ganze Zeitstrahl',
   Posts: 'Beiträge',
   'Age-restricted: plays on YouTube': 'Ab 18: läuft nur auf YouTube',
   'Watch on YouTube (18+): {title}': 'Auf YouTube ansehen (ab 18): {title}',

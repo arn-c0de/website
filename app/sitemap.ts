@@ -40,5 +40,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.5,
       }),
     )
-  return [...tabs, ...projects, ...posts]
+  const qlink: MetadataRoute.Sitemap[number] = { url: `${SITE_URL}/qlink/`, changeFrequency: 'weekly', priority: 0.9 }
+  return [...tabs, qlink, ...projects, ...posts]
 }

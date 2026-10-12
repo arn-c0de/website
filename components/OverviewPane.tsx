@@ -124,11 +124,20 @@ export default function OverviewPane({
         <aside className="now" aria-labelledby="now-title">
           <p className="now__label">{t('Currently building')}</p>
           <h2 className="now__title" id="now-title">
-            {qlinkIcon && <img className="now__icon" src={qlinkIcon} alt="" width={40} height={40} />}
-            QLink
+            <a className="now__link" href={asset('/qlink/')}>
+              {qlinkIcon && <img className="now__icon" src={qlinkIcon} alt="" width={40} height={40} />}
+              QLink
+              <ArrowIcon />
+            </a>
           </h2>
           <p className="now__text">{t('QLINK_TEXT')}</p>
-          <p className="now__note">{t('Early version · test builds on request')}</p>
+          <p className="now__note">
+            {t('Early version · test builds on request')}
+            <span aria-hidden> · </span>
+            <a className="now__more" href={asset('/qlink/')}>
+              {t('Videos, roadmap and more')}
+            </a>
+          </p>
           <HelpWanted help={qlinkHelp} locale={locale} />
           <div className="now__also">
             <span className="now__also-label">{t('Web apps & backends')}</span>

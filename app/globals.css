@@ -8315,3 +8315,168 @@ img[data-sensitive] {
   flex: 1 1 0;
   min-width: 0;
 }
+
+/* ── QLink page ─────────────────────────────────────────────────────────── */
+
+.qlp {
+  padding-top: 24px;
+}
+
+.qlp__note {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+.qlp__section {
+  margin-top: 56px;
+}
+
+.qlp__feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+}
+
+.qlp__feature .tl-figure {
+  grid-area: auto;
+  min-height: 0;
+  border-radius: 12px;
+}
+
+.qlp__feature-text {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
+.qlp__feature-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 760;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.qlp__feature-lede {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.qlp__road {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.qlp__col-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.qlp__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.qlp__list li {
+  border-bottom: 1px solid var(--border);
+}
+
+.qlp__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 10px;
+  align-items: center;
+  padding: 10px 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.qlp__when {
+  grid-column: 1;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+.qlp__name {
+  grid-column: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.qlp__row svg {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  color: var(--text-faint);
+}
+
+a.qlp__row:hover .qlp__name {
+  color: var(--accent);
+}
+
+.qlp__more {
+  display: inline-flex;
+  margin-top: 14px;
+}
+
+.qlp__help-text {
+  max-width: 68ch;
+  margin: 0 0 16px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+@media (max-width: 860px) {
+  .qlp__feature,
+  .qlp__road {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Overview: the QLink title and a line under it lead to the QLink page. */
+.now__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.now__link svg:last-child {
+  width: 18px;
+  height: 18px;
+  color: var(--text-faint);
+  transition: transform 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.now__link:hover {
+  color: var(--accent);
+}
+
+.now__link:hover svg:last-child {
+  color: var(--accent);
+  transform: translateX(3px);
+}
+
+.now__more {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.now__more:hover {
+  text-decoration: underline;
+}
