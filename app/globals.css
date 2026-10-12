@@ -8298,3 +8298,20 @@ img[data-sensitive] {
 .tl-video__veil-text .btn {
   color: var(--text);
 }
+
+/* Long names (post titles) give way only once the description is gone. */
+.palette__item > span:first-child {
+  flex: 1 1 auto;
+}
+
+.palette__item-name {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.palette__item-desc {
+  flex: 1 1 0;
+  min-width: 0;
+}

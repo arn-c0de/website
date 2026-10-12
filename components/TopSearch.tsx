@@ -1,7 +1,9 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { asset } from '@/lib/basePath'
 import { searchProjects } from '@/lib/github'
+import { allTimelineEntries, entryHasPage, entryPath, formatTimelineDate, latestEntries, pick } from '@/lib/timeline'
 import type { Project } from '@/lib/types'
 import { useI18n } from '@/lib/i18n'
 import type { Tab } from '@/lib/useAppState'
@@ -9,7 +11,7 @@ import { SearchIcon, StarIcon } from './Icons'
 
 interface Command {
   id: string
-  group: 'Navigate' | 'Projects' | 'Links'
+  group: 'Navigate' | 'Projects' | 'Posts' | 'Links'
   name: string
   hint?: string
   meta?: string
@@ -78,7 +80,12 @@ export default function TopSearch({
     return () => document.removeEventListener('pointerdown', onDown)
   }, [open, close])
 
-  const { t: tr, labels } = useI18n()
+  const { t: tr, labels, locale } = useI18n()
+  // Timeline posts, newest first; searched in both languages.
+  const posts = useMemo(
+    () => latestEntries(allTimelineEntries(projects), Infinity).filter(entryHasPage),
+    [projects],
+  )
   const commands = useMemo<Command[]>(() => {
     const tabs: { tab: Tab; label: string; hint: string }[] = [
       { tab: 'overview', label: labels.overview, hint: tr('A bit of everything on one page') },
@@ -90,6 +97,18 @@ export default function TopSearch({
     ]
 
     const matched = searchProjects(projects, query).slice(0, 8)
+    const q = query.trim().toLowerCase()
+    const matchedPosts = q
+      ? posts
+          .filter((e) =>
+            [e.title, e.text, ...(e.tags ?? [])]
+              .map((v) => (typeof v === 'string' ? v : `${v.en} ${v.de}`))
+              .join(' ')
+              .toLowerCase()
+              .includes(q),
+          )
+          .slice(0, 6)
+      : []
 
     return [
       ...tabs.map<Command>((t) => ({
@@ -113,6 +132,17 @@ export default function TopSearch({
           close()
         },
       })),
+      ...matchedPosts.map<Command>((e) => ({
+        id: `post:${e.id}`,
+        group: 'Posts',
+        name: pick(e.title, locale),
+        hint: pick(e.text, locale),
+        meta: e.date ? formatTimelineDate(e.date, locale) : undefined,
+        run: () => {
+          close()
+          location.href = asset(entryPath(e.id))
+        },
+      })),
       {
         id: 'action:request',
         group: 'Navigate',
@@ -134,7 +164,7 @@ export default function TopSearch({
         },
       },
     ]
-  }, [projects, query, onNavigate, onOpenProject, onStartRequest, close, tr, labels])
+  }, [projects, posts, query, locale, onNavigate, onOpenProject, onStartRequest, close, tr, labels])
 
   // Tab entries are filtered by name, project entries are pre-filtered above.
   const results = useMemo(() => {
@@ -143,6 +173,7 @@ export default function TopSearch({
     return commands.filter(
       (c) =>
         c.group === 'Projects' ||
+        c.group === 'Posts' ||
         `${c.name} ${c.hint ?? ''}`.toLowerCase().includes(q),
     )
   }, [commands, query])
@@ -235,7 +266,13 @@ export default function TopSearch({
                       </span>
                       {cmd.meta && (
                         <span className="palette__item-meta">
-                          <StarIcon /> {cmd.meta.replace('★ ', '')}
+                          {cmd.meta.startsWith('★ ') ? (
+                            <>
+                              <StarIcon /> {cmd.meta.slice(2)}
+                            </>
+                          ) : (
+                            cmd.meta
+                          )}
                         </span>
                       )}
                     </button>
