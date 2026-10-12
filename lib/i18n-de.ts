@@ -147,9 +147,97 @@ export const LONG: Record<string, { en: string; de: string }> = {
     en: 'All projects shown here are private hobby projects. I do not work as a freelancer and take on no commissioned work; professional work happens only under employment contracts. A request sent through this site is not an order for a paid service.',
     de: 'Alle hier gezeigten Projekte sind private Hobbyprojekte. Ich arbeite nicht als Freelancer und nehme keine Auftragsarbeiten an; berufliche Tätigkeit läuft ausschließlich über Arbeitsverträge. Eine Anfrage über diese Seite ist keine Bestellung einer bezahlten Leistung.',
   },
+  DV_LEDE: {
+    en: 'PCB inspection with a phone, right in the browser: point the camera at a board, it is recognized, the placement data is laid over it, and each component can be zoomed into and checked. Camera frames stay on the device.',
+    de: 'Leiterplatten-Prüfung mit dem Handy, direkt im Browser: Kamera auf die Platine halten, sie wird erkannt, die Bestückungsdaten werden darübergelegt, und jedes Bauteil lässt sich heranzoomen und prüfen. Kamerabilder bleiben auf dem Gerät.',
+  },
+  DV_PRIVATE: {
+    en: 'Code and data are not public. This page shows occasional previews of the progress, not a product. Questions or test access: send a request.',
+    de: 'Code und Daten sind nicht öffentlich. Diese Seite zeigt nur vereinzelte Einblicke in den Fortschritt, kein fertiges Produkt. Fragen oder Testzugang: gern über eine Anfrage.',
+  },
+  DV_STEP_RECOGNIZE: {
+    en: 'The board is found in the camera image by its features (OpenCV in WebAssembly) and its pose is estimated.',
+    de: 'Die Platine wird anhand ihrer Merkmale im Kamerabild gefunden (OpenCV in WebAssembly), ihre Lage wird geschätzt.',
+  },
+  DV_STEP_OVERLAY: {
+    en: 'Component positions and outlines from the placement data are drawn over the live image and follow the board.',
+    de: 'Positionen und Umrisse der Bauteile aus den Bestückungsdaten werden über das Live-Bild gelegt und folgen der Platine.',
+  },
+  DV_STEP_ZOOM: {
+    en: 'Zoom into a single component while tracking keeps the view stable, even with a shaky hand.',
+    de: 'Ein einzelnes Bauteil heranzoomen, während das Tracking die Ansicht ruhig hält — auch aus der freien Hand.',
+  },
+  DV_STEP_INSPECT: {
+    en: 'Each component gets a result: fine, conspicuous, or not checkable from this view.',
+    de: 'Jedes Bauteil bekommt ein Ergebnis: in Ordnung, auffällig oder aus dieser Ansicht nicht prüfbar.',
+  },
+  DV_FOCUS: {
+    en: 'Right now I am combining the stabilized Deep Zoom with a new AOI system, so a whole board is evaluated automatically and every component is judged by a model of its own.',
+    de: 'Gerade kombiniere ich den stabilisierten Deep Zoom mit einem neuen AOI-System, damit eine ganze Platine automatisch ausgewertet und jedes Bauteil von einem eigenen Modell beurteilt wird.',
+  },
+  DV_FOCUS_GRID: {
+    en: 'The board is split into cells that are zoomed into and captured one after another.',
+    de: 'Die Platine wird in Zellen aufgeteilt, die nacheinander herangezoomt und erfasst werden.',
+  },
+  DV_FOCUS_FUSION: {
+    en: 'Several frames per component are combined, so one blurry frame does not decide.',
+    de: 'Mehrere Bilder pro Bauteil werden zusammengeführt, damit nicht ein einzelnes unscharfes Bild entscheidet.',
+  },
+  DV_FOCUS_MODEL: {
+    en: 'Components are judged against references, later by an own trained model.',
+    de: 'Bauteile werden mit Referenzen verglichen, später mit einem eigenen trainierten Modell beurteilt.',
+  },
+  DV_FOCUS_REVIEW: {
+    en: 'A quick swipe review confirms or rejects results and calibrates the thresholds.',
+    de: 'Eine schnelle Wisch-Prüfung bestätigt oder verwirft Ergebnisse und kalibriert die Schwellen.',
+  },
+  DV_FOCUS_SIDE: {
+    en: 'Top and bottom side of the board are told apart automatically (draft).',
+    de: 'Ober- und Unterseite der Platine werden automatisch unterschieden (Entwurf).',
+  },
+  DV_PRINCIPLE_LOCAL: {
+    en: 'Image processing runs on the device. Tuning with a local LLM only ever sees numbers, never images.',
+    de: 'Die Bildverarbeitung läuft auf dem Gerät. Das Tuning mit einem lokalen LLM sieht nur Kennzahlen, nie Bilder.',
+  },
+  DV_PRINCIPLE_HONEST: {
+    en: 'A pose held in the wrong place is not a success. False alarms and misses are counted separately, and “not checkable” is a result of its own.',
+    de: 'Eine falsch gehaltene Lage ist kein Erfolg. Fehlalarme und übersehene Fehler werden getrennt gezählt, „nicht prüfbar“ ist ein eigenes Ergebnis.',
+  },
+  DV_PRINCIPLE_AID: {
+    en: 'It points people at what to look at. The decision stays with the person doing the inspection.',
+    de: 'Es zeigt, wo man genauer hinschauen sollte. Die Entscheidung bleibt bei dem Menschen, der prüft.',
+  },
+  DV_STATE_AOI: {
+    en: 'Built, measured on recordings',
+    de: 'Gebaut, an Aufnahmen gemessen',
+  },
+  DV_STATUS_NOTE: {
+    en: 'Verdicts on real boards only once the camera is calibrated. Tracking is still a pilot and not yet accepted on the device.',
+    de: 'Urteile an echten Platinen erst nach der Kamera-Kalibrierung. Das Tracking ist noch ein Pilot und auf dem Gerät noch nicht abgenommen.',
+  },
 }
 
 export const DE: Record<string, string> = {
+  // DeepVision-Web page
+  'Private project.': 'Privates Projekt.',
+  'How it works': 'So funktioniert es',
+  Recognize: 'Erkennen',
+  Overlay: 'Überlagern',
+  Inspect: 'Prüfen',
+  'Current focus': 'Aktueller Schwerpunkt',
+  Principles: 'Grundsätze',
+  'Stays local': 'Bleibt lokal',
+  'Honest numbers': 'Ehrliche Zahlen',
+  'An aid, not a sign-off': 'Eine Hilfe, keine Freigabe',
+  'Where it stands': 'Stand',
+  'Board recognition and overlay': 'Platinenerkennung und Overlay',
+  'Deep Zoom with stabilized tracking': 'Deep Zoom mit stabilisiertem Tracking',
+  'AOI in the app': 'AOI in der App',
+  'Automatic top/bottom detection': 'Automatische Ober-/Unterseiten-Erkennung',
+  'Own component model': 'Eigenes Bauteil-Modell',
+  Working: 'Funktioniert',
+  Draft: 'Entwurf',
+  'Built with': 'Gebaut mit',
   // Shell, header, footer
   'Start a request': 'Anfrage starten',
   'GitHub profile': 'GitHub-Profil',

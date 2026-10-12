@@ -143,7 +143,9 @@ export default function OverviewPane({
             <span className="now__also-label">{t('Web apps & backends')}</span>
             <span className="tag">{t('Traceability web app')}</span>
             <span className="tag">JobFinder</span>
-            <span className="tag">DeepVision-Web</span>
+            <a className="tag tag--link" href={href('/deepvision/')}>
+              DeepVision-Web
+            </a>
           </div>
           <div className="now__also">
             <span className="now__also-label">{t('Also in progress')}</span>

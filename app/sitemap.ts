@@ -19,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pages: Page[] = [
     { path: '/', changeFrequency: 'weekly', priority: 1 },
     { path: '/qlink/', changeFrequency: 'weekly', priority: 0.9 },
+    { path: '/deepvision/', changeFrequency: 'monthly', priority: 0.8 },
     ...pageProjects().map(
       (p): Page => ({
         path: `/projects/${projectSlug(p)}/`,

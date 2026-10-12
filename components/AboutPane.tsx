@@ -26,7 +26,7 @@ export default function AboutPane({
   projects: Project[]
   onStartRequest: () => void
 }) {
-  const { t } = useI18n()
+  const { t, href } = useI18n()
   const languages = [...new Set(projects.map((p) => p.language).filter(Boolean))] as string[]
 
   return (
@@ -78,7 +78,9 @@ export default function AboutPane({
             <span>{t('ABOUT_ARIS')}</span>
           </li>
           <li>
-            <strong>DeepVision-Web</strong>
+            <strong>
+              <a href={href('/deepvision/')}>DeepVision-Web</a>
+            </strong>
             <span>{t('ABOUT_DEEPVISION')}</span>
           </li>
           <li>
