@@ -172,8 +172,8 @@ export const LONG: Record<string, { en: string; de: string }> = {
     de: 'Jedes Bauteil bekommt ein Ergebnis: in Ordnung, auffällig oder aus dieser Ansicht nicht prüfbar.',
   },
   DV_FOCUS: {
-    en: 'Right now I am combining the stabilized Deep Zoom with a new AOI system, so a whole board is evaluated automatically and every component is judged by a model of its own.',
-    de: 'Gerade kombiniere ich den stabilisierten Deep Zoom mit einem neuen AOI-System, damit eine ganze Platine automatisch ausgewertet und jedes Bauteil von einem eigenen Modell beurteilt wird.',
+    en: 'Right now I am building FastAOI: the stabilized Deep Zoom mode combined with a fast automatic optical inspection, so a whole board is evaluated automatically and every component is judged by a model of its own.',
+    de: 'Gerade baue ich FastAOI: der stabilisierte Deep-Zoom-Modus kombiniert mit einer schnellen automatischen optischen Inspektion, damit eine ganze Platine automatisch ausgewertet und jedes Bauteil von einem eigenen Modell beurteilt wird.',
   },
   DV_FOCUS_GRID: {
     en: 'The board is split into cells that are zoomed into and captured one after another.',
@@ -232,7 +232,7 @@ export const DE: Record<string, string> = {
   'Where it stands': 'Stand',
   'Board recognition and overlay': 'Platinenerkennung und Overlay',
   'Deep Zoom with stabilized tracking': 'Deep Zoom mit stabilisiertem Tracking',
-  'AOI in the app': 'AOI in der App',
+  'FastAOI with Deep Zoom': 'FastAOI mit Deep Zoom',
   'Automatic top/bottom detection': 'Automatische Ober-/Unterseiten-Erkennung',
   'Own component model': 'Eigenes Bauteil-Modell',
   Working: 'Funktioniert',

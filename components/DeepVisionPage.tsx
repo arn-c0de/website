@@ -35,7 +35,7 @@ const PRINCIPLES = [
 const STATUS = [
   { part: 'Board recognition and overlay', state: 'Working', tone: 'done' },
   { part: 'Deep Zoom with stabilized tracking', state: 'In progress', tone: 'now' },
-  { part: 'AOI in the app', state: 'DV_STATE_AOI', tone: 'now' },
+  { part: 'FastAOI with Deep Zoom', state: 'DV_STATE_AOI', tone: 'now' },
   { part: 'Automatic top/bottom detection', state: 'Draft', tone: 'now' },
   { part: 'Own component model', state: 'Planned', tone: 'planned' },
 ] as const

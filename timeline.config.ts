@@ -323,16 +323,29 @@ const timeline: TimelineEntry[] = [
     help: qlinkHelp,
   },
   {
+    id: 'deepvision-fastaoi',
+    status: 'now',
+    date: '2026-10',
+    title: { en: 'DeepVision-Web: FastAOI with Deep Zoom', de: 'DeepVision-Web: FastAOI mit Deep Zoom' },
+    text: {
+      en: 'Working on FastAOI: a fast automatic optical inspection built on the stabilized Deep Zoom mode of DeepVision-Web. The board is evaluated automatically, cell by cell, and every component is judged by a model of its own. Private project — only occasional previews.',
+      de: 'Arbeit am FastAOI: eine schnelle automatische optische Inspektion auf Basis des stabilisierten Deep-Zoom-Modus von DeepVision-Web. Die Platine wird automatisch Zelle für Zelle ausgewertet, jedes Bauteil von einem eigenen Modell beurteilt. Privates Projekt — nur vereinzelte Einblicke.',
+    },
+    layout: 'text',
+    tags: ['aoi', 'computer-vision', 'webassembly'],
+    project: 'DeepVision-Web-private',
+  },
+  {
     id: 'local-ai',
     status: 'now',
     date: '2026-10',
-    title: { en: 'Local AI: ARIS, FLUID, DeepVision-Web', de: 'Lokale KI: ARIS, FLUID, DeepVision-Web' },
+    title: { en: 'Local AI: ARIS, FLUID', de: 'Lokale KI: ARIS, FLUID' },
     text: {
-      en: 'ARIS is a self-hosted AI agent with voice output and tool support. DeepVision-Web inspects PCBs in the browser; camera frames stay on the device.',
-      de: 'ARIS ist ein selbst gehosteter KI-Agent mit Sprachausgabe und Werkzeugen. DeepVision-Web prüft Leiterplatten im Browser; Kamerabilder bleiben auf dem Gerät.',
+      en: 'ARIS is a self-hosted AI agent with voice output and tool support.',
+      de: 'ARIS ist ein selbst gehosteter KI-Agent mit Sprachausgabe und Werkzeugen.',
     },
     layout: 'text',
-    tags: ['llm', 'agents', 'webassembly'],
+    tags: ['llm', 'agents'],
   },
 
   // ── Done ───────────────────────────────────────────────────────────────
