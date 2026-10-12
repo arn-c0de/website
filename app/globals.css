@@ -8736,3 +8736,7 @@ a.tag--link:hover {
 .pane--loading {
   min-height: 60vh;
 }
+
+.dvp .qlp__note {
+  max-width: 80ch;
+}

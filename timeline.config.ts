@@ -345,6 +345,22 @@ const timeline: TimelineEntry[] = [
     mentions: ['A-AIO-process-optimization-and-training'],
   },
   {
+    id: 'deepvision-smooth-tracking',
+    status: 'now',
+    date: '2026-10-12T21:00',
+    title: {
+      en: 'DeepVision-Web: tracking without the stutter',
+      de: 'DeepVision-Web: Tracking ohne Ruckeln',
+    },
+    text: {
+      en: 'On the phone the anchors now work while tracking: about 19 poses a second, the overlay visible in three of four frames, corrections of 1.5 to 14 px. The slight stutter left comes from the anchor search every two seconds; next is a cheaper feature search for it. Private project — only occasional previews.',
+      de: 'Am Handy funktionieren die Anker jetzt im Track: rund 19 Posen pro Sekunde, das Overlay in drei von vier Bildern sichtbar, Korrekturen von 1,5 bis 14 px. Das restliche leichte Ruckeln kommt von der Ankersuche alle zwei Sekunden; als Nächstes eine billigere Merkmalssuche dafür. Privates Projekt — nur vereinzelte Einblicke.',
+    },
+    layout: 'text',
+    tags: ['tracking', 'opencv', 'webassembly'],
+    project: 'DeepVision-Web-private',
+  },
+  {
     id: 'deepvision-fastaoi',
     status: 'now',
     date: '2026-10',

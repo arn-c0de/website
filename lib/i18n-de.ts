@@ -195,6 +195,22 @@ export const LONG: Record<string, { en: string; de: string }> = {
     en: 'It points people at what to look at. The decision stays with the person doing the inspection.',
     de: 'Es zeigt, wo man genauer hinschauen sollte. Die Entscheidung bleibt bei dem Menschen, der prüft.',
   },
+  DV_NEXT: {
+    en: 'The latest phone run: about 19 poses a second at 30 camera frames, the overlay visible in three of four frames, and the anchors work on the device: they correct the pose by 1.5 to 14 px while tracking. What is left is a slight stutter. About every two seconds an anchor search runs for 0.6 to 0.9 s, tracking takes longer meanwhile and camera frames are dropped.',
+    de: 'Der letzte Lauf am Handy: rund 19 Posen pro Sekunde bei 30 Kamerabildern, das Overlay in drei von vier Bildern sichtbar, und die Anker funktionieren auf dem Gerät: Sie korrigieren die Pose im Track um 1,5 bis 14 px. Übrig ist ein leichtes Ruckeln. Etwa alle zwei Sekunden läuft eine Ankersuche von 0,6 bis 0,9 s, die Verfolgung braucht in der Zeit länger und Kamerabilder fallen aus.',
+  },
+  DV_NEXT_1: {
+    en: 'A cheaper feature search for anchors during tracking: the pose is already known there, so fewer features or a faster detector than AKAZE are enough.',
+    de: 'Eine billigere Merkmalssuche für Anker im Track: Die Pose ist dort schon bekannt, also reichen weniger Merkmale oder ein schnelleres Verfahren als AKAZE.',
+  },
+  DV_NEXT_2: {
+    en: 'Refining the anchor without the extra load on the tracking.',
+    de: 'Den Anker nachführen, ohne die Verfolgung zusätzlich zu belasten.',
+  },
+  DV_NEXT_NOTE: {
+    en: 'Both then go through the video regression and a run on the device again. Rarer anchors, fewer flow points, smaller frames, a search window for the anchor and other thread splits have already been tried and ruled out.',
+    de: 'Beides geht danach wieder durch die Videoregression und einen Lauf auf dem Gerät. Seltenere Anker, weniger Flusspunkte, kleinere Bildbreiten, ein Suchausschnitt für den Anker und andere Thread-Aufteilungen sind schon ausprobiert und verworfen.',
+  },
   DV_SYNTH: {
     en: 'A possible combination with AIO Process Optimization, my public sandbox for AOI models: its Simple-Sim pipeline generates synthetic datasets of components and defects, trains classifiers on them and ranks them in an arena. Such synthetic data could train DeepVision’s own component model for better recognition, before enough real board images exist. An idea under consideration, not a fixed plan.',
     de: 'Eine mögliche Kombination mit AIO Process Optimization, meiner öffentlichen Sandbox für AOI-Modelle: Deren Simple-Sim-Pipeline erzeugt synthetische Datensätze von Bauteilen und Fehlern, trainiert Klassifikatoren darauf und vergleicht sie in einer Arena. Solche synthetischen Daten könnten das eigene Bauteil-Modell von DeepVision für eine bessere Erkennung trainieren, bevor genug echte Platinenbilder vorliegen. Eine Idee, die ich prüfe, kein fester Plan.',
@@ -238,6 +254,7 @@ export const DE: Record<string, string> = {
   Draft: 'Entwurf',
   'Built with': 'Gebaut mit',
   'Possible next step': 'Möglicher nächster Schritt',
+  'Next steps': 'Nächste Schritte',
   'Synthetic training data from Simple-Sim': 'Synthetische Trainingsdaten aus Simple-Sim',
   'Under consideration': 'Wird geprüft',
   // Shell, header, footer

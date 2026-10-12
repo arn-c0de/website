@@ -29,6 +29,8 @@ const STEPS = [
 
 const FOCUS = ['DV_FOCUS_GRID', 'DV_FOCUS_FUSION', 'DV_FOCUS_MODEL', 'DV_FOCUS_REVIEW', 'DV_FOCUS_SIDE'] as const
 
+const NEXT = ['DV_NEXT_1', 'DV_NEXT_2'] as const
+
 const PRINCIPLES = [
   { title: 'Stays local', text: 'DV_PRINCIPLE_LOCAL' },
   { title: 'Honest numbers', text: 'DV_PRINCIPLE_HONEST' },
@@ -130,6 +132,17 @@ function Content() {
               <li key={key}>{t(key)}</li>
             ))}
           </ul>
+        </section>
+
+        <section className="qlp__section">
+          <h2 className="pp-label">{t('Next steps')}</h2>
+          <p className="dvp__lead">{t('DV_NEXT')}</p>
+          <ol className="dvp__list">
+            {NEXT.map((key) => (
+              <li key={key}>{t(key)}</li>
+            ))}
+          </ol>
+          <p className="qlp__note">{t('DV_NEXT_NOTE')}</p>
         </section>
 
         <section className="qlp__section">
