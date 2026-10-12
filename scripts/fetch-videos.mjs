@@ -56,19 +56,28 @@ async function resolveChannelId(existing) {
   return existing.channelId
 }
 
-/** The largest thumbnail YouTube has for the video; not every size exists. */
+/**
+ * The largest thumbnail YouTube has for the video; not every size exists.
+ * WebP first — about half the bytes of the JPEG — and the JPEG if YouTube
+ * has no WebP for it.
+ */
 async function saveThumbnail(id) {
-  const file = join(thumbDir, `${id}.jpg`)
-  if (existsSync(file)) return `/timeline/youtube/${id}.jpg`
-  for (const size of ['maxresdefault', 'sddefault', 'hqdefault']) {
+  for (const ext of ['webp', 'jpg']) {
+    if (existsSync(join(thumbDir, `${id}.${ext}`))) return `/timeline/youtube/${id}.${ext}`
+  }
+  const sources = ['maxresdefault', 'sddefault', 'hqdefault'].flatMap((size) => [
+    { url: `https://i.ytimg.com/vi_webp/${id}/${size}.webp`, ext: 'webp' },
+    { url: `https://i.ytimg.com/vi/${id}/${size}.jpg`, ext: 'jpg' },
+  ])
+  for (const { url, ext } of sources) {
     try {
-      const bytes = await get(`https://i.ytimg.com/vi/${id}/${size}.jpg`, 'bytes')
+      const bytes = await get(url, 'bytes')
       // YouTube answers a missing size with a 120px grey placeholder.
       if (bytes.length < 2_000) continue
-      writeFileSync(file, bytes)
-      return `/timeline/youtube/${id}.jpg`
+      writeFileSync(join(thumbDir, `${id}.${ext}`), bytes)
+      return `/timeline/youtube/${id}.${ext}`
     } catch {
-      /* try the next size */
+      /* try the next source */
     }
   }
   return null
