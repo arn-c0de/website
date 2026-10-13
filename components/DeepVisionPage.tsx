@@ -62,7 +62,7 @@ function Content() {
       action={
         <a
           className="btn btn--request btn--sm"
-          href={`${home}?request=1&for=DeepVision-Web`}
+          href={`${home}?request=1&for=DeepVision-Web-private`}
           aria-label={t('Ask about this')}
         >
           <RequestIcon />
@@ -98,7 +98,7 @@ function Content() {
         </header>
 
         <div className="pp-actions">
-          <a className="btn" href={`${home}?request=1&for=DeepVision-Web`}>
+          <a className="btn" href={`${home}?request=1&for=DeepVision-Web-private`}>
             <RequestIcon />
             {t('Ask about this')}
           </a>

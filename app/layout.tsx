@@ -188,6 +188,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <li>
                   <a href={asset('/deepvision/')}>DeepVision-Web</a>
                 </li>
+                <li>
+                  <a href={asset('/agent-office/')}>Agent Office</a>
+                </li>
                 {pageProjects().map((p) => (
                   <li key={p.name}>
                     <a href={projectHref(p)}>{p.title}</a>

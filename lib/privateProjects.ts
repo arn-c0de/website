@@ -24,5 +24,9 @@ export const PRIVATE_PROJECTS: Project[] = [
     icon: asset('/projects/deepvision/icon-light.svg'),
     iconDark: asset('/projects/deepvision/icon-dark.svg'),
   }),
+  privateProject('Agent-Office-private', 'Agent Office', 'Local control plane for a small team of AI coding agents: isolated workspaces, budgets, approvals on the phone and an isometric pixel-art office. Private project; test versions are available on request.', ['private-access', 'agents', 'typescript'], {
+    language: 'TypeScript',
+    page: '/agent-office/',
+  }),
   privateProject('anon-WebMirror-private', 'anon-WebMirror', 'Privacy-focused website mirroring with fail-closed leak protection. Access is available on request.', ['private-access', 'privacy', 'security']),
 ]

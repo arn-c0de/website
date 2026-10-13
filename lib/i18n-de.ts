@@ -223,6 +223,78 @@ export const LONG: Record<string, { en: string; de: string }> = {
     en: 'Deep Zoom with stabilized tracking works. FastAOI gives verdicts on real boards only once the camera is calibrated.',
     de: 'Deep Zoom mit stabilisiertem Tracking funktioniert. FastAOI liefert Urteile an echten Platinen erst nach der Kamera-Kalibrierung.',
   },
+  AO_LEDE: {
+    en: 'A private, local control plane for a small team of AI coding agents. It coordinates Claude Code and Codex sessions, gives every agent its own isolated workspace and a fixed budget, sends approvals to a phone-friendly page and shows the team as an isometric pixel-art office.',
+    de: 'Eine private, lokale Steuerzentrale für ein kleines Team von KI-Coding-Agenten. Sie koordiniert Sitzungen von Claude Code und Codex, gibt jedem Agenten einen eigenen, isolierten Arbeitsbereich und ein festes Budget, schickt Freigaben auf eine handytaugliche Seite und zeigt das Team als isometrisches Pixel-Art-Büro.',
+  },
+  AO_PRIVATE: {
+    en: 'The code is not public and the project is under active development. Test versions are available: send a request.',
+    de: 'Der Code ist nicht öffentlich, das Projekt wird aktiv entwickelt. Testversionen gibt es: gern über eine Anfrage.',
+  },
+  AO_STEP_ASSIGN: {
+    en: 'Every project gets its own floor with agents, roles, rules and a work queue. One active session per agent; unfinished requests are handed on to a colleague.',
+    de: 'Jedes Projekt bekommt eine eigene Etage mit Agenten, Rollen, Regeln und einer Arbeitswarteschlange. Eine aktive Sitzung pro Agent; Unerledigtes wird an eine Kollegin oder einen Kollegen übergeben.',
+  },
+  AO_STEP_ISOLATE: {
+    en: 'Each agent works in its own Git worktree. Commits are brokered, and the developer’s own checkout is never touched.',
+    de: 'Jeder Agent arbeitet in einem eigenen Git-Worktree. Commits laufen über einen Vermittler, der eigene Checkout des Entwicklers bleibt unberührt.',
+  },
+  AO_STEP_APPROVE: {
+    en: 'Risky operations wait for a decision on the phone. A changed, expired or replayed operation needs a fresh one.',
+    de: 'Riskante Operationen warten auf eine Entscheidung am Handy. Eine geänderte, abgelaufene oder wiederholte Operation braucht eine neue.',
+  },
+  AO_STEP_WATCH: {
+    en: 'The office shows who is working on what, with tickets, chat and a budget view of the real usage windows of the subscriptions.',
+    de: 'Das Büro zeigt, wer woran arbeitet, mit Tickets, Chat und einer Budgetansicht der echten Nutzungsfenster der Abos.',
+  },
+  AO_WORLD: {
+    en: 'A layer on top of the office: every employee becomes a resident of a small city, with needs, money, a home and hobbies. A good or a bad day may shape how they work — never whether they work safely and honestly.',
+    de: 'Eine Ebene über dem Büro: Aus jedem Mitarbeiter wird ein Bewohner einer kleinen Stadt, mit Bedürfnissen, Geld, einem Zuhause und Hobbys. Ein guter oder schlechter Tag darf beeinflussen, wie sie arbeiten — nie, ob sie sicher und ehrlich arbeiten.',
+  },
+  AO_WORLD_NEEDS: {
+    en: 'Needs, a wallet and a wardrobe: clothes wear out, and every figure is drawn in what it actually wears.',
+    de: 'Bedürfnisse, eine Geldbörse und ein Kleiderschrank: Kleidung nutzt sich ab, jede Figur wird in dem gezeichnet, was sie wirklich trägt.',
+  },
+  AO_WORLD_CITY: {
+    en: 'A city with districts, a supermarket, café, bakery, bookstore, gym and a clothing store, stocked with real goods from a warehouse.',
+    de: 'Eine Stadt mit Vierteln, Supermarkt, Café, Bäckerei, Buchladen, Fitnessstudio und Modegeschäft, bestückt mit echten Waren aus einem Lager.',
+  },
+  AO_WORLD_FREE: {
+    en: 'A fixed workday with guaranteed breaks and free time; off duty, residents decide on their own where to go.',
+    de: 'Ein fester Arbeitstag mit garantierten Pausen und Freizeit; außer Dienst entscheiden die Bewohner selbst, wohin sie gehen.',
+  },
+  AO_WORLD_ORDERS: {
+    en: 'Work is offered, not imposed: it starts when the resident accepts it or the owner overrides that on the record.',
+    de: 'Arbeit wird angeboten, nicht aufgezwungen: Sie beginnt, wenn der Bewohner zusagt oder der Inhaber das nachvollziehbar überstimmt.',
+  },
+  AO_WORLD_SOCIAL: {
+    en: 'Optional small talk between idle colleagues, from which personalities and relationships grow; every change can be traced and undone.',
+    de: 'Optionaler Smalltalk zwischen freien Kollegen, aus dem Persönlichkeiten und Beziehungen wachsen; jede Änderung ist nachvollziehbar und umkehrbar.',
+  },
+  AO_WORLD_NOTE: {
+    en: 'Off by default. The life simulation makes no model calls of its own; the small talk runs within a weekly token limit.',
+    de: 'Standardmäßig aus. Die Lebenssimulation macht selbst keine Modellaufrufe; der Smalltalk läuft innerhalb eines wöchentlichen Token-Limits.',
+  },
+  AO_PRINCIPLE_CLOSED: {
+    en: 'When sandboxing, sign-in, a policy check or a provider check is not available, nothing runs.',
+    de: 'Ist Sandbox, Anmeldung, Richtlinienprüfung oder Anbieterprüfung nicht verfügbar, läuft nichts.',
+  },
+  AO_PRINCIPLE_APPROVE: {
+    en: 'Nothing is pushed automatically. Pushes, syncs and risky tool calls wait for an explicit decision.',
+    de: 'Nichts wird automatisch gepusht. Pushes, Abgleiche und riskante Werkzeugaufrufe warten auf eine ausdrückliche Entscheidung.',
+  },
+  AO_PRINCIPLE_LOCAL: {
+    en: 'The app binds to the local machine and is reached on the LAN through HTTPS. Credentials never reach the agents.',
+    de: 'Die App lauscht nur lokal und ist im LAN über HTTPS erreichbar. Zugangsdaten gelangen nie zu den Agenten.',
+  },
+  AO_STATE_BUILT: {
+    en: 'Built, acceptance open',
+    de: 'Gebaut, Abnahme offen',
+  },
+  AO_STATUS_NOTE: {
+    en: 'A passing test suite does not mean it may run on its own: autonomous use stays off until the safety and provider checks have passed on the real machine.',
+    de: 'Eine grüne Testsuite heißt nicht, dass es allein laufen darf: Der autonome Betrieb bleibt aus, bis die Sicherheits- und Anbieterprüfungen auf dem echten Rechner bestanden sind.',
+  },
 }
 
 export const DE: Record<string, string> = {
@@ -257,6 +329,23 @@ export const DE: Record<string, string> = {
   'Next steps': 'Nächste Schritte',
   'Synthetic training data from Simple-Sim': 'Synthetische Trainingsdaten aus Simple-Sim',
   'Under consideration': 'Wird geprüft',
+  // Agent Office page
+  'Request a test version': 'Testversion anfragen',
+  Assign: 'Zuweisen',
+  Isolate: 'Isolieren',
+  Approve: 'Freigeben',
+  Watch: 'Beobachten',
+  'Not passed yet': 'Noch nicht bestanden',
+  'Fails closed': 'Im Zweifel zu',
+  'A person decides': 'Ein Mensch entscheidet',
+  'Stays on the LAN': 'Bleibt im LAN',
+  'Server and browser app': 'Server und Browser-App',
+  'Isolated workspaces and brokered commits': 'Isolierte Arbeitsbereiche und vermittelte Commits',
+  'Approvals, budgets and usage windows': 'Freigaben, Budgets und Nutzungsfenster',
+  'Safety and provider verification': 'Sicherheits- und Anbieterprüfung',
+  'Agent World: needs, money, city': 'Agent World: Bedürfnisse, Geld, Stadt',
+  'Agent World: workday, free time, own decisions': 'Agent World: Arbeitstag, Freizeit, eigene Entscheidungen',
+  'Agent World: thinking, emotions, relationships': 'Agent World: Denken, Gefühle, Beziehungen',
   // Shell, header, footer
   'Start a request': 'Anfrage starten',
   'GitHub profile': 'GitHub-Profil',

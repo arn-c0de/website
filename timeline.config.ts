@@ -312,6 +312,20 @@ const timeline: TimelineEntry[] = [
     help: qlinkHelp,
   },
 
+  {
+    id: 'agent-office-mind',
+    status: 'planned',
+    when: { en: 'Planned', de: 'Geplant' },
+    title: { en: 'Agent Office: residents that think for themselves', de: 'Agent Office: Bewohner, die selbst nachdenken' },
+    text: {
+      en: 'The next layers of Agent World: a thinking cycle, decisions weighed with a model, emotions and relationships between the residents. Planned, not built yet; autonomous use stays off until the safety checks have passed.',
+      de: 'Die nächsten Ebenen von Agent World: ein Denkzyklus, mit einem Modell abgewogene Entscheidungen, Gefühle und Beziehungen zwischen den Bewohnern. Geplant, noch nicht gebaut; der autonome Betrieb bleibt aus, bis die Sicherheitsprüfungen bestanden sind.',
+    },
+    layout: 'text',
+    tags: ['agents', 'simulation', 'llm'],
+    project: 'Agent-Office-private',
+  },
+
   // ── In progress ────────────────────────────────────────────────────────
   {
     id: 'qlink',
@@ -326,6 +340,19 @@ const timeline: TimelineEntry[] = [
     tags: ['M1', 'M2', 'rust', 'linux'],
     project: 'QLink-preview',
     help: qlinkHelp,
+  },
+  {
+    id: 'agent-office',
+    status: 'now',
+    date: '2026-10',
+    title: { en: 'Agent Office: an office for AI coding agents', de: 'Agent Office: ein Büro für KI-Coding-Agenten' },
+    text: {
+      en: 'A local control plane that runs a small team of Claude Code and Codex agents, each in its own workspace with its own budget, with approvals on the phone and the team shown as an isometric pixel-art office. On top, Agent World turns the agents into residents of a small city with needs, money and free time. Private project — test versions are available on request.',
+      de: 'Eine lokale Steuerzentrale für ein kleines Team aus Claude-Code- und Codex-Agenten, jeder in einem eigenen Arbeitsbereich mit eigenem Budget, mit Freigaben am Handy und dem Team als isometrischem Pixel-Art-Büro. Darüber macht Agent World die Agenten zu Bewohnern einer kleinen Stadt mit Bedürfnissen, Geld und Freizeit. Privates Projekt — Testversionen gibt es auf Anfrage.',
+    },
+    layout: 'text',
+    tags: ['agents', 'typescript', 'pixel-art'],
+    project: 'Agent-Office-private',
   },
   {
     id: 'deepvision-synthetic-data',
@@ -477,6 +504,19 @@ const timeline: TimelineEntry[] = [
     ],
     tags: ['weather', 'fluid', 'editor', 'rust'],
     project: 'QLink-preview',
+  },
+  {
+    id: 'agent-office-start',
+    status: 'done',
+    date: '2026-09-27',
+    title: { en: 'Agent Office: started', de: 'Agent Office: gestartet' },
+    text: {
+      en: 'First commit of Agent Office, a private control plane for AI coding agents: one session per agent, isolated Git worktrees, budgets and approvals before anything risky runs.',
+      de: 'Erster Commit von Agent Office, einer privaten Steuerzentrale für KI-Coding-Agenten: eine Sitzung pro Agent, isolierte Git-Worktrees, Budgets und Freigaben, bevor etwas Riskantes läuft.',
+    },
+    layout: 'text',
+    tags: ['agents', 'typescript'],
+    project: 'Agent-Office-private',
   },
   {
     id: 'qlink-feasibility',

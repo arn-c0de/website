@@ -22,7 +22,7 @@ export interface NowItem {
 }
 
 export const now: { reviewed: string; items: NowItem[] } = {
-  reviewed: '2026-10-12',
+  reviewed: '2026-10-13',
   items: [
     {
       name: { en: 'Traceability web app', de: 'Rückverfolgbarkeits-Web-App' },
@@ -53,6 +53,15 @@ export const now: { reviewed: string; items: NowItem[] } = {
         de: 'Leiterplatten-Prüfung im Browser, Kamerabilder bleiben auf dem Gerät',
       },
       overview: 'web',
+    },
+    {
+      name: 'Agent Office',
+      href: '/agent-office/',
+      about: {
+        en: 'office for a small team of AI coding agents, test versions on request',
+        de: 'Büro für ein kleines Team von KI-Coding-Agenten, Testversionen auf Anfrage',
+      },
+      overview: 'also',
     },
     {
       name: 'QLink',
