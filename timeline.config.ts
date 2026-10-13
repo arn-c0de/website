@@ -372,6 +372,19 @@ const timeline: TimelineEntry[] = [
     mentions: ['A-AIO-process-optimization-and-training'],
   },
   {
+    id: 'deepvision-update-2026-10-13',
+    status: 'done',
+    date: '2026-10-13T21:00',
+    title: { en: 'DeepVision-Web: project update', de: 'DeepVision-Web: Projekt-Update' },
+    text: {
+      en: 'The board pose now comes from the mounting holes: pins are off by 0.03 mm instead of 0.75 mm, and hard, dark photos fall back on the holes too. “Empty” crops turned out to be test points and fiducials, which are now left out. The autopilot’s first report: very good on known defects, not yet on phone photos. Private project — only occasional previews.',
+      de: 'Die Lage der Platine kommt jetzt aus den Befestigungsbohrungen: Pins liegen 0,03 mm statt 0,75 mm daneben, und auch schwierige, dunkle Fotos greifen darauf zurück. „Leere“ Ausschnitte waren Prüfpunkte und Passmarken, die jetzt ausgenommen sind. Der erste Bericht des Autopiloten: sehr gut bei bekannten Fehlern, bei Handyfotos noch nicht. Privates Projekt — nur vereinzelte Einblicke.',
+    },
+    layout: 'text',
+    tags: ['calibration', 'aoi', 'opencv'],
+    project: 'DeepVision-Web-private',
+  },
+  {
     id: 'deepvision-aoi-autopilot',
     status: 'now',
     date: '2026-10-13T17:30',
