@@ -182,7 +182,9 @@ the build and the smoke test before pushing.
 
 - Commits are authored and committed as `arn-c0de <arn-c0de@protonmail.com>`. No co-author or
   session lines naming an AI assistant, and no branch names containing "claude".
-- `main` is what is live. Push there when the checks pass.
+- **Always push to `main`.** `main` is what is live; work left only on a session branch never
+  reaches the site. Push there when the checks pass; a session branch may get the same commits
+  as a mirror, never instead.
 - Ids and paths are URLs: never rename a timeline `id` or a page path once it is published.
 - Never invent dates, numbers or progress. Ask the owner when the facts are not in the repos.
 - Private projects stay vague on purpose: what it does, the focus, the status, nothing internal.
