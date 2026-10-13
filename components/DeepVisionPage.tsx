@@ -27,7 +27,7 @@ const STEPS = [
   { title: 'Inspect', text: 'DV_STEP_INSPECT' },
 ] as const
 
-const FOCUS = ['DV_FOCUS_GRID', 'DV_FOCUS_FUSION', 'DV_FOCUS_MODEL', 'DV_FOCUS_REVIEW', 'DV_FOCUS_SIDE'] as const
+const FOCUS = ['DV_FOCUS_GRID', 'DV_FOCUS_FUSION', 'DV_FOCUS_MODEL', 'DV_FOCUS_REVIEW', 'DV_FOCUS_SIDE', 'DV_FOCUS_AUTO'] as const
 
 const NEXT = ['DV_NEXT_1', 'DV_NEXT_2'] as const
 

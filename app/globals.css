@@ -7729,6 +7729,11 @@ a.latest__item {
   line-height: 1.7;
 }
 
+/* Space between the summary and a write-up that follows it directly. */
+.post__lede + .post__p {
+  margin-top: 24px;
+}
+
 .post .help {
   margin: 24px 0;
 }

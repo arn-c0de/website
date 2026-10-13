@@ -183,6 +183,10 @@ export const LONG: Record<string, { en: string; de: string }> = {
     en: 'Top and bottom side of the board are told apart automatically (draft).',
     de: 'Ober- und Unterseite der Platine werden automatisch unterschieden (Entwurf).',
   },
+  DV_FOCUS_AUTO: {
+    en: 'An autopilot runs photos, videos and scans through the app, measures how well each box sits, rates the crops and tunes thresholds, references and dataset itself, but only after a regression has passed.',
+    de: 'Ein Autopilot schickt Fotos, Videos und Scans durch die App, misst, wie gut jeder Rahmen sitzt, bewertet die Crops und stellt Schwellen, Referenzen und Datensatz selbst nach, aber erst nach bestandener Regression.',
+  },
   DV_PRINCIPLE_LOCAL: {
     en: 'Image processing runs on the device. Tuning with a local LLM only ever sees numbers, never images.',
     de: 'Die Bildverarbeitung läuft auf dem Gerät. Das Tuning mit einem lokalen LLM sieht nur Kennzahlen, nie Bilder.',

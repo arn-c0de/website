@@ -372,6 +372,26 @@ const timeline: TimelineEntry[] = [
     mentions: ['A-AIO-process-optimization-and-training'],
   },
   {
+    id: 'deepvision-aoi-autopilot',
+    status: 'now',
+    date: '2026-10-13T17:30',
+    title: {
+      en: 'DeepVision-Web: an AOI autopilot that tests and tunes itself',
+      de: 'DeepVision-Web: ein AOI-Autopilot, der sich selbst prüft und nachstellt',
+    },
+    text: {
+      en: 'New plan: instead of me checking photos by hand, an autopilot runs phone photos, videos and scans through the real app, checks whether each component box really sits on its part, rates the crops and then tunes thresholds, references and the dataset itself. Only a few labels from the phone are still up to me. Private project — only occasional previews.',
+      de: 'Neuer Plan: Statt dass ich Fotos von Hand durchsehe, schickt ein Autopilot Handyfotos, Videos und Scans durch die echte App, prüft, ob jeder Bauteilrahmen wirklich auf seinem Bauteil sitzt, bewertet die Crops und stellt danach Schwellen, Referenzen und den Datensatz selbst nach. Von mir kommen nur noch ab und zu ein paar Labels vom Handy. Privates Projekt — nur vereinzelte Einblicke.',
+    },
+    body: {
+      en: 'Where it started: on slightly tilted phone photos the component boxes often did not sit exactly on the parts. One pose for the whole board cannot follow the lens, the angle or a bent board, so a crop confirmed as OK sometimes showed bare board instead of the component. That gets a local correction field, and the fit of every crop is measured against a reference scan.\n\nFrom there it grows into a loop: run the images, measure the fit (green, yellow or red per image), rate the crops, tune, and check again. A new database of top and bottom photos with good parts and real defects helps, and for the first time it gives the bottom side a dataset of its own.\n\nNothing is adopted blindly. Every change has to pass a regression first: simulated phone photos with tilt, lens distortion, a bent board, blur and changing light, where the true position of every part is known; real photos; a set of confirmed defects and false alarms; and the labels from the phone. Only then does the autopilot write new thresholds and references, and I get the report afterwards.\n\nWhat counts as a defect: a missing or wrong part, an offset or rotated one, solder defects and foreign objects. A part that sits off by a quarter of its pad width or more counts as offset. A run takes up to about 15 minutes and starts when I ask for it. The plan is written; the building comes next, step by step.',
+      de: 'Angefangen hat es so: Auf leicht schrägen Handyfotos saßen die Bauteilrahmen oft nicht genau auf den Bauteilen. Eine einzige Pose für die ganze Platine kann Objektiv, Schräglage oder eine durchgebogene Platine nicht abbilden, also zeigte ein als OK bestätigter Crop manchmal leere Platine statt Bauteil. Dafür kommt ein lokales Korrekturfeld, und der Sitz jedes Crops wird gegen einen Referenzscan gemessen.\n\nDaraus wird ein Kreislauf: Bilder durchlaufen lassen, Sitz messen (grün, gelb oder rot je Bild), Crops bewerten, nachstellen, wieder prüfen. Dabei hilft eine neue Datenbank mit Fotos von Ober- und Unterseite, mit guten Bauteilen und echten Fehlern. Die Unterseite bekommt so zum ersten Mal einen eigenen Datensatz.\n\nÜbernommen wird nichts blind. Jede Änderung muss vorher durch eine Regression: künstliche Handyfotos mit Schräglage, Verzeichnung, durchgebogener Platine, Unschärfe und wechselndem Licht, bei denen die wahre Lage jedes Bauteils bekannt ist; echte Fotos; ein Satz bestätigter Fehler und Fehlalarme; und die Labels vom Handy. Erst dann schreibt der Autopilot neue Schwellen und Referenzen, und ich bekomme den Bericht danach.\n\nAls Fehler zählen: fehlendes oder falsches Bauteil, versetzt oder verdreht, Lötfehler und Fremdkörper. Wer um ein Viertel der Pad-Breite oder mehr daneben sitzt, gilt als versetzt. Ein Lauf dauert bis etwa 15 Minuten und startet, wenn ich ihn anstoße. Der Plan steht, gebaut wird als Nächstes, Schritt für Schritt.',
+    },
+    layout: 'text',
+    tags: ['aoi', 'autopilot', 'computer-vision'],
+    project: 'DeepVision-Web-private',
+  },
+  {
     id: 'deepvision-smooth-tracking',
     status: 'now',
     date: '2026-10-12T21:00',
