@@ -6,7 +6,7 @@ const privateProject = (
   title: string,
   description: string,
   topics: string[],
-  extra: Partial<Pick<Project, 'language' | 'page' | 'icon' | 'iconDark'>> = {},
+  extra: Partial<Pick<Project, 'language' | 'page' | 'icon' | 'iconDark' | 'noRequests'>> = {},
 ): Project => ({
   name, title, description, topics,
   full_name: 'private project', html_url: '', homepage: null, language: 'Rust',
@@ -28,8 +28,9 @@ export const PRIVATE_PROJECTS: Project[] = [
     language: 'TypeScript',
     page: '/agent-office/',
   }),
-  privateProject('PCB-Trace-private', 'PCB-Trace', 'A private, self-hosted traceability web app for electronics production. Serial numbers and Data Matrix codes are scanned on tablets, and every board can be followed through its own sequence of steps, with photos, defects and repairs. Around it: day and week planning, orders with partial deliveries, statistics, roles with login, an audit log, and operator names that disappear after a retention period. Details on request.', ['private-access', 'traceability', 'web'], {
+  privateProject('Trace-private', 'Trace', 'A private, self-hosted traceability web app for PCB assembly. Every circuit board is identified by its serial number or Data Matrix code, scanned on tablets and followed through its own sequence of production steps, with photos of the board, the defects found on it and their repairs. Around it: day and week planning, orders with partial deliveries, statistics, roles with login, an audit log, and operator names that disappear after a retention period.', ['traceability', 'pcb', 'web'], {
     language: 'JavaScript',
+    noRequests: true,
   }),
   privateProject('anon-WebMirror-private', 'anon-WebMirror', 'Privacy-focused website mirroring with fail-closed leak protection. Access is available on request.', ['private-access', 'privacy', 'security']),
 ]

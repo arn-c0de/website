@@ -243,10 +243,12 @@ export default function ProjectPanel({
 
           <section className="panel__section">
             <div className="panel__actions">
-              <button type="button" className="btn btn--request" onClick={() => onRequest(project.name)}>
-                <RequestIcon />
-                {t('Ask about this')}
-              </button>
+              {!project.noRequests && (
+                <button type="button" className="btn btn--request" onClick={() => onRequest(project.name)}>
+                  <RequestIcon />
+                  {t('Ask about this')}
+                </button>
+              )}
               {links.map((link) => (
                 <a
                   key={link.href}

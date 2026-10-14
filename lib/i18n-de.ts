@@ -99,6 +99,10 @@ export const LONG: Record<string, { en: string; de: string }> = {
     en: 'Verify the fingerprint through a second channel before sending anything sensitive.',
     de: 'Vor sensiblen Nachrichten den Fingerabdruck über einen zweiten Kanal prüfen.',
   },
+  PANEL_PRIVATE_CLOSED: {
+    en: 'Private project. Not open to requests or questions.',
+    de: 'Privates Projekt. Keine Anfragen oder Fragen.',
+  },
   PANEL_PRIVATE: {
     en: 'Private project. Use “Ask about this” to request access.',
     de: 'Privates Projekt. Zugang über „Danach fragen“ anfragen.',

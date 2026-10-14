@@ -123,7 +123,7 @@ export default function Readme({
       {readmeState === 'missing' && (
         <p style={{ color: 'var(--text-faint)', fontSize: 13.5, margin: 0 }}>
           {project.isPrivate
-            ? t('PANEL_PRIVATE')
+            ? t(project.noRequests ? 'PANEL_PRIVATE_CLOSED' : 'PANEL_PRIVATE')
             : t('Readme could not be loaded — open the repository on GitHub instead.')}
         </p>
       )}

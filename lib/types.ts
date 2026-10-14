@@ -38,6 +38,8 @@ export interface Project extends GitHubRepo {
   page?: string
   /** Icon variant for the dark theme, when the icon needs one. */
   iconDark?: string
+  /** Not open to requests or questions: no "Ask about this", not offered in the request form. */
+  noRequests?: boolean
 }
 
 export type SortKey = 'featured' | 'stars' | 'updated' | 'name'

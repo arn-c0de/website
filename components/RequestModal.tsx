@@ -80,7 +80,7 @@ export default function RequestModal({
   /** Searching projects by language, topic or blurb beats scrolling a list. */
   const projectItems: PickerItem[] = useMemo(
     () =>
-      projects.map((p) => ({
+      projects.filter((p) => !p.noRequests).map((p) => ({
         id: p.name,
         title: p.title,
         keywords: [p.name, p.description ?? '', p.language ?? '', p.category, ...p.topics].join(' '),
