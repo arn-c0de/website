@@ -191,7 +191,7 @@ export default function OverviewPane({
       />
       <Gallery
         title={t('Private projects')}
-        hint={t('Not public. Test access on request.')}
+        hint={t('Not public.')}
         projects={privateGallery}
         onOpen={onOpenProject}
       />

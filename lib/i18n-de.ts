@@ -394,7 +394,7 @@ export const DE: Record<string, string> = {
   'More projects': 'Weitere Projekte',
   'All projects': 'Alle Projekte',
   'Private projects': 'Private Projekte',
-  'Not public. Test access on request.': 'Nicht öffentlich. Testzugang auf Anfrage.',
+  'Not public.': 'Nicht öffentlich.',
 
   // Project pages
   'Project page': 'Projektseite',
