@@ -28,7 +28,7 @@ export const PRIVATE_PROJECTS: Project[] = [
     language: 'TypeScript',
     page: '/agent-office/',
   }),
-  privateProject('PCB-Trace-private', 'PCB-Trace', 'A private, self-hosted traceability web app for electronics production. Serial numbers are scanned on tablets, and every board can be followed through its steps, defects and repairs. Details on request.', ['private-access', 'traceability', 'web'], {
+  privateProject('PCB-Trace-private', 'PCB-Trace', 'A private, self-hosted traceability web app for electronics production. Serial numbers and Data Matrix codes are scanned on tablets, and every board can be followed through its own sequence of steps, with photos, defects and repairs. Around it: day and week planning, orders with partial deliveries, statistics, roles with login, an audit log, and operator names that disappear after a retention period. Details on request.', ['private-access', 'traceability', 'web'], {
     language: 'JavaScript',
   }),
   privateProject('anon-WebMirror-private', 'anon-WebMirror', 'Privacy-focused website mirroring with fail-closed leak protection. Access is available on request.', ['private-access', 'privacy', 'security']),
