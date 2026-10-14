@@ -65,8 +65,11 @@ export default function ProjectCard({
         )}
         {/* Not a heading: headings may not sit inside a button. */}
         <span className="card__title">{project.title}</span>
-        {/* Active is the normal state; only the exceptions earn a badge. */}
-        {project.status !== 'active' && (
+        {/* Active is the normal state; only the exceptions earn a badge.
+            Private gets a pill in the top-right corner so it reads at a glance. */}
+        {project.isPrivate ? (
+          <span className="card__private">{t('private')}</span>
+        ) : project.status !== 'active' && (
           <span className={`card__flag card__flag--${project.status}`}>{t(project.status)}</span>
         )}
       </div>

@@ -77,17 +77,21 @@ export default function OverviewPane({
     }
   }, [projects])
 
-  // The gallery leads with the curated set and tops it up with the rest by
-  // stars, so it never looks thin while the config is still short.
+  // The public gallery leads with the curated set and tops it up with the
+  // rest by stars, so it never looks thin while the config is still short.
+  // Private projects get their own row below it.
   const gallery = useMemo(() => {
-    // In the curated order, so private projects (appended after the repos)
-    // are not the ones cut off.
-    const featured = sortProjects(projects.filter((p) => p.featured), 'featured')
-    const rest = projects
+    const open = projects.filter((p) => !p.isPrivate)
+    const featured = sortProjects(open.filter((p) => p.featured), 'featured')
+    const rest = open
       .filter((p) => !p.featured)
       .sort((a, b) => b.stargazers_count - a.stargazers_count)
     return [...featured, ...rest].slice(0, GALLERY_SIZE)
   }, [projects])
+  const privateGallery = useMemo(
+    () => sortProjects(projects.filter((p) => p.isPrivate), 'featured'),
+    [projects],
+  )
 
   return (
     <div className="pane over">
@@ -178,7 +182,19 @@ export default function OverviewPane({
         <Metric value={formatRelative(stats.lastPush, locale)} label={t('Last push')} />
       </div>
 
-      <Gallery projects={gallery} onOpen={onOpenProject} onAll={() => onNavigate('projects')} />
+      <Gallery
+        title={t('Featured projects')}
+        hint={t('Open a project for details.')}
+        projects={gallery}
+        onOpen={onOpenProject}
+        onAll={() => onNavigate('projects')}
+      />
+      <Gallery
+        title={t('Private projects')}
+        hint={t('Not public. Test access on request.')}
+        projects={privateGallery}
+        onOpen={onOpenProject}
+      />
 
       {latest.length > 0 && (
         <section className="band">
@@ -368,13 +384,18 @@ function Tile({
  * turned off mid-drag, otherwise the browser fights every pointer move.
  */
 function Gallery({
+  title,
+  hint,
   projects,
   onOpen,
   onAll,
 }: {
+  title: string
+  hint: string
   projects: Project[]
   onOpen: (name: string) => void
-  onAll: () => void
+  /** Leave out to drop the "All projects" button. */
+  onAll?: () => void
 }) {
   const { t } = useI18n()
   const trackRef = useRef<HTMLDivElement>(null)
@@ -469,8 +490,8 @@ function Gallery({
     <section className="band">
       <div className="band__head" data-reveal>
         <div>
-          <h2 className="band__title">{t('Featured projects')}</h2>
-          <p className="band__hint">{t('Open a project for details.')}</p>
+          <h2 className="band__title">{title}</h2>
+          <p className="band__hint">{hint}</p>
         </div>
         {/* aria-disabled rather than disabled: the state is measured from the
             DOM after mount, and a real `disabled` attribute would both differ
@@ -495,10 +516,12 @@ function Gallery({
           >
             <ChevronIcon dir="right" />
           </button>
-          <button type="button" className="btn btn--sm" onClick={onAll}>
-            {t('All projects')}
-            <ArrowIcon />
-          </button>
+          {onAll && (
+            <button type="button" className="btn btn--sm" onClick={onAll}>
+              {t('All projects')}
+              <ArrowIcon />
+            </button>
+          )}
         </div>
       </div>
 

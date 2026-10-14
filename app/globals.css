@@ -8745,3 +8745,20 @@ a.tag--link:hover {
 .dvp .qlp__note {
   max-width: 80ch;
 }
+
+/* Private projects: a pill pinned to the card's top-right corner. */
+.card__private {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  margin: -6px -6px 0 0;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--request) 35%, transparent);
+  background: var(--request-soft);
+  color: var(--request);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
