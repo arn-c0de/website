@@ -78,6 +78,7 @@ const config: SiteConfig = {
     'JobFinder-private',
     'DeepVision-Web-private',
     'Agent-Office-private',
+    'PCB-Trace-private',
     'anon-WebMirror-private',
     'Crawllama',
     'InteractiveChecklists',

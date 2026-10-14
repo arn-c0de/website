@@ -25,7 +25,7 @@ export const now: { reviewed: string; items: NowItem[] } = {
   reviewed: '2026-10-13',
   items: [
     {
-      name: { en: 'Traceability web app', de: 'Rückverfolgbarkeits-Web-App' },
+      name: 'PCB-Trace',
       about: { en: 'for industrial environments', de: 'für industrielle Umgebungen' },
       overview: 'web',
     },
