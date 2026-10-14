@@ -11,7 +11,7 @@ const privateProject = (
   name, title, description, topics,
   full_name: 'private project', html_url: '', homepage: null, language: 'Rust',
   stargazers_count: 0, forks_count: 0, fork: false, archived: false,
-  pushed_at: '', created_at: '', license: null, category: 'Private research',
+  pushed_at: '', created_at: '', license: null, category: 'Private',
   featured: true, links: [], icon: null, status: 'private', isPrivate: true,
   ...extra,
 })

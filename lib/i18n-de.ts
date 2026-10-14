@@ -435,7 +435,7 @@ export const DE: Record<string, string> = {
   'AI & Agents': 'KI & Agenten',
   'Games & Simulation': 'Spiele & Simulation',
   Mobile: 'Mobil',
-  'Private research': 'Private Forschung',
+  Private: 'Privat',
   Tools: 'Werkzeuge',
 
   // Projects tab

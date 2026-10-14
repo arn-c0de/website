@@ -178,7 +178,7 @@ const config: SiteConfig = {
   },
 
   categories: [
-    { name: 'Private research', match: ['private-access', 'pcvr'] },
+    { name: 'Private', match: ['private-access', 'pcvr'] },
     {
       name: 'AI & Agents',
       match: ['rag', 'llm', 'local-llm', 'knowledge-retrieval', 'multi-hop-reasoning', 'news-analysis', 'market-prediction'],
