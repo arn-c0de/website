@@ -82,6 +82,14 @@ export interface TimelineVideoFile {
 
 export type TimelineMedia = TimelineImage | TimelineYouTube | TimelineVideoFile
 
+export interface TimelineTable {
+  caption?: Localized
+  columns: Localized[]
+  rows: Localized[][]
+  /** A small line under the table, e.g. what the figures were measured on. */
+  note?: Localized
+}
+
 export interface TimelineEntry {
   /** Unique, stable — used as the anchor in the URL. */
   id: string
@@ -102,6 +110,12 @@ export interface TimelineEntry {
    * under the short text. Separate paragraphs with a blank line.
    */
   body?: Localized
+  /**
+   * Tables for the entry's own page, shown under the write-up. Every row has
+   * one cell per column; the first cell of a row is its heading. On a phone a
+   * wide table scrolls sideways inside its frame.
+   */
+  tables?: TimelineTable[]
   layout?: TimelineLayout
   /** Pictures and videos, in the order the layout places them. */
   media?: TimelineMedia[]

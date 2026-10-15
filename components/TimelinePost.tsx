@@ -17,6 +17,7 @@ import {
 } from '@/lib/timeline'
 import type { TimelineImage, TimelineMedia } from '@/timeline.config'
 import { LinkIcon } from './Icons'
+import DataTable from './DataTable'
 import PageChrome, { CopyPageLink } from './PageChrome'
 import { Figure, HelpWanted, Lightbox, VideoFigure, YouTubeFigure } from './TimelinePane'
 import ProjectIcon from './ProjectIcon'
@@ -87,6 +88,8 @@ function Content({ id }: { id: string }) {
             {p}
           </p>
         ))}
+
+        {entry.tables?.map((table, i) => <DataTable key={i} table={table} locale={locale} />)}
 
         {entry.help && <HelpWanted help={entry.help} locale={locale} />}
 

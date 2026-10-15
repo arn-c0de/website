@@ -76,3 +76,13 @@ test('a time after the day orders entries of one day and is not shown', async ()
     ['b', 'a', 'c'],
   )
 })
+
+test('every table row has one cell per column', () => {
+  for (const entry of timeline) {
+    for (const table of entry.tables ?? []) {
+      for (const row of table.rows) {
+        assert.equal(row.length, table.columns.length, `${entry.id}: a row of "${table.columns.length}" columns has ${row.length} cells`)
+      }
+    }
+  }
+})

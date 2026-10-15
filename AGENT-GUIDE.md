@@ -74,6 +74,10 @@ the tab sorts by status, then date.
 ```
 
 - Pictures: `public/timeline/<id>.webp`, around 1200 px wide.
+- Tables (figures, comparisons): add `tables: [{ caption, columns, rows, note }]` to the entry. Every
+  cell is a string or `{ en, de }`; every row needs one cell per column (the tests check it); the first
+  cell of a row is its heading and figures line up to the right. Shown under the write-up on the
+  post's page (`components/DataTable.tsx`), and on a phone it fits or scrolls inside its frame.
 - Every visible text in English **and** German.
 - Every entry gets its own page, a feed item and a sitemap entry automatically.
 
