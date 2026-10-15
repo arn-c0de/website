@@ -386,6 +386,46 @@ const timeline: TimelineEntry[] = [
     mentions: ['A-AIO-process-optimization-and-training'],
   },
   {
+    id: 'deepvision-update-2026-10-15-bridges',
+    status: 'done',
+    date: '2026-10-15T20:00',
+    title: { en: 'DeepVision-Web: solder bridges are found better', de: 'DeepVision-Web: Lötbrücken werden besser erkannt' },
+    text: {
+      en: 'Solder bridges are still the weakest kind of defect, but the new model finds them much better thanks to real examples. Of 133 defects that had no type yet, 59 were solder bridges, so the second test board now has 52 bridges on the top side instead of 15 and 20 on the bottom instead of 6, and the figures per defect type finally mean something. Private project — only occasional previews.',
+      de: 'Lötbrücken sind weiter die schwächste Fehlerart, aber das neue Modell findet sie dank echter Beispiele deutlich besser. Von 133 Fehlern, die noch keine Art hatten, waren 59 Lötbrücken, die zweite Testplatine hat damit oben 52 statt 15 Brücken und unten 20 statt 6, und die Zahlen je Fehlerart sind erst jetzt aussagekräftig. Privates Projekt — nur vereinzelte Einblicke.',
+    },
+    body: {
+      en: 'One step back: missing parts on the bottom side drop from 53 % to 33 %, but with only 15 cases that is not reliable yet. Next: more real bridge examples.',
+      de: 'Ein Rückschritt: Fehlende Bauteile unten fallen von 53 % auf 33 %, bei nur 15 Fällen ist das aber noch nicht belastbar. Als Nächstes: weitere echte Brücken-Beispiele.',
+    },
+    tables: [
+      {
+        caption: { en: 'Share of defects found at 5 % false alarms', de: 'Anteil gefundener Fehler bei 5 % Fehlalarm' },
+        columns: [
+          { en: 'Defect type', de: 'Fehlerart' },
+          { en: 'Cases', de: 'Fälle' },
+          { en: 'Old model', de: 'Altes Modell' },
+          { en: 'New model', de: 'Neues Modell' },
+        ],
+        rows: [
+          [{ en: 'Top, all defects', de: 'Oben, alle Fehler' }, '120', '64 %', '81 %'],
+          [{ en: 'Top, solder bridges', de: 'Oben, Lötbrücken' }, '52', '44 %', '67 %'],
+          [{ en: 'Top, missing parts', de: 'Oben, fehlende Bauteile' }, '38', '71 %', '92 %'],
+          [{ en: 'Top, rotated parts', de: 'Oben, verdrehte Bauteile' }, '20', '100 %', '100 %'],
+          [{ en: 'Bottom, solder bridges', de: 'Unten, Lötbrücken' }, '20', '30 %', '65 %'],
+          [{ en: 'Bottom, missing parts', de: 'Unten, fehlende Bauteile' }, '15', '53 %', '33 %'],
+        ],
+        note: {
+          en: 'Measured on a board the model never saw in training.',
+          de: 'Gemessen an einer Platine, die im Training nie vorkam.',
+        },
+      },
+    ],
+    layout: 'text',
+    tags: ['aoi', 'ai', 'evaluation'],
+    project: 'DeepVision-Web-private',
+  },
+  {
     id: 'deepvision-update-2026-10-15',
     status: 'done',
     date: '2026-10-15',
