@@ -372,6 +372,19 @@ const timeline: TimelineEntry[] = [
     mentions: ['A-AIO-process-optimization-and-training'],
   },
   {
+    id: 'deepvision-update-2026-10-15',
+    status: 'done',
+    date: '2026-10-15',
+    title: { en: 'DeepVision-Web: AI inspection on an unseen board', de: 'DeepVision-Web: KI-Prüfung an einer unbekannten Platine' },
+    text: {
+      en: 'The AI inspection now spots defects well on a board it has never seen: AUC 0.96 on the top side, 0.88 on the bottom. On the top, averaged over two photos, it finds 80 % of the defects at 4.7 % false alarms; the bottom is weaker, mostly at through-hole solder joints and empty pads. That is not yet enough for a verdict of its own, so the AI still only reports a “suspicion”. Averaging several photos of the same board helps most (false alarms from 15 % with one photo to 6.5 % with five); online datasets, more training data or larger crops did not. Next: a third prepared board, a model for through-hole joints and measurements on the phone. Private project — only occasional previews.',
+      de: 'Die KI-Prüfung erkennt Fehler auf einer Platine, die sie nie gesehen hat, inzwischen gut: AUC 0,96 auf der Oberseite, 0,88 auf der Unterseite. Oben findet sie im Mittel über zwei Fotos 80 % der Fehler bei 4,7 % Fehlalarm; unten ist sie schwächer, vor allem an THT-Lötstellen und leeren Pads. Für ein eigenes Urteil reicht das noch nicht, die KI meldet deshalb weiter nur „Verdacht“. Am meisten hilft es, mehrere Fotos derselben Platine zu mitteln (Fehlalarm von 15 % mit einem Foto auf 6,5 % mit fünf); Online-Datensätze, mehr Trainingsdaten oder größere Ausschnitte brachten nichts. Als Nächstes: eine dritte präparierte Platine, ein Modell für THT-Lötstellen und Messungen am Handy. Privates Projekt — nur vereinzelte Einblicke.',
+    },
+    layout: 'text',
+    tags: ['aoi', 'ai', 'evaluation'],
+    project: 'DeepVision-Web-private',
+  },
+  {
     id: 'deepvision-update-2026-10-13',
     status: 'done',
     date: '2026-10-13T21:00',
