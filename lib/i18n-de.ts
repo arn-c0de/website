@@ -12,8 +12,8 @@ export const LONG: Record<string, { en: string; de: string }> = {
     de: 'Was geplant ist, woran ich arbeite und was fertig ist.',
   },
   HERO_LEDE: {
-    en: 'Right now I mostly build web apps and the backends behind them: APIs, databases and self-hosted services. Much of it is open source on GitHub, from ESP32 firmware to local AI agents.',
-    de: 'Gerade baue ich vor allem Web-Apps und die Backends dahinter: APIs, Datenbanken und selbst gehostete Dienste. Vieles davon ist Open Source auf GitHub — von ESP32-Firmware bis zu lokalen KI-Agenten.',
+    en: 'I build local AI, the harnesses around it and automation: agents that run on your own machine, with tools, budgets and approvals. Alongside that, web apps, backends and embedded. Much of it is open source on GitHub.',
+    de: 'Ich baue lokale KI, die Harnesses drumherum und Automatisierung: Agenten, die auf dem eigenen Rechner laufen, mit Werkzeugen, Budgets und Freigaben. Dazu Web-Apps, Backends und Embedded. Vieles davon ist Open Source auf GitHub.',
   },
   QLINK_TEXT: {
     en: 'A Rust game and simulation engine for Linux. It runs on Quest 3 without the Quest Link PC app; the same world also runs in 2D on the desktop.',
