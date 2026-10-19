@@ -539,6 +539,31 @@ const timeline: TimelineEntry[] = [
     project: 'DeepVision-Web-private',
   },
   {
+    id: 'qlink-aircraft',
+    status: 'done',
+    date: '2026-10-19',
+    title: {
+      en: 'QLink: first aircraft simulation with three test models and dynamic weather',
+      de: 'QLink: erste Flugzeugsimulation mit drei Testmodellen und dynamischem Wetter',
+    },
+    text: {
+      en: 'The aircraft simulation is taking shape. This early preview shows three test aircraft, jets and a Cessna, flying in the simulated world, with changing weather and a first rain simulation. The focus is on the aircraft models, the flight environment and the weather. Very early; aircraft, flight model and weather are still work in progress.',
+      de: 'Die Flugzeugsimulation nimmt Form an. Diese frühe Vorschau zeigt drei Testflugzeuge, Jets und eine Cessna, die durch die simulierte Welt fliegen, dazu wechselndes Wetter und eine erste Regensimulation. Im Fokus stehen die Flugzeugmodelle, die Flugumgebung und das Wetter. Sehr früh; Flugzeuge, Flugmodell und Wetter sind noch in Arbeit.',
+    },
+    layout: 'image-left',
+    media: [
+      {
+        youtube: 'https://www.youtube.com/watch?v=AFjYhrOw-Ys',
+        title: {
+          en: 'QLink: first aircraft simulation and dynamic weather (early preview)',
+          de: 'QLink: erste Flugzeugsimulation und dynamisches Wetter (frühe Vorschau)',
+        },
+      },
+    ],
+    tags: ['aircraft', 'flight-simulation', 'weather', 'rust'],
+    project: 'QLink-preview',
+  },
+  {
     id: 'qlink-shoothouse',
     status: 'done',
     date: '2026-10-11T20:00',
