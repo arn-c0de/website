@@ -72,9 +72,8 @@ const html = /* html */ `<!doctype html>
 <body><div class="card">
   <div class="id"><img src="${avatar}" alt=""><div>
     <div class="handle">arn-c0de</div>
-    <div class="tagline">Web apps, backends, embedded systems and local AI</div>
   </div></div>
-  <h1>Web apps, backends and everything below.</h1>
+  <h1>Local AI, harness development and automation.</h1>
   <div class="foot">
     <div class="tags">${TOPICS.map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
     <div class="url">arn-c0de.de</div>

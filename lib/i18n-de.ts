@@ -358,7 +358,7 @@ export const DE: Record<string, string> = {
   'Start a request': 'Anfrage starten',
   'GitHub profile': 'GitHub-Profil',
   Sections: 'Bereiche',
-  'Web apps, backends, embedded systems and local AI': 'Web-Apps, Backends, Embedded-Systeme und lokale KI',
+  'Local AI, harness development and automation': 'Lokale KI, Harness-Entwicklung und Automatisierung',
   'Live from the GitHub API': 'Live aus der GitHub-API',
   'Showing committed snapshot': 'Zeigt gespeicherten Stand',
   'No tracking, no cookies, no analytics.': 'Kein Tracking, keine Cookies, keine Analyse.',
@@ -369,7 +369,7 @@ export const DE: Record<string, string> = {
   'Theme: light (click to change)': 'Design: hell (klicken zum Wechseln)',
 
   // Overview
-  'Web apps, backends and everything below.': 'Web-Apps, Backends und alles darunter.',
+  'Local AI, harness development and automation.': 'Lokale KI, Harness-Entwicklung und Automatisierung.',
   'Web apps & backends': 'Web-Apps & Backends',
   'Private access & requests': 'Privater Zugang & Anfragen',
   'Browse projects': 'Projekte ansehen',

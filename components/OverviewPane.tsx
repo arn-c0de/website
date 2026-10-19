@@ -105,15 +105,10 @@ export default function OverviewPane({
               width={56}
               height={56}
             />
-            <div>
-              <p className="hero__handle">arn-c0de</p>
-              <p className="hero__tagline">
-                {t('Web apps, backends, embedded systems and local AI')}
-              </p>
-            </div>
+            <p className="hero__handle">arn-c0de</p>
           </div>
 
-          <h1 className="hero__name">{t('Web apps, backends and everything below.')}</h1>
+          <h1 className="hero__name">{t('Local AI, harness development and automation.')}</h1>
           <p className="hero__lede">{t('HERO_LEDE')}</p>
 
           <div className="hero__actions">
