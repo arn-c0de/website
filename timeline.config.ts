@@ -386,6 +386,37 @@ const timeline: TimelineEntry[] = [
     mentions: ['A-AIO-process-optimization-and-training'],
   },
   {
+    id: 'deepvision-simpleaoi-first-run',
+    status: 'done',
+    date: '2026-10-23',
+    title: {
+      en: 'DeepVision-Web: SimpleAOI finds 30 of 30 faults on 240 boards',
+      de: 'DeepVision-Web: SimpleAOI findet 30 von 30 Fehlern auf 240 Platinen',
+    },
+    text: {
+      en: 'First productive run of the new SimpleAOI mode: it analysed the assembly photos of 240 boards for missing parts such as standoffs, screws and batteries. All 30 faults were found and marked in the picture, so nothing slipped through. Private project — only occasional previews.',
+      de: 'Erster produktiver Einsatz des neuen SimpleAOI-Modus: Er hat die Montagefotos von 240 Platinen auf fehlende Teile wie Bolzen, Schrauben und Batterien geprüft. Alle 30 Fehler wurden gefunden und im Bild markiert, es ist also nichts durchgerutscht. Privates Projekt — nur vereinzelte Einblicke.',
+    },
+    body: {
+      en: 'SimpleAOI compares each assembly photo with the expected parts and flags what is missing. In the picture, the battery holder is flagged red and three mounting points (MT1, MT5, MT8) are marked “missing”, while the parts that are present are framed green.',
+      de: 'SimpleAOI vergleicht jedes Montagefoto mit den erwarteten Teilen und markiert, was fehlt. Im Bild ist der Batteriehalter rot umrahmt und drei Befestigungspunkte (MT1, MT5, MT8) sind als „missing“ markiert, vorhandene Teile sind grün umrahmt.',
+    },
+    layout: 'image-right',
+    media: [
+      {
+        src: '/timeline/deepvision-simpleaoi-first-run.webp',
+        alt: {
+          en: 'DeepVision-Web in SimpleAOI mode: a circuit board photo with a missing battery and missing mounting points outlined in red, present parts in green',
+          de: 'DeepVision-Web im SimpleAOI-Modus: Platinenfoto mit fehlender Batterie und fehlenden Befestigungspunkten rot umrandet, vorhandene Teile grün',
+        },
+        caption: { en: 'Missing parts flagged in red', de: 'Fehlende Teile rot markiert' },
+        fit: 'contain',
+      },
+    ],
+    tags: ['aoi', 'simpleaoi', 'inspection'],
+    project: 'DeepVision-Web-private',
+  },
+  {
     id: 'deepvision-update-2026-10-15-bridges',
     status: 'done',
     date: '2026-10-15T20:00',
