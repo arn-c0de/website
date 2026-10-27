@@ -494,21 +494,12 @@ export const DE: Record<string, string> = {
   'German · English': 'Deutsch · Englisch',
   Toolbox: 'Werkzeugkasten',
   Focus: 'Schwerpunkte',
-  'Works in': 'Arbeitet mit',
-  'C mostly on ESP32, SDR and Wi-Fi.': 'C vor allem auf ESP32, SDR und WLAN.',
-  Learning: 'Lernt gerade',
-  'C++ on Windows.': 'C++ unter Windows.',
-  'Stores data in': 'Speichert Daten in',
-  'Vector stores for RAG, SQLite when a file is enough.':
-    'Vektordatenbanken für RAG, SQLite, wenn eine Datei reicht.',
   'In the repositories': 'In den Repositories',
   'industrial traceability': 'industrielle Rückverfolgbarkeit',
   'web applications': 'Webanwendungen',
   'backends & APIs': 'Backends & APIs',
   'embedded systems': 'Embedded-Systeme',
   'databases & vector search': 'Datenbanken & Vektorsuche',
-  'vector stores': 'Vektordatenbanken',
-  'plain files': 'einfache Dateien',
 
   // Contact tab
   preferred: 'bevorzugt',
@@ -681,7 +672,7 @@ export const DE: Record<string, string> = {
   // About, shortened
   'Current projects': 'Aktuelle Projekte',
   'About the projects': 'Zu den Projekten',
-  'Languages, data stores and focus areas.': 'Sprachen, Datenbanken und Schwerpunkte.',
+  'Focus areas and the languages in the repositories.': 'Schwerpunkte und die Sprachen in den Repositories.',
   'game AI': 'Spiel-KI',
 
   // Timeline tab

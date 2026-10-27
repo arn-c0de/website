@@ -17,10 +17,6 @@ const FOCUS = [
   'databases & vector search',
   'game AI',
 ]
-const WORKING = ['Kotlin', 'Python', 'C', 'C#']
-/** Where the data ends up — the layer under every backend on this site. */
-const STORAGE = ['PostgreSQL', 'MongoDB', 'SQLite', 'vector stores', 'plain files']
-const LEARNING = ['Rust', 'C++']
 export default function AboutPane({
   projects,
   onStartRequest,
@@ -118,7 +114,7 @@ export default function AboutPane({
         <div className="band__head">
           <div>
             <h2 className="band__title">{t('Toolbox')}</h2>
-            <p className="band__hint">{t('Languages, data stores and focus areas.')}</p>
+            <p className="band__hint">{t('Focus areas and the languages in the repositories.')}</p>
           </div>
         </div>
 
@@ -134,49 +130,11 @@ export default function AboutPane({
             </div>
           </div>
 
-          <div className="fact" data-reveal style={{ '--i': 1 } as React.CSSProperties}>
-            <h3 className="section__title">{t('Works in')}</h3>
-            <div className="tagrow">
-              {WORKING.map((l) => (
-                <span key={l} className="tag tag--language">
-                  <LanguageIcon language={l} size={16} />
-                  {l}
-                </span>
-              ))}
-            </div>
-            <p className="fact__note">{t('C mostly on ESP32, SDR and Wi-Fi.')}</p>
-          </div>
-
-          <div className="fact" data-reveal style={{ '--i': 2 } as React.CSSProperties}>
-            <h3 className="section__title">{t('Learning')}</h3>
-            <div className="tagrow">
-              {LEARNING.map((l) => (
-                <span key={l} className="tag tag--language">
-                  <LanguageIcon language={l} size={16} />
-                  {l}
-                </span>
-              ))}
-            </div>
-            <p className="fact__note">{t('C++ on Windows.')}</p>
-          </div>
-
-          <div className="fact" data-reveal style={{ '--i': 3 } as React.CSSProperties}>
-            <h3 className="section__title">{t('Stores data in')}</h3>
-            <div className="tagrow">
-              {STORAGE.map((s) => (
-                <span key={s} className="tag">
-                  {t(s)}
-                </span>
-              ))}
-            </div>
-            <p className="fact__note">{t('Vector stores for RAG, SQLite when a file is enough.')}</p>
-          </div>
-
           {/* Counted from the live repository data rather than listed by hand. */}
           <div
             className="fact fact--wide"
             data-reveal
-            style={{ '--i': 5 } as React.CSSProperties}
+            style={{ '--i': 1 } as React.CSSProperties}
           >
             <h3 className="section__title">{t('In the repositories')}</h3>
             <div className="tagrow">
