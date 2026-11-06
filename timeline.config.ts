@@ -386,6 +386,37 @@ const timeline: TimelineEntry[] = [
     mentions: ['A-AIO-process-optimization-and-training'],
   },
   {
+    id: 'aio-photoreal-rendering',
+    status: 'now',
+    date: '2026-11-06',
+    title: {
+      en: 'AIO Process Optimization: photoreal rendering for synthetic PCB data',
+      de: 'AIO Process Optimization: fotorealistisches Rendering für synthetische Leiterplatten-Daten',
+    },
+    text: {
+      en: 'Simple-Sim now renders its synthetic component and defect images photorealistically instead of as flat vector shapes. Still in progress, but the results already look good. Next, the renders go into real datasets to measure whether the main models trained on real data get better or worse — and to train them on specific weak spots.',
+      de: 'Simple-Sim rendert seine synthetischen Bauteil- und Fehlerbilder jetzt fotorealistisch statt als flache Vektorformen. Noch in Arbeit, aber die Ergebnisse sind schon gut. Als Nächstes fließen die Renderings in echte Datensätze ein, um zu messen, ob die Hauptmodelle der echten Datensätze dadurch besser oder schlechter werden — und um sie gezielt auf Schwachstellen zu trainieren.',
+    },
+    body: {
+      en: 'The new photoreal style is calibrated against photos of real assembled production boards: solder-mask colour, copper traces and vias under the mask, silkscreen, neighbouring parts, metallic solder joints, IC bodies with laser marking and shadows. A camera model adds lens blur, uneven lighting and sensor noise so the images stop looking vector-sharp. Residue such as flux, contamination and patch wires is placed outside the inspected part, so the model learns to ignore it.\n\nThe defect classes stay the same — missing, misaligned, tombstone, solder bridge, corner lift, and new: solder balls and excess solder. The picture shows resistors, QFN and SOIC packages and SOT-23 transistors, each with good and faulty samples.\n\nThe next step is the real test: mixing the renders into real datasets and measuring with a sim-to-real comparison whether the main models improve or degrade, then generating data for the defects they still miss.',
+      de: 'Der neue Fotorealismus-Stil ist an Fotos echter bestückter Serienplatinen kalibriert: Lötstopplack-Farbe, Kupferbahnen und Vias unter dem Lack, Bestückungsdruck, Nachbarbauteile, metallische Lötstellen, IC-Gehäuse mit Laserbeschriftung und Schatten. Ein Kameramodell ergänzt Unschärfe, ungleichmäßige Beleuchtung und Sensorrauschen, damit die Bilder nicht mehr vektorscharf wirken. Rückstände wie Flussmittel, Verschmutzung und Patchdrähte liegen immer außerhalb des geprüften Bauteils, so lernt das Modell, sie zu ignorieren.\n\nDie Fehlerklassen bleiben gleich — fehlend, verschoben, Tombstone, Lötbrücke, angehobene Ecke, und neu: Lotkugeln und zu viel Lot. Im Bild sind Widerstände, QFN- und SOIC-Gehäuse sowie SOT-23-Transistoren zu sehen, jeweils mit guten und fehlerhaften Beispielen.\n\nDer nächste Schritt ist der echte Test: die Renderings in echte Datensätze mischen und mit einem Sim-to-Real-Vergleich messen, ob die Hauptmodelle besser oder schlechter werden, und dann gezielt Daten für die Fehler erzeugen, die sie noch übersehen.',
+    },
+    layout: 'image-right',
+    media: [
+      {
+        src: '/timeline/aio-photoreal-rendering.webp',
+        alt: {
+          en: 'Grid of 30 photoreal synthetic PCB renders: chip resistors, QFN and SOIC ICs and SOT-23 transistors, some missing, shifted, rotated or tombstoned',
+          de: 'Raster aus 30 fotorealistischen synthetischen Leiterplatten-Renderings: Chip-Widerstände, QFN- und SOIC-ICs und SOT-23-Transistoren, teils fehlend, verschoben, verdreht oder als Tombstone',
+        },
+        caption: { en: 'Synthetic renders, good and defective', de: 'Synthetische Renderings, gut und fehlerhaft' },
+        fit: 'contain',
+      },
+    ],
+    tags: ['synthetic-data', 'rendering', 'aoi'],
+    project: 'A-AIO-process-optimization-and-training',
+  },
+  {
     id: 'deepvision-simpleaoi-first-run',
     status: 'done',
     date: '2026-10-23',
