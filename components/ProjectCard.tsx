@@ -1,7 +1,7 @@
 'use client'
 
 import type { Project } from '@/lib/types'
-import { formatRelative } from '@/lib/format'
+import RelativeTime from '@/components/RelativeTime'
 import { useI18n } from '@/lib/i18n'
 import { ArrowIcon, ForkIcon, LanguageIcon, StarIcon } from './Icons'
 import ProjectIcon from './ProjectIcon'
@@ -99,7 +99,7 @@ export default function ProjectCard({
           </span>
         )}
         {project.language && <span className="card__stat">{project.language}</span>}
-        <span className="card__when">{formatRelative(project.pushed_at, locale)}</span>
+        <RelativeTime className="card__when" iso={project.pushed_at} locale={locale} />
         <span className="card__go" aria-hidden>
           <ArrowIcon />
         </span>

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { asset } from '@/lib/basePath'
-import { formatRelative } from '@/lib/format'
+import RelativeTime from '@/components/RelativeTime'
 import { sortProjects } from '@/lib/github'
 import { useI18n } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
@@ -174,7 +174,7 @@ export default function OverviewPane({
         <Metric value={projects.length} label={t('Public projects')} />
         <Metric value={stats.stars} label={t('GitHub stars')} />
         <Metric value={stats.languages.length} label={t('Languages')} />
-        <Metric value={formatRelative(stats.lastPush, locale)} label={t('Last push')} />
+        <Metric value={<RelativeTime iso={stats.lastPush} locale={locale} />} label={t('Last push')} />
       </div>
 
       <Gallery

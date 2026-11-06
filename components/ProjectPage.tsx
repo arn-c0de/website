@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { asset } from '@/lib/basePath'
-import { formatMonth, formatRelative, languageHue } from '@/lib/format'
+import { formatMonth, languageHue } from '@/lib/format'
+import RelativeTime from '@/components/RelativeTime'
 import { loadProjects, snapshotProjects } from '@/lib/github'
 import { I18nProvider, useI18n, type Locale } from '@/lib/i18n'
 import { projectHref, relatedProjects } from '@/lib/projectPages'
@@ -143,7 +144,7 @@ function Content({ name, readme, docs }: { name: string; readme: PreparedReadme 
             <div className="metric__k">{t('Created')}</div>
           </div>
           <div className="metric">
-            <div className="metric__v metric__v--text">{formatRelative(project.pushed_at, locale)}</div>
+            <div className="metric__v metric__v--text"><RelativeTime iso={project.pushed_at} locale={locale} /></div>
             <div className="metric__k">{t('Last push')}</div>
           </div>
         </div>

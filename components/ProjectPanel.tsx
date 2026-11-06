@@ -1,7 +1,8 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { formatMonth, formatRelative, languageHue } from '@/lib/format'
+import { formatMonth, languageHue } from '@/lib/format'
+import RelativeTime from '@/components/RelativeTime'
 import { useI18n } from '@/lib/i18n'
 import type { Project } from '@/lib/types'
 import {
@@ -289,7 +290,7 @@ export default function ProjectPanel({
               </div>
               <div className="stat">
                 <div className="stat__v stat__v--text">
-                  {formatRelative(project.pushed_at, locale)}
+                  <RelativeTime iso={project.pushed_at} locale={locale} />
                 </div>
                 <div className="stat__k">{t('Last push')}</div>
               </div>

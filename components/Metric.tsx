@@ -1,12 +1,13 @@
 'use client'
 
+import type { ReactNode } from 'react'
 import { useCountUp } from '@/lib/useMotion'
 
 /**
  * One cell of the metric strip. Numbers count up; anything else (the relative
  * "last push") is text and simply appears.
  */
-export default function Metric({ value, label }: { value: number | string; label: string }) {
+export default function Metric({ value, label }: { value: number | ReactNode; label: string }) {
   const isNumber = typeof value === 'number'
 
   return (

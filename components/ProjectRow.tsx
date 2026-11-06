@@ -1,7 +1,7 @@
 'use client'
 
 import type { Project } from '@/lib/types'
-import { formatRelative } from '@/lib/format'
+import RelativeTime from '@/components/RelativeTime'
 import { useI18n } from '@/lib/i18n'
 import { LanguageIcon, StarIcon } from './Icons'
 import ProjectIcon from './ProjectIcon'
@@ -46,7 +46,7 @@ export default function ProjectRow({ project, onOpen }: { project: Project; onOp
           <StarIcon />
           {project.stargazers_count}
         </span>
-        <span className="prow__when">{project.pushed_at ? formatRelative(project.pushed_at, locale) : '—'}</span>
+        {project.pushed_at ? <RelativeTime className="prow__when" iso={project.pushed_at} locale={locale} /> : <span className="prow__when">—</span>}
       </button>
     </li>
   )
